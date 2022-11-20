@@ -350,7 +350,7 @@ Used to check the visitor's device's audio support, returns an object with the p
 **Example**  
 ```js
 nn.audioSupport()
-// coule return something like
+// could return something like
 // { mp3: "maybe", vorbis: "probably", wav: "probably", aac: "probably" }
 ```
 <a name="videoSupport"></a>
@@ -363,7 +363,7 @@ Used to check the visitor's device's video support, returns an object with the p
 **Example**  
 ```js
 nn.videoSupport()
-// coule return something like
+// could return something like
 // { captions: "probably", poster: "probably", webm: "probably", h264: "probably", theora: "probably" }
 ```
 <a name="norm"></a>

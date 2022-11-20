@@ -143,7 +143,7 @@ window.nn = {
   * @return {Object} returns audio support info object
   * @example
   * nn.audioSupport()
-  * // coule return something like
+  * // could return something like
   * // { mp3: "maybe", vorbis: "probably", wav: "probably", aac: "probably" }
   */
   audioSupport: Averigua.audioSupport,
@@ -154,7 +154,7 @@ window.nn = {
   * @return {Object} returns video support info object
   * @example
   * nn.videoSupport()
-  * // coule return something like
+  * // could return something like
   * // { captions: "probably", poster: "probably", webm: "probably", h264: "probably", theora: "probably" }
   */
   videoSupport: Averigua.videoSupport,
@@ -321,6 +321,7 @@ window.nn = {
   /**
   * This random funciton can be used just like the standard `Math.random()` fucnciton in JavaScript, but it can also take a few different types of optional arguments. When passed an array, it will return a random item from that array. When passed number values it behaves the same as `nn.randomFloat` returning a random decimal value within a given range.
   *
+  * @method random
   * @method random
   * @param {Number|Array} a either an array to select a random item from, or a number. When it's a number and no `b` value is passed, this is the max value, otherwise it is the minimum value
   * @param {Number} b the max value

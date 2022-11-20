@@ -1916,7 +1916,7 @@ window.nn = {
   * @return {Object} returns audio support info object
   * @example
   * nn.audioSupport()
-  * // coule return something like
+  * // could return something like
   * // { mp3: "maybe", vorbis: "probably", wav: "probably", aac: "probably" }
   */
   audioSupport: Averigua.audioSupport,
@@ -1927,7 +1927,7 @@ window.nn = {
   * @return {Object} returns video support info object
   * @example
   * nn.videoSupport()
-  * // coule return something like
+  * // could return something like
   * // { captions: "probably", poster: "probably", webm: "probably", h264: "probably", theora: "probably" }
   */
   videoSupport: Averigua.videoSupport,
