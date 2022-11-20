@@ -1,0 +1,12 @@
+[submodule "FileUploader"]
+	path = FileUploader
+	url = https://github.com/nbriz/FileUploader
+[submodule "Averigua"]
+	path = Averigua
+	url = https://github.com/nbriz/Averigua
+[submodule "Maths"]
+	path = Maths
+	url = https://github.com/nbriz/Maths
+[submodule "Color"]
+	path = Color
+	url = https://github.com/nbriz/Color
