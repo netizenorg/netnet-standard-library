@@ -1,0 +1,30 @@
+{
+  "name": "netnet-standard-library",
+  "version": "1.0.0",
+  "description": "a collection of other netizen utility libs primarily for use within netnet.studio projects",
+  "main": "main.js",
+  "scripts": {
+    "pull-modules": "git submodule update --init --recursive",
+    "update-modules": "git submodule update --remote --merge",
+    "lint": "standard *.js",
+    "prebuild": "npm run lint; jsdoc2md --files main.js > docs/API.md",
+    "build": "browserify main.js > build/netnet-standard-library.js",
+    "postbuild": "terser build/netnet-standard-library.js -cm -o build/nn.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netizenorg/netnet-standard-library.git"
+  },
+  "author": "Nick Briz <nickbriz@protonmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/netizenorg/netnet-standard-library/issues"
+  },
+  "homepage": "https://github.com/netizenorg/netnet-standard-library#readme",
+  "dependencies": {
+    "browserify": "^17.0.0",
+    "jsdoc-to-markdown": "^7.1.1",
+    "standard": "^17.0.0",
+    "terser": "^5.15.1"
+  }
+}
