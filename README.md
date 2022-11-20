@@ -8,7 +8,7 @@ This repo consists of a number of git "sub-modules", namely [Averigua.js](https:
 
 # using the library
 
-You can download the minified library here. You can use this library directly on netnet.studio by simply including a script tag in your sketch.
+You can [download the minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/netnet-std-lib.min.js). You can use this library directly on netnet.studio by simply including a script tag in your sketch.
 
 ```html
 <!-- import the library -->
