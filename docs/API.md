@@ -25,6 +25,9 @@
 ## Functions
 
 <dl>
+<dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
+<dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
+</dd>
 <dt><a href="#isMobile">isMobile()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Used to check if the page&#39;s visitor is on a mobile device</p>
 </dd>
@@ -255,6 +258,23 @@ This property (or internal `nn` variable) is used to check the browser window's 
 This property (or internal `nn` variable) is used to check the browser window's current height
 
 **Kind**: global variable  
+<a name="fetch"></a>
+
+## fetch() ⇒ <code>Object</code>
+this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - A Promise that resolves to a Response object (exactly like the Web's Fetch API)  
+**Example**  
+```js
+async function main () {
+  const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
+  const json = await req.json()
+  document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+}
+
+window.addEventListener('load', main)
+```
 <a name="isMobile"></a>
 
 ## isMobile() ⇒ <code>Boolean</code>

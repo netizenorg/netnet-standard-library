@@ -1828,6 +1828,25 @@ window.nn = {
   set height (v) {
     return console.error('nn: height is a read-only property')
   },
+
+  /**
+  * this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
+  *
+  * @method fetch
+  * @return {Object} A Promise that resolves to a Response object (exactly like the Web's Fetch API)
+  * @example
+  * async function main () {
+  *   const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
+  *   const json = await req.json()
+  *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+  * }
+  *
+  * window.addEventListener('load', main)
+  */
+  fetch: (url, opts) => {
+    url = `/api/nn-proxy?url=${url}`
+    return window.fetch(url, opts)
+  },
   /**
   * Used to check if the page's visitor is on a mobile device
   *

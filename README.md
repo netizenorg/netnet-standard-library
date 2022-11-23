@@ -8,6 +8,8 @@ This repo consists of a number of git "sub-modules", namely [Averigua.js](https:
 
 # using the library
 
+<!-- TODO: replace this w/a "getting started" which links to `docs/getting-started.md` which explains how u can write vanilla JS code (but w/less lines than native code) to do some basic/intro creative coding stuff >> link to examples running in netnet.studio -->
+
 You can [download the minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js). You can use this library directly on netnet.studio by simply including a script tag in your sketch.
 
 ```html
@@ -28,6 +30,8 @@ You can [download the minified library here](https://raw.githubusercontent.com/n
 - [nn.mouseY](docs/API.md#mouseY) `// mouse's current y position`
 
 ## methods (internal functions)
+
+- [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
 
 Functions for detecting useful information about your visitor's device. These come from the [Averigua.js](https://github.com/nbriz/Averigua) sub-module.
 
@@ -87,6 +91,8 @@ Functions for doing various **color** maths. These come from the [Color.js](http
 ## classes
 
 - [nn.FileUploader](docs/API.md#FileUploader) *This comes from the [FileUploader.js](https://github.com/nbriz/FileUploader) sub-module.*
+
+<!-- TOOD: move this into it's own `docs/contributors.md` && link to it in the intro -->
 
 # contributions
 
