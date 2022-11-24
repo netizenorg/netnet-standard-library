@@ -108,7 +108,7 @@ If you'd like to contribute to this repository, below are the steps you should t
 
 0. before starting on a new feature it's always a good idea to run `git pull upstream main` to pull updates from our repo. Also, if/when any of the individual sub-module repositories have been updated, you can run `npm run update-modules` to update the local modules.
 1. create a "feature" branch `git checkout -b [FEATURE-NAME]` for your contribution.
-2. if you're adding a new sub-module, run `git sub-module add [module-github-URL]`, and then include them in the `main.js` file, otherwise you can add simply add new properties or methods directly to the library in the `main.js` file.
+2. if you're adding a new sub-module, run `git submodule add [module-github-URL]`, and then include them in the `main.js` file, otherwise you can add simply add new properties or methods directly to the library in the `main.js` file.
 3. as you work locally you can
   - use the `npm run build` command to create new builds of the library
   - use the `test.html` page to test your changes
