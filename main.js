@@ -628,7 +628,7 @@ window.nn = {
   /**
   * abstracts the `<input type="file">` by providing a class for quickly handling file uploads via clicking on elements or drag and dropping onto elements.
   *
-  * @class fileUploader
+  * @class FileUploader
   * @param {Object} config the options object
   * @param {number} config.maxSize limit max file size in kb
   * @param {Array} config.types limit allowed file mime types, for ex ['image/jpeg','audio/mpeg3']
@@ -642,7 +642,7 @@ window.nn = {
   * @example
   * // assuming HTML like this:
   * // <button id="my-btn">click to upload</button>
-  * const fu = new FileUploader({
+  * const fu = new nn.FileUploader({
   *   maxSize: 1000,
   *   types: ['image/jpeg', 'image/png'],
   *   click: '#my-btn',
@@ -660,7 +660,7 @@ window.nn = {
   * // <section id="main">
   * //   <!-- some other HTML stuff here -->
   * // </section>
-  * const fu = new FileUploader({
+  * const fu = new nn.FileUploader({
   *   click: '#my-btn',
   *   drop: '#main',
   *   filter: (type) => {
@@ -684,5 +684,5 @@ window.nn = {
   *   }
   * })
   */
-  fileUploader: require('./FileUploader/FileUploader.js')
+  FileUploader: require('./FileUploader/FileUploader.js')
 }

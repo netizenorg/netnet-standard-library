@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#fileUploader">fileUploader</a></dt>
+<dt><a href="#FileUploader">FileUploader</a></dt>
 <dd></dd>
 </dl>
 
@@ -165,13 +165,13 @@
 </dd>
 </dl>
 
-<a name="fileUploader"></a>
+<a name="FileUploader"></a>
 
-## fileUploader
+## FileUploader
 **Kind**: global class  
-<a name="new_fileUploader_new"></a>
+<a name="new_FileUploader_new"></a>
 
-### new fileUploader(config)
+### new FileUploader(config)
 abstracts the `<input type="file">` by providing a class for quickly handling file uploads via clicking on elements or drag and dropping onto elements.
 
 
@@ -192,7 +192,7 @@ abstracts the `<input type="file">` by providing a class for quickly handling fi
 ```js
 // assuming HTML like this:
 // <button id="my-btn">click to upload</button>
-const fu = new FileUploader({
+const fu = new nn.FileUploader({
   maxSize: 1000,
   types: ['image/jpeg', 'image/png'],
   click: '#my-btn',
@@ -210,7 +210,7 @@ const fu = new FileUploader({
 // <section id="main">
 //   <!-- some other HTML stuff here -->
 // </section>
-const fu = new FileUploader({
+const fu = new nn.FileUploader({
   click: '#my-btn',
   drop: '#main',
   filter: (type) => {
