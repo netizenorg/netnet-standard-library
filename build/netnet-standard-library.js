@@ -1778,11 +1778,18 @@ const Averigua = require('./Averigua/Averigua.js')
 window.nn = {
   _mouseX: 0,
   _mouseY: 0,
+  _mouseDown: false,
   _trackingMouse: false,
   _trackMouse: function () {
     window.addEventListener('mousemove', (e) => {
       this._mouseX = e.clientX
       this._mouseY = e.clientY
+    })
+    window.addEventListener('mousedown', (e) => {
+      this._mouseDown = true
+    })
+    window.addEventListener('mouseup', (e) => {
+      this._mouseDown = false
     })
     this._trackingMouse = true
   },
@@ -1809,6 +1816,18 @@ window.nn = {
   },
   set mouseY (v) {
     return console.error('nn: mouseY is a read-only property')
+  },
+  /**
+  * This property (or internal `nn` variable) is used to check the mouse is currently pressed down or not.
+  *
+  * @name mouseX
+  */
+  get mouseDown () {
+    if (!this._trackingMouse) this._trackMouse()
+    return this._mouseDown
+  },
+  set mouseDown (v) {
+    return console.error('nn: mouseDown is a read-only property')
   },
   /**
   * This property (or internal `nn` variable) is used to check the browser window's current width
