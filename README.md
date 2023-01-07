@@ -2,23 +2,41 @@
 
 `nn` (netnet-standard-library.js) is a browser based JavaScript library designed to aid creative coders (artists, designers, etc), it's a core *utility* library used within [netnet.studio](https://netnet.studio); both in the sense that it can be used to create sketches in netnet, but also that it's used to create netet.studio itself. It can also be used outside of netnet.studio as you would any other typical JavaScript library (with some exceptions, see note below).
 
-There are loads of amazing creative coding libraries out there ([p5.js](https://p5js.org/), [three.js](https://threejs.org/), [tone.js](https://tonejs.github.io/), [A-Frame](https://aframe.io/), [D3.js](https://d3js.org/), [Paper.js](http://paperjs.org/), etc) which extend the capabilities of the Web's creative APIs and often provide a framework for expressing higher level concepts (the way A-Frame's Entity-Component-System adds game design principles to the WebGL and WebXR APIs or the way Tone.js adds music theory to the WebAudio API). Unlike these libraries, `nn` doesn't extend or abstract the Web's more creative APIs, instead it has a much more modest goal of expanding on JavaScript's standard library (like it's `Math` object) as well as some of the Web's core APIs (like `window` and `navigator`), in this way it's more of a *utility* library than it is a creative *framework*.
+There are loads of amazing creative coding libraries out there ([p5.js](https://p5js.org/), [three.js](https://threejs.org/), [tone.js](https://tonejs.github.io/), [A-Frame](https://aframe.io/), [hydra.js](https://hydra.ojack.xyz/?sketch_id=example_11), [D3.js](https://d3js.org/), [Paper.js](http://paperjs.org/), etc) which extend the capabilities of the Web's creative APIs and often provide a framework for expressing higher level concepts (the way A-Frame's Entity-Component-System adds game design principles to the WebGL and WebXR APIs or the way Tone.js adds music theory to the WebAudio API). Unlike these libraries, `nn` doesn't extend or abstract the Web's more creative APIs, instead it has a much more modest goal of expanding on JavaScript's standard library (like it's `Math` object) as well as some of the Web's core APIs (like `window` and `navigator`), in this way it's more of a *utility* library than it is a creative *framework*.
 
-This repo consists of a number of git "sub-modules", namely [Averigua.js](https://github.com/nbriz/Averigua),  [Maths.js](https://github.com/nbriz/Maths), [Color.js](https://github.com/nbriz/Color) and [FileUploader.js](https://github.com/nbriz/FileUploader), all of which can be used independently. This repo simply packages them up in one place and adds a few more properties and methods specifically for aiding beginners embarking on their creative coding journey on [netnet.studio](https://netnet.studio).
+This repo consists of a number of git "sub-modules", namely [Averigua.js](https://github.com/nbriz/Averigua),  [Maths.js](https://github.com/nbriz/Maths), [Color.js](https://github.com/nbriz/Color) and [FileUploader.js](https://github.com/nbriz/FileUploader), all of which can be used independently. This repo simply packages them up in one place, provides thorough documentation and adds a few more properties and methods specifically for aiding beginners embarking on their creative coding journey on [netnet.studio](https://netnet.studio).
+
+# contributions
+
+If you'd like to contribute to this repository, our [contributors doc](docs/contribute.md) include steps you should take to setup a local project as well as contribute any bug fixes, additions or other changes.
 
 # using the library
 
-<!-- TODO: replace this w/a "getting started" which links to `docs/getting-started.md` which explains how u can write vanilla JS code (but w/less lines than native code) to do some basic/intro creative coding stuff >> link to examples running in netnet.studio -->
+You can [download the minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js) to use in your own JavaScript projects. You can also use this library directly on netnet.studio by simply including a script tag in your sketch.
 
-You can [download the minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js). You can use this library directly on netnet.studio by simply including a script tag in your sketch.
-
+Check out [this example](https://netnet.studio/?layout=dock-left#code/eJyFkcFOhDAURfd8xXU2wETKDzAsNMaNP1HaCnXKK2mLhBj/3QIGZ8ZEt33nvnNfWt0VBXQ/WBcQOgWjG8fdjKKok8oLp4cA78TpQMR6TezNH+qq3AY7USdAeURrbMMNiHAsk+WpBMfrSCJoS5g6LTqMXvlLUerhOEnbP1pjXZZvsV6FzkoEC9FxatWaGHirIt5wcW6dHUlCLJmY2B0b/fC8LkOW4yNOAWnF2CsKrLFyZj7MRrGfNRt8ir3ZbZXP7zMuWtzq412K9n4wlksfQ5OOmybGpXx6j+YX7YMi5bJ0AdL766b5leUfg/YQRouzkn9pVuS3Z/+6L5WyqZE=) on netnet.studio
 ```html
 <!-- import the library -->
-<script src="js/nn.min.js"></script>
+<script src="nn.min.js"></script>
 <script>
+  /* global nn */
 
+  // a function which uses the library's randomColor()
+  // method to change the page's background color
+  function changeBGColor () {
+    document.body.style.backgroundColor = nn.randomColor()
+  }
+
+  // change the background color when the page loads
+  window.addEventListener('load', changeBGColor)
+  // change background color when the page is clicked
+  window.addEventListener('click', changeBGColor)
 </script>
 ```
+
+# examples
+
+For more examples demonstrating how this library can be used checkout the [examples doc](examples.md)
 
 # API / documentation
 
@@ -91,33 +109,3 @@ Functions for doing various **color** maths. These come from the [Color.js](http
 ## classes
 
 - [nn.FileUploader](docs/API.md#FileUploader) *This comes from the [FileUploader.js](https://github.com/nbriz/FileUploader) sub-module.*
-
-<!-- TOOD: move this into it's own `docs/contributors.md` && link to it in the intro -->
-
-# contributions
-
-If you'd like to contribute to this repository, below are the steps you should take to setup a local project as well as contribute any bug fixes, additions or other changes.
-
-### setup
-0. start by [fork our repo](https://github.com/netizenorg/netnet-standard-library/fork) this repo
-1. then clone your fork `git clone https://github.com/[YOUR_USER_NAME]/netnet.studio.git`
-2. then navigate into that directory `cd netnet-standard-library` and then pull the code from the sub-modules `npm run pull-modules`
-3. setup a remote "upstream" to our repo: `git remote add upstream https://github.com/netizenorg/netnet-standard-library.git`
-
-### development
-
-0. before starting on a new feature it's always a good idea to run `git pull upstream main` to pull updates from our repo. Also, if/when any of the individual sub-module repositories have been updated, you can run `npm run update-modules` to update the local modules.
-1. create a "feature" branch `git checkout -b [FEATURE-NAME]` for your contribution.
-2. if you're adding a new sub-module, run `git submodule add [module-github-URL]`, and then include them in the `main.js` file, otherwise you can add simply add new properties or methods directly to the library in the `main.js` file.
-3. as you work locally you can
-  - use the `npm run build` command to create new builds of the library
-  - use the `test.html` page to test your changes
-  - use the `npm run lint` command to ensure you're conforming to our [coding style](https://standardjs.com/) before making any commits.
-3. when you're ready, create a [PR](https://github.com/netizenorg/netnet-standard-library/pulls) *from* your `feature` branch and *into* our `main` branch.
-4. Once your PR has been merged, clean things up before starting on another feature
-```
-git checkout main
-git pull upstream main
-git push origin --delete [FEATURE-NAME]
-git branch --delete [FEATURE-NAME]
-```
