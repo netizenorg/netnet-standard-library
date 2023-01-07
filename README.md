@@ -6,10 +6,6 @@ There are loads of amazing creative coding libraries out there ([p5.js](https://
 
 This repo consists of a number of git "sub-modules", namely [Averigua.js](https://github.com/nbriz/Averigua),  [Maths.js](https://github.com/nbriz/Maths), [Color.js](https://github.com/nbriz/Color) and [FileUploader.js](https://github.com/nbriz/FileUploader), all of which can be used independently. This repo simply packages them up in one place, provides thorough documentation and adds a few more properties and methods specifically for aiding beginners embarking on their creative coding journey on [netnet.studio](https://netnet.studio).
 
-# contributions
-
-If you'd like to contribute to this repository, our [contributors doc](docs/contribute.md) include steps you should take to setup a local project as well as contribute any bug fixes, additions or other changes.
-
 # using the library
 
 You can [download the minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js) to use in your own JavaScript projects. You can also use this library directly on netnet.studio by simply including a script tag in your sketch.
@@ -36,7 +32,7 @@ Check out [this example](https://netnet.studio/?layout=dock-left#code/eJyFkcFOhD
 
 # examples
 
-For more examples demonstrating how this library can be used checkout the [examples doc](examples.md)
+For more examples demonstrating how this library can be used checkout the [examples doc](docs/examples.md)
 
 # API / documentation
 
@@ -109,3 +105,7 @@ Functions for doing various **color** maths. These come from the [Color.js](http
 ## classes
 
 - [nn.FileUploader](docs/API.md#FileUploader) *This comes from the [FileUploader.js](https://github.com/nbriz/FileUploader) sub-module.*
+
+# contributions
+
+If you'd like to contribute to this repository, our [contributors doc](docs/contribute.md) include steps you should take to setup a local project as well as contribute any bug fixes, additions or other changes.
