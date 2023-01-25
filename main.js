@@ -47,7 +47,7 @@ window.nn = {
   /**
   * This property (or internal `nn` variable) is used to check the mouse is currently pressed down or not.
   *
-  * @name mouseX
+  * @name mouseDown
   */
   get mouseDown () {
     if (!this._trackingMouse) this._trackMouse()

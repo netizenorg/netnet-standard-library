@@ -14,7 +14,7 @@
 <dt><a href="#mouseY">mouseY</a></dt>
 <dd><p>This property (or internal <code>nn</code> variable) is used to check the mouse&#39;s current &quot;y&quot; (vertical) position, or the number of pixels from the top of the browser window to the mouse.</p>
 </dd>
-<dt><a href="#mouseX">mouseX</a></dt>
+<dt><a href="#mouseDown">mouseDown</a></dt>
 <dd><p>This property (or internal <code>nn</code> variable) is used to check the mouse is currently pressed down or not.</p>
 </dd>
 <dt><a href="#width">width</a></dt>
@@ -249,9 +249,9 @@ This property (or internal `nn` variable) is used to check the mouse's current "
 This property (or internal `nn` variable) is used to check the mouse's current "y" (vertical) position, or the number of pixels from the top of the browser window to the mouse.
 
 **Kind**: global variable  
-<a name="mouseX"></a>
+<a name="mouseDown"></a>
 
-## mouseX
+## mouseDown
 This property (or internal `nn` variable) is used to check the mouse is currently pressed down or not.
 
 **Kind**: global variable  

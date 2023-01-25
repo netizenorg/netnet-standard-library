@@ -42,6 +42,7 @@ For more examples demonstrating how this library can be used checkout the [examp
 - [nn.height](docs/API.md#height) `// browser's current height`
 - [nn.mouseX](docs/API.md#mouseX) `// mouse's current x position`
 - [nn.mouseY](docs/API.md#mouseY) `// mouse's current y position`
+- [nn.mouseDown](docs/API.md#mouseDown) `// is mouse pressed or not`
 
 ## methods (internal functions)
 
