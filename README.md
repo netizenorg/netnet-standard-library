@@ -8,7 +8,14 @@ This repo consists of a number of git "sub-modules", namely [Averigua.js](https:
 
 # using the library
 
-You can [download the minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js) to use in your own JavaScript projects. You can also use this library directly on netnet.studio by simply including a script tag in your sketch.
+You can [download the minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js) to use in your own JavaScript projects. Or you can import it via CDN in a script tag:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+```
+
+
+You can also use this library directly on netnet.studio by simply including a script tag in your sketch.
 
 Check out [this example](https://netnet.studio/?layout=dock-left#code/eJyFkcFOhDAURfd8xXU2wETKDzAsNMaNP1HaCnXKK2mLhBj/3QIGZ8ZEt33nvnNfWt0VBXQ/WBcQOgWjG8fdjKKok8oLp4cA78TpQMR6TezNH+qq3AY7USdAeURrbMMNiHAsk+WpBMfrSCJoS5g6LTqMXvlLUerhOEnbP1pjXZZvsV6FzkoEC9FxatWaGHirIt5wcW6dHUlCLJmY2B0b/fC8LkOW4yNOAWnF2CsKrLFyZj7MRrGfNRt8ir3ZbZXP7zMuWtzq412K9n4wlksfQ5OOmybGpXx6j+YX7YMi5bJ0AdL766b5leUfg/YQRouzkn9pVuS3Z/+6L5WyqZE=) on netnet.studio
 ```html
