@@ -8,19 +8,31 @@ This repo consists of a number of git "sub-modules", namely [Averigua.js](https:
 
 # using the library
 
-You can [download the minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js) to use in your own JavaScript projects. Or you can import it via CDN in a script tag:
+### CDN
+
+You can use the library by importing it with a `<script>` linking to a CDN like this:
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
 ```
 
+### download locally
 
-You can also use this library directly on netnet.studio by simply including a script tag in your sketch.
+If you prefer to download a copy locally, you can use npm:
 
-Check out [this example](https://netnet.studio/?layout=dock-left#code/eJyFkcFOhDAURfd8xXU2wETKDzAsNMaNP1HaCnXKK2mLhBj/3QIGZ8ZEt33nvnNfWt0VBXQ/WBcQOgWjG8fdjKKok8oLp4cA78TpQMR6TezNH+qq3AY7USdAeURrbMMNiHAsk+WpBMfrSCJoS5g6LTqMXvlLUerhOEnbP1pjXZZvsV6FzkoEC9FxatWaGHirIt5wcW6dHUlCLJmY2B0b/fC8LkOW4yNOAWnF2CsKrLFyZj7MRrGfNRt8ir3ZbZXP7zMuWtzq412K9n4wlksfQ5OOmybGpXx6j+YX7YMi5bJ0AdL766b5leUfg/YQRouzkn9pVuS3Z/+6L5WyqZE=) on netnet.studio
+```
+npm install git+https://github.com/netizenorg/netnet-standard-library.git
+```
+
+That will download much more than you need of course, so alternatively you can also [download the just minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js) and include it in your local project.
+
+You can also use this library directly on netnet.studio by simply including a script tag in your sketch. Check out [this example](https://netnet.studio/?layout=dock-left#code/eJyFkcFOhDAURfd8xXU2wETKDzAsNMaNP1HaCnXKK2mLhBj/3QIGZ8ZEt33nvnNfWt0VBXQ/WBcQOgWjG8fdjKKok8oLp4cA78TpQMR6TezNH+qq3AY7USdAeURrbMMNiHAsk+WpBMfrSCJoS5g6LTqMXvlLUerhOEnbP1pjXZZvsV6FzkoEC9FxatWaGHirIt5wcW6dHUlCLJmY2B0b/fC8LkOW4yNOAWnF2CsKrLFyZj7MRrGfNRt8ir3ZbZXP7zMuWtzq412K9n4wlksfQ5OOmybGpXx6j+YX7YMi5bJ0AdL766b5leUfg/YQRouzkn9pVuS3Z/+6L5WyqZE=) on netnet.studio. NOTE: that will only work in a "sketch", if you are working on a "project" on netnet, make sure to either include a copy of the library in your repo or use the link to the CDN above.
+
+### setup
+
 ```html
 <!-- import the library -->
-<script src="nn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
 <script>
   /* global nn */
 
