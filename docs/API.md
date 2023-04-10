@@ -312,7 +312,9 @@ window.addEventListener('load', main)
 this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - A Promise that results to an object with three variations of the algorithmically processed image: data (base64 image data), image (HTML image element) and canvas (HTML5 canvas element)
+**Returns**: <code>Object</code> - A Promise that results to an object with three variations of the algorithmically processed image: data (base64 image data), image (HTML image element) and canvas (HTML5 canvas element)  
+**Example**  
+```js
 new nn.FileUploader({
   click: 'button', // a button element in the HTML document
   ready: async (file) => {
@@ -327,7 +329,8 @@ new nn.FileUploader({
     console.log(obj)
     document.body.appendChild(obj.image)
   }
-})  
+})
+```
 <a name="isMobile"></a>
 
 ## isMobile() ⇒ <code>Boolean</code>

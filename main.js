@@ -119,6 +119,7 @@ window.nn = {
   *
   * @method modifyPixels
   * @return {Object} A Promise that results to an object with three variations of the algorithmically processed image: data (base64 image data), image (HTML image element) and canvas (HTML5 canvas element)
+  * @example
   * new nn.FileUploader({
   *   click: 'button', // a button element in the HTML document
   *   ready: async (file) => {
