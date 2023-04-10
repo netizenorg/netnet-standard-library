@@ -1867,6 +1867,19 @@ window.nn = {
     return window.fetch(url, opts)
   },
 
+  /**
+  * this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
+  *
+  * @method loadImage
+  * @return {Object} A Promise that resolves to an image element
+  * @example
+  * async function main () {
+  *   const img = await nn.loadImage(imageDataURL)
+  *   document.body.appendChild(img)
+  * }
+  *
+  * window.addEventListener('load', main)
+  */
   loadImage: (url) => new Promise((resolve, reject) => {
     const img = new window.Image()
     img.addEventListener('load', () => resolve(img))
@@ -1875,18 +1888,25 @@ window.nn = {
   }),
 
   /**
-  * this function takes an image element (or base64 image data) along with an image filtering algorithm and returns an object with the processed image in three forms, image data (base64) an image elment and a canvas element
+  * this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
   *
   * @method modifyPixels
-  * @return {Object} An object with three keys, data (base64 image data), img (HTML image element) and canvas (HTML5 canvas element)
-  * @example
-  * async function main () {
-  *   const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
-  *   const json = await req.json()
-  *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
-  * }
-  *
-  * window.addEventListener('load', main)
+  * @return {Object} A Promise that results to an object with three variations of the algorithmically processed image: data (base64 image data), image (HTML image element) and canvas (HTML5 canvas element)
+  * new nn.FileUploader({
+  *   click: 'button', // a button element in the HTML document
+  *   ready: async (file) => {
+  *     const obj = await nn.modifyPixels(file.data, (pixels) => {
+  *       // this algorithm inverts the image
+  *       for (let i = 0; i < pixels.length; i += 4) {
+  *         pixels[i] = 255 - pixels[i] // red
+  *         pixels[i + 1] = 255 - pixels[i + 1] // green
+  *         pixels[i + 2] = 255 - pixels[i + 2] // blue
+  *       }
+  *     })
+  *     console.log(obj)
+  *     document.body.appendChild(obj.image)
+  *   }
+  * })
   */
   modifyPixels: async (image, algorithm) => {
     // validation

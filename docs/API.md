@@ -31,8 +31,11 @@
 <dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
 <dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
 </dd>
+<dt><a href="#loadImage">loadImage()</a> ⇒ <code>Object</code></dt>
+<dd><p>this function takes an image/data url and returns a promise with an image element containing the loaded image. It&#39;s essentially a promise-based alternative to the standard image load event.</p>
+</dd>
 <dt><a href="#modifyPixels">modifyPixels()</a> ⇒ <code>Object</code></dt>
-<dd><p>this function takes an image element (or base64 image data) along with an image filtering algorithm and returns an object with the processed image in three forms, image data (base64) an image elment and a canvas element</p>
+<dd><p>this function takes an image/data url and returns a promise with an image element containing the loaded image. It&#39;s essentially a promise-based alternative to the standard image load event.</p>
 </dd>
 <dt><a href="#isMobile">isMobile()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Used to check if the page&#39;s visitor is on a mobile device</p>
@@ -287,23 +290,44 @@ async function main () {
 
 window.addEventListener('load', main)
 ```
-<a name="modifyPixels"></a>
+<a name="loadImage"></a>
 
-## modifyPixels() ⇒ <code>Object</code>
-this function takes an image element (or base64 image data) along with an image filtering algorithm and returns an object with the processed image in three forms, image data (base64) an image elment and a canvas element
+## loadImage() ⇒ <code>Object</code>
+this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - An object with three keys, data (base64 image data), img (HTML image element) and canvas (HTML5 canvas element)  
+**Returns**: <code>Object</code> - A Promise that resolves to an image element  
 **Example**  
 ```js
 async function main () {
-  const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
-  const json = await req.json()
-  document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+  const img = await nn.loadImage(imageDataURL)
+  document.body.appendChild(img)
 }
 
 window.addEventListener('load', main)
 ```
+<a name="modifyPixels"></a>
+
+## modifyPixels() ⇒ <code>Object</code>
+this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - A Promise that results to an object with three variations of the algorithmically processed image: data (base64 image data), image (HTML image element) and canvas (HTML5 canvas element)
+new nn.FileUploader({
+  click: 'button', // a button element in the HTML document
+  ready: async (file) => {
+    const obj = await nn.modifyPixels(file.data, (pixels) => {
+      // this algorithm inverts the image
+      for (let i = 0; i < pixels.length; i += 4) {
+        pixels[i] = 255 - pixels[i] // red
+        pixels[i + 1] = 255 - pixels[i + 1] // green
+        pixels[i + 2] = 255 - pixels[i + 2] // blue
+      }
+    })
+    console.log(obj)
+    document.body.appendChild(obj.image)
+  }
+})  
 <a name="isMobile"></a>
 
 ## isMobile() ⇒ <code>Boolean</code>
