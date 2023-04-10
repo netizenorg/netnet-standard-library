@@ -1866,6 +1866,62 @@ window.nn = {
     url = `/api/nn-proxy?url=${url}`
     return window.fetch(url, opts)
   },
+
+  loadImage: (url) => new Promise((resolve, reject) => {
+    const img = new window.Image()
+    img.addEventListener('load', () => resolve(img))
+    img.addEventListener('error', (err) => reject(err))
+    img.src = url
+  }),
+
+  /**
+  * this function takes an image element (or base64 image data) along with an image filtering algorithm and returns an object with the processed image in three forms, image data (base64) an image elment and a canvas element
+  *
+  * @method modifyPixels
+  * @return {Object} An object with three keys, data (base64 image data), img (HTML image element) and canvas (HTML5 canvas element)
+  * @example
+  * async function main () {
+  *   const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
+  *   const json = await req.json()
+  *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+  * }
+  *
+  * window.addEventListener('load', main)
+  */
+  modifyPixels: async (image, algorithm) => {
+    // validation
+    if (typeof image === 'string') {
+      if (image.indexOf('data:image') !== 0) {
+        return console.error('nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
+      }
+    } else if (!(image instanceof window.Image)) {
+      return console.error('nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
+    }
+
+    if (typeof algorithm !== 'function') {
+      return console.error('nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
+    }
+    // ..........
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+
+    if (!(image instanceof window.Image)) {
+      image = await window.nn.loadImage(image)
+    }
+
+    canvas.width = image.width
+    canvas.height = image.height
+    ctx.drawImage(image, 0, 0)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const imgdata = imageData.data
+    algorithm(imgdata)
+    ctx.putImageData(imageData, 0, 0)
+    const data = canvas.toDataURL()
+    image.src = data
+
+    return { image, canvas, data }
+  },
+
   /**
   * Used to check if the page's visitor is on a mobile device
   *

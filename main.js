@@ -93,6 +93,82 @@ window.nn = {
     url = `/api/nn-proxy?url=${url}`
     return window.fetch(url, opts)
   },
+
+  /**
+  * this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
+  *
+  * @method loadImage
+  * @return {Object} A Promise that resolves to an image element
+  * @example
+  * async function main () {
+  *   const img = await nn.loadImage(imageDataURL)
+  *   document.body.appendChild(img)
+  * }
+  *
+  * window.addEventListener('load', main)
+  */
+  loadImage: (url) => new Promise((resolve, reject) => {
+    const img = new window.Image()
+    img.addEventListener('load', () => resolve(img))
+    img.addEventListener('error', (err) => reject(err))
+    img.src = url
+  }),
+
+  /**
+  * this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
+  *
+  * @method modifyPixels
+  * @return {Object} A Promise that results to an object with three variations of the algorithmically processed image: data (base64 image data), image (HTML image element) and canvas (HTML5 canvas element)
+  * new nn.FileUploader({
+  *   click: 'button', // a button element in the HTML document
+  *   ready: async (file) => {
+  *     const obj = await nn.modifyPixels(file.data, (pixels) => {
+  *       // this algorithm inverts the image
+  *       for (let i = 0; i < pixels.length; i += 4) {
+  *         pixels[i] = 255 - pixels[i] // red
+  *         pixels[i + 1] = 255 - pixels[i + 1] // green
+  *         pixels[i + 2] = 255 - pixels[i + 2] // blue
+  *       }
+  *     })
+  *     console.log(obj)
+  *     document.body.appendChild(obj.image)
+  *   }
+  * })
+  */
+  modifyPixels: async (image, algorithm) => {
+    // validation
+    if (typeof image === 'string') {
+      if (image.indexOf('data:image') !== 0) {
+        return console.error('nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
+      }
+    } else if (!(image instanceof window.Image)) {
+      return console.error('nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
+    }
+
+    if (typeof algorithm !== 'function') {
+      return console.error('nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
+    }
+    // ..........
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+
+    if (!(image instanceof window.Image)) {
+      image = await window.nn.loadImage(image)
+    }
+
+    canvas.width = image.width
+    canvas.height = image.height
+    ctx.drawImage(image, 0, 0)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const imgdata = imageData.data
+    algorithm(imgdata)
+    ctx.putImageData(imageData, 0, 0)
+    const data = canvas.toDataURL()
+    image.src = data
+
+    return { image, canvas, data }
+  },
+
   /**
   * Used to check if the page's visitor is on a mobile device
   *

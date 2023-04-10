@@ -31,6 +31,9 @@
 <dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
 <dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
 </dd>
+<dt><a href="#modifyPixels">modifyPixels()</a> ⇒ <code>Object</code></dt>
+<dd><p>this function takes an image element (or base64 image data) along with an image filtering algorithm and returns an object with the processed image in three forms, image data (base64) an image elment and a canvas element</p>
+</dd>
 <dt><a href="#isMobile">isMobile()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Used to check if the page&#39;s visitor is on a mobile device</p>
 </dd>
@@ -274,6 +277,23 @@ this functions works exactly like the Web's [Fetch API](https://developer.mozill
 
 **Kind**: global function  
 **Returns**: <code>Object</code> - A Promise that resolves to a Response object (exactly like the Web's Fetch API)  
+**Example**  
+```js
+async function main () {
+  const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
+  const json = await req.json()
+  document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+}
+
+window.addEventListener('load', main)
+```
+<a name="modifyPixels"></a>
+
+## modifyPixels() ⇒ <code>Object</code>
+this function takes an image element (or base64 image data) along with an image filtering algorithm and returns an object with the processed image in three forms, image data (base64) an image elment and a canvas element
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - An object with three keys, data (base64 image data), img (HTML image element) and canvas (HTML5 canvas element)  
 **Example**  
 ```js
 async function main () {
