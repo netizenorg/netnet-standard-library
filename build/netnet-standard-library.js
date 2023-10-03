@@ -1927,8 +1927,8 @@ window.nn = {
   /**
   * This function acts as an alias for the [document.querySelectorAll()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
   *
-  * @method get
-  * @return {Object} an overloaded instance of an HTMLElement
+  * @method getAll
+  * @return {Object} an array of overloaded instance of an HTMLElements
   * @example
   * // assuming the page has a few <a> elements
   * // this changes the content of the third link

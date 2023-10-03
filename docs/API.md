@@ -34,7 +34,7 @@
 <dt><a href="#get">get()</a> ⇒ <code>Object</code></dt>
 <dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector">document.querySelector()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement, see the <code>create</code> method above for more info.</p>
 </dd>
-<dt><a href="#get">get()</a> ⇒ <code>Object</code></dt>
+<dt><a href="#getAll">getAll()</a> ⇒ <code>Object</code></dt>
 <dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll">document.querySelectorAll()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement, see the <code>create</code> method above for more info.</p>
 </dd>
 <dt><a href="#loadImage">loadImage()</a> ⇒ <code>Object</code></dt>
@@ -307,13 +307,13 @@ This function acts as an alias for the [document.querySelector()](https://develo
 // assuming the page has some <h1> in it
 nn.get('h1').on('click', () => console.log('the h1 was clicked!'))
 ```
-<a name="get"></a>
+<a name="getAll"></a>
 
-## get() ⇒ <code>Object</code>
+## getAll() ⇒ <code>Object</code>
 This function acts as an alias for the [document.querySelectorAll()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - an overloaded instance of an HTMLElement  
+**Returns**: <code>Object</code> - an array of overloaded instance of an HTMLElements  
 **Example**  
 ```js
 // assuming the page has a few <a> elements
