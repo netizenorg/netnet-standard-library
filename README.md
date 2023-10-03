@@ -65,9 +65,9 @@ For more examples demonstrating how this library can be used checkout the [examp
 
 ## methods (internal functions)
   
-- [nn.create()](docs/API.md#create) `// creates an "overloaded" HTMLElement
-- [nn.get()](docs/API.md#get) `// selects an element on the page and returns an "overloaded" one
-- [nn.getAll()](docs/API.md#getAll) `// selects all matching elements and returns "overloaded" ones
+- [nn.create()](docs/API.md#create) `// creates an "overloaded" HTMLElement`
+- [nn.get()](docs/API.md#get) `// selects an element on the page and returns an "overloaded" one`
+- [nn.getAll()](docs/API.md#getAll) `// selects all matching elements and returns"overloaded" ones`
 - [nn.loadImage()](docs/API.md#loadImage) `// a Promised based approach for loading images`
 - [nn.modifyPixels()](docs/API.md#modifyPixels) `// method for processing/filtering images`
 - [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
