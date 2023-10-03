@@ -28,14 +28,23 @@
 ## Functions
 
 <dl>
-<dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
-<dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
+<dt><a href="#create">create()</a> ⇒ <code>Object</code></dt>
+<dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement">document.createElement()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement with a few additional methods, <code>.content()</code> a method for adding content to the element (text or other HTML elements), <code>.css()</code> for applying an object similar to a CSS rule to the element, <code>.addTo()</code> a method for appending the element to another (it will also remove it from it&#39;s current parent if necessary) and <code>.on()</code>, an alias for <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">.addEventListener()</a></p>
+</dd>
+<dt><a href="#get">get()</a> ⇒ <code>Object</code></dt>
+<dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector">document.querySelector()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement, see the <code>create</code> method above for more info.</p>
+</dd>
+<dt><a href="#get">get()</a> ⇒ <code>Object</code></dt>
+<dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll">document.querySelectorAll()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement, see the <code>create</code> method above for more info.</p>
 </dd>
 <dt><a href="#loadImage">loadImage()</a> ⇒ <code>Object</code></dt>
 <dd><p>this function takes an image/data url and returns a promise with an image element containing the loaded image. It&#39;s essentially a promise-based alternative to the standard image load event.</p>
 </dd>
 <dt><a href="#modifyPixels">modifyPixels()</a> ⇒ <code>Object</code></dt>
 <dd><p>this function takes an image/data url and returns a promise with an image element containing the loaded image. It&#39;s essentially a promise-based alternative to the standard image load event.</p>
+</dd>
+<dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
+<dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
 </dd>
 <dt><a href="#isMobile">isMobile()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Used to check if the page&#39;s visitor is on a mobile device</p>
@@ -273,22 +282,43 @@ This property (or internal `nn` variable) is used to check the browser window's 
 This property (or internal `nn` variable) is used to check the browser window's current height
 
 **Kind**: global variable  
-<a name="fetch"></a>
+<a name="create"></a>
 
-## fetch() ⇒ <code>Object</code>
-this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
+## create() ⇒ <code>Object</code>
+This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - A Promise that resolves to a Response object (exactly like the Web's Fetch API)  
+**Returns**: <code>Object</code> - an overloaded instance of an HTMLElement  
 **Example**  
 ```js
-async function main () {
-  const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
-  const json = await req.json()
-  document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
-}
+// this creates a div with red "hello world" text and adds it to the body of our page
+// essentially: <div style="color: red">hello world</div>
+nn.create('div').content('hello world').css({ color: 'red' }).addTo('body')
+```
+<a name="get"></a>
 
-window.addEventListener('load', main)
+## get() ⇒ <code>Object</code>
+This function acts as an alias for the [document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - an overloaded instance of an HTMLElement  
+**Example**  
+```js
+// assuming the page has some <h1> in it
+nn.get('h1').on('click', () => console.log('the h1 was clicked!'))
+```
+<a name="get"></a>
+
+## get() ⇒ <code>Object</code>
+This function acts as an alias for the [document.querySelectorAll()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - an overloaded instance of an HTMLElement  
+**Example**  
+```js
+// assuming the page has a few <a> elements
+// this changes the content of the third link
+nn.getAll('a')[2].content('new text!')
 ```
 <a name="loadImage"></a>
 
@@ -330,6 +360,23 @@ new nn.FileUploader({
     document.body.appendChild(obj.image)
   }
 })
+```
+<a name="fetch"></a>
+
+## fetch() ⇒ <code>Object</code>
+this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - A Promise that resolves to a Response object (exactly like the Web's Fetch API)  
+**Example**  
+```js
+async function main () {
+  const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
+  const json = await req.json()
+  document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+}
+
+window.addEventListener('load', main)
 ```
 <a name="isMobile"></a>
 

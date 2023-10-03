@@ -1551,9 +1551,9 @@ class Maths {
       return val[Math.floor(Math.random() * val.length)]
     } else {
       let min, max
-      if (val && !val2) {
+      if (typeof val !== 'undefined' && typeof val2 === 'undefined') {
         min = 0; max = val
-      } else if (val && val2) {
+      } else if (typeof val !== 'undefined' && typeof val2 !== 'undefined') {
         min = val; max = val2
       } else {
         min = 0; max = 1
@@ -1849,22 +1849,96 @@ window.nn = {
   },
 
   /**
-  * this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
+  * This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
   *
-  * @method fetch
-  * @return {Object} A Promise that resolves to a Response object (exactly like the Web's Fetch API)
+  * @method create
+  * @return {Object} an overloaded instance of an HTMLElement
   * @example
-  * async function main () {
-  *   const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
-  *   const json = await req.json()
-  *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
-  * }
-  *
-  * window.addEventListener('load', main)
+  * // this creates a div with red "hello world" text and adds it to the body of our page
+  * // essentially: <div style="color: red">hello world</div>
+  * nn.create('div').content('hello world').css({ color: 'red' }).addTo('body')
   */
-  fetch: (url, opts) => {
-    url = `/api/nn-proxy?url=${url}`
-    return window.fetch(url, opts)
+
+  create: function (type) {
+    const eles = ['html', 'base', 'head', 'link', 'meta', 'style', 'title', 'body', 'address', 'article', 'aside', 'footer', 'header', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hgroup', 'main', 'nav', 'section', 'blockquote', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure', 'hr', 'li', 'ol', 'p', 'pre', 'ul', 'a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dfn', 'em', 'i', 'kbd', 'mark', 'q', 'rb', 'rp', 'rt', 'rtc', 'ruby', 's', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr', 'area', 'audio', 'img', 'map', 'track', 'video', 'embed', 'iframe', 'object', 'param', 'picture', 'source', 'svg', 'math', 'canvas', 'noscript', 'script', 'del', 'ins', 'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'button', 'datalist', 'fieldset', 'form', 'input', 'label', 'legend', 'meter', 'optgroup', 'option', 'output', 'progress', 'select', 'textarea', 'details', 'dialog', 'menu', 'summary', 'slot', 'template', 'acronym', 'applet', 'basefont', 'bgsound', 'big', 'blink', 'center', 'command', 'content', 'dir', 'element', 'font', 'frame', 'frameset', 'image', 'isindex', 'keygen', 'listing', 'marquee', 'menuitem', 'multicol', 'nextid', 'nobr', 'noembed', 'noframes', 'plaintext', 'shadow', 'spacer', 'strike', 'tt', 'xmp']
+    if (!eles.includes(type)) console.warn(`nn: are you sure that '${type}' is a valid HTMLElement?`)
+    const ele = document.createElement(type)
+    return this.get(ele)
+  },
+
+  /**
+  * This function acts as an alias for the [document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
+  *
+  * @method get
+  * @return {Object} an overloaded instance of an HTMLElement
+  * @example
+  * // assuming the page has some <h1> in it
+  * nn.get('h1').on('click', () => console.log('the h1 was clicked!'))
+  */
+  get: function (query) {
+    const eve = ['activate', 'afterupdate', 'beforeactivate', 'beforecopy', 'beforecut', 'beforedeactivate', 'beforeeditfocus', 'beforepaste', 'beforeupdate', 'blur', 'click', 'contextmenu', 'controlselect', 'copy', 'cut', 'dblclick', 'deactivate', 'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop', 'errorupdate', 'filterchange', 'focus', 'focusin', 'focusout', 'help', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'paste', 'propertychange', 'readystatechange', 'resize', 'resizeend', 'resizestart', 'selectstart', 'timeerror']
+    const mev = ['abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'encrypted', 'ended', 'error', 'loadeddata', 'loadedmetadata', 'loadstart', 'pause', 'play', 'playing', 'progress', 'ratechange', 'seeked', 'seeking', 'stalled', 'suspend', 'timeupdate', 'volumechange', 'waiting']
+    const ele = (query instanceof window.HTMLElement) ? query : document.querySelector(query)
+
+    ele.on = function (event, callback) {
+      if (typeof event !== 'string') {
+        throw new Error('nn: the first argument to the .on() method should be an event type written as a string')
+      } else if (typeof callback !== 'function') {
+        throw new Error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
+      }
+      this.addEventListener(event, callback)
+      const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
+      if (!es.includes(event)) console.warn(`nn: you might want to make sure that this element has a '${event}' event type`)
+      return this
+    }
+
+    ele.content = function (c) {
+      if (typeof c !== 'string') {
+        throw new Error('nn: the .content() method is expecting some content as a string')
+      }
+      this.innerHTML = c
+      return this
+    }
+
+    ele.addTo = function (parent) {
+      if (typeof parent !== 'string' && !(parent instanceof window.HTMLElement)) {
+        throw new Error('nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
+      }
+      if (this.parentNode) this.remove()
+      document.querySelector(parent).appendChild(this)
+    }
+
+    ele.css = function (obj) {
+      if (typeof obj !== 'object') {
+        throw new Error('nn: the .css() method is expecting an object of CSS properties and values')
+      }
+      for (const prop in obj) {
+        const val = obj[prop]
+        if (typeof val !== 'string') {
+          throw new Error('nn: the CSS values in the object passed to .css() should be strings')
+        }
+        this.style[prop] = val
+      }
+      return this
+    }
+    return ele
+  },
+
+  /**
+  * This function acts as an alias for the [document.querySelectorAll()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
+  *
+  * @method get
+  * @return {Object} an overloaded instance of an HTMLElement
+  * @example
+  * // assuming the page has a few <a> elements
+  * // this changes the content of the third link
+  * nn.getAll('a')[2].content('new text!')
+  */
+  getAll: function (query) {
+    const arr = []
+    const eles = document.querySelectorAll(query)
+    eles.forEach(ele => arr.push(this.get(ele)))
+    return arr
   },
 
   /**
@@ -1941,6 +2015,25 @@ window.nn = {
     image.src = data
 
     return { image, canvas, data }
+  },
+
+  /**
+  * this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
+  *
+  * @method fetch
+  * @return {Object} A Promise that resolves to a Response object (exactly like the Web's Fetch API)
+  * @example
+  * async function main () {
+  *   const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
+  *   const json = await req.json()
+  *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+  * }
+  *
+  * window.addEventListener('load', main)
+  */
+  fetch: (url, opts) => {
+    url = `/api/nn-proxy?url=${url}`
+    return window.fetch(url, opts)
   },
 
   /**
@@ -2554,6 +2647,8 @@ window.nn = {
   * })
   */
   FileUploader: require('./FileUploader/FileUploader.js')
+  //,
+  // GIF: require('./GIF/nn-gif.js')
 }
 
 },{"./Averigua/Averigua.js":1,"./Color/Color.js":2,"./FileUploader/FileUploader.js":3,"./Maths/Maths.js":4}],6:[function(require,module,exports){
