@@ -64,7 +64,8 @@ For more examples demonstrating how this library can be used checkout the [examp
 - [nn.mouseDown](docs/API.md#mouseDown) `// is mouse pressed or not`
 
 ## methods (internal functions)
-  
+
+- [nn.on()](docs/API.md#on) `// register an event listener on the window`  
 - [nn.create()](docs/API.md#create) `// creates an "overloaded" HTMLElement`
 - [nn.get()](docs/API.md#get) `// selects an element on the page and returns an "overloaded" one`
 - [nn.getAll()](docs/API.md#getAll) `// selects all matching elements and returns"overloaded" ones`

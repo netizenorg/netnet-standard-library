@@ -76,6 +76,24 @@ window.nn = {
   },
 
   /**
+  * This method is an alias for `window.addEventListener()`
+  *
+  * @method create
+  * @example
+  * nn.on('load', () => console.log('the page has loaded!'))
+  */
+  on: function (event, callback) {
+    const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
+    if (typeof event !== 'string') {
+      throw new Error('nn: the first argument to the .on() method should be an event type written as a string')
+    } else if (typeof callback !== 'function') {
+      throw new Error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
+    }
+    window.addEventListener(event, callback)
+    if (!eve.includes(event)) console.warn(`nn: you might want to make sure that '${event}' is a valid window event type`)
+  },
+
+  /**
   * This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
   *
   * @method create
@@ -105,6 +123,7 @@ window.nn = {
   get: function (query) {
     const eve = ['activate', 'afterupdate', 'beforeactivate', 'beforecopy', 'beforecut', 'beforedeactivate', 'beforeeditfocus', 'beforepaste', 'beforeupdate', 'blur', 'click', 'contextmenu', 'controlselect', 'copy', 'cut', 'dblclick', 'deactivate', 'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop', 'errorupdate', 'filterchange', 'focus', 'focusin', 'focusout', 'help', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'paste', 'propertychange', 'readystatechange', 'resize', 'resizeend', 'resizestart', 'selectstart', 'timeerror']
     const mev = ['abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'encrypted', 'ended', 'error', 'loadeddata', 'loadedmetadata', 'loadstart', 'pause', 'play', 'playing', 'progress', 'ratechange', 'seeked', 'seeking', 'stalled', 'suspend', 'timeupdate', 'volumechange', 'waiting']
+
     const ele = (query instanceof window.HTMLElement) ? query : document.querySelector(query)
 
     ele.on = function (event, callback) {
@@ -155,7 +174,7 @@ window.nn = {
   * This function acts as an alias for the [document.querySelectorAll()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
   *
   * @method getAll
-  * @return {Object} an array of overloaded instance of an HTMLElements
+  * @return {Object} an array of overloaded instances of an HTMLElements
   * @example
   * // assuming the page has a few <a> elements
   * // this changes the content of the third link

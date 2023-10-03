@@ -28,6 +28,9 @@
 ## Functions
 
 <dl>
+<dt><a href="#create">create()</a></dt>
+<dd><p>This method is an alias for <code>window.addEventListener()</code></p>
+</dd>
 <dt><a href="#create">create()</a> ⇒ <code>Object</code></dt>
 <dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement">document.createElement()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement with a few additional methods, <code>.content()</code> a method for adding content to the element (text or other HTML elements), <code>.css()</code> for applying an object similar to a CSS rule to the element, <code>.addTo()</code> a method for appending the element to another (it will also remove it from it&#39;s current parent if necessary) and <code>.on()</code>, an alias for <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">.addEventListener()</a></p>
 </dd>
@@ -284,6 +287,16 @@ This property (or internal `nn` variable) is used to check the browser window's 
 **Kind**: global variable  
 <a name="create"></a>
 
+## create()
+This method is an alias for `window.addEventListener()`
+
+**Kind**: global function  
+**Example**  
+```js
+nn.on('load', () => console.log('the page has loaded!'))
+```
+<a name="create"></a>
+
 ## create() ⇒ <code>Object</code>
 This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
 
@@ -313,7 +326,7 @@ nn.get('h1').on('click', () => console.log('the h1 was clicked!'))
 This function acts as an alias for the [document.querySelectorAll()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - an array of overloaded instance of an HTMLElements  
+**Returns**: <code>Object</code> - an array of overloaded instances of an HTMLElements  
 **Example**  
 ```js
 // assuming the page has a few <a> elements
