@@ -28,11 +28,11 @@
 ## Functions
 
 <dl>
-<dt><a href="#create">create()</a></dt>
+<dt><a href="#create">create()</a> ⇒ <code>undefined</code></dt>
 <dd><p>This method is an alias for <code>window.addEventListener()</code></p>
 </dd>
 <dt><a href="#create">create()</a> ⇒ <code>Object</code></dt>
-<dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement">document.createElement()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement with a few additional methods, <code>.content()</code> a method for adding content to the element (text or other HTML elements), <code>.css()</code> for applying an object similar to a CSS rule to the element, <code>.addTo()</code> a method for appending the element to another (it will also remove it from it&#39;s current parent if necessary) and <code>.on()</code>, an alias for <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">.addEventListener()</a></p>
+<dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement">document.createElement()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement with a few additional methods, <code>.content()</code> a method for adding content to the element (text or other HTML elements), <code>.set()</code> for applying an object of HTML attributes to the element, <code>.css()</code> for applying an object similar to a CSS rule to the element, <code>.addTo()</code> a method for appending the element to another (it will also remove it from it&#39;s current parent if necessary) and <code>.on()</code>, an alias for <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">.addEventListener()</a></p>
 </dd>
 <dt><a href="#get">get()</a> ⇒ <code>Object</code></dt>
 <dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector">document.querySelector()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement, see the <code>create</code> method above for more info.</p>
@@ -48,6 +48,9 @@
 </dd>
 <dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
 <dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
+</dd>
+<dt><a href="#askFor">askFor()</a> ⇒ <code>Object</code></dt>
+<dd><p>this function is an alias for the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia">getUserMedia</a> with some additional beginner friendly argument validation.</p>
 </dd>
 <dt><a href="#isMobile">isMobile()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Used to check if the page&#39;s visitor is on a mobile device</p>
@@ -287,10 +290,11 @@ This property (or internal `nn` variable) is used to check the browser window's 
 **Kind**: global variable  
 <a name="create"></a>
 
-## create()
+## create() ⇒ <code>undefined</code>
 This method is an alias for `window.addEventListener()`
 
 **Kind**: global function  
+**Returns**: <code>undefined</code> - returns undefined  
 **Example**  
 ```js
 nn.on('load', () => console.log('the page has loaded!'))
@@ -298,7 +302,7 @@ nn.on('load', () => console.log('the page has loaded!'))
 <a name="create"></a>
 
 ## create() ⇒ <code>Object</code>
-This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.set()` for applying an object of HTML attributes to the element, `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
 
 **Kind**: global function  
 **Returns**: <code>Object</code> - an overloaded instance of an HTMLElement  
@@ -387,6 +391,23 @@ async function main () {
   const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
   const json = await req.json()
   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+}
+
+window.addEventListener('load', main)
+```
+<a name="askFor"></a>
+
+## askFor() ⇒ <code>Object</code>
+this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)  
+**Example**  
+```js
+async function main () {
+  const stream = await nn.askFor({ video: true })
+  // assuming "video" is an instance of a video element
+  video.srcObject = stream
 }
 
 window.addEventListener('load', main)

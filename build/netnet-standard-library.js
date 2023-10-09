@@ -1852,22 +1852,23 @@ window.nn = {
   * This method is an alias for `window.addEventListener()`
   *
   * @method create
+  * @return {undefined} returns undefined
   * @example
   * nn.on('load', () => console.log('the page has loaded!'))
   */
   on: function (event, callback) {
     const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
     if (typeof event !== 'string') {
-      throw new Error('nn: the first argument to the .on() method should be an event type written as a string')
+      console.error('nn: the first argument to the .on() method should be an event type written as a string')
     } else if (typeof callback !== 'function') {
-      throw new Error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
+      console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
     }
     window.addEventListener(event, callback)
     if (!eve.includes(event)) console.warn(`nn: you might want to make sure that '${event}' is a valid window event type`)
   },
 
   /**
-  * This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+  * This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.set()` for applying an object of HTML attributes to the element, `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
   *
   * @method create
   * @return {Object} an overloaded instance of an HTMLElement
@@ -1894,16 +1895,20 @@ window.nn = {
   * nn.get('h1').on('click', () => console.log('the h1 was clicked!'))
   */
   get: function (query) {
-    const eve = ['activate', 'afterupdate', 'beforeactivate', 'beforecopy', 'beforecut', 'beforedeactivate', 'beforeeditfocus', 'beforepaste', 'beforeupdate', 'blur', 'click', 'contextmenu', 'controlselect', 'copy', 'cut', 'dblclick', 'deactivate', 'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop', 'errorupdate', 'filterchange', 'focus', 'focusin', 'focusout', 'help', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'paste', 'propertychange', 'readystatechange', 'resize', 'resizeend', 'resizestart', 'selectstart', 'timeerror']
+    const eve = ['activate', 'afterupdate', 'beforeactivate', 'beforecopy', 'beforecut', 'beforedeactivate', 'beforeeditfocus', 'beforepaste', 'beforeupdate', 'blur', 'click', 'contextmenu', 'controlselect', 'copy', 'cut', 'dblclick', 'deactivate', 'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop', 'errorupdate', 'filterchange', 'focus', 'focusin', 'focusout', 'help', 'input', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'paste', 'propertychange', 'readystatechange', 'resize', 'resizeend', 'resizestart', 'selectstart', 'timeerror']
     const mev = ['abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'encrypted', 'ended', 'error', 'loadeddata', 'loadedmetadata', 'loadstart', 'pause', 'play', 'playing', 'progress', 'ratechange', 'seeked', 'seeking', 'stalled', 'suspend', 'timeupdate', 'volumechange', 'waiting']
 
     const ele = (query instanceof window.HTMLElement) ? query : document.querySelector(query)
 
+    if (typeof query === 'string' && !ele) {
+      console.error(`nn.get: couldn't find an HTML element matching the CSS selector query "${query}"`)
+    }
+
     ele.on = function (event, callback) {
       if (typeof event !== 'string') {
-        throw new Error('nn: the first argument to the .on() method should be an event type written as a string')
+        console.error('nn: the first argument to the .on() method should be an event type written as a string')
       } else if (typeof callback !== 'function') {
-        throw new Error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
+        console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
       }
       this.addEventListener(event, callback)
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
@@ -1913,7 +1918,7 @@ window.nn = {
 
     ele.content = function (c) {
       if (typeof c !== 'string') {
-        throw new Error('nn: the .content() method is expecting some content as a string')
+        console.error('nn: the .content() method is expecting some content as a string')
       }
       this.innerHTML = c
       return this
@@ -1921,20 +1926,38 @@ window.nn = {
 
     ele.addTo = function (parent) {
       if (typeof parent !== 'string' && !(parent instanceof window.HTMLElement)) {
-        throw new Error('nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
+        console.error('nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
       }
       if (this.parentNode) this.remove()
       document.querySelector(parent).appendChild(this)
     }
 
+    ele.set = function (obj) {
+      if (typeof obj !== 'object') {
+        console.error('nn: the .set() method is expecting an object of HTML attributes and values')
+      }
+      for (const prop in obj) {
+        const val = obj[prop]
+        if (prop === 'stream') {
+          if (!(val instanceof window.MediaStream)) {
+            console.error('nn: when passing a "stream" property to .set() the value should a "Promise" which will resolve to a MediaStream object.')
+          }
+          ele.srcObject = val
+        } else {
+          ele.setAttribute(prop, val)
+        }
+      }
+      return this
+    }
+
     ele.css = function (obj) {
       if (typeof obj !== 'object') {
-        throw new Error('nn: the .css() method is expecting an object of CSS properties and values')
+        console.error('nn: the .css() method is expecting an object of CSS properties and values')
       }
       for (const prop in obj) {
         const val = obj[prop]
         if (typeof val !== 'string') {
-          throw new Error('nn: the CSS values in the object passed to .css() should be strings')
+          console.error('nn: the CSS values in the object passed to .css() should be strings')
         }
         this.style[prop] = val
       }
@@ -2006,14 +2029,14 @@ window.nn = {
     // validation
     if (typeof image === 'string') {
       if (image.indexOf('data:image') !== 0) {
-        return console.error('nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
+        console.error('nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
       }
     } else if (!(image instanceof window.Image)) {
-      return console.error('nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
+      console.error('nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
     }
 
     if (typeof algorithm !== 'function') {
-      return console.error('nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
+      console.error('nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
     }
     // ..........
     const canvas = document.createElement('canvas')
@@ -2053,6 +2076,53 @@ window.nn = {
   fetch: (url, opts) => {
     url = `/api/nn-proxy?url=${url}`
     return window.fetch(url, opts)
+  },
+
+  /**
+  * this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
+  *
+  * @method askFor
+  * @return {Object} A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)
+  * @example
+  * async function main () {
+  *   const stream = await nn.askFor({ video: true })
+  *   // assuming "video" is an instance of a video element
+  *   video.srcObject = stream
+  * }
+  *
+  * window.addEventListener('load', main)
+  */
+  askFor: async (constraints) => {
+    if (typeof constraints !== 'object' || constraints === null) {
+      console.error('nn.askFor: you forgot to pass an argument')
+    }
+
+    const { audio, video } = constraints
+
+    if (audio === undefined && video === undefined) {
+      console.error('nn.askFor: the object you passed must have at least an audio or video property.')
+    }
+
+    const validateMediaConstraints = (media, mediaName) => {
+      if (typeof media === 'boolean') {
+        return null
+      } else if (typeof media === 'object' && media !== null) {
+        return null
+      } else {
+        return `${mediaName} property should be either true, false or an object with media parameters`
+      }
+    }
+
+    if (audio) {
+      const err = validateMediaConstraints(audio, 'audio')
+      if (err) console.error(`nn.askFor: ${err}`)
+    } else if (video) {
+      const err = validateMediaConstraints(video, 'video')
+      if (err) console.error(`nn.askFor: ${err}`)
+    }
+
+    const stream = await navigator.mediaDevices.getUserMedia(constraints)
+    return stream
   },
 
   /**
