@@ -72,6 +72,7 @@ For more examples demonstrating how this library can be used checkout the [examp
 - [nn.loadImage()](docs/API.md#loadImage) `// a Promised based approach for loading images`
 - [nn.modifyPixels()](docs/API.md#modifyPixels) `// method for processing/filtering images`
 - [nn.askFor()](docs/API.md#askFor) `// ask user permission to use their mic/camera`  
+- [nn.MIDI()](docs/API.md#askFor) `// access any plugged in MIDI devices`  
 - [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
 
 Functions for detecting useful information about your visitor's device. These come from the [Averigua.js](https://github.com/nbriz/Averigua) sub-module.

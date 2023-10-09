@@ -353,6 +353,38 @@ window.nn = {
   },
 
   /**
+  * this function abstracts the Web's [MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API). It will only work on a MIDI enabled web browser.
+  *
+  * @method MIDI
+  * @return {undefined} doesn't return anything
+  * @example
+  *   if (nn.hasMIDI() === true) {
+  *     nn.MIDI(msg => {
+  *       console.log(`device: ${msg.dev}, channel: ${msg.chl}, value: ${msg.val}`)
+  *     })
+  *   }
+  */
+  MIDI: (func) => {
+    if (typeof func !== 'function') {
+      console.error('nn.MIDI: requires a callback function, this will run everytime you interact with your MIDI device.')
+    }
+
+    function onMIDISuccess (midiAccess) {
+      const inputs = midiAccess.inputs.values()
+      for (const input of inputs) {
+        console.log(`nn.MIDI: ${input.name} connected!`)
+        input.onmidimessage = (message) => func({
+          dev: input.name, chl: message.data[1], val: message.data[2]
+        })
+      }
+    }
+
+    navigator.requestMIDIAccess()
+      .then(onMIDISuccess)
+      .catch(err => console.error(`nn.MIDI: ${err}`))
+  },
+
+  /**
   * Used to check if the page's visitor is on a mobile device
   *
   * @method isMobile

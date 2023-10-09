@@ -52,6 +52,9 @@
 <dt><a href="#askFor">askFor()</a> ⇒ <code>Object</code></dt>
 <dd><p>this function is an alias for the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia">getUserMedia</a> with some additional beginner friendly argument validation.</p>
 </dd>
+<dt><a href="#MIDI">MIDI()</a> ⇒ <code>undefined</code></dt>
+<dd><p>this function abstracts the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API">MIDI API</a>. It will only work on a MIDI enabled web browser.</p>
+</dd>
 <dt><a href="#isMobile">isMobile()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Used to check if the page&#39;s visitor is on a mobile device</p>
 </dd>
@@ -411,6 +414,21 @@ async function main () {
 }
 
 window.addEventListener('load', main)
+```
+<a name="MIDI"></a>
+
+## MIDI() ⇒ <code>undefined</code>
+this function abstracts the Web's [MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API). It will only work on a MIDI enabled web browser.
+
+**Kind**: global function  
+**Returns**: <code>undefined</code> - doesn't return anything  
+**Example**  
+```js
+if (nn.hasMIDI() === true) {
+    nn.MIDI(msg => {
+      console.log(`device: ${msg.dev}, channel: ${msg.chl}, value: ${msg.val}`)
+    })
+  }
 ```
 <a name="isMobile"></a>
 
