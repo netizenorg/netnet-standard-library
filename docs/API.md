@@ -28,7 +28,7 @@
 ## Functions
 
 <dl>
-<dt><a href="#create">create()</a> ⇒ <code>undefined</code></dt>
+<dt><a href="#on">on()</a> ⇒ <code>undefined</code></dt>
 <dd><p>This method is an alias for <code>window.addEventListener()</code></p>
 </dd>
 <dt><a href="#create">create()</a> ⇒ <code>Object</code></dt>
@@ -288,9 +288,9 @@ This property (or internal `nn` variable) is used to check the browser window's 
 This property (or internal `nn` variable) is used to check the browser window's current height
 
 **Kind**: global variable  
-<a name="create"></a>
+<a name="on"></a>
 
-## create() ⇒ <code>undefined</code>
+## on() ⇒ <code>undefined</code>
 This method is an alias for `window.addEventListener()`
 
 **Kind**: global function  

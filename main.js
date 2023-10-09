@@ -78,7 +78,7 @@ window.nn = {
   /**
   * This method is an alias for `window.addEventListener()`
   *
-  * @method create
+  * @method on
   * @return {undefined} returns undefined
   * @example
   * nn.on('load', () => console.log('the page has loaded!'))
