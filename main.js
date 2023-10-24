@@ -157,6 +157,7 @@ window.nn = {
       }
       if (this.parentNode) this.remove()
       document.querySelector(parent).appendChild(this)
+      return this
     }
 
     ele.set = function (obj) {
