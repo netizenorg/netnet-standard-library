@@ -1964,6 +1964,14 @@ window.nn = {
       }
       return this
     }
+
+    const box = ['x', 'y', 'width', 'height', 'top', 'left', 'bottom', 'right']
+    box.forEach(prop => {
+      Object.defineProperty(ele, prop, {
+        get: function () { return this.getBoundingClientRect()[prop] }
+      })
+    })
+
     return ele
   },
 
