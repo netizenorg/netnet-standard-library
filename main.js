@@ -194,9 +194,11 @@ window.nn = {
 
     const box = ['x', 'y', 'width', 'height', 'top', 'left', 'bottom', 'right']
     box.forEach(prop => {
-      Object.defineProperty(ele, prop, {
-        get: function () { return this.getBoundingClientRect()[prop] }
-      })
+      if (typeof ele.x !== 'number') {
+        Object.defineProperty(ele, prop, {
+          get: function () { return this.getBoundingClientRect()[prop] }
+        })
+      }
     })
 
     return ele
