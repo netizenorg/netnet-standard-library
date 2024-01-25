@@ -46,14 +46,20 @@
 <dt><a href="#modifyPixels">modifyPixels()</a> ⇒ <code>Object</code></dt>
 <dd><p>this function takes an image/data url and returns a promise with an image element containing the loaded image. It&#39;s essentially a promise-based alternative to the standard image load event.</p>
 </dd>
-<dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
-<dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
-</dd>
 <dt><a href="#askFor">askFor()</a> ⇒ <code>Object</code></dt>
+<dd><p>this function is an alias for the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia">getUserMedia</a> with some additional beginner friendly argument validation. This is an alias for <code>nn.askForStream()</code></p>
+</dd>
+<dt><a href="#askForStream">askForStream()</a> ⇒ <code>Object</code></dt>
 <dd><p>this function is an alias for the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia">getUserMedia</a> with some additional beginner friendly argument validation.</p>
+</dd>
+<dt><a href="#GPS">GPS()</a> ⇒ <code>Object</code></dt>
+<dd><p>this function abstracts the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition">Geolocation API</a>. It will only work on a GPS enabled device and web browser.</p>
 </dd>
 <dt><a href="#MIDI">MIDI()</a> ⇒ <code>undefined</code></dt>
 <dd><p>this function abstracts the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API">MIDI API</a>. It will only work on a MIDI enabled web browser.</p>
+</dd>
+<dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
+<dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
 </dd>
 <dt><a href="#isMobile">isMobile()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Used to check if the page&#39;s visitor is on a mobile device</p>
@@ -381,27 +387,10 @@ new nn.FileUploader({
   }
 })
 ```
-<a name="fetch"></a>
-
-## fetch() ⇒ <code>Object</code>
-this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
-
-**Kind**: global function  
-**Returns**: <code>Object</code> - A Promise that resolves to a Response object (exactly like the Web's Fetch API)  
-**Example**  
-```js
-async function main () {
-  const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
-  const json = await req.json()
-  document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
-}
-
-window.addEventListener('load', main)
-```
 <a name="askFor"></a>
 
 ## askFor() ⇒ <code>Object</code>
-this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
+this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation. This is an alias for `nn.askForStream()`
 
 **Kind**: global function  
 **Returns**: <code>Object</code> - A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)  
@@ -412,6 +401,38 @@ async function main () {
   // assuming "video" is an instance of a video element
   video.srcObject = stream
 }
+
+window.addEventListener('load', main)
+```
+<a name="askForStream"></a>
+
+## askForStream() ⇒ <code>Object</code>
+this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)  
+**Example**  
+```js
+async function main () {
+  const stream = await nn.askForStream({ video: true })
+  // assuming "video" is an instance of a video element
+  video.srcObject = stream
+}
+
+window.addEventListener('load', main)
+```
+<a name="GPS"></a>
+
+## GPS() ⇒ <code>Object</code>
+this function abstracts the Web's [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition). It will only work on a GPS enabled device and web browser.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - an object contaning `lat` and `lng` properties, as well as a `timestampe` and a `coords` property which contains [GeolocationCoordinates](https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates) object.  
+**Example**  
+```js
+nn.askForGPS((data) => {
+  console.log(data.lat, data.lng)
+})
 
 window.addEventListener('load', main)
 ```
@@ -429,6 +450,23 @@ if (nn.hasMIDI() === true) {
       console.log(`device: ${msg.dev}, channel: ${msg.chl}, value: ${msg.val}`)
     })
   }
+```
+<a name="fetch"></a>
+
+## fetch() ⇒ <code>Object</code>
+this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - A Promise that resolves to a Response object (exactly like the Web's Fetch API)  
+**Example**  
+```js
+async function main () {
+  const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
+  const json = await req.json()
+  document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
+}
+
+window.addEventListener('load', main)
 ```
 <a name="isMobile"></a>
 

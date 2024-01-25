@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>nn test page</title>
+    <style>
+      main {
+        border: 2px solid green;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>open console</h1>
+    <main></main>
+
+    <script src="../build/netnet-standard-library.js"></script>
+    <script>
+      // console.log(nn.isLight('#ffffcc'))
+      // console.log(nn.degToRad(180))
+      // console.log(nn.isMobile())
+
+      const curs = [
+        'https://netnet.studio/images/cursors/rainbow/0.gif',
+        'https://netnet.studio/images/cursors/rainbow/2.gif',
+        'https://netnet.studio/images/cursors/rainbow/4.gif',
+        'https://netnet.studio/images/cursors/rainbow/6.gif'
+      ]
+
+      const div = nn.create('div')
+
+      // const gif = new nn.GIF({
+      //   src: curs,
+      //   fps: 12,
+      //   palindrome: true,
+      //   width: 200,
+      //   x: 100,
+      //   y: 10,
+      //   transition: 500
+      //   // css: {
+      //   //   border: '1px solid red',
+      //   //   transition: 'all 1s'
+      //   // }
+      // })
+
+      // const gif = new nn.GIF(curs)
+      //   .loop(12, true)
+      //   .resize(200)
+      //   .transition('all 1s')
+      //   .moveTo(100, 10)
+      //   .css({
+      //     border: '1px solid red'
+      //   })
+
+      // nn.on('load', () => console.log('hello'))
+
+      async function main () {
+        // nn.create('video')
+        //   .set({
+        //     autoplay: true,
+        //     muted: true,
+        //     playsinline: true,
+        //     stream: await nn.askFor({ video: true })
+        //   }).addTo('body')
+
+        video = nn.create('video').set({
+          autoplay: true,
+          muted: true,
+          playsinline: true,
+          stream: await nn.askFor({ video: true })
+        })
+        .addTo('body')
+        .on('canplay', () => {
+          console.log(video.x, video.y, video.width, video.height)
+        })
+
+
+      }
+      main()
+
+
+      // if (nn.hasMIDI() === true) {
+      //   nn.MIDI(msg => {
+      //     console.log(`device: ${msg.dev}, channel: ${msg.chl}, value: ${msg.val}`)
+      //   })
+      // }
+
+
+
+
+
+      // const gif = nn.create('img')
+      // gif.src('https://netart.rocks/images/butterfly.gif')
+      // // gif.set('src', 'https://netart.rocks/images/butterfly.gif')
+      // gif.addTo('body')
+      // /*
+      // gif.css({
+      //   position: 'absolute',
+      //   left: x + 'px',
+      //   top: y + 'px'
+      // })
+      // */
+      // gif.moveTo(x, y)
+    </script>
+  </body>
+</html>

@@ -868,7 +868,7 @@ if (typeof module !== 'undefined') module.exports = Averigua
 else window.Averigua = Averigua
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":7,"os":6}],2:[function(require,module,exports){
+},{"_process":9,"os":8}],2:[function(require,module,exports){
 /*
     Color
     -----------
@@ -1273,6 +1273,128 @@ class Color {
 if (typeof module !== 'undefined') module.exports = Color
 
 },{}],3:[function(require,module,exports){
+class DOM {
+  static on (event, callback) {
+    const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
+    if (typeof event !== 'string') {
+      console.error('nn: the first argument to the .on() method should be an event type written as a string')
+    } else if (typeof callback !== 'function') {
+      console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
+    }
+    window.addEventListener(event, callback)
+    if (!eve.includes(event)) console.warn(`nn: you might want to make sure that '${event}' is a valid window event type`)
+  }
+
+  static create (type) {
+    const eles = ['html', 'base', 'head', 'link', 'meta', 'style', 'title', 'body', 'address', 'article', 'aside', 'footer', 'header', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hgroup', 'main', 'nav', 'section', 'blockquote', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure', 'hr', 'li', 'ol', 'p', 'pre', 'ul', 'a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dfn', 'em', 'i', 'kbd', 'mark', 'q', 'rb', 'rp', 'rt', 'rtc', 'ruby', 's', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr', 'area', 'audio', 'img', 'map', 'track', 'video', 'embed', 'iframe', 'object', 'param', 'picture', 'source', 'svg', 'math', 'canvas', 'noscript', 'script', 'del', 'ins', 'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'button', 'datalist', 'fieldset', 'form', 'input', 'label', 'legend', 'meter', 'optgroup', 'option', 'output', 'progress', 'select', 'textarea', 'details', 'dialog', 'menu', 'summary', 'slot', 'template', 'acronym', 'applet', 'basefont', 'bgsound', 'big', 'blink', 'center', 'command', 'content', 'dir', 'element', 'font', 'frame', 'frameset', 'image', 'isindex', 'keygen', 'listing', 'marquee', 'menuitem', 'multicol', 'nextid', 'nobr', 'noembed', 'noframes', 'plaintext', 'shadow', 'spacer', 'strike', 'tt', 'xmp']
+    if (!eles.includes(type)) console.warn(`nn: are you sure that '${type}' is a valid HTMLElement?`)
+    const ele = document.createElement(type)
+    return this.get(ele)
+  }
+
+  static getAll (query) {
+    const arr = []
+    const eles = document.querySelectorAll(query)
+    eles.forEach(ele => arr.push(this.get(ele)))
+    return arr
+  }
+
+  static get (query) {
+    const eve = ['activate', 'afterupdate', 'beforeactivate', 'beforecopy', 'beforecut', 'beforedeactivate', 'beforeeditfocus', 'beforepaste', 'beforeupdate', 'blur', 'click', 'contextmenu', 'controlselect', 'copy', 'cut', 'dblclick', 'deactivate', 'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop', 'errorupdate', 'filterchange', 'focus', 'focusin', 'focusout', 'help', 'input', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'paste', 'propertychange', 'readystatechange', 'resize', 'resizeend', 'resizestart', 'selectstart', 'timeerror']
+    const mev = ['abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'encrypted', 'ended', 'error', 'loadeddata', 'loadedmetadata', 'loadstart', 'pause', 'play', 'playing', 'progress', 'ratechange', 'seeked', 'seeking', 'stalled', 'suspend', 'timeupdate', 'volumechange', 'waiting']
+
+    const ele = (query instanceof window.HTMLElement) ? query : document.querySelector(query)
+
+    if (typeof query === 'string' && !ele) {
+      console.error(`nn.get: couldn't find an HTML element matching the CSS selector query "${query}"`)
+    }
+
+    ele.on = function (event, callback) {
+      if (typeof event !== 'string') {
+        console.error('nn: the first argument to the .on() method should be an event type written as a string')
+      } else if (typeof callback !== 'function') {
+        console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
+      }
+      this.addEventListener(event, callback)
+      const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
+      if (!es.includes(event)) console.warn(`nn: you might want to make sure that this element has a '${event}' event type`)
+      return this
+    }
+
+    ele.content = function (c) {
+      if (typeof c !== 'string') {
+        console.error('nn: the .content() method is expecting some content as a string')
+      }
+      this.innerHTML = c
+      return this
+    }
+
+    ele.addTo = function (parent) {
+      if (typeof parent !== 'string' && !(parent instanceof window.HTMLElement)) {
+        console.error('nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
+      }
+      if (this.parentNode) this.remove()
+      document.querySelector(parent).appendChild(this)
+      return this
+    }
+
+    ele.set = function (obj) {
+      if (typeof obj !== 'object') {
+        console.error('nn: the .set() method is expecting an object of HTML attributes and values')
+      }
+      for (const prop in obj) {
+        const val = obj[prop]
+        if (prop === 'stream') {
+          if (!(val instanceof window.MediaStream)) {
+            console.error('nn: when passing a "stream" property to .set() the value should a "Promise" which will resolve to a MediaStream object.')
+          }
+          ele.srcObject = val
+        } else {
+          ele.setAttribute(prop, val)
+        }
+      }
+      return this
+    }
+
+    ele.css = function (obj) {
+      if (typeof obj !== 'object') {
+        console.error('nn: the .css() method is expecting an object of CSS properties and values')
+      }
+      for (const prop in obj) {
+        const val = obj[prop]
+        if (typeof val !== 'string') {
+          console.error('nn: the CSS values in the object passed to .css() should be strings')
+        }
+        this.style[prop] = val
+      }
+      return this
+    }
+
+    const avoid = (e) => {
+      return e instanceof window.HTMLIFrameElement ||
+        // e instanceof window.HTMLVideoElement ||
+        e instanceof window.HTMLImageElement ||
+        e instanceof window.HTMLCanvasElement
+    }
+    const box = ['x', 'y', 'width', 'height', 'top', 'left', 'bottom', 'right']
+    box.forEach(prop => {
+      const sizeProp = (prop === 'width' || prop === 'height')
+      if (typeof ele[prop] !== 'number' || ele[prop] === 0) {
+        if (sizeProp && avoid(ele)) return
+        Object.defineProperty(ele, prop, {
+          get: function () { return this.getBoundingClientRect()[prop] }
+        })
+      }
+    })
+
+    return ele
+  }
+}
+
+if (typeof module !== 'undefined') module.exports = DOM
+else window.DOM = DOM
+
+},{}],4:[function(require,module,exports){
 /* global alert */
 /*
     FileUploader
@@ -1407,7 +1529,7 @@ class FileUploader {
 
 if (typeof module !== 'undefined') module.exports = FileUploader
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*
     Maths
     -----------
@@ -1770,10 +1892,153 @@ class Maths {
 
 if (typeof module !== 'undefined') module.exports = Maths
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
+class Media {
+  static loadImage (url) {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image()
+      img.addEventListener('load', () => resolve(img))
+      img.addEventListener('error', (err) => reject(err))
+      img.src = url
+    })
+  }
+
+  static async modifyPixels (image, algorithm) {
+    // validation
+    if (typeof image === 'string') {
+      if (image.indexOf('data:image') !== 0) {
+        console.error('nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
+      }
+    } else if (!(image instanceof window.Image)) {
+      console.error('nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
+    }
+
+    if (typeof algorithm !== 'function') {
+      console.error('nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
+    }
+    // ..........
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+
+    if (!(image instanceof window.Image)) {
+      image = await window.nn.loadImage(image)
+    }
+
+    canvas.width = image.width
+    canvas.height = image.height
+    ctx.drawImage(image, 0, 0)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const imgdata = imageData.data
+    algorithm(imgdata)
+    ctx.putImageData(imageData, 0, 0)
+    const data = canvas.toDataURL()
+    image.src = data
+
+    return { image, canvas, data }
+  }
+
+  static async askFor (opts) {
+    // just an alias for "askForStream" for now
+    return await this.askForStream(opts)
+  }
+
+  static async askForStream (constraints) {
+    if (typeof constraints !== 'object' || constraints === null) {
+      console.error('nn.askFor: you forgot to pass an argument, should be something like { video: true }')
+    }
+
+    const { audio, video } = constraints
+
+    if (audio === undefined && video === undefined) {
+      console.error('nn.askFor: the object you passed must have at least an audio or video property.')
+    }
+
+    const validateMediaConstraints = (media, mediaName) => {
+      if (typeof media === 'boolean') {
+        return null
+      } else if (typeof media === 'object' && media !== null) {
+        return null
+      } else {
+        return `${mediaName} property should be either true, false or an object with media parameters`
+      }
+    }
+
+    if (audio) {
+      const err = validateMediaConstraints(audio, 'audio')
+      if (err) console.error(`nn.askFor: ${err}`)
+    } else if (video) {
+      const err = validateMediaConstraints(video, 'video')
+      if (err) console.error(`nn.askFor: ${err}`)
+    }
+
+    const stream = await navigator.mediaDevices.getUserMedia(constraints)
+    return stream
+  }
+
+  static MIDI (func) {
+    if (typeof func !== 'function') {
+      console.error('nn.MIDI: requires a callback function, this will run everytime you interact with your MIDI device.')
+    }
+
+    function onMIDISuccess (midiAccess) {
+      const inputs = midiAccess.inputs.values()
+      for (const input of inputs) {
+        console.log(`nn.MIDI: ${input.name} connected!`)
+        input.onmidimessage = (message) => func({
+          dev: input.name, chl: message.data[1], val: message.data[2]
+        })
+      }
+    }
+
+    navigator.requestMIDIAccess()
+      .then(onMIDISuccess)
+      .catch(err => console.error(`nn.MIDI: ${err}`))
+  }
+
+  static askForGPS (func, includeAlerts) {
+    const handleSuccess = (position) => {
+      const lat = position.coords.latitude
+      const lng = position.coords.longitude
+      const timestamp = position.timestamp
+      const coords = position.coords
+      func({ lat, lng, timestamp, coords })
+    }
+
+    const handleError = (error) => {
+      console.error(`nn.GPS: ${error.message}`)
+    }
+
+    if ('geolocation' in navigator) {
+      navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+        if (result.state === 'granted') {
+          navigator.geolocation.getCurrentPosition(handleSuccess, handleError)
+        } else if (result.state === 'prompt') {
+          navigator.geolocation.getCurrentPosition(handleSuccess, handleError)
+        } else if (result.state === 'denied') {
+          const m = includeAlerts.enable ||
+            'Please enable location services for this website in your browser settings.'
+          console.log(`nn.GPS: ${m}`)
+          if (typeof includeAlerts.enable === 'string') window.alert(m)
+        }
+      })
+    } else {
+      const m = includeAlerts.support ||
+        'oh no! your device does not support geolocation'
+      console.log(`nn.GPS: ${m}`)
+      if (typeof includeAlerts.support === 'string') window.alert(m)
+    }
+  }
+}
+
+if (typeof module !== 'undefined') module.exports = Media
+else window.Media = Media
+
+},{}],7:[function(require,module,exports){
 const Color = require('./Color/Color.js')
 const Maths = require('./Maths/Maths.js')
 const Averigua = require('./Averigua/Averigua.js')
+const Media = require('./Media/nn-media.js')
+const DOM = require('./DOM/nn-dom.js')
 
 window.nn = {
   _mouseX: 0,
@@ -1856,16 +2121,7 @@ window.nn = {
   * @example
   * nn.on('load', () => console.log('the page has loaded!'))
   */
-  on: function (event, callback) {
-    const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
-    if (typeof event !== 'string') {
-      console.error('nn: the first argument to the .on() method should be an event type written as a string')
-    } else if (typeof callback !== 'function') {
-      console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
-    }
-    window.addEventListener(event, callback)
-    if (!eve.includes(event)) console.warn(`nn: you might want to make sure that '${event}' is a valid window event type`)
-  },
+  on: DOM.on,
 
   /**
   * This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.set()` for applying an object of HTML attributes to the element, `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
@@ -1878,12 +2134,7 @@ window.nn = {
   * nn.create('div').content('hello world').css({ color: 'red' }).addTo('body')
   */
 
-  create: function (type) {
-    const eles = ['html', 'base', 'head', 'link', 'meta', 'style', 'title', 'body', 'address', 'article', 'aside', 'footer', 'header', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hgroup', 'main', 'nav', 'section', 'blockquote', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure', 'hr', 'li', 'ol', 'p', 'pre', 'ul', 'a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dfn', 'em', 'i', 'kbd', 'mark', 'q', 'rb', 'rp', 'rt', 'rtc', 'ruby', 's', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr', 'area', 'audio', 'img', 'map', 'track', 'video', 'embed', 'iframe', 'object', 'param', 'picture', 'source', 'svg', 'math', 'canvas', 'noscript', 'script', 'del', 'ins', 'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'button', 'datalist', 'fieldset', 'form', 'input', 'label', 'legend', 'meter', 'optgroup', 'option', 'output', 'progress', 'select', 'textarea', 'details', 'dialog', 'menu', 'summary', 'slot', 'template', 'acronym', 'applet', 'basefont', 'bgsound', 'big', 'blink', 'center', 'command', 'content', 'dir', 'element', 'font', 'frame', 'frameset', 'image', 'isindex', 'keygen', 'listing', 'marquee', 'menuitem', 'multicol', 'nextid', 'nobr', 'noembed', 'noframes', 'plaintext', 'shadow', 'spacer', 'strike', 'tt', 'xmp']
-    if (!eles.includes(type)) console.warn(`nn: are you sure that '${type}' is a valid HTMLElement?`)
-    const ele = document.createElement(type)
-    return this.get(ele)
-  },
+  create: DOM.create,
 
   /**
   * This function acts as an alias for the [document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
@@ -1894,88 +2145,7 @@ window.nn = {
   * // assuming the page has some <h1> in it
   * nn.get('h1').on('click', () => console.log('the h1 was clicked!'))
   */
-  get: function (query) {
-    const eve = ['activate', 'afterupdate', 'beforeactivate', 'beforecopy', 'beforecut', 'beforedeactivate', 'beforeeditfocus', 'beforepaste', 'beforeupdate', 'blur', 'click', 'contextmenu', 'controlselect', 'copy', 'cut', 'dblclick', 'deactivate', 'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop', 'errorupdate', 'filterchange', 'focus', 'focusin', 'focusout', 'help', 'input', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'paste', 'propertychange', 'readystatechange', 'resize', 'resizeend', 'resizestart', 'selectstart', 'timeerror']
-    const mev = ['abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'encrypted', 'ended', 'error', 'loadeddata', 'loadedmetadata', 'loadstart', 'pause', 'play', 'playing', 'progress', 'ratechange', 'seeked', 'seeking', 'stalled', 'suspend', 'timeupdate', 'volumechange', 'waiting']
-
-    const ele = (query instanceof window.HTMLElement) ? query : document.querySelector(query)
-
-    if (typeof query === 'string' && !ele) {
-      console.error(`nn.get: couldn't find an HTML element matching the CSS selector query "${query}"`)
-    }
-
-    ele.on = function (event, callback) {
-      if (typeof event !== 'string') {
-        console.error('nn: the first argument to the .on() method should be an event type written as a string')
-      } else if (typeof callback !== 'function') {
-        console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
-      }
-      this.addEventListener(event, callback)
-      const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
-      if (!es.includes(event)) console.warn(`nn: you might want to make sure that this element has a '${event}' event type`)
-      return this
-    }
-
-    ele.content = function (c) {
-      if (typeof c !== 'string') {
-        console.error('nn: the .content() method is expecting some content as a string')
-      }
-      this.innerHTML = c
-      return this
-    }
-
-    ele.addTo = function (parent) {
-      if (typeof parent !== 'string' && !(parent instanceof window.HTMLElement)) {
-        console.error('nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
-      }
-      if (this.parentNode) this.remove()
-      document.querySelector(parent).appendChild(this)
-      return this
-    }
-
-    ele.set = function (obj) {
-      if (typeof obj !== 'object') {
-        console.error('nn: the .set() method is expecting an object of HTML attributes and values')
-      }
-      for (const prop in obj) {
-        const val = obj[prop]
-        if (prop === 'stream') {
-          if (!(val instanceof window.MediaStream)) {
-            console.error('nn: when passing a "stream" property to .set() the value should a "Promise" which will resolve to a MediaStream object.')
-          }
-          ele.srcObject = val
-        } else {
-          ele.setAttribute(prop, val)
-        }
-      }
-      return this
-    }
-
-    ele.css = function (obj) {
-      if (typeof obj !== 'object') {
-        console.error('nn: the .css() method is expecting an object of CSS properties and values')
-      }
-      for (const prop in obj) {
-        const val = obj[prop]
-        if (typeof val !== 'string') {
-          console.error('nn: the CSS values in the object passed to .css() should be strings')
-        }
-        this.style[prop] = val
-      }
-      return this
-    }
-
-    const box = ['x', 'y', 'width', 'height', 'top', 'left', 'bottom', 'right']
-    box.forEach(prop => {
-      if (typeof ele.x !== 'number') {
-        Object.defineProperty(ele, prop, {
-          get: function () { return this.getBoundingClientRect()[prop] }
-        })
-      }
-    })
-
-    return ele
-  },
+  get: DOM.get,
 
   /**
   * This function acts as an alias for the [document.querySelectorAll()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
@@ -1987,12 +2157,7 @@ window.nn = {
   * // this changes the content of the third link
   * nn.getAll('a')[2].content('new text!')
   */
-  getAll: function (query) {
-    const arr = []
-    const eles = document.querySelectorAll(query)
-    eles.forEach(ele => arr.push(this.get(ele)))
-    return arr
-  },
+  getAll: DOM.getAll,
 
   /**
   * this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
@@ -2007,12 +2172,7 @@ window.nn = {
   *
   * window.addEventListener('load', main)
   */
-  loadImage: (url) => new Promise((resolve, reject) => {
-    const img = new window.Image()
-    img.addEventListener('load', () => resolve(img))
-    img.addEventListener('error', (err) => reject(err))
-    img.src = url
-  }),
+  loadImage: Media.loadImage,
 
   /**
   * this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
@@ -2036,39 +2196,68 @@ window.nn = {
   *   }
   * })
   */
-  modifyPixels: async (image, algorithm) => {
-    // validation
-    if (typeof image === 'string') {
-      if (image.indexOf('data:image') !== 0) {
-        console.error('nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
-      }
-    } else if (!(image instanceof window.Image)) {
-      console.error('nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
-    }
+  modifyPixels: Media.modifyPixels,
 
-    if (typeof algorithm !== 'function') {
-      console.error('nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
-    }
-    // ..........
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
+  /**
+  * this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation. This is an alias for `nn.askForStream()`
+  *
+  * @method askFor
+  * @return {Object} A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)
+  * @example
+  * async function main () {
+  *   const stream = await nn.askFor({ video: true })
+  *   // assuming "video" is an instance of a video element
+  *   video.srcObject = stream
+  * }
+  *
+  * window.addEventListener('load', main)
+  */
+  askFor: Media.askFor,
 
-    if (!(image instanceof window.Image)) {
-      image = await window.nn.loadImage(image)
-    }
+  /**
+  * this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
+  *
+  * @method askForStream
+  * @return {Object} A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)
+  * @example
+  * async function main () {
+  *   const stream = await nn.askForStream({ video: true })
+  *   // assuming "video" is an instance of a video element
+  *   video.srcObject = stream
+  * }
+  *
+  * window.addEventListener('load', main)
+  */
+  askForStream: Media.askForStream,
 
-    canvas.width = image.width
-    canvas.height = image.height
-    ctx.drawImage(image, 0, 0)
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-    const imgdata = imageData.data
-    algorithm(imgdata)
-    ctx.putImageData(imageData, 0, 0)
-    const data = canvas.toDataURL()
-    image.src = data
+  /**
+  * this function abstracts the Web's [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition). It will only work on a GPS enabled device and web browser.
+  *
+  * @method GPS
+  * @return {Object} an object contaning `lat` and `lng` properties, as well as a `timestampe` and a `coords` property which contains [GeolocationCoordinates](https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates) object.
+  * @example
+  *
+  * nn.askForGPS((data) => {
+  *   console.log(data.lat, data.lng)
+  * })
+  *
+  * window.addEventListener('load', main)
+  */
+  askForGPS: Media.askForGPS,
 
-    return { image, canvas, data }
-  },
+  /**
+  * this function abstracts the Web's [MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API). It will only work on a MIDI enabled web browser.
+  *
+  * @method MIDI
+  * @return {undefined} doesn't return anything
+  * @example
+  *   if (nn.hasMIDI() === true) {
+  *     nn.MIDI(msg => {
+  *       console.log(`device: ${msg.dev}, channel: ${msg.chl}, value: ${msg.val}`)
+  *     })
+  *   }
+  */
+  MIDI: Media.MIDI,
 
   /**
   * this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
@@ -2087,85 +2276,6 @@ window.nn = {
   fetch: (url, opts) => {
     url = `/api/nn-proxy?url=${url}`
     return window.fetch(url, opts)
-  },
-
-  /**
-  * this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
-  *
-  * @method askFor
-  * @return {Object} A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)
-  * @example
-  * async function main () {
-  *   const stream = await nn.askFor({ video: true })
-  *   // assuming "video" is an instance of a video element
-  *   video.srcObject = stream
-  * }
-  *
-  * window.addEventListener('load', main)
-  */
-  askFor: async (constraints) => {
-    if (typeof constraints !== 'object' || constraints === null) {
-      console.error('nn.askFor: you forgot to pass an argument')
-    }
-
-    const { audio, video } = constraints
-
-    if (audio === undefined && video === undefined) {
-      console.error('nn.askFor: the object you passed must have at least an audio or video property.')
-    }
-
-    const validateMediaConstraints = (media, mediaName) => {
-      if (typeof media === 'boolean') {
-        return null
-      } else if (typeof media === 'object' && media !== null) {
-        return null
-      } else {
-        return `${mediaName} property should be either true, false or an object with media parameters`
-      }
-    }
-
-    if (audio) {
-      const err = validateMediaConstraints(audio, 'audio')
-      if (err) console.error(`nn.askFor: ${err}`)
-    } else if (video) {
-      const err = validateMediaConstraints(video, 'video')
-      if (err) console.error(`nn.askFor: ${err}`)
-    }
-
-    const stream = await navigator.mediaDevices.getUserMedia(constraints)
-    return stream
-  },
-
-  /**
-  * this function abstracts the Web's [MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API). It will only work on a MIDI enabled web browser.
-  *
-  * @method MIDI
-  * @return {undefined} doesn't return anything
-  * @example
-  *   if (nn.hasMIDI() === true) {
-  *     nn.MIDI(msg => {
-  *       console.log(`device: ${msg.dev}, channel: ${msg.chl}, value: ${msg.val}`)
-  *     })
-  *   }
-  */
-  MIDI: (func) => {
-    if (typeof func !== 'function') {
-      console.error('nn.MIDI: requires a callback function, this will run everytime you interact with your MIDI device.')
-    }
-
-    function onMIDISuccess (midiAccess) {
-      const inputs = midiAccess.inputs.values()
-      for (const input of inputs) {
-        console.log(`nn.MIDI: ${input.name} connected!`)
-        input.onmidimessage = (message) => func({
-          dev: input.name, chl: message.data[1], val: message.data[2]
-        })
-      }
-    }
-
-    navigator.requestMIDIAccess()
-      .then(onMIDISuccess)
-      .catch(err => console.error(`nn.MIDI: ${err}`))
   },
 
   /**
@@ -2783,7 +2893,7 @@ window.nn = {
   // GIF: require('./GIF/nn-gif.js')
 }
 
-},{"./Averigua/Averigua.js":1,"./Color/Color.js":2,"./FileUploader/FileUploader.js":3,"./Maths/Maths.js":4}],6:[function(require,module,exports){
+},{"./Averigua/Averigua.js":1,"./Color/Color.js":2,"./DOM/nn-dom.js":3,"./FileUploader/FileUploader.js":4,"./Maths/Maths.js":5,"./Media/nn-media.js":6}],8:[function(require,module,exports){
 exports.endianness = function () { return 'LE' };
 
 exports.hostname = function () {
@@ -2834,7 +2944,7 @@ exports.homedir = function () {
 	return '/'
 };
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -3020,4 +3130,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[5]);
+},{}]},{},[7]);

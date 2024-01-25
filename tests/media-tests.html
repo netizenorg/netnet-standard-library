@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>nn test page</title>
+    <style>
+      main {
+        border: 2px solid green;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>open console</h1>
+    <script src="../build/netnet-standard-library.js"></script>
+    <script>
+
+      let dog, video
+
+      async function main () {
+
+        // TESTING: nn.loadImage()
+        const img = await nn.loadImage('dog.jpeg')
+        img.width = 400
+        nn.get('body').appendChild(img)
+
+        let imageProcessed = false
+        dog = nn.create('img')
+          .set({ src: 'dog.jpeg' })
+          .addTo('body')
+          .on('load', () => {
+            if (imageProcessed) return // only run once (on initial load)
+
+            // TESTING: nn.modifyPixels
+            nn.modifyPixels(dog, (pixels) => {
+              for (let i = 0; i < pixels.length; i += 4) {
+                const r = pixels[i]
+                const g = pixels[i + 1]
+                const b = pixels[i + 2]
+                const v = (r + g + b) / 3
+                pixels[i] = v // new red value
+                pixels[i + 1] = v // new green value
+                pixels[i + 2] = v // new blue value
+              }
+
+              dog.width = 400 // resize *after* desaturating
+              imageProcessed = true // make sure it only runs once
+            })
+          })
+
+        video = nn.create('video').set({
+          autoplay: true,
+          muted: true,
+          playsinline: true,
+          stream: await nn.askForStream({ video: true }) // TESTING: nn.askFor
+        })
+        .addTo('body')
+        .on('canplay', () => {
+          console.log(video.x, video.y, video.width, video.height)
+        })
+
+        nn.askForGPS((data) => { // TESTING: nn.askForGPS
+          console.log(data)
+        })
+
+        if (nn.hasMIDI() === true) {
+          nn.MIDI(msg => { // TESTING: nn.MIDI
+            console.log(`device: ${msg.dev}, channel: ${msg.chl}, value: ${msg.val}`)
+          })
+        }
+      }
+
+      nn.on('load', main)
+
+    </script>
+  </body>
+</html>
