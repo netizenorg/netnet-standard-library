@@ -1382,7 +1382,8 @@ class DOM {
       if (typeof ele[prop] !== 'number' || ele[prop] === 0) {
         if (sizeProp && avoid(ele)) return
         Object.defineProperty(ele, prop, {
-          get: function () { return this.getBoundingClientRect()[prop] }
+          get: function () { return this.getBoundingClientRect()[prop] },
+          configurable: true
         })
       }
     })
