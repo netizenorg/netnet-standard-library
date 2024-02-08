@@ -197,7 +197,7 @@ window.nn = {
   /**
   * this function abstracts the Web's [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition). It will only work on a GPS enabled device and web browser.
   *
-  * @method GPS
+  * @method askForGPS
   * @return {Object} an object contaning `lat` and `lng` properties, as well as a `timestampe` and a `coords` property which contains [GeolocationCoordinates](https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates) object.
   * @example
   *

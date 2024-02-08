@@ -52,7 +52,7 @@
 <dt><a href="#askForStream">askForStream()</a> ⇒ <code>Object</code></dt>
 <dd><p>this function is an alias for the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia">getUserMedia</a> with some additional beginner friendly argument validation.</p>
 </dd>
-<dt><a href="#GPS">GPS()</a> ⇒ <code>Object</code></dt>
+<dt><a href="#askForGPS">askForGPS()</a> ⇒ <code>Object</code></dt>
 <dd><p>this function abstracts the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition">Geolocation API</a>. It will only work on a GPS enabled device and web browser.</p>
 </dd>
 <dt><a href="#MIDI">MIDI()</a> ⇒ <code>undefined</code></dt>
@@ -421,9 +421,9 @@ async function main () {
 
 window.addEventListener('load', main)
 ```
-<a name="GPS"></a>
+<a name="askForGPS"></a>
 
-## GPS() ⇒ <code>Object</code>
+## askForGPS() ⇒ <code>Object</code>
 this function abstracts the Web's [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition). It will only work on a GPS enabled device and web browser.
 
 **Kind**: global function  

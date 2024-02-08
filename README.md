@@ -39,13 +39,16 @@ You can also use this library directly on netnet.studio by simply including a sc
   // a function which uses the library's randomColor()
   // method to change the page's background color
   function changeBGColor () {
-    document.body.style.backgroundColor = nn.randomColor()
+    nn.get('body')
+      .css({
+        background: nn.randomColor()
+      })
   }
 
   // change the background color when the page loads
-  window.addEventListener('load', changeBGColor)
+  nn.on('load', changeBGColor)
   // change background color when the page is clicked
-  window.addEventListener('click', changeBGColor)
+  nn.on('click', changeBGColor)
 </script>
 ```
 
@@ -71,7 +74,8 @@ For more examples demonstrating how this library can be used checkout the [examp
 - [nn.getAll()](docs/API.md#getAll) `// selects all matching elements and returns"overloaded" ones`
 - [nn.loadImage()](docs/API.md#loadImage) `// a Promised based approach for loading images`
 - [nn.modifyPixels()](docs/API.md#modifyPixels) `// method for processing/filtering images`
-- [nn.askFor()](docs/API.md#askFor) `// ask user permission to use their mic/camera`  
+- [nn.askForStream()](docs/API.md#askForStream) `// ask user permission to use their mic/camera`  
+- [nn.askForGPS()](docs/API.md#askForGPS) `// ask user permission for location data`
 - [nn.MIDI()](docs/API.md#askFor) `// access any plugged in MIDI devices`  
 - [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
 
