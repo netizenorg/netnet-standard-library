@@ -21,7 +21,7 @@
         // TESTING: nn.loadImage()
         const img = await nn.loadImage('dog.jpeg')
         img.width = 400
-        nn.get('body').appendChild(img)
+        img.addTo('body')
 
         let imageProcessed = false
         dog = nn.create('img')

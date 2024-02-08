@@ -1,7 +1,8 @@
 class Media {
   static loadImage (url) {
     return new Promise((resolve, reject) => {
-      const img = new window.Image()
+      // const img = new window.Image()
+      const img = this.create('img')
       img.addEventListener('load', () => resolve(img))
       img.addEventListener('error', (err) => reject(err))
       img.src = url
