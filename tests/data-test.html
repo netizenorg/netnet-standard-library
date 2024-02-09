@@ -1,0 +1,39 @@
+<script src="../build/netnet-standard-library.js"></script>
+<script>
+  /* global nn */
+
+  async function setup () {
+    console.log('CSV:')
+    const csvData = await nn.loadData('countries-gps.csv')
+    console.log('loadData', csvData)
+    const csvString = nn.stringifyCSV(csvData)
+    console.log('stringifyCSV', csvString)
+    const csvArr = nn.parseCSV(csvString)
+    console.log('parseCSV', csvArr)
+
+    const json = await nn.loadData('../package.json', 'json')
+    console.log('JSON', json)
+
+    const jsonData = '{"name":"John", "age":30, "city":"New York"}'
+    const pJSON = nn.parseData(jsonData)
+    console.log('parsed JSON:', pJSON)
+    const sJSON = nn.stringifyData(pJSON)
+    console.log('stringified JSON:', sJSON)
+
+    const csvData2 = `name,age,city
+      "John","30","New York"
+      "Jane","40","Miami"`
+    const pCSV = nn.parseData(csvData2)
+    console.log('parsed CSV:', pCSV)
+
+    const arr = [
+      { name: "John", age: "30", city: "New York" },
+      { name: "Jane", age: "40", city: "Miami" }
+    ]
+    const sCSV = nn.stringifyData(arr)
+    console.log('stringified CSV:', sCSV)
+  }
+
+  nn.on('load', setup)
+
+</script>

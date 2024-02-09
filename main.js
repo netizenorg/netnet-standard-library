@@ -3,6 +3,7 @@ const Maths = require('./Maths/Maths.js')
 const Averigua = require('./Averigua/Averigua.js')
 const Media = require('./Media/nn-media.js')
 const DOM = require('./DOM/nn-dom.js')
+const Data = require('./Data/nn-data.js')
 
 window.nn = {
   _mouseX: 0,
@@ -241,6 +242,52 @@ window.nn = {
     url = `/api/nn-proxy?url=${url}`
     return window.fetch(url, opts)
   },
+
+  // undocumneted data methods
+  parseCSV: Data.parseCSV,
+  parseJSON: Data.parseJSON,
+  stringifyCSV: Data.stringifyCSV,
+  stringifyJSON: Data.stringifyJSON,
+  /**
+  * this function takes either a JSON object to turn into a JSON string, or an array of objects with matching keys to turn into a CSV string. It can be used to convert JavaScript data structures into string data that can be saved to a file or elsewhere.
+  *
+  * @method stringifyData
+  * @return {String}
+  * @example
+  * const arr = [
+  *   { name: "John", age: "30", city: "New York" },
+  *   { name: "Jane", age: "40", city: "Miami" }
+  * ]
+  * const str = nn.stringifyData(arr)
+  *
+  */
+  stringifyData: Data.stringifyData,
+  /**
+  * this function takes either a JSON string or a CSV string and parses into a JavaScript data structure, either an object or an array of objects.
+  *
+  * @method parseData
+  * @return {Object}
+  * @example
+  * const str = `name,age,city
+  *   "John","30","New York"
+  *   "Jane","40","Miami"`
+  * const arr = nn.parseData(str)
+  *
+  */
+  parseData: Data.parseData,
+  /**
+  * this function takes a path to a file containing some data (ex: .json, .csv, .txt) loads the file (using  the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)) and parses into a JavaScript data structure, either an object or an array of objects.
+  *
+  * @method loadData
+  * @return {Object}
+  * @example
+  * async function setup () {
+  *   const data = await nn.loadData('countries-gps.csv')
+  *   console.log(data)
+  * }
+  *
+  */
+  loadData: Data.loadData,
 
   /**
   * Used to check if the page's visitor is on a mobile device

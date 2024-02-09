@@ -24,9 +24,27 @@ Below are a few netnet examples which make use of the `nn` library and demonstra
 
 ## color methods
 
-The library contains a set of color utility methods for working with [color strings](https://developer.mozilla.org/en-US/docs/Web/CSS/color) including various methods for converting a color from one format string to another. Here is an example of a page with [randomly generated colors](https://netnet.studio/?layout=dock-left#code/eJx1Uk1vgzAMPY9fYfXSD6nQXTvopdf9iQAmZHWTKgmlbOp/n5OwatNUKYLw3rP9bFM6PxEeMoDatBN88QWgRyV7v4fX3e7av0WoVe5CYtpDR3hL0MfgvOqmbWO0R83yhp9oEylISb1VHs/uL9GxeuvUJ4b01/EXOM5Va0NtgO9ZWczuymDuUBbxlZWuseriwdmmWmidn5XOP9yC+UQ8FIfspdiAJFMLAq1hU3BaPoQeagkVY7kVujXnoyFjV+uZ655wfIoCVBeCmQo6YZEN+x4omAdj01cr7CmpfY8a7KDDBciYS4wUzvF8YgLQOEKqBE0oleJOiJeoV1rCoL2iqObYOlUNY7eCV6AlR4y9IoQVm1buPVhZ1XINVRX7+IE6uV7PK37W4j212ZpmOPPW8jDxPG4hr0VzktYMbKFiE09UsQUWdP8FHm/+mH4WFix7JDIwGkvtMssey/sG+wvSHQ==) for it's foreground and background (ensuring that there's roughly enough contrast between the two to make the text legible) which makes use of the `nn.randomColor()` and `nn.isLight()` methods.
+The library contains a set of color utility methods for working with [color strings](https://developer.mozilla.org/en-US/docs/Web/CSS/color) including various methods for converting a color from one format string to another (from hex to rgb, or from rgb to hsl for example).
+```js
+function changeColor () {
+  let bg = nn.randomColor()
+  let fg = nn.randomColor()
 
-Here's a [vanilla JavaScript](https://netnet.studio/?layout=dock-left#code/eJyVU1Fv2jAQfudX3ANSnRYSYENdGYGHvm6/YHRqnDiOh7GZ7ZQy1P/es510oHXSJlnO5bvPvrvvfEvrjpKtBgBUV0c4oQHQMMEbt4DpZPLUfA5QJexeFscF1JI9R+hHa52oj+NSK8cU0kvcmYnOQgquxsKxnb101MgeW/GL+eufDmfgoYtKtaw8/DJYZl12S5/capmFz2BpSyP2zieNq25V6YRWYApV6d29ltoASbpSMDnrwEAOXwvXpLXU2pBgRjoSr2E2nydnbP5fbPqPbMNcaxQ8Gk7J8GReRjA88bDTl+Qx1HtZj7BfvCBASl9SX5BkWM4I+Ahol4SvN4/fdFe4siHZdwxSrDeEbKqbZLSx15cGWS96G81N6rF1kqw3yTDrku1v/DZ9CAB/A2YRoG/Ah4fBmRyN3feC2J/GkUk6u7tDHYjBDau4gUk6/3TrEY4bj8h0+tEjFDeaXOjl71vBdHabzn9r5EWgPqWznpOkc9TvOXBlGYjaH0OXJxWG4VtzDcggM6oY/qrCbCPbNQxfVau8AdjcfThZWItPO1wAih26SFGLeG7L2D7wheLQKidkYONZGqP6iTEFTo/ieOLQCMmAdO0mFCXJ87xvP6l50vf+3co6SSpdtjucs9TPSBrmJqVFueVGtxg5x9h/YfUvqP6T4Nizu4/jjYSrhkmp4aCNrK4GfjrjHL4CjARGMA==) version of that same sketch with the `randomColor()` and `isLight()` methods created from scratch. Except that the functions in this example can only work with `rgb()` color strings, where as the functions in the library can work with all types of color string formats. Refer to the [`nn.randomColor()`](API.md#randomColor) documentation for other examples.
+  while (nn.isLight(bg) === nn.isLight(fg)) {
+    fg = nn.randomColor()
+  }
+
+  nn.get('body')
+    .content('click me')
+    .css({ background: bg, color: fg })
+}
+
+nn.on('load', changeColor)
+nn.on('click', changeColor)
+```
+The code above deomonstrates how you would use the library to change the foreground and background color of a page randomly while also ensuring that there's roughly enough contrast between the two to make the text legible. This example makes use of the `nn.randomColor()` and `nn.isLight()` methods (in addition to the `nn.get` method for modifying elements, as well as the `nn.on` method for setting up event listeners).
+
+Here is a commented and interactive version of [the example above](https://netnet.studio/?layout=dock-left#code/eJx9U8Fu2zAMPc9fQfQSu2ji7tomufTaW79AlmlZjUIZopwsG/Lvo2Q7ywpsgBEp5Ht6jxS15XhxuC8AGt9e4JdsAHq0po8v8P35+dS/5lBreXDq8gKdwx9T6HPkaLvLWnuKSALX8othSipnDa1txCP/negEvWb7E9Pxp/Nd8DyrNt61U3hkDGtGh1rC5AlfQeLXYlvProst62CHCBz07qGPceCXutYtbT65RWdPYUMYa9PXsogm+WDSVr41R0WtCu3a2SaocKmb0bq2JtocbeI/7EUmn75fZPbFN4D6EYzzjXJABI+1GJKvG0lH6wl0r8jgm3c+QFnN/XQYoTGwE8YmiKo/ZkBZ3bLdP7N1DbZLbMkkmAooHYo9uNQtEJn8Tyo5LPjYI0EYKW3AeT9krmKWK8lHAOEZJinQSWthHhCHzLBkYKRoXcYLu5mU010HJfdOJnPOvXUIpTi3/J4MlY2pYLfLxSyhzlRLJ+A/lV4XF540Zu8hl/jFQe8ZaYGOQ6viBE7zu2J4+/jIcBsZ5snMYJE0GMtVhlWzmc2MKFfaWX2AI96lmMvFtLwOpQ8m+JFaGVDzdIvn9smrMHPkWhVTJUX2t9zC/VjcZkUxsJ/WhBmUSdelWp64Ej6jc2lVdIn2ONWZHgWIXT6wdOrGLHKJnspVOmL1dC9Z/UnmOr9mi9uk/wYY8EMU), and here's a version of what that code would look like in "[vanilla](https://netnet.studio/?layout=dock-left#code/eJyVVNty2jAQfecr9iEzyAmYS8ukSSA8ZPqWfkFJJ5ItyypCopIch2b496xkm0KadtoZZlmfPau9aFdz53eK3/YAmMl38IIKQMmlKP01TMbjp/ImQrl0W0V311Ao/txA3yvnZbEbZkZ7rpGeoeS2MVIlhR5Kzzfu1FAge+jkTx6Of6qPwLqNyozKG7hy3A4dVzxDWBvNbwDxfW8+arPuzV1m5daH/PFXVDrz0miwVOdmc2eUsUCStirM03mwsIAv1JdpoYyxJKoNHYnnMJ3NkiO2+C82+0e25b6yGh6tYOTsxe4HcPYiomT75DGWeFqPdPehN0CyUFJXkOJYzgDEAFibRKh30fynG+qzkoy+YRC6XBGyyi+Swcqdnypked3pqK7SgC2TZLlKzkZtst2JXycPERAHYNoA7AB8eOgdtaN0264h7of1ZJxOr66wD8SiwCouYJzOPl0GRKAQDTKZfAwIQ8GSk36F825hMr1MZ+/0KCupFvzNnYcWsZDw0USQ5GAqfjdF22gEsgiOaAokajmOpS9BxWvACPErp3bd8X3Jce4qHRTA699GX+oc7kE8AjSv21hNtzrPNefb6CG1gEp7qSIfvVkTOSyYpbhsWkSfupSKA2mHgjBs3GKx6IaEFCLpyof3KgzwvqkzN1m1weVMw/KncalSRrO1sKbC+AvM4I+8btqK9yieP/u75l1ASr/kShmojVV5/9fV1RLTqlOa55+fkHgvHfK5JX1laN4fHN9o8jd6pmS2fssPj0TzNrwCKBR25g==)" JavaScript (without the library) for context. In that version the `randomColor()` and `isLight()` methods created from scratch. Except that the functions in this example can only work with `rgb()` color strings, whereas the functions in the library can work with all types of color string formats. Refer to the [`nn.randomColor()`](API.md#randomColor) documentation for other examples.
 
 ## mouse properties
 

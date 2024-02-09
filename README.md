@@ -2,7 +2,7 @@
 
 `nn` (netnet-standard-library.js) is a browser based JavaScript library designed to aid creative coders (artists, designers, etc), it's a core *utility* library used within [netnet.studio](https://netnet.studio); both in the sense that it can be used to create sketches in netnet, but also that it's used to create netet.studio itself. It can also be used outside of netnet.studio as you would any other typical JavaScript library (with some exceptions, see note below).
 
-There are loads of amazing creative coding libraries out there ([p5.js](https://p5js.org/), [three.js](https://threejs.org/), [tone.js](https://tonejs.github.io/), [A-Frame](https://aframe.io/), [hydra.js](https://hydra.ojack.xyz/?sketch_id=example_11), [D3.js](https://d3js.org/), [Paper.js](http://paperjs.org/), etc) which extend the capabilities of the Web's creative APIs and often provide a framework for expressing higher level concepts (the way A-Frame's Entity-Component-System adds game design principles to the WebGL and WebXR APIs or the way Tone.js adds music theory to the WebAudio API). Unlike these libraries, `nn` doesn't extend or abstract the Web's more creative APIs, instead it has a much more modest goal of expanding on JavaScript's standard library (like it's `Math` object) as well as some of the Web's core APIs (like `window` and `navigator`), in this way it's more of a *utility* library than it is a creative *framework*.
+There are loads of amazing creative coding libraries out there ([p5.js](https://p5js.org/), [three.js](https://threejs.org/), [tone.js](https://tonejs.github.io/), [A-Frame](https://aframe.io/), [hydra.js](https://hydra.ojack.xyz/?sketch_id=example_11), [D3.js](https://d3js.org/), [Paper.js](http://paperjs.org/), [GSAP](https://gsap.com/), etc) which extend the capabilities of the Web's creative APIs and often provide a framework for expressing higher level concepts (the way A-Frame's Entity-Component-System adds game design principles to the WebGL and WebXR APIs or the way Tone.js adds music theory to the WebAudio API). Unlike these libraries, `nn` doesn't extend or abstract the Web's more creative APIs, instead it has a much more modest goal of expanding on JavaScript's standard library (like it's `Math` object) as well as some of the Web's core APIs (like `window` and `navigator`), in this way it's more of a *utility* library than it is a creative *framework*.
 
 This repo consists of a number of git "sub-modules", namely [Averigua.js](https://github.com/nbriz/Averigua),  [Maths.js](https://github.com/nbriz/Maths), [Color.js](https://github.com/nbriz/Color) and [FileUploader.js](https://github.com/nbriz/FileUploader), all of which can be used independently. This repo simply packages them up in one place, provides thorough documentation and adds a few more properties and methods specifically for aiding beginners embarking on their creative coding journey on [netnet.studio](https://netnet.studio).
 
@@ -56,6 +56,8 @@ You can also use this library directly on netnet.studio by simply including a sc
 
 For more examples demonstrating how this library can be used checkout the [examples doc](docs/examples.md)
 
+![docs/randomColor.gif](docs/randomColor.gif)
+
 # API / documentation
 
 ## properties (internal variables)
@@ -78,6 +80,12 @@ For more examples demonstrating how this library can be used checkout the [examp
 - [nn.askForGPS()](docs/API.md#askForGPS) `// ask user permission for location data`
 - [nn.MIDI()](docs/API.md#askFor) `// access any plugged in MIDI devices`  
 - [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
+
+Functions for working with data, specifically designed for JSON or CSV data:
+
+- [nn.loadData()](docs/API.md#loadData) `// load data from a URL`
+- [nn.parseData()](docs/API.md#parseData) `// parse a JSON or CSV string`
+- [nn.stringifyData()](docs/API.md#stringifyData) `// stringify an JSON object or CSV array`
 
 Functions for detecting useful information about your visitor's device. These come from the [Averigua.js](https://github.com/nbriz/Averigua) sub-module.
 
