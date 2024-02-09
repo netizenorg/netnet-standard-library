@@ -2428,21 +2428,44 @@ window.nn = {
   stringifyCSV: Data.stringifyCSV,
   stringifyJSON: Data.stringifyJSON,
   /**
-  * this
+  * this function takes either a JSON object to turn into a JSON string, or an array of objects with matching keys to turn into a CSV string. It can be used to convert JavaScript data structures into string data that can be saved to a file or elsewhere.
   *
-  * @method fetch
-  * @return {Object} A Promise that resolves to a Response object (exactly like the Web's Fetch API)
+  * @method stringifyData
+  * @return {String}
   * @example
-  * async function main () {
-  *   const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
-  *   const json = await req.json()
-  *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
-  * }
+  * const arr = [
+  *   { name: "John", age: "30", city: "New York" },
+  *   { name: "Jane", age: "40", city: "Miami" }
+  * ]
+  * const str = nn.stringifyData(arr)
   *
-  * window.addEventListener('load', main)
   */
   stringifyData: Data.stringifyData,
+  /**
+  * this function takes either a JSON string or a CSV string and parses into a JavaScript data structure, either an object or an array of objects.
+  *
+  * @method parseData
+  * @return {Object}
+  * @example
+  * const str = `name,age,city
+  *   "John","30","New York"
+  *   "Jane","40","Miami"`
+  * const arr = nn.parseData(str)
+  *
+  */
   parseData: Data.parseData,
+  /**
+  * this function takes a path to a file containing some data (ex: .json, .csv, .txt) loads the file (using  the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)) and parses into a JavaScript data structure, either an object or an array of objects.
+  *
+  * @method loadData
+  * @return {Object}
+  * @example
+  * async function setup () {
+  *   const data = await nn.loadData('countries-gps.csv')
+  *   console.log(data)
+  * }
+  *
+  */
   loadData: Data.loadData,
 
   /**

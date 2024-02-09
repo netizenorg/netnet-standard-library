@@ -61,8 +61,14 @@
 <dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
 <dd><p>this functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> this function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
 </dd>
-<dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
-<dd><p>this</p>
+<dt><a href="#stringifyData">stringifyData()</a> ⇒ <code>String</code></dt>
+<dd><p>this function takes either a JSON object to turn into a JSON string, or an array of objects with matching keys to turn into a CSV string. It can be used to convert JavaScript data structures into string data that can be saved to a file or elsewhere.</p>
+</dd>
+<dt><a href="#parseData">parseData()</a> ⇒ <code>Object</code></dt>
+<dd><p>this function takes either a JSON string or a CSV string and parses into a JavaScript data structure, either an object or an array of objects.</p>
+</dd>
+<dt><a href="#loadData">loadData()</a> ⇒ <code>Object</code></dt>
+<dd><p>this function takes a path to a file containing some data (ex: .json, .csv, .txt) loads the file (using  the <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a>) and parses into a JavaScript data structure, either an object or an array of objects.</p>
 </dd>
 <dt><a href="#isMobile">isMobile()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Used to check if the page&#39;s visitor is on a mobile device</p>
@@ -471,22 +477,45 @@ async function main () {
 
 window.addEventListener('load', main)
 ```
-<a name="fetch"></a>
+<a name="stringifyData"></a>
 
-## fetch() ⇒ <code>Object</code>
-this
+## stringifyData() ⇒ <code>String</code>
+this function takes either a JSON object to turn into a JSON string, or an array of objects with matching keys to turn into a CSV string. It can be used to convert JavaScript data structures into string data that can be saved to a file or elsewhere.
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - A Promise that resolves to a Response object (exactly like the Web's Fetch API)  
 **Example**  
 ```js
-async function main () {
-  const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
-  const json = await req.json()
-  document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
-}
+const arr = [
+  { name: "John", age: "30", city: "New York" },
+  { name: "Jane", age: "40", city: "Miami" }
+]
+const str = nn.stringifyData(arr)
+```
+<a name="parseData"></a>
 
-window.addEventListener('load', main)
+## parseData() ⇒ <code>Object</code>
+this function takes either a JSON string or a CSV string and parses into a JavaScript data structure, either an object or an array of objects.
+
+**Kind**: global function  
+**Example**  
+```js
+const str = `name,age,city
+  "John","30","New York"
+  "Jane","40","Miami"`
+const arr = nn.parseData(str)
+```
+<a name="loadData"></a>
+
+## loadData() ⇒ <code>Object</code>
+this function takes a path to a file containing some data (ex: .json, .csv, .txt) loads the file (using  the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)) and parses into a JavaScript data structure, either an object or an array of objects.
+
+**Kind**: global function  
+**Example**  
+```js
+async function setup () {
+  const data = await nn.loadData('countries-gps.csv')
+  console.log(data)
+}
 ```
 <a name="isMobile"></a>
 
