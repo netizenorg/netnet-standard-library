@@ -1406,36 +1406,65 @@ class Data {
       return
     }
 
-    const lines = csvText.trim().split('\n')
-    if (lines.length === 0) {
-      console.error('nn: no data was found in the CSV string')
-      return
-    }
+    // Initialize state variables
+    const records = []
+    let record = []
+    let field = ''
+    let insideQuotes = false
 
-    const headers = lines.shift().split(',')
-    if (headers.length === 0) {
-      console.error('nn: the CSV data is missing it\'s headers')
-      return
-    }
+    for (let i = 0; i < csvText.length; i++) {
+      const char = csvText[i]
+      const nextChar = csvText[i + 1]
 
-    const isValidCSV = lines.every(line => line.split(',').length === headers.length)
-    if (!isValidCSV) {
-      console.error('nn: the CSV data is malformed. Each row must have the same number of elements as the header.')
-      return
-    }
-
-    return lines.map(line => {
-      const values = line.split(',').map(value => {
-        // Trim whitespace
-        let trimmedValue = value.trim()
-        // Remove surrounding double quotes if present
-        if (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) {
-          trimmedValue = trimmedValue.substring(1, trimmedValue.length - 1)
+      if (char === '"' && field === '' && !insideQuotes) {
+        // Start of a quoted field
+        insideQuotes = true
+        continue
+      } else if (char === '"' && insideQuotes) {
+        if (nextChar === '"') {
+          // Double quotes inside quoted field, add a single quote to the field
+          field += char
+          i++ // Skip the next character
+        } else {
+          // End of a quoted field
+          insideQuotes = false
         }
-        return trimmedValue
-      })
+        continue
+      } else if (char === ',' && !insideQuotes) {
+        // End of a field
+        record.push(field.trim())
+        field = ''
+        continue
+      } else if (char === '\n' && !insideQuotes) {
+        // End of a record
+        record.push(field.trim())
+        records.push(record)
+        record = []
+        field = ''
+        continue
+      } else {
+        // Part of a field
+        field += char
+      }
+    }
+
+    // Handle last field and record (if not empty)
+    if (field !== '' || record.length > 0) {
+      record.push(field.trim())
+      records.push(record)
+    }
+
+    // Extract headers
+    const headers = records.shift()
+    if (!headers || headers.length === 0) {
+      console.error('nn: the CSV data is missing its headers')
+      return
+    }
+
+    // Convert records into objects
+    return records.map(record => {
       return headers.reduce((object, header, index) => {
-        object[header] = values[index]
+        object[header] = record[index]
         return object
       }, {})
     })
