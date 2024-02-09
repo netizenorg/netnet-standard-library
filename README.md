@@ -56,7 +56,7 @@ You can also use this library directly on netnet.studio by simply including a sc
 
 For more examples demonstrating how this library can be used checkout the [examples doc](docs/examples.md)
 
-![docs/randomColor.gif](docs/randomColor.gif)
+<!-- ![docs/randomColor.gif](docs/randomColor.gif) -->
 
 # API / documentation
 
