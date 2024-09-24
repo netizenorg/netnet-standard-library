@@ -63,12 +63,8 @@ class DOM {
       return this
     }
 
-    ele.set = function (obj) {
-      if (typeof obj !== 'object') {
-        console.error('nn: the .set() method is expecting an object of HTML attributes and values')
-      }
-      for (const prop in obj) {
-        const val = obj[prop]
+    ele.set = function (obj, val) {
+      const setAttr = (prop, val) => {
         if (prop === 'stream') {
           if (!(val instanceof window.MediaStream)) {
             console.error('nn: when passing a "stream" property to .set() the value should a "Promise" which will resolve to a MediaStream object.')
@@ -77,6 +73,17 @@ class DOM {
         } else {
           ele.setAttribute(prop, val)
         }
+      }
+
+      if (typeof obj === 'string' && typeof val === 'string') {
+        setAttr(obj, val)
+      } else if (typeof obj === 'object' && !val) {
+        for (const prop in obj) {
+          const val = obj[prop]
+          setAttr(prop, val)
+        }
+      } else {
+        console.error('nn: the .set() method is expects two arguments, an HTML attribute and value, or an object of HTML attributes and values')
       }
       return this
     }
