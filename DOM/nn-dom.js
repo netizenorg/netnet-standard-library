@@ -87,10 +87,21 @@ class DOM {
       }
       for (const prop in obj) {
         const val = obj[prop]
-        if (typeof val !== 'string') {
-          console.error('nn: the CSS values in the object passed to .css() should be strings')
+        const rightValueType = typeof val === 'string' || typeof val === 'number'
+        if (!rightValueType) {
+          console.error('nn: the CSS values in the object passed to .css() should be strings or a numbers')
+        } else if (typeof val === 'string') {
+          this.style[prop] = val
+        } else if (typeof val === 'number') {
+          this.style[prop] = val
+          if (this.style[prop] === '') {
+            this.style[prop] = val + 'px'
+          }
         }
-        this.style[prop] = val
+
+        if (rightValueType && this.style[prop] === '') {
+          console.error(`nn: "${val}" is not a valid value for the "${prop}" property in CSS`)
+        }
       }
       return this
     }
