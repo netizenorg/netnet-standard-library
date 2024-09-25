@@ -6,7 +6,8 @@ If you'd like to contribute to this repository, below are the steps you should t
 0. start by [fork our repo](https://github.com/netizenorg/netnet-standard-library/fork) this repo
 1. then clone your fork `git clone https://github.com/[YOUR_USER_NAME]/netnet.studio.git`
 2. then navigate into that directory `cd netnet-standard-library` and then pull the code from the sub-modules `npm run pull-modules`
-3. setup a remote "upstream" to our repo: `git remote add upstream https://github.com/netizenorg/netnet-standard-library.git`
+3. then install dev dependencies `npm install`
+3. lastly, setup a remote "upstream" to our repo: `git remote add upstream https://github.com/netizenorg/netnet-standard-library.git`
 
 ### development
 

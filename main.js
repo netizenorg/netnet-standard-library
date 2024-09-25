@@ -4,6 +4,7 @@ const Averigua = require('./Averigua/Averigua.js')
 const Media = require('./Media/nn-media.js')
 const DOM = require('./DOM/nn-dom.js')
 const Data = require('./Data/nn-data.js')
+const Bind = require('./Bind/data-bind.js')
 
 window.nn = {
   _mouseX: 0,
@@ -125,7 +126,7 @@ window.nn = {
   getAll: DOM.getAll,
 
   /**
-  * this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
+  * This function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
   *
   * @method loadImage
   * @return {Object} A Promise that resolves to an image element
@@ -140,7 +141,7 @@ window.nn = {
   loadImage: Media.loadImage,
 
   /**
-  * this function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
+  * This function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
   *
   * @method modifyPixels
   * @return {Object} A Promise that results to an object with three variations of the algorithmically processed image: data (base64 image data), image (HTML image element) and canvas (HTML5 canvas element)
@@ -164,7 +165,7 @@ window.nn = {
   modifyPixels: Media.modifyPixels,
 
   /**
-  * this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation. This is an alias for `nn.askForStream()`
+  * This function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation. This is an alias for `nn.askForStream()`
   *
   * @method askFor
   * @return {Object} A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)
@@ -180,7 +181,7 @@ window.nn = {
   askFor: Media.askFor,
 
   /**
-  * this function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
+  * This function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
   *
   * @method askForStream
   * @return {Object} A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)
@@ -196,7 +197,7 @@ window.nn = {
   askForStream: Media.askForStream,
 
   /**
-  * this function abstracts the Web's [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition). It will only work on a GPS enabled device and web browser.
+  * This function abstracts the Web's [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition). It will only work on a GPS enabled device and web browser.
   *
   * @method askForGPS
   * @return {Object} an object contaning `lat` and `lng` properties, as well as a `timestampe` and a `coords` property which contains [GeolocationCoordinates](https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates) object.
@@ -211,7 +212,7 @@ window.nn = {
   askForGPS: Media.askForGPS,
 
   /**
-  * this function abstracts the Web's [MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API). It will only work on a MIDI enabled web browser.
+  * This function abstracts the Web's [MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API). It will only work on a MIDI enabled web browser.
   *
   * @method MIDI
   * @return {undefined} doesn't return anything
@@ -225,7 +226,7 @@ window.nn = {
   MIDI: Media.MIDI,
 
   /**
-  * this functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** this function only works in netnet.studio sketches and is meant for experimental/educational use.
+  * This functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** This function only works in netnet.studio sketches and is meant for experimental/educational use.
   *
   * @method fetch
   * @return {Object} A Promise that resolves to a Response object (exactly like the Web's Fetch API)
@@ -243,13 +244,101 @@ window.nn = {
     return window.fetch(url, opts)
   },
 
-  // undocumneted data methods
+  /**
+   * Running this function will bind together any HTML elements with `data-bind-var` and `data-bind-click` attributes to CSS variables, enabling dynamic and interactive styling based on user input and actions. For example, an input element with `data-bind-var="--main-color"` will update the CSS variable `--main-color` if it's value changes, and any element with `data-bind-click="--main-font: add(2px)"` will add two pixels to the current value of CSS variable `--main-font` once clicked. Other operations include `sub(val)`, `toggle(valA, valB)`, and `cycle(val1, val2, etc...)`.
+   *
+   * @method bindCSS
+   * @return {void}
+   * @example
+   * // HTML
+   * <input type="range" data-bind-var="--main-width" min="0" max="100">
+   * <button data-bind-click="--primary-color:toggle(#FF0000, #00FF00)">Toggle Color</button>
+   *
+   * // CSS
+   * :root {
+   *   --main-width: 50px
+   *   --primary-color: #FF0000
+   * }
+   *
+   * .element {
+   *   width: var(--main-width);
+   *   background-color: var(--primary-color);
+   * }
+   *
+   * // JavaScript
+   * nn.bindCSS()
+   *
+   * // Behavior:
+   * // - Adjusting the range input updates the width of elements with class "element".
+   * // - Clicking the button toggles the primary color between red and green.
+   */
+  bindCSS: Bind.bindCSS,
+
+  /**
+   * This function parses a CSV (Comma-Separated Values) string into an array of JavaScript objects.
+   *
+   * @method parseCSV
+   * @param {String} csvText - The CSV string to parse.
+   * @return {Array<Object>} An array of objects representing the parsed CSV data.
+   * @example
+   * const csvData = "name,age,city\nJohn,30,New York\nJane,40,Miami"
+   * const jsonData = nn.parseCSV(csvData)
+   * console.log(jsonData)
+   * // Output:
+   * // [
+   * //   { name: "John", age: "30", city: "New York" },
+   * //   { name: "Jane", age: "40", city: "Miami" }
+   * // ]
+   */
   parseCSV: Data.parseCSV,
+  /**
+   * This function parses a JSON (JavaScript Object Notation) string into a JavaScript object.
+   *
+   * @method parseJSON
+   * @param {String} jsonText - The JSON string to parse.
+   * @return {Object|Array} The JavaScript object or array resulting from parsing the JSON string.
+   * @example
+   * const jsonString = '{"name":"John","age":30,"city":"New York"}'
+   * const jsonObject = nn.parseJSON(jsonString)
+   * console.log(jsonObject)
+   * // Output:
+   * // { name: "John", age: 30, city: "New York" }
+   */
   parseJSON: Data.parseJSON,
+  /**
+   * This function converts an array of JavaScript objects into a CSV (Comma-Separated Values) string.
+   *
+   * @method stringifyCSV
+   * @param {Array<Object>} arrayOfObjects - The array of objects to convert into CSV.
+   * @return {String} A CSV string representing the provided data.
+   * @example
+   * const arr = [
+   *   { name: "John", age: "30", city: "New York" },
+   *   { name: "Jane", age: "40", city: "Miami" }
+   * ]
+   * const csvString = nn.stringifyCSV(arr)
+   * console.log(csvString)
+   * // Output:
+   * // "name,age,city\n"John","30","New York"\n"Jane","40","Miami""
+   */
   stringifyCSV: Data.stringifyCSV,
+  /**
+   * This function takes data (either object or an array) to converts into a JSON (JavaScript Object Notation) string.
+   *
+   * @method stringifyJSON
+   * @param {Object|Array} data - The data to convert into a JSON string.
+   * @param {Number} [space=2] - The number of spaces to use for indentation in the resulting JSON string (for readability).
+   * @return {String} A JSON string representing the provided data.
+   * @example
+   * const obj = { name: "John", age: 30, city: "New York" }
+   * const jsonString = nn.stringifyJSON(obj)
+   * console.log(jsonString)
+   * // Output:
+   * // "{\n  "name": "John",\n  "age": 30,\n  "city": "New York"\n}"
+   */
   stringifyJSON: Data.stringifyJSON,
   /**
-  * this function takes either a JSON object to turn into a JSON string, or an array of objects with matching keys to turn into a CSV string. It can be used to convert JavaScript data structures into string data that can be saved to a file or elsewhere.
+  * This function takes either a JSON object to turn into a JSON string, or an array of objects with matching keys to turn into a CSV string. It can be used to convert JavaScript data structures into string data that can be saved to a file or elsewhere.
   *
   * @method stringifyData
   * @return {String}
@@ -263,7 +352,7 @@ window.nn = {
   */
   stringifyData: Data.stringifyData,
   /**
-  * this function takes either a JSON string or a CSV string and parses into a JavaScript data structure, either an object or an array of objects.
+  * This function takes either a JSON string or a CSV string and parses into a JavaScript data structure, either an object or an array of objects.
   *
   * @method parseData
   * @return {Object}
@@ -276,7 +365,7 @@ window.nn = {
   */
   parseData: Data.parseData,
   /**
-  * this function takes a path to a file containing some data (ex: .json, .csv, .txt) loads the file (using  the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)) and parses into a JavaScript data structure, either an object or an array of objects.
+  * This function takes a path to a file containing some data (ex: .json, .csv, .txt) loads the file (using  the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)) and parses into a JavaScript data structure, either an object or an array of objects.
   *
   * @method loadData
   * @return {Object}
@@ -290,7 +379,7 @@ window.nn = {
   loadData: Data.loadData,
 
   /**
-  * Used to check if the page's visitor is on a mobile device
+  * This function is used to check if the page's visitor is on a mobile device
   *
   * @method isMobile
   * @return {Boolean} returns true if the visitor is on a mobile device
@@ -299,42 +388,42 @@ window.nn = {
   isMobile: Averigua.isMobile,
 
   /**
-  * Used to check if the visitors device supports WebGL
+  * This function is used to check if the visitors device supports WebGL
   *
   * @method hasWebGL
   * @return {Boolean} returns true if the visitors device supports WebGL
   */
   hasWebGL: Averigua.hasWebGL,
   /**
-  * Used to check if the visitors device supports WebVR
+  * This function is used to check if the visitors device supports WebVR
   *
   * @method hasWebVR
   * @return {Boolean} returns true if the visitors device supports WebVR
   */
   hasWebVR: Averigua.hasWebVR,
   /**
-  * Used to check if the visitors device supports MIDI
+  * This function is used to check if the visitors device supports MIDI
   *
   * @method hasMIDI
   * @return {Boolean} returns true if the visitors device supports MIDI
   */
   hasMIDI: Averigua.hasMIDI,
   /**
-  * Used to check if the visitors device has a touch screen
+  * This function is used to check if the visitors device has a touch screen
   *
   * @method hasTouch
   * @return {Boolean} returns true if the visitors device has a touch screen
   */
   hasTouch: Averigua.hasTouch,
   /**
-  * Used to check the visitor's device orientation on mobile
+  * This function is used to check the visitor's device orientation on mobile
   *
   * @method orientation
   * @return {String} returns either 'landscape', 'portrait' or 'no-support'
   */
   orientation: Averigua.orientation,
   /**
-  * Used to check the visitor's device screen info
+  * This function is used to check the visitor's device screen info
   *
   * @method screen
   * @return {Object} returns screen object
@@ -344,7 +433,7 @@ window.nn = {
   */
   screen: Averigua.screen,
   /**
-  * Used to check the visitor's device GPU info
+  * This function is used to check the visitor's device GPU info
   *
   * @method gpuInfo
   * @return {Object} returns gpu info object
@@ -354,7 +443,7 @@ window.nn = {
   */
   gpuInfo: Averigua.gpuInfo,
   /**
-  * Used to check the visitor's browser info
+  * This function is used to check the visitor's browser info
   *
   * @method browserInfo
   * @return {Object} returns browser info object
@@ -364,14 +453,14 @@ window.nn = {
   */
   browserInfo: Averigua.browserInfo,
   /**
-  * Used to check the visitor's platform info, this includes whether they're on a mible device, their browserInfo as well as their Operating System, platform and how many CPUs they have
+  * This function is used to check the visitor's platform info, this includes whether they're on a mible device, their browserInfo as well as their Operating System, platform and how many CPUs they have
   *
   * @method platformInfo
   * @return {Object} returns platform info object
   */
   platformInfo: Averigua.platformInfo,
   /**
-  * Used to check the visitor's device's audio support, returns an object with the probability that their device supports specific audio formats
+  * This function is used to check the visitor's device's audio support, returns an object with the probability that their device supports specific audio formats
   *
   * @method audioSupport
   * @return {Object} returns audio support info object
@@ -382,7 +471,7 @@ window.nn = {
   */
   audioSupport: Averigua.audioSupport,
   /**
-  * Used to check the visitor's device's video support, returns an object with the probability that their device supports specific video formats and features
+  * This function is used to check the visitor's device's video support, returns an object with the probability that their device supports specific video formats and features
   *
   * @method videoSupport
   * @return {Object} returns video support info object
@@ -446,7 +535,7 @@ window.nn = {
   map: Maths.map,
 
   /**
-  * calculates the distance between two points
+  * This function calculates the distance between two points
   *
   * @method dist
   * @param {Number} x1 the x position of the first point
@@ -459,7 +548,7 @@ window.nn = {
   */
   dist: Maths.dist,
   /**
-  * calculates the angle between two points in radians
+  * This function calculates the angle between two points in radians
   *
   * @method angleBtw
   * @param {Number} x1 the x position of the first point
@@ -473,7 +562,7 @@ window.nn = {
   angleBtw: Maths.angleBtw,
 
   /**
-  * converts a angle value in radians to degrees
+  * This function converts a angle value in radians to degrees
   *
   * @method radToDeg
   * @param {Number} radians an angle in radians
@@ -483,7 +572,7 @@ window.nn = {
   */
   radToDeg: Maths.radToDeg,
   /**
-  * converts a angle degrees to radians
+  * This function converts a angle degrees to radians
   *
   * @method degToRad
   * @param {Number} degrees an angle in degrees
@@ -493,7 +582,7 @@ window.nn = {
   */
   degToRad: Maths.degToRad,
   /**
-  * converts a point described in the cartesian coordinate system (x, y) to that same point described in a polar coordinate system (distance, angle).
+  * This function converts a point described in the cartesian coordinate system (x, y) to that same point described in a polar coordinate system (distance, angle).
   *
   * @method cartesianToPolar
   * @param {Number} x1 the x position of the point
@@ -505,7 +594,7 @@ window.nn = {
   */
   cartesianToPolar: Maths.cartesianToPolar,
   /**
-  * converts a point described in a polar coordinate system (distance, angle) to that same point described in the cartesian coordinate system.
+  * This function converts a point described in a polar coordinate system (distance, angle) to that same point described in the cartesian coordinate system.
   *
   * @method polarToCartesian
   * @param {Number} dist the distance value
@@ -518,7 +607,7 @@ window.nn = {
   polarToCartesian: Maths.polarToCartesian,
 
   /**
-  * Shuffles the items in an array
+  * This function shuffles the items in an array
   *
   * @method shuffle
   * @param {Array} arr the array to shuffle
@@ -541,7 +630,7 @@ window.nn = {
   */
   randomInt: Maths.randomInt,
   /**
-  * returns a random float (decimal) given a max value or a min/max range
+  * This function returns a random float (decimal) given a max value or a min/max range
   *
   * @method randomFloat
   * @param {Number} a when no `b` value is passed, this is the max value, otherwise it is the minimum value
@@ -614,7 +703,7 @@ window.nn = {
   ease: (type, t) => Maths[`ease${type}`](t),
 
   /**
-  * Generates random color strings. It accepts two optional arguments, type and alpha. The type can be: 'hex', 'rgb', 'rgba', 'hsl' or 'hsla' and the alpha can be a float value (0.0 - 1.0) or a boolean
+  * This function generates random color strings. It accepts two optional arguments, type and alpha. The type can be: 'hex', 'rgb', 'rgba', 'hsl' or 'hsla' and the alpha can be a float value (0.0 - 1.0) or a boolean
   *
   * @method randomColor
   * @param {String} [type] can be 'hex', 'rgb', 'rgba', 'hsl' or 'hsla'
@@ -643,7 +732,7 @@ window.nn = {
   isLight: Color.isLight,
 
   /**
-  * This method takes a string and returns the first color string it finds in the form of a parsed array (if no color is found it returns null)
+  * This function takes a string and returns the first color string it finds in the form of a parsed array (if no color is found it returns null)
   *
   * @method colorMatch
   * @param {String} string an arbitrary string of text
@@ -655,7 +744,7 @@ window.nn = {
   colorMatch: Color.match,
 
   /**
-  * takes an alpha value between `0.0` and `1.0` and returns its corresponding hex character string
+  * This function takes an alpha value between `0.0` and `1.0` and returns its corresponding hex character string
   *
   * @method alpha2hex
   * @param {Number} alpha alpha/opacity float value
@@ -665,7 +754,7 @@ window.nn = {
   */
   alpha2hex: Color.alpha2hex,
   /**
-  * takes a hex character (byte) and converts it into an alpha value
+  * This function takes a hex character (byte) and converts it into an alpha value
   *
   * @method hex2alpha
   * @param {String} hex a byte of hexcode
@@ -675,7 +764,7 @@ window.nn = {
   */
   hex2alpha: Color.hex2alpha,
   /**
-  * takes a hex color string and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
+  * This function takes a hex color string and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
   *
   * @method hex2rgb
   * @param {String} hex a hex color string
@@ -687,7 +776,7 @@ window.nn = {
   hex2rgb: Color.hex2rgb,
   _hex2rgb: Color._hex2rgb,
   /**
-  * takes a hex color string and returns the corresponding hue (0-360), saturation (0-100) and lightness (0-100) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
+  * This function takes a hex color string and returns the corresponding hue (0-360), saturation (0-100) and lightness (0-100) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
   *
   * @method hex2hsl
   * @param {String} hex a hex color string
@@ -699,7 +788,7 @@ window.nn = {
   hex2hsl: Color.hex2hsl,
   _hex2hsl: Color._hex2hsl,
   /**
-  * takes a hex color string and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
+  * tThis function akes a hex color string and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
   *
   * @method hex2hsv
   * @param {String} hex a hex color string
@@ -712,7 +801,7 @@ window.nn = {
   _hex2hsv: Color._hex2hsv,
 
   /**
-  * takes red, green and blue color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
+  * This function takes red, green and blue color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
   *
   * @method rgb2hex
   * @param {Number} red value between 0-255
@@ -726,7 +815,7 @@ window.nn = {
   rgb2hex: Color.rgb2hex,
   _rgb2hex: Color._rgb2hex,
   /**
-  * takes red, green and blue color values and returns the corresponding hue (0-360), saturation (0-100) and lightness (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
+  * This function takes red, green and blue color values and returns the corresponding hue (0-360), saturation (0-100) and lightness (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
   *
   * @method rgb2hsl
   * @param {Number} red value between 0-255
@@ -740,7 +829,7 @@ window.nn = {
   rgb2hsl: Color.rgb2hsl,
   _rgb2hsl: Color._rgb2hsl,
   /**
-  * takes red, green and blue color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
+  * This function takes red, green and blue color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
   *
   * @method rgb2hsv
   * @param {Number} red value between 0-255
@@ -755,7 +844,7 @@ window.nn = {
   _rgb2hsv: Color._rgb2hsv,
 
   /**
-  * takes hue, saturation, and lightness color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
+  * This function takes hue, saturation, and lightness color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
   *
   * @method hsl2hex
   * @param {Number} hue value between 0-360
@@ -769,7 +858,7 @@ window.nn = {
   hsl2hex: Color.hsl2hex,
   _hsl2hex: Color._hsl2hex,
   /**
-  * takes hue, saturation, and lightness color values and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
+  * This function takes hue, saturation, and lightness color values and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
   *
   * @method hsl2rgb
   * @param {Number} hue value between 0-360
@@ -783,7 +872,7 @@ window.nn = {
   hsl2rgb: Color.hsl2rgb,
   _hsl2rgb: Color._hsl2rgb,
   /**
-  * takes hue, saturation, and lightness color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
+  * This function takes hue, saturation, and lightness color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
   *
   * @method hsl2hsv
   * @param {Number} hue value between 0-360
@@ -798,7 +887,7 @@ window.nn = {
   _hsl2hsv: Color._hsl2hsv,
 
   /**
-  * takes hue, saturation, and vlue color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
+  * This function takes hue, saturation, and vlue color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
   *
   * @method hsv2hex
   * @param {Number} hue value between 0-360
@@ -812,7 +901,7 @@ window.nn = {
   hsv2hex: Color.hsv2hex,
   _hsv2hex: Color._hsv2hex,
   /**
-  * takes hue, saturation, and vlue color values and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
+  * This function takes hue, saturation, and vlue color values and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
   *
   * @method hsv2rgb
   * @param {Number} hue value between 0-360
@@ -826,7 +915,7 @@ window.nn = {
   hsv2rgb: Color.hsv2rgb,
   _hsv2rgb: Color._hsv2rgb,
   /**
-  * takes hue, saturation, and vlue color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
+  * This function takes hue, saturation, and vlue color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
   *
   * @method hsv2hsl
   * @param {Number} hue value between 0-360
@@ -841,7 +930,7 @@ window.nn = {
   _hsv2hsl: Color._hsv2hsl,
 
   /**
-  * abstracts the `<input type="file">` by providing a class for quickly handling file uploads via clicking on elements or drag and dropping onto elements.
+  * This function abstracts the `<input type="file">` by providing a class for quickly handling file uploads via clicking on elements or drag and dropping onto elements.
   *
   * @class FileUploader
   * @param {Object} config the options object

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>bind data</title>
+    <style>
+      :root {
+        --size: 24px;
+        --color: green;
+        --underline: none;
+      }
+
+      a {
+        color: var(--color);
+        font-size: var(--size);
+        text-decoration: var(--underline);
+        transition: all 1s;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div>
+      <input type="range" data-bind-var="--size">
+      <input type="color" data-bind-var="--color">
+      <select data-bind-var="--underline">
+        <option value="none">none</option>
+        <option value="underline">underline</option>
+      </select>
+    </div>
+
+    <div>
+      <button data-bind-click="--size: add(2px)">Add Size</button>
+      <button data-bind-click="--size: sub(2px)">Subtract Size</button>
+      <button data-bind-click="--size: cycle(16px, 24px, 32px)">Cycle Size</button>
+      <button data-bind-click="--underline: toggle(none, underline)">Toggle Underline</button>
+    </div>
+
+    <br>
+    <hr>
+    <br>
+
+    <a href="#">hello world</a>
+
+    <script src="../build/netnet-standard-library.js"></script>
+    <script>
+      /* global nn */
+
+      nn.bindCSS()
+
+    </script>
+  </body>
+</html>

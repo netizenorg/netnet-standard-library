@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <ul>
+      <li>
+        <a href="gif-test.html">gif test</a>
+      </li>
+      <li>
+        <a href="dom-test.html">dom test</a>
+      </li>
+      <li>
+        <a href="media-tests.html">media tests</a>
+      </li>
+      <li>
+        <a href="data-test.html">load data test</a>
+      </li>
+      <li>
+        <a href="bind-data-test.html">bind data test</a>
+      </li>
+    </ul>
+    <script src="../build/netnet-standard-library.js"></script>
+    <script>
+      /* global nn */
+
+      const size = 150
+      nn.create('img')
+        .set('src', 'https://netart.rocks/images/butterfly.gif')
+        .css({
+          position: 'absolute',
+          left: (nn.width / 2) - (size / 2),
+          top:  (nn.height / 2) - (size / 2),
+          width: size,
+          transition: 'width 2s'
+        })
+        .addTo('body')
+
+    </script>
+  </body>
+</html>
