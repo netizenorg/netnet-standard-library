@@ -59,7 +59,8 @@ class DOM {
         console.error('nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
       }
       if (this.parentNode) this.remove()
-      document.querySelector(parent).appendChild(this)
+      if (parent instanceof window.HTMLElement) parent.appendChild(this)
+      else document.querySelector(parent).appendChild(this)
       return this
     }
 
