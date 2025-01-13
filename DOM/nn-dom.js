@@ -71,12 +71,19 @@ class DOM {
             console.error('nn: when passing a "stream" property to .set() the value should a "Promise" which will resolve to a MediaStream object.')
           }
           ele.srcObject = val
+        } else if (prop === 'options' && val instanceof Array && ele.tagName.toLocaleLowerCase() === 'select') {
+          val.forEach(v => {
+            const o = document.createElement('option')
+            o.textContent = v
+            o.setAttribute('value', v)
+            ele.appendChild(o)
+          })
         } else {
           ele.setAttribute(prop, val)
         }
       }
 
-      if (typeof obj === 'string' && typeof val === 'string') {
+      if (typeof obj === 'string' && typeof val !== 'undefined') {
         setAttr(obj, val)
       } else if (typeof obj === 'object' && !val) {
         for (const prop in obj) {
