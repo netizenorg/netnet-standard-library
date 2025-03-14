@@ -32,6 +32,9 @@ class DOM {
 
     if (typeof query === 'string' && !ele) {
       console.error(`nn.get: couldn't find an HTML element matching the CSS selector query "${query}"`)
+      return undefined
+    } else if (!ele) {
+      return undefined
     }
 
     ele.on = function (event, callback) {
