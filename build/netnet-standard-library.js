@@ -1512,7 +1512,7 @@ class DOM {
           setAttr(prop, val)
         }
       } else {
-        console.error('nn: the .set() method is expects two arguments, an HTML attribute and value, or an object of HTML attributes and values')
+        console.error('nn: the .set() method expects two arguments, an HTML attribute and value, or an object of HTML attributes and values')
       }
       return this
     }
@@ -1529,8 +1529,9 @@ class DOM {
         } else if (typeof val === 'string') {
           this.style[prop] = val
         } else if (typeof val === 'number') {
+          const before = this.style[prop]
           this.style[prop] = val
-          if (this.style[prop] === '') {
+          if (this.style[prop] === '' || before === this.style[prop]) {
             this.style[prop] = val + 'px'
           }
         }
@@ -1542,6 +1543,131 @@ class DOM {
       return this
     }
 
+    // Special methods for specific CSS Functions
+    // -------------------------------------------------
+    function setFilterPart (el, fnName, value) {
+      const regex = new RegExp(`${fnName}\\([^)]*\\)`)
+      let filter = el.style.filter || ''
+      if (regex.test(filter)) {
+        filter = filter.replace(regex, `${fnName}(${value})`)
+      } else {
+        filter += ` ${fnName}(${value})`
+      }
+      el.style.filter = filter.trim()
+    }
+
+    ele.blur = function (px = 0) {
+      setFilterPart(this, 'blur', `${px}px`)
+      return this
+    }
+
+    ele.brightness = function (val = 1) {
+      setFilterPart(this, 'brightness', val)
+      return this
+    }
+
+    ele.contrast = function (val = 1) {
+      setFilterPart(this, 'contrast', val)
+      return this
+    }
+
+    ele.dropShadow = function (x = 0, y = 0, blur = 0, color = 'black') {
+      setFilterPart(this, 'drop-shadow', `${x}px ${y}px ${blur}px ${color}`)
+      return this
+    }
+
+    ele.grayscale = function (val = 0) {
+      setFilterPart(this, 'grayscale', val)
+      return this
+    }
+
+    ele.hueRotate = function (deg = 0) {
+      setFilterPart(this, 'hue-rotate', `${deg}deg`)
+      return this
+    }
+
+    ele.invert = function (val = 0) {
+      setFilterPart(this, 'invert', val)
+      return this
+    }
+
+    ele.opacity = function (val = 1) {
+      setFilterPart(this, 'opacity', val)
+      return this
+    }
+
+    ele.sepia = function (val = 0) {
+      setFilterPart(this, 'sepia', val)
+      return this
+    }
+
+    ele.saturate = function (val = 1) {
+      setFilterPart(this, 'saturate', val)
+      return this
+    }
+
+    function setTransformPart (el, fnName, value) {
+      const regex = new RegExp(`${fnName}\\([^)]*\\)`)
+      let transform = el.style.transform || ''
+      if (regex.test(transform)) {
+        transform = transform.replace(regex, `${fnName}(${value})`)
+      } else {
+        transform += ` ${fnName}(${value})`
+      }
+      el.style.transform = transform.trim()
+    }
+
+    ele.scale = function (x, y) {
+      y = y || x
+      setTransformPart(this, 'scale', `${x}, ${y}`)
+      return this
+    }
+
+    ele.rotate = function (deg) {
+      setTransformPart(this, 'rotate', `${deg}deg`)
+      return this
+    }
+
+    ele.skew = function (xDeg, yDeg) {
+      yDeg = yDeg || '0'
+      setTransformPart(this, 'skew', `${xDeg}deg, ${yDeg}deg`)
+      return this
+    }
+
+    // translate can get confusing for folks (b/c its' relative to other positioning logic)
+    // also, there already exists a .translate DOM property, so trying this out instead...
+
+    ele.position = function (x, y, type, origin) {
+      const types = ['absolute', 'relative', 'fixed', 'sticky']
+      if (typeof x !== 'number' && typeof x !== 'undefined' && x !== null) {
+        console.error(`nn: the .position(x) method expects the first argument to be a number, but you passed a ${typeof x}`)
+      } else if (typeof y !== 'number' && typeof y !== 'undefined' && y !== null) {
+        console.error(`nn: the .position(x, y) method expects the second argument to be a number, but you passed a ${typeof y}`)
+      } else if (typeof type !== 'string' && typeof type !== 'undefined' && type !== null) {
+        console.error(`nn: the .position(x, y, type) method expects the third argument to be a string, specificaly a type of CSS positioning: ${types.map(s => `"${s}"`).join(', ')}`)
+      } else if (typeof type === 'string' && !types.includes(type)) {
+        console.error(`nn: the .position(x, y, type) method expects the third argument to be a valid CSS positioning value, specificaly: ${types.map(s => `"${s}"`).join(', ')}`)
+      }
+      y = y || this.y
+      this.style.position = type || 'absolute'
+      const ox = this.__nn_positionOrigin === 'center' ? -(this.width / 2) : 0
+      const oy = this.__nn_positionOrigin === 'center' ? -(this.height / 2) : 0
+      this.style.left = ox + x + 'px'
+      this.style.top = oy + y + 'px'
+      return this
+    }
+
+    ele.positionOrigin = function (type) {
+      if (type !== 'center' && type !== 'default' && type !== null && type !== undefined) {
+        console.error('nn: the .positionOrigin() method expects either "center" or "default" (which is top/left)')
+      }
+      if (type === 'center') this.__nn_positionOrigin = 'center'
+      else this.__nn_positionOrigin = 'default'
+      return this
+    }
+
+    // getters for box properties
+    // -------------------------------------------------
     const avoid = (e) => {
       return e instanceof window.HTMLIFrameElement ||
         // e instanceof window.HTMLVideoElement ||

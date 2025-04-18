@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>nn test page</title>
+  </head>
+  <body>
+    <script src="../build/netnet-standard-library.js"></script>
+    <script>
+
+      let gif
+
+      function setup () {
+        nn.get('body').css({ backgroundColor: 'SkyBlue' })
+        gif = nn.create('img')
+          .set('src', 'bird.gif')
+          .positionOrigin('center')
+          .addTo('body')
+      }
+
+      function draw () {
+        requestAnimationFrame(draw)
+
+        const counter = Date.now() * 0.001
+        const centerX = nn.width / 2
+        const centerY = nn.height / 2
+        const radius = nn.width > nn.height ? nn.height / 3 : nn.width / 3
+
+        // move gif along a circular pattern
+        const y = centerY + Math.sin(counter) * radius
+        const x = centerX + Math.cos(counter) * radius
+
+        // flip logic based on movement direction
+        const dx = -Math.sin(counter) * radius
+        const dy = Math.cos(counter) * radius
+        const angle = Math.atan2(dy, dx)
+        const deg = nn.radToDeg(angle)
+
+        const movingLeft = dx < 0
+        gif.scale(movingLeft ? -1 : 1, 1)
+        gif.rotate(movingLeft ? 180 - deg : deg)
+        gif.position(x, y)
+      }
+
+      nn.on('load', setup)
+      nn.on('load', draw)
+
+    </script>
+  </body>
+</html>
