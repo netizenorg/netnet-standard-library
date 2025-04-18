@@ -99,10 +99,13 @@ class DOM {
       return this
     }
 
-    ele.css = function (obj) {
-      if (typeof obj !== 'object') {
-        console.error('nn: the .css() method is expecting an object of CSS properties and values')
+    ele.css = function (obj, val) {
+      if (typeof obj === 'string' && typeof val !== 'undefined') {
+        const prop = obj; obj = {}; obj[prop] = val
+      } else if (typeof obj !== 'object') {
+        console.error('nn: the .css() method expects two arguments, a CSS property and value, or an object of CSS properties and values')
       }
+
       for (const prop in obj) {
         const val = obj[prop]
         const rightValueType = typeof val === 'string' || typeof val === 'number'

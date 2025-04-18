@@ -26,7 +26,7 @@ npm install git+https://github.com/netizenorg/netnet-standard-library.git
 ```
 NPM will of course download much more than you need (the entire project).
 
-You can also use this library directly on netnet.studio by simply including a script tag in your sketch. Check out [this example](https://netnet.studio/?layout=dock-left#code/eJyFkcFOhDAURfd8xXU2wETKDzAsNMaNP1HaCnXKK2mLhBj/3QIGZ8ZEt33nvnNfWt0VBXQ/WBcQOgWjG8fdjKKok8oLp4cA78TpQMR6TezNH+qq3AY7USdAeURrbMMNiHAsk+WpBMfrSCJoS5g6LTqMXvlLUerhOEnbP1pjXZZvsV6FzkoEC9FxatWaGHirIt5wcW6dHUlCLJmY2B0b/fC8LkOW4yNOAWnF2CsKrLFyZj7MRrGfNRt8ir3ZbZXP7zMuWtzq412K9n4wlksfQ5OOmybGpXx6j+YX7YMi5bJ0AdL766b5leUfg/YQRouzkn9pVuS3Z/+6L5WyqZE=) on netnet.studio. NOTE: that will only work in a "sketch", if you are working on a "project" on netnet, make sure to either include a copy of the library in your repo or use the link to the CDN above.
+You can also use this library directly on netnet.studio by simply including a script tag in your sketch. Check out [this example](https://netnet.studio/?layout=dock-left#code/eJyFkc1ugzAQhO88xTQXICrwAoRDeuhzGNs1bswuso0qVPXdy09FSXro0bsz38zK9VNRwPYD+4jYaTjbeuEnFEWT1EF6O0QELy8norK3VL6HU1NX22JXNAlQnWEct8KBCOcqWUYVBN5GktEy4aOzssMYdDgGpQFekOL+hR37LN9svY4dK0SG7AQZvToGYfQsb4W8Gc8jKcjFMzv2jE19fV1hyHJ8zlvMjUqjY5a2rKY0L0OcnC4PnMuieKzx9XPCocFj9HyTpr0bHAsVkjWOKUuXZ/p83ym/Y/7DswHSWXnT6he6Dv5S9y/5Blp1mE4=) on netnet.studio. NOTE: that will only work in a "sketch", if you are working on a "project" on netnet, make sure to either include a copy of the library in your repo or use the link to the CDN above.
 
 ### setup
 
