@@ -2605,38 +2605,57 @@ class Media {
       .catch(err => console.error(`nn.MIDI: ${err}`))
   }
 
-  static askForGPS (func, includeAlerts) {
-    const handleSuccess = (position) => {
-      const lat = position.coords.latitude
-      const lng = position.coords.longitude
-      const timestamp = position.timestamp
-      const coords = position.coords
-      func({ lat, lng, timestamp, coords })
+  static askForGPS (callbackOrOptions, maybeOptions) {
+    let callback = null
+    let includeAlerts = {}
+
+    // Handle arguments flexibly
+    if (typeof callbackOrOptions === 'function') {
+      callback = callbackOrOptions
+      includeAlerts = maybeOptions || {}
+    } else {
+      includeAlerts = callbackOrOptions || {}
     }
 
-    const handleError = (error) => {
-      console.error(`nn.GPS: ${error.message}`)
-    }
+    return new Promise((resolve, reject) => {
+      const handleSuccess = (position) => {
+        const { latitude: lat, longitude: lng } = position.coords
+        const timestamp = position.timestamp
+        const coords = position.coords
+        const data = { lat, lng, timestamp, coords }
 
-    if ('geolocation' in navigator) {
-      navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-        if (result.state === 'granted') {
-          navigator.geolocation.getCurrentPosition(handleSuccess, handleError)
-        } else if (result.state === 'prompt') {
+        if (callback) callback(data)
+        resolve(data)
+      }
+
+      const handleError = (error) => {
+        console.error(`nn.GPS: ${error.message}`)
+        reject(error)
+      }
+
+      if (!('geolocation' in navigator)) {
+        const m = includeAlerts.support ||
+          'oh no! your device does not support geolocation'
+        console.log(`nn.GPS: ${m}`)
+        if (typeof includeAlerts.support === 'string') window.alert(m)
+        return reject(new Error(m))
+      }
+
+      navigator.permissions.query({ name: 'geolocation' }).then(result => {
+        if (result.state === 'granted' || result.state === 'prompt') {
           navigator.geolocation.getCurrentPosition(handleSuccess, handleError)
         } else if (result.state === 'denied') {
           const m = includeAlerts.enable ||
             'Please enable location services for this website in your browser settings.'
           console.log(`nn.GPS: ${m}`)
           if (typeof includeAlerts.enable === 'string') window.alert(m)
+          reject(new Error(m))
         }
+      }).catch(err => {
+        console.error('nn.GPS permission check failed:', err)
+        reject(err)
       })
-    } else {
-      const m = includeAlerts.support ||
-        'oh no! your device does not support geolocation'
-      console.log(`nn.GPS: ${m}`)
-      if (typeof includeAlerts.support === 'string') window.alert(m)
-    }
+    })
   }
 }
 
@@ -2782,7 +2801,7 @@ window.nn = {
   *   document.body.appendChild(img)
   * }
   *
-  * window.addEventListener('load', main)
+  * nn.on('load', main)
   */
   loadImage: Media.loadImage,
 
@@ -2822,7 +2841,7 @@ window.nn = {
   *   video.srcObject = stream
   * }
   *
-  * window.addEventListener('load', main)
+  * nn.on('load', main)
   */
   askFor: Media.askFor,
 
@@ -2838,7 +2857,7 @@ window.nn = {
   *   video.srcObject = stream
   * }
   *
-  * window.addEventListener('load', main)
+  * nn.on('load', main)
   */
   askForStream: Media.askForStream,
 
@@ -2853,7 +2872,13 @@ window.nn = {
   *   console.log(data.lat, data.lng)
   * })
   *
-  * window.addEventListener('load', main)
+  * // or like this....
+  * async function getData () {
+  *   const data = await nn.askForGPS()
+  *   console.log(data.lat, data.lng)
+  * }
+  *
+  * nn.on('load', main)
   */
   askForGPS: Media.askForGPS,
 
@@ -2883,11 +2908,33 @@ window.nn = {
   *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
   * }
   *
-  * window.addEventListener('load', main)
+  * nn.on('load', main)
   */
   fetch: (url, opts) => {
     url = `/api/nn-proxy?url=${url}`
     return window.fetch(url, opts)
+  },
+
+  /**
+  * Languages like python, Bash and PHP have "sleep" functions built-in, unfortunately JavaScript does not, hence why we've included it in this library. A "sleep" function pauses execution for a specified amount of time. This function is useful in asynchronous workflows when you want to intentionally delay something (like animations, polling, retries, or just slowing things down for dramatic effect).
+  *
+  * @method sleep
+  * @param {Number} ms - The number of milliseconds to pause for.
+  * @return {Promise} A Promise that resolves after the given duration.
+  * @example
+  * async function blink () {
+  *   while (true) {
+  *     const on = nn.get('body').style.background === 'white'
+  *     if (on) nn.get('body').css('background', 'black')
+  *     else nn.get('body').css('background', 'white')
+  *     await nn.sleep(500)
+  *   }
+  * }
+  *
+  * nn.on('load', blink)
+  */
+  sleep: (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms))
   },
 
   /**

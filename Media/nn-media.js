@@ -101,38 +101,57 @@ class Media {
       .catch(err => console.error(`nn.MIDI: ${err}`))
   }
 
-  static askForGPS (func, includeAlerts) {
-    const handleSuccess = (position) => {
-      const lat = position.coords.latitude
-      const lng = position.coords.longitude
-      const timestamp = position.timestamp
-      const coords = position.coords
-      func({ lat, lng, timestamp, coords })
+  static askForGPS (callbackOrOptions, maybeOptions) {
+    let callback = null
+    let includeAlerts = {}
+
+    // Handle arguments flexibly
+    if (typeof callbackOrOptions === 'function') {
+      callback = callbackOrOptions
+      includeAlerts = maybeOptions || {}
+    } else {
+      includeAlerts = callbackOrOptions || {}
     }
 
-    const handleError = (error) => {
-      console.error(`nn.GPS: ${error.message}`)
-    }
+    return new Promise((resolve, reject) => {
+      const handleSuccess = (position) => {
+        const { latitude: lat, longitude: lng } = position.coords
+        const timestamp = position.timestamp
+        const coords = position.coords
+        const data = { lat, lng, timestamp, coords }
 
-    if ('geolocation' in navigator) {
-      navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-        if (result.state === 'granted') {
-          navigator.geolocation.getCurrentPosition(handleSuccess, handleError)
-        } else if (result.state === 'prompt') {
+        if (callback) callback(data)
+        resolve(data)
+      }
+
+      const handleError = (error) => {
+        console.error(`nn.GPS: ${error.message}`)
+        reject(error)
+      }
+
+      if (!('geolocation' in navigator)) {
+        const m = includeAlerts.support ||
+          'oh no! your device does not support geolocation'
+        console.log(`nn.GPS: ${m}`)
+        if (typeof includeAlerts.support === 'string') window.alert(m)
+        return reject(new Error(m))
+      }
+
+      navigator.permissions.query({ name: 'geolocation' }).then(result => {
+        if (result.state === 'granted' || result.state === 'prompt') {
           navigator.geolocation.getCurrentPosition(handleSuccess, handleError)
         } else if (result.state === 'denied') {
           const m = includeAlerts.enable ||
             'Please enable location services for this website in your browser settings.'
           console.log(`nn.GPS: ${m}`)
           if (typeof includeAlerts.enable === 'string') window.alert(m)
+          reject(new Error(m))
         }
+      }).catch(err => {
+        console.error('nn.GPS permission check failed:', err)
+        reject(err)
       })
-    } else {
-      const m = includeAlerts.support ||
-        'oh no! your device does not support geolocation'
-      console.log(`nn.GPS: ${m}`)
-      if (typeof includeAlerts.support === 'string') window.alert(m)
-    }
+    })
   }
 }
 

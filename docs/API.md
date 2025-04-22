@@ -61,6 +61,9 @@
 <dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
 <dd><p>This functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> This function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
 </dd>
+<dt><a href="#sleep">sleep(ms)</a> ⇒ <code>Promise</code></dt>
+<dd><p>Languages like python, Bash and PHP have &quot;sleep&quot; functions built-in, unfortunately JavaScript does not, hence why we&#39;ve included it in this library. A &quot;sleep&quot; function pauses execution for a specified amount of time. This function is useful in asynchronous workflows when you want to intentionally delay something (like animations, polling, retries, or just slowing things down for dramatic effect).</p>
+</dd>
 <dt><a href="#bindCSS">bindCSS()</a> ⇒ <code>void</code></dt>
 <dd><p>Running this function will bind together any HTML elements with <code>data-bind-var</code> and <code>data-bind-click</code> attributes to CSS variables, enabling dynamic and interactive styling based on user input and actions. For example, an input element with <code>data-bind-var=&quot;--main-color&quot;</code> will update the CSS variable <code>--main-color</code> if it&#39;s value changes, and any element with <code>data-bind-click=&quot;--main-font: add(2px)&quot;</code> will add two pixels to the current value of CSS variable <code>--main-font</code> once clicked. Other operations include <code>sub(val)</code>, <code>toggle(valA, valB)</code>, and <code>cycle(val1, val2, etc...)</code>.</p>
 </dd>
@@ -384,7 +387,7 @@ async function main () {
   document.body.appendChild(img)
 }
 
-window.addEventListener('load', main)
+nn.on('load', main)
 ```
 <a name="modifyPixels"></a>
 
@@ -426,7 +429,7 @@ async function main () {
   video.srcObject = stream
 }
 
-window.addEventListener('load', main)
+nn.on('load', main)
 ```
 <a name="askForStream"></a>
 
@@ -443,7 +446,7 @@ async function main () {
   video.srcObject = stream
 }
 
-window.addEventListener('load', main)
+nn.on('load', main)
 ```
 <a name="askForGPS"></a>
 
@@ -458,7 +461,13 @@ nn.askForGPS((data) => {
   console.log(data.lat, data.lng)
 })
 
-window.addEventListener('load', main)
+// or like this....
+async function getData () {
+  const data = await nn.askForGPS()
+  console.log(data.lat, data.lng)
+}
+
+nn.on('load', main)
 ```
 <a name="MIDI"></a>
 
@@ -490,7 +499,32 @@ async function main () {
   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
 }
 
-window.addEventListener('load', main)
+nn.on('load', main)
+```
+<a name="sleep"></a>
+
+## sleep(ms) ⇒ <code>Promise</code>
+Languages like python, Bash and PHP have "sleep" functions built-in, unfortunately JavaScript does not, hence why we've included it in this library. A "sleep" function pauses execution for a specified amount of time. This function is useful in asynchronous workflows when you want to intentionally delay something (like animations, polling, retries, or just slowing things down for dramatic effect).
+
+**Kind**: global function  
+**Returns**: <code>Promise</code> - A Promise that resolves after the given duration.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ms | <code>Number</code> | The number of milliseconds to pause for. |
+
+**Example**  
+```js
+async function blink () {
+  while (true) {
+    const on = nn.get('body').style.background === 'white'
+    if (on) nn.get('body').css('background', 'black')
+    else nn.get('body').css('background', 'white')
+    await nn.sleep(500)
+  }
+}
+
+nn.on('load', blink)
 ```
 <a name="bindCSS"></a>
 

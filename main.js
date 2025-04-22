@@ -136,7 +136,7 @@ window.nn = {
   *   document.body.appendChild(img)
   * }
   *
-  * window.addEventListener('load', main)
+  * nn.on('load', main)
   */
   loadImage: Media.loadImage,
 
@@ -176,7 +176,7 @@ window.nn = {
   *   video.srcObject = stream
   * }
   *
-  * window.addEventListener('load', main)
+  * nn.on('load', main)
   */
   askFor: Media.askFor,
 
@@ -192,7 +192,7 @@ window.nn = {
   *   video.srcObject = stream
   * }
   *
-  * window.addEventListener('load', main)
+  * nn.on('load', main)
   */
   askForStream: Media.askForStream,
 
@@ -207,7 +207,13 @@ window.nn = {
   *   console.log(data.lat, data.lng)
   * })
   *
-  * window.addEventListener('load', main)
+  * // or like this....
+  * async function getData () {
+  *   const data = await nn.askForGPS()
+  *   console.log(data.lat, data.lng)
+  * }
+  *
+  * nn.on('load', main)
   */
   askForGPS: Media.askForGPS,
 
@@ -237,11 +243,33 @@ window.nn = {
   *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
   * }
   *
-  * window.addEventListener('load', main)
+  * nn.on('load', main)
   */
   fetch: (url, opts) => {
     url = `/api/nn-proxy?url=${url}`
     return window.fetch(url, opts)
+  },
+
+  /**
+  * Languages like python, Bash and PHP have "sleep" functions built-in, unfortunately JavaScript does not, hence why we've included it in this library. A "sleep" function pauses execution for a specified amount of time. This function is useful in asynchronous workflows when you want to intentionally delay something (like animations, polling, retries, or just slowing things down for dramatic effect).
+  *
+  * @method sleep
+  * @param {Number} ms - The number of milliseconds to pause for.
+  * @return {Promise} A Promise that resolves after the given duration.
+  * @example
+  * async function blink () {
+  *   while (true) {
+  *     const on = nn.get('body').style.background === 'white'
+  *     if (on) nn.get('body').css('background', 'black')
+  *     else nn.get('body').css('background', 'white')
+  *     await nn.sleep(500)
+  *   }
+  * }
+  *
+  * nn.on('load', blink)
+  */
+  sleep: (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms))
   },
 
   /**

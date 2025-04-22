@@ -44,6 +44,17 @@
         })
         .addTo('body')
 
+      async function blink () {
+        while (true) {
+          const on = nn.get('body').style.background === 'white'
+          if (on) nn.get('body').css('background', 'pink')
+          else nn.get('body').css('background', 'white')
+          await nn.sleep(3000)
+        }
+      }
+
+      nn.on('load', blink)
+
     </script>
   </body>
 </html>

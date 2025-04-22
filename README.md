@@ -79,6 +79,7 @@ For more examples demonstrating how this library can be used checkout the [examp
 - [nn.askForStream()](docs/API.md#askForStream) `// ask user permission to use their mic/camera`  
 - [nn.askForGPS()](docs/API.md#askForGPS) `// ask user permission for location data`
 - [nn.MIDI()](docs/API.md#askFor) `// access any plugged in MIDI devices`  
+- [nn.sleep()](docs/API.md#sleep) `// pauses code for a specified time`
 - [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
 
 Function for binding CSS variables to interactions with HTML elements (input, buttons, etc)
