@@ -69,11 +69,22 @@
         }
       }
 
-      nn.on('load', main)
+      // nn.on('load', main)
 
       // async function getData () {
       //   const data = await nn.askForGPS()
-      //   console.log(`We've got data! ${data.lat}, ${data.lng}`)
+      //   console.log(`got GPS data, ${data.lat}, ${data.lng}`)
+      //
+      //   const nws1 = await fetch(`https://api.weather.gov/points/${data.lat},${data.lng}`)
+      //   const pointData = await nws1.json()
+      //   console.log(`got NWS point data data`)
+      //
+      //   const forecastURL = pointData.properties.forecast
+      //   const nws2 = await fetch(pointData.properties.forecast)
+      //   const forecast = await nws2.json()
+      //   const temp = forecast.properties.periods[0].temperature
+      //   const unit = forecast.properties.periods[0].temperatureUnit
+      //   console.log(`The current temperature is ${temp}${unit}`);
       // }
       //
       // nn.on('load', getData)

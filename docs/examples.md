@@ -3,7 +3,7 @@
 You can use this library directly on netnet.studio by simply including a script tag in your sketch like this:
 
 ```html
-<script src="nn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
 <script>
   /* global nn */
 
@@ -21,6 +21,143 @@ You can [download the minified library here](https://raw.githubusercontent.com/n
 Below are a few netnet examples which make use of the `nn` library and demonstrate different ways you can use it. You can find a list of all the methods and properties in the [README](../README.md)
 
 # examples
+
+## DOM methods (HTML elements and CSS)
+
+The library contains methods for more easily working with the [DOM API](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model), similar to libraries like [jQuery](https://jquery.com/) except with a syntax and structure designed to more closely resemble the native API. At the center are two methods `nn.get()`, `nn.getAll()` and `nn.create()`, these will either "create" or "get" (if it's already on your page) a lightly "overloaded" HTML element. Here "overloaded" means that you'll get directly access to all the native DOM API features, as well as some additional friendlier methods provided by the nn library. Below is a basic example, which you can also [view/edit](https://netnet.studio/?layout=dock-left#code/eJx1j91qBCEMhe99imAvZrqwyt4WR9iLPoijVi1OFE1btk9fZ3dbKKUQyA/fSXJUPEFyC6dE2XMN2wWqCR6uPSgZT5qpCjab3hee8KUMqJfNw163zVAqOLj6H1Yo+vYXZqrblipBb3bhkaj2JymtQ/Hanc/pvQn0JEOUI6VPj6WFvRxx7GTQmeaOOa3NtItc31J2ElFsaddzreRtu/4+o5k8QMhlNRkQ4SAZABuC4GmeHq5mp0dhC5LHMUH/Afchu2PnnOdJ7D4GOMw8GxvnCouG+lt3Q4bu54kvxdp20Q==) on netnet.studio.
+
+```html
+<h1 id="title"> my page title </h1>
+<p class="info"> some information </p>
+<p class="info"> some other information </p>
+
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+<script>
+/* global nn */
+
+nn.get('#title').content('new title')
+
+nn.getAll('.info').forEach(p => p.content('new info'))
+
+</script>
+```
+
+The example above demonstrates how to pass [CSS Selectors](https://www.w3schools.com/cssref/css_selectors.php) to `nn.get()`and `nn.getAll()` to gain access to (and in this case modify the content of) existing HTML elements on your page. But you can also create your own HTML elements dynamically with `nn.create()` and passing the name of the type of element you want (as a string). If/when you want that new element to appear on your page you'll need to add it to an existing element by using the `.addTo()` method which takes a single argument, a CSS Selector of the element you want to add your newly created element to. You can [view/edit](https://netnet.studio/?layout=dock-left#code/eJxtUcFqwzAMvecrXntJV5b4PtrAoJcdxnbYDzixmng4crGdZNnXT1kIg20gkNDj6T1Jp9qbucpOu6JA6myExNRRIEyUO4eaoI2x3MIPAUwTyFFPnFAUQlMrPTvFJthbQgzNed+ldIsPSjWGy/doyNkxlExJtZ2SZD+JfWiXUqKISbPRwRTO1kGHWdWDdUYxl71d+PvqpNbp1SZTZeqI1vlaOzDjqDIgE0ITSCc65MaO+Z30ysZzEq+HvCPnPCYfnNmtkGz15g/54v+7kSmFZe88QrNPUmLSM5Kwgk0Em8qyzGRgTMsZLnbEGX80V+S3rm615d0P/J/2RGg0Q7vo0Xtjr6LdUaTt3hFDXN6g5SkCgHWyI+Hy8ozH1ydcxcUQKN7j6gPoQ/c3R5teTLMjMeUEOiMPZHJ52XbVLyDYqpw=) the example below on netnet.studio.
+
+```js
+nn.create('div')
+  .content('hello world!')
+  .addTo('body')
+
+// here's another way to write it...
+const newDiv = nn.create('div')
+newDiv.content('hello again!')
+newDiv.addTo('body')
+
+// we can also modify these elements using all the native DOM API features, for example
+newDiv.style.color = 'red'
+```
+
+As you can probably already tell, the `.content()` method updates the elements content, this can be simple text but it can also be HTML code, for example `newDiv.content('<b>hello again!</b>')`. In addition to all the native DOM API interfaces, there are a number of other properties and methods the nn library adds to these lightly "overloaded" elements, for example:
+
+| Property | Description                                                      |
+| -------- | ---------------------------------------------------------------- |
+| `x`      | The horizontal coordinate of the element (in pixels).   |
+| `y`      | The vertical coordinate of the element (in pixels).     |
+| `width`  | The width of the element (in pixels).                            |
+| `height` | The height of the element (in pixels).                           |
+| `top`    | Distance from the top edge of the viewport to the element (px).  |
+| `left`   | Distance from the left edge of the viewport to the element (px). |
+| `bottom` | Distance from the bottom edge of the viewport to the element (px).|
+| `right`  | Distance from the right edge of the viewport to the element (px). |
+
+
+| Method     | Description                                                                 |
+| ---------- | --------------------------------------------------------------------------- |
+| `.content()`  | Adds or replaces the element’s content (text or child HTML strings).      |
+| `.set()`      | Applies one or more HTML attributes (e.g. `id`, `src`, `alt`, `type`, etc) from an object. |
+| `.css()`      | Applies CSS styles via an object mapping CSS properties to values.         |
+| `.addTo()`    | Appends the element to a target (selector or element), removing it from any previous parent. |
+| `.on()`       | Attaches an event listener (alias for `addEventListener`).                 |
+
+
+The example below demonstrates some of those properties and methods in action, you can also [view/edit](https://netnet.studio/?layout=dock-left#code/eJxlT0FOxDAMvOcV1l6SrtikWnFCTV/BB9IkdA3ZpIqzoAXxd9xWcEGyZGtmPGMPUwn3cTBbE2IgX3FpQNXbw6W1hZ6M8SHrVwox4XvVOTYzXww3/Iy51HkduU7UXA6uhlPCqbp6N9MNUzA56yuu+wdO2d3H35hRmCPMqUwuQc5wNEL4kqnBjC9gGdK+RteiknidZScANMWmJF8nH0D6oFm4455ISX+rVOpKLQVzi3XnXAjPRcn1xR0ombUJ/RtLVQd2hC+GAThVsaP+wNAuYK2Fc9+tx+z2G8wrj33fbfqYKP6nzxv73Ym/f38A69xuZg==) the example below on netnet.studio.
+
+```js
+const gif = nn.create('img')
+  .set('src', 'cd.gif')
+  .css('cursor', 'pointer')
+  .addTo('body')
+  .on('click', () => {
+    if (gif.width === 20) gif.css('width', 400)
+    else gif.css('width', 20)
+  })
+```
+
+Here's another exmaple which demonstrates how to pass multiple HTML attributes to the `.set()` method as well as multiple CSS properties to the `.css()` method. Here we also use the `nn.width` and `nn.height` properties to find the center of our page/window as well as the `nn.sleep()` method to delay the CSS change in the mouseout event. You can also [view/edit](https://netnet.studio/?layout=dock-left#code/eJx9Uc1qwzAMvucpRC9ORhtnPZY2l+0R9gKOrSYerh0spaUbe/fZSdcyGAODjPT9Ce27YK7tXs6lKPakox0ZKOrDamAeaSelNr5+J4POnmPtkWU/yFTsB/oQ+/xNb0OsvFHRbJztoopX2U3WGel9fbKZv0oui3r7Y9MW8gl6FzrlwHt4kkWhgyeG3h7hkFq1jqgYS2FPvagKgJqQy8/0gRxxB0KbOoHFem4px6mlICLHMIuEIyh4eRVp/DXzNdGNPwaybIPPjI6CmxhvMg6PSSe5X6zhASRs1yAlaPSMWXFUPc5ADuMOMnBA2w/8HzIqf7dbZLf0SKWMeQulyEdY1gy+FKcwEYYzRrGGsoJDC0vwtNe8xqKThk11F3rwJk4TRVevf5HVRVnOkckhjuVz0zRVjjy3FRCmA5i/bRL2ZnQ/5DcLLaxB) the example below on netnet.studio.
+
+```js
+const gif = nn.create('img')
+  .set({
+    src: 'cd.gif',
+    alt: 'a retro gif of a CD'
+  })
+  .css({
+    position: 'absolute',
+    left: nn.width / 2, // center of page
+    top:  nn.height / 2, // center of page
+    transition: 'width 2s'
+  })
+  .addTo('body')
+  .on('mouseover', () => {
+    gif.css('width', 0)
+  })
+  .on('mouseout', async () => {
+    await nn.sleep(1000) // wait a second
+    gif.css('width', 100)
+  })
+```
+
+
+There are also a number of other methods for directly modifying CSS transform functions and filter functions
+
+| Method                       | Description                                                        |
+| ---------------------------- | ------------------------------------------------------------------ |
+| `.blur(val)`                  | Sets CSS filter `blur(val)` on the element.                         |
+| `.brightness(val)`           | Sets CSS filter `brightness(val)` on the element.                  |
+| `.contrast(val)`             | Sets CSS filter `contrast(val)` on the element.                    |
+| `.dropShadow(x, y, blur, color)` | Sets CSS filter `drop-shadow(xpx ypx blurpx color)` on the element. |
+| `.grayscale(val)`            | Sets CSS filter `grayscale(val)` on the element.                   |
+| `.hueRotate(deg)`            | Sets CSS filter `hue-rotate(deg)` on the element.                  |
+| `.invert(val)`               | Sets CSS filter `invert(val)` on the element.                      |
+| `.opacity(val)`              | Sets CSS filter `opacity(val)` on the element.                     |
+| `.sepia(val)`                | Sets CSS filter `sepia(val)` on the element.                       |
+| `.saturate(val)`             | Sets CSS filter `saturate(val)` on the element.                    |
+| `.scale(x, y)`               | Applies CSS transform `scale(x, y)` on the element.                |
+| `.rotate(deg)`               | Applies CSS transform `rotate(deg)` on the element.                |
+| `.skew(xDeg, yDeg)`          | Applies CSS transform `skew(xDeg, yDeg)` on the element.           |
+| `.position(x, y, type)`      | Positions the element at `(x, y)` with the given CSS `position` type (`absolute`, `relative`, etc.). |
+| `.positionOrigin(type)`      | Sets the reference origin for `.position()` (`center` or `default`). |
+
+Here's an example of some of those in action which you can also [view/edit](https://netnet.studio/?layout=dock-left#code/eJw9UMtOxDAMvOcrrL0k3UdSEFxQtxIXPgDxA2mTbYNapyQu0oL4d9x2QYo0ztgz46RqorvWlVlBiCq3KUwEObXnXU805SdjWof6PTs/hM+k0ZPpesMQvjzG1C0ln1Mmi84mdxpCk2y6mmYOgzOIegyLfscpm3v9F1MLs4duiI0dABH2Rog2YibowgXOTOk2eUteyTB2shAAOntSkreTR5ABySeO1jy+daeYA4WI6q4sj3BfliubIi0mD4/rzTr3FpVcHswiMXiCfvYcVwpxmbFd9GAxjKwBVcA3i5L/mH2m55Xl/kuyo1e3ocWVHQ4HRt5Ec/26JXJViB+mxW1UFeL/E34BvLJ5ow==) on netnet.studio.
+
+```js
+const gif = nn.create('img')
+  .set('src', 'internet.gif')
+  .position(100, 200)
+  .rotate(45)
+  .addTo('body')
+
+let hue = 0
+
+function animate () {
+  requestAnimationFrame(animate)
+  hue++
+  gif.hueRotate(hue)
+}
+
+animate()
+```
 
 ## color methods
 
@@ -42,7 +179,7 @@ function changeColor () {
 nn.on('load', changeColor)
 nn.on('click', changeColor)
 ```
-The code above deomonstrates how you would use the library to change the foreground and background color of a page randomly while also ensuring that there's roughly enough contrast between the two to make the text legible. This example makes use of the `nn.randomColor()` and `nn.isLight()` methods (in addition to the `nn.get` method for modifying elements, as well as the `nn.on` method for setting up event listeners).
+The code above deomonstrates how you would use the library to change the foreground and background color of a page randomly while also ensuring that there's roughly enough contrast between the two to make the text legible. This example makes use of the `nn.randomColor()` and `nn.isLight()` methods (in addition to the `nn.get()` method for modifying elements, as well as the `nn.on()` method for setting up event listeners).
 
 Here is a commented and interactive version of [the example above](https://netnet.studio/?layout=dock-left#code/eJx9U8Fu2zAMPc9fQfQSu2ji7tomufTaW79AlmlZjUIZopwsG/Lvo2Q7ywpsgBEp5Ht6jxS15XhxuC8AGt9e4JdsAHq0po8v8P35+dS/5lBreXDq8gKdwx9T6HPkaLvLWnuKSALX8othSipnDa1txCP/negEvWb7E9Pxp/Nd8DyrNt61U3hkDGtGh1rC5AlfQeLXYlvProst62CHCBz07qGPceCXutYtbT65RWdPYUMYa9PXsogm+WDSVr41R0WtCu3a2SaocKmb0bq2JtocbeI/7EUmn75fZPbFN4D6EYzzjXJABI+1GJKvG0lH6wl0r8jgm3c+QFnN/XQYoTGwE8YmiKo/ZkBZ3bLdP7N1DbZLbMkkmAooHYo9uNQtEJn8Tyo5LPjYI0EYKW3AeT9krmKWK8lHAOEZJinQSWthHhCHzLBkYKRoXcYLu5mU010HJfdOJnPOvXUIpTi3/J4MlY2pYLfLxSyhzlRLJ+A/lV4XF540Zu8hl/jFQe8ZaYGOQ6viBE7zu2J4+/jIcBsZ5snMYJE0GMtVhlWzmc2MKFfaWX2AI96lmMvFtLwOpQ8m+JFaGVDzdIvn9smrMHPkWhVTJUX2t9zC/VjcZkUxsJ/WhBmUSdelWp64Ej6jc2lVdIn2ONWZHgWIXT6wdOrGLHKJnspVOmL1dC9Z/UnmOr9mi9uk/wYY8EMU), and here's a version of what that code would look like in "[vanilla](https://netnet.studio/?layout=dock-left#code/eJyVVNty2jAQfecr9iEzyAmYS8ukSSA8ZPqWfkFJJ5ItyypCopIch2b496xkm0KadtoZZlmfPau9aFdz53eK3/YAmMl38IIKQMmlKP01TMbjp/ImQrl0W0V311Ao/txA3yvnZbEbZkZ7rpGeoeS2MVIlhR5Kzzfu1FAge+jkTx6Of6qPwLqNyozKG7hy3A4dVzxDWBvNbwDxfW8+arPuzV1m5daH/PFXVDrz0miwVOdmc2eUsUCStirM03mwsIAv1JdpoYyxJKoNHYnnMJ3NkiO2+C82+0e25b6yGh6tYOTsxe4HcPYiomT75DGWeFqPdPehN0CyUFJXkOJYzgDEAFibRKh30fynG+qzkoy+YRC6XBGyyi+Swcqdnypked3pqK7SgC2TZLlKzkZtst2JXycPERAHYNoA7AB8eOgdtaN0264h7of1ZJxOr66wD8SiwCouYJzOPl0GRKAQDTKZfAwIQ8GSk36F825hMr1MZ+/0KCupFvzNnYcWsZDw0USQ5GAqfjdF22gEsgiOaAokajmOpS9BxWvACPErp3bd8X3Jce4qHRTA699GX+oc7kE8AjSv21hNtzrPNefb6CG1gEp7qSIfvVkTOSyYpbhsWkSfupSKA2mHgjBs3GKx6IaEFCLpyof3KgzwvqkzN1m1weVMw/KncalSRrO1sKbC+AvM4I+8btqK9yieP/u75l1ASr/kShmojVV5/9fV1RLTqlOa55+fkHgvHfK5JX1laN4fHN9o8jd6pmS2fssPj0TzNrwCKBR25g==)" JavaScript (without the library) for context. In that version the `randomColor()` and `isLight()` methods created from scratch. Except that the functions in this example can only work with `rgb()` color strings, whereas the functions in the library can work with all types of color string formats. Refer to the [`nn.randomColor()`](API.md#randomColor) documentation for other examples.
 
