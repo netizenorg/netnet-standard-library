@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>nn test page</title>
+  </head>
+  <body>
+    <script src="../build/netnet-standard-library.js"></script>
+    <script>
+
+      const audioCtx = new window.AudioContext()
+
+      const c = 'C4'
+      const cMidi = nn.noteToMidi(c)
+      const cFreq = nn.noteToFrequency(c)
+      const cNote = nn.midiToNote(cMidi)
+      const cFreq2 = nn.midiToFrequency(cMidi)
+      const cMidi2 = nn.frequencyToMidi(cFreq)
+      const cNote2 = nn.frequencyToNote(cFreq2)
+
+      console.log('TESTING C conversions', c, cMidi, cFreq, cNote, cFreq2, cMidi2, cNote2)
+
+      const cMajor = nn.createScale('C4', 'major').map(n => nn.noteToFrequency(n))
+      console.log('TESTING C Major', cMajor);
+
+      // ran music test...
+      let ROOT = 'C'
+      let OCT = '4'
+      let MODE = 'major'
+      let CHORD = false
+
+      nn.create('select')
+        .set('options', nn.notes)
+        .addTo('body')
+        .on('change', (e) => { ROOT = e.target.value })
+
+      nn.create('select')
+        .set('options', [0, 1, 2, 3, 4, 5, 6, 7, 8])
+        .addTo('body')
+        .on('change', (e) => { OCT = e.target.value })
+
+      nn.create('select')
+        .set('options', Object.keys(nn.modes))
+        .addTo('body')
+        .on('change', (e) => { MODE = e.target.value })
+
+      nn.create('br').addTo('body')
+
+      nn.create('button')
+        .content('Play Random Note')
+        .addTo('body')
+        .on('click', playNote)
+
+      nn.create('input')
+        .set('type', 'checkbox')
+        .set('id', 'chord-or-not')
+        .addTo('body')
+        .on('change', (e) => { CHORD = e.target.checked })
+      nn.create('label')
+        .content('random chord shape')
+        .addTo('body')
+
+
+      function playNote () {
+        const scale = nn.createScale(ROOT + OCT, MODE)
+        const ranChord = nn.random(Object.keys(nn.chords))
+        const chord = nn.createChord(scale, ranChord)
+
+        const playOsc = (f) => {
+          const osc = audioCtx.createOscillator()
+          osc.type = 'triangle'
+          osc.frequency.value = f
+          osc.connect(audioCtx.destination)
+
+          const now = audioCtx.currentTime
+          osc.start(now)
+          osc.stop(now + 0.5)
+        }
+
+        if (nn.get('#chord-or-not').checked) {
+          console.log(`chord ${chord[0]} ${ranChord}`)
+          for (let i = 0; i < chord.length; i++) {
+            const note = chord[i]
+            const freq = nn.noteToFrequency(note)
+            playOsc(freq)
+          }
+
+        } else {
+          const freqs = scale.map(n => nn.noteToFrequency(n))
+          const freq = nn.random(freqs)
+          console.log(`note ${nn.frequencyToNote(freq)}`)
+          playOsc(freq)
+        }
+
+
+      }
+
+    </script>
+  </body>
+</html>
