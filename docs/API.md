@@ -59,10 +59,10 @@
 <dd><p>This function abstracts the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API">MIDI API</a>. It will only work on a MIDI enabled web browser.</p>
 </dd>
 <dt><a href="#noteToMidi">noteToMidi(note)</a> ⇒ <code>number</code> | <code>null</code></dt>
-<dd><p>Convert a note in scientific pitch notation to its MIDI note number</p>
+<dd><p>Convert a note (e.g. &#39;C4&#39;, &#39;G#3&#39;, &#39;Bb5&#39;) to its MIDI note number</p>
 </dd>
 <dt><a href="#noteToFrequency">noteToFrequency(note)</a> ⇒ <code>number</code> | <code>null</code></dt>
-<dd><p>Convert a note in scientific pitch notation to its frequency in hertz</p>
+<dd><p>Convert a note (e.g. &#39;C4&#39;, &#39;F#2&#39;) to its frequency in hertz</p>
 </dd>
 <dt><a href="#midiToNote">midiToNote(midi)</a> ⇒ <code>string</code> | <code>null</code></dt>
 <dd><p>Convert a MIDI note number to its note name in scientific pitch notation</p>
@@ -80,10 +80,10 @@
 <dd><p>Generate a random seven-step mode that spans exactly one octave (12 semitones)</p>
 </dd>
 <dt><a href="#createScale">createScale(root, mode)</a> ⇒ <code>Array.&lt;string&gt;</code> | <code>null</code></dt>
-<dd><p>Build a scale from a root pitch (or pitch‐class) and a mode name or &#39;random&#39;</p>
+<dd><p>Build a scale from a root pitch or pitch-class and a mode name or array of intervals</p>
 </dd>
-<dt><a href="#createChord">createChord(scale, shape)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
-<dd><p>Create an array of notes in a chord by selecting by passing an array of notes (which would likely be a scale) as the first argument and the name of a chord shape or an array of degree values as the second argument.</p>
+<dt><a href="#createChord">createChord(scale, ch)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
+<dd><p>Create an array of notes in a chord by selecting from a scale</p>
 </dd>
 <dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
 <dd><p>This functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> This function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
@@ -514,35 +514,35 @@ if (nn.hasMIDI() === true) {
 <a name="noteToMidi"></a>
 
 ## noteToMidi(note) ⇒ <code>number</code> \| <code>null</code>
-Convert a note in scientific pitch notation to its MIDI note number
+Convert a note (e.g. 'C4', 'G#3', 'Bb5') to its MIDI note number
 
 **Kind**: global function  
 **Returns**: <code>number</code> \| <code>null</code> - MIDI note number (0–127) or null if invalid  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>string</code> | A note like 'C4', 'G#3', 'Bb5' |
+| note | <code>string</code> | A note in scientific pitch notation |
 
 **Example**  
 ```js
-console.log(Music.noteToMidi('A4'))
+nn.noteToMidi('A4')
 // → 69
 ```
 <a name="noteToFrequency"></a>
 
 ## noteToFrequency(note) ⇒ <code>number</code> \| <code>null</code>
-Convert a note in scientific pitch notation to its frequency in hertz
+Convert a note (e.g. 'C4', 'F#2') to its frequency in hertz
 
 **Kind**: global function  
 **Returns**: <code>number</code> \| <code>null</code> - Frequency in Hz or null if invalid  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>string</code> | A note like 'C4', 'F#2' |
+| note | <code>string</code> | A note in scientific pitch notation |
 
 **Example**  
 ```js
-console.log(Music.noteToFrequency('A4'))
+nn.noteToFrequency('A4')
 // → 440
 ```
 <a name="midiToNote"></a>
@@ -559,7 +559,7 @@ Convert a MIDI note number to its note name in scientific pitch notation
 
 **Example**  
 ```js
-console.log(Music.midiToNote(60))
+nn.midiToNote(60)
 // → 'C4'
 ```
 <a name="midiToFrequency"></a>
@@ -576,7 +576,7 @@ Convert a MIDI note number to its frequency in hertz
 
 **Example**  
 ```js
-console.log(Music.midiToFrequency(69))
+nn.midiToFrequency(69)
 // → 440
 ```
 <a name="frequencyToMidi"></a>
@@ -593,7 +593,7 @@ Convert a frequency in hertz to the nearest MIDI note number
 
 **Example**  
 ```js
-console.log(Music.frequencyToMidi(440))
+nn.frequencyToMidi(440)
 // → 69
 ```
 <a name="frequencyToNote"></a>
@@ -610,7 +610,7 @@ Convert a frequency in hertz to the nearest note in scientific pitch notation
 
 **Example**  
 ```js
-console.log(Music.frequencyToNote(261.63))
+nn.frequencyToNote(261.63)
 // → 'C4'
 ```
 <a name="randomMode"></a>
@@ -622,13 +622,13 @@ Generate a random seven-step mode that spans exactly one octave (12 semitones)
 **Returns**: <code>Array.&lt;number&gt;</code> - Array of 7 intervals summing to 12  
 **Example**  
 ```js
-console.log(Music.randomMode())
+nn.randomMode()
 // → [2,1,2,2,2,1,2]
 ```
 <a name="createScale"></a>
 
 ## createScale(root, mode) ⇒ <code>Array.&lt;string&gt;</code> \| <code>null</code>
-Build a scale from a root pitch (or pitch‐class) and a mode name or 'random'
+Build a scale from a root pitch or pitch-class and a mode name or array of intervals
 
 **Kind**: global function  
 **Returns**: <code>Array.&lt;string&gt;</code> \| <code>null</code> - Array of notes (with octave if provided) or null if invalid  
@@ -636,17 +636,19 @@ Build a scale from a root pitch (or pitch‐class) and a mode name or 'random'
 | Param | Type | Description |
 | --- | --- | --- |
 | root | <code>string</code> | Root like 'C', 'F#3', 'Bb4' |
-| mode | <code>string</code> | Mode name (e.g. 'ionian', 'minor', 'random') |
+| mode | <code>string</code> \| <code>Array.&lt;number&gt;</code> | Mode name (e.g. 'ionian', 'minor', 'random') or custom steps array |
 
 **Example**  
 ```js
-console.log(Music.createScale('C4', 'major'))
+nn.createScale('C4', 'major')
 // → ['C4','D4','E4','F4','G4','A4','B4','C5']
+nn.createScale('D', 'dorian')
+// → ['D','E','F','G','A','B','C','D']
 ```
 <a name="createChord"></a>
 
-## createChord(scale, shape) ⇒ <code>Array.&lt;string&gt;</code>
-Create an array of notes in a chord by selecting by passing an array of notes (which would likely be a scale) as the first argument and the name of a chord shape or an array of degree values as the second argument.
+## createChord(scale, ch) ⇒ <code>Array.&lt;string&gt;</code>
+Create an array of notes in a chord by selecting from a scale
 
 **Kind**: global function  
 **Returns**: <code>Array.&lt;string&gt;</code> - Array of chord notes  
@@ -654,11 +656,11 @@ Create an array of notes in a chord by selecting by passing an array of notes (w
 | Param | Type | Description |
 | --- | --- | --- |
 | scale | <code>Array.&lt;string&gt;</code> | Array of notes forming a scale |
-| shape | <code>Array.&lt;number&gt;</code> | Array of degrees (e.g. [1,3,5,7]) |
+| ch | <code>string</code> \| <code>Array.&lt;number&gt;</code> | Name of a chord shape (e.g. 'triad') or array of degree values |
 
 **Example**  
 ```js
-const cMajorScale = nn.createScale('C4','major')
+const cMajorScale = nn.createScale('C4', 'major')
 const cMajorTriad = nn.createChord(cMajorScale, 'triad')
 console.log(cMajorTriad)
 // → ['C4','E4','G4']

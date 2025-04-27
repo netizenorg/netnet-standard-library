@@ -152,18 +152,18 @@ Functions for doing various **color** maths. These come from the [Color.js](http
 
 Functions for doing **music** theory, like working with pitches, scales, and chords along side the Web Audio API.
 
-- [**nn.notes**](docs/API.md#notes) `// array of note names for each semitone index`
-- [**nn.modes**](docs/API.md#modes) `// map of mode names to their interval patterns`
-- [**nn.chords**](docs/API.md#chords) `// predefined chord shapes as scale‐degree arrays`
-- [**nn.noteToMidi()**](docs/API.md#notetomidi) `// convert a note like 'C4' to its MIDI note number`
-- [**nn.noteToFrequency()**](docs/API.md#notetofrequency) `// convert a note like 'A4' to its frequency in Hz`
-- [**nn.midiToNote()**](docs/API.md#miditonote) `// convert a MIDI number to a note like 'C4'`
-- [**nn.midiToFrequency()**](docs/API.md#miditofrequency) `// convert a MIDI number to its frequency in Hz`
-- [**nn.frequencyToMidi()**](docs/API.md#frequencytomidi) `// convert a frequency in Hz to the nearest MIDI number`
-- [**nn.frequencyToNote()**](docs/API.md#frequencytonote) `// convert a frequency in Hz to the nearest note like 'A4'`
-- [**nn.randomMode()**](docs/API.md#randommode) `// generate a random seven-step mode`
-- [**nn.createScale()**](docs/API.md#createscale) `// a scale from a root note and a mode name/array`
-- [**nn.createChord()**](docs/API.md#createchord) `// a chord from a scale and chord name/array`
+- [nn.notes](docs/API.md#notes) `// array of note names for each semitone index`
+- [nn.modes](docs/API.md#modes) `// map of mode names to their interval patterns`
+- [nn.chords](docs/API.md#chords) `// predefined chord shapes as scale‐degree arrays`
+- [nn.noteToMidi()](docs/API.md#notetomidi) `// convert a note like 'C4' to its MIDI note number`
+- [nn.noteToFrequency()](docs/API.md#notetofrequency) `// convert a note like 'A4' to its frequency in Hz`
+- [nn.midiToNote()](docs/API.md#miditonote) `// convert a MIDI number to a note like 'C4'`
+- [nn.midiToFrequency()](docs/API.md#miditofrequency) `// convert a MIDI number to its frequency in Hz`
+- [nn.frequencyToMidi()](docs/API.md#frequencytomidi) `// convert a frequency in Hz to the nearest MIDI number`
+- [nn.frequencyToNote()](docs/API.md#frequencytonote) `// convert a frequency in Hz to the nearest note like 'A4'`
+- [nn.randomMode()](docs/API.md#randommode) `// generate a random seven-step mode`
+- [nn.createScale()](docs/API.md#createscale) `// a scale from a root note and a mode name/array`
+- [nn.createChord()](docs/API.md#createchord) `// a chord from a scale and chord name/array`
 
 
 ## classes

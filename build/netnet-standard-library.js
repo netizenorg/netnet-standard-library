@@ -3083,12 +3083,12 @@ window.nn = {
   MIDI: Media.MIDI,
 
   /**
-   * Array of note names for each chromatic semitone index (0 = C, …, 11 = B)
+   * Array of note names for each chromatic semitone index (0 = C … 11 = B)
    *
    * @property notes
    * @type {string[]}
    * @example
-   * console.log(Music.notes)
+   * nn.notes
    * // → ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
    */
   notes: Music.SEMITONE_TO_NOTE,
@@ -3099,7 +3099,7 @@ window.nn = {
    * @property modes
    * @type {Object.<string, number[]>}
    * @example
-   * console.log(Music.modes.major)
+   * nn.modes.major
    * // → [2,2,1,2,2,2,1]
    */
   modes: Music.MODES,
@@ -3110,31 +3110,31 @@ window.nn = {
    * @property chords
    * @type {Object.<string, number[]>}
    * @example
-   * console.log(Music.chords.triad)
+   * nn.chords.triad
    * // → [1,3,5]
    */
   chords: Music.CHORDS,
 
   /**
-   * Convert a note in scientific pitch notation to its MIDI note number
+   * Convert a note (e.g. 'C4', 'G#3', 'Bb5') to its MIDI note number
    *
    * @method noteToMidi
-   * @param {string} note A note like 'C4', 'G#3', 'Bb5'
+   * @param {string} note A note in scientific pitch notation
    * @return {number|null} MIDI note number (0–127) or null if invalid
    * @example
-   * console.log(Music.noteToMidi('A4'))
+   * nn.noteToMidi('A4')
    * // → 69
    */
   noteToMidi: Music.noteToMidi,
 
   /**
-   * Convert a note in scientific pitch notation to its frequency in hertz
+   * Convert a note (e.g. 'C4', 'F#2') to its frequency in hertz
    *
    * @method noteToFrequency
-   * @param {string} note A note like 'C4', 'F#2'
+   * @param {string} note A note in scientific pitch notation
    * @return {number|null} Frequency in Hz or null if invalid
    * @example
-   * console.log(Music.noteToFrequency('A4'))
+   * nn.noteToFrequency('A4')
    * // → 440
    */
   noteToFrequency: Music.noteToFrequency,
@@ -3146,7 +3146,7 @@ window.nn = {
    * @param {number} midi MIDI note number
    * @return {string|null} Note like 'C4', or null if invalid
    * @example
-   * console.log(Music.midiToNote(60))
+   * nn.midiToNote(60)
    * // → 'C4'
    */
   midiToNote: Music.midiToNote,
@@ -3158,7 +3158,7 @@ window.nn = {
    * @param {number} midi MIDI note number
    * @return {number|null} Frequency in Hz or null if invalid
    * @example
-   * console.log(Music.midiToFrequency(69))
+   * nn.midiToFrequency(69)
    * // → 440
    */
   midiToFrequency: Music.midiToFrequency,
@@ -3170,7 +3170,7 @@ window.nn = {
    * @param {number} frequency Frequency in Hz
    * @return {number|null} MIDI note number or null if invalid
    * @example
-   * console.log(Music.frequencyToMidi(440))
+   * nn.frequencyToMidi(440)
    * // → 69
    */
   frequencyToMidi: Music.frequencyToMidi,
@@ -3182,7 +3182,7 @@ window.nn = {
    * @param {number} frequency Frequency in Hz
    * @return {string|null} Note like 'A4' or null if invalid
    * @example
-   * console.log(Music.frequencyToNote(261.63))
+   * nn.frequencyToNote(261.63)
    * // → 'C4'
    */
   frequencyToNote: Music.frequencyToNote,
@@ -3193,33 +3193,35 @@ window.nn = {
    * @method randomMode
    * @return {number[]} Array of 7 intervals summing to 12
    * @example
-   * console.log(Music.randomMode())
+   * nn.randomMode()
    * // → [2,1,2,2,2,1,2]
    */
   randomMode: Music.randomMode,
 
   /**
-   * Build a scale from a root pitch (or pitch‐class) and a mode name or 'random'
+   * Build a scale from a root pitch or pitch-class and a mode name or array of intervals
    *
    * @method createScale
    * @param {string} root Root like 'C', 'F#3', 'Bb4'
-   * @param {string} mode Mode name (e.g. 'ionian', 'minor', 'random')
+   * @param {string|number[]} mode Mode name (e.g. 'ionian', 'minor', 'random') or custom steps array
    * @return {string[]|null} Array of notes (with octave if provided) or null if invalid
    * @example
-   * console.log(Music.createScale('C4', 'major'))
+   * nn.createScale('C4', 'major')
    * // → ['C4','D4','E4','F4','G4','A4','B4','C5']
+   * nn.createScale('D', 'dorian')
+   * // → ['D','E','F','G','A','B','C','D']
    */
   createScale: Music.createScale,
 
   /**
-   * Create an array of notes in a chord by selecting by passing an array of notes (which would likely be a scale) as the first argument and the name of a chord shape or an array of degree values as the second argument.
+   * Create an array of notes in a chord by selecting from a scale
    *
    * @method createChord
    * @param {string[]} scale Array of notes forming a scale
-   * @param {number[]} shape Array of degrees (e.g. [1,3,5,7])
+   * @param {string|number[]} ch Name of a chord shape (e.g. 'triad') or array of degree values
    * @return {string[]} Array of chord notes
    * @example
-   * const cMajorScale = nn.createScale('C4','major')
+   * const cMajorScale = nn.createScale('C4', 'major')
    * const cMajorTriad = nn.createChord(cMajorScale, 'triad')
    * console.log(cMajorTriad)
    * // → ['C4','E4','G4']
