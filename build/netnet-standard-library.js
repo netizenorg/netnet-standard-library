@@ -2784,9 +2784,9 @@ class Music {
 Music.NOTE_TO_SEMITONE = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }
 Music.SEMITONE_TO_NOTE = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 Music.CHORDS = {
-  rootOnly: [1],
+  'root-only': [1],
   // basic chords
-  powerChord: [1, 5], // popular in rock/punk music
+  'power-chord': [1, 5], // popular in rock/punk music
   triad: [1, 3, 5], // used to derive major and minor chords (from their respective scales)
   // seventh chords, to derive major7, minor7, dominant7, dim7
   seventh: [1, 3, 5, 7],
@@ -2800,7 +2800,7 @@ Music.CHORDS = {
   dominant7sus4: [1, 4, 5, 7],
   // couple more
   add9: [1, 3, 5, 9],
-  sixChord: [1, 3, 5, 6]
+  'six-chord': [1, 3, 5, 6]
 }
 Music.MODES = {
   // greek modes

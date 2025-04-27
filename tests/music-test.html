@@ -64,6 +64,7 @@
       function playNote () {
         const scale = nn.createScale(ROOT + OCT, MODE)
         const ranChord = nn.random(Object.keys(nn.chords))
+        console.log('ranChord', ranChord);
         const chord = nn.createChord(scale, ranChord)
 
         const playOsc = (f) => {
