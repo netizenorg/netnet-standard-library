@@ -57,6 +57,40 @@ class DOM {
       return this
     }
 
+    // Scoped selectors: search only within this element
+    // so we can do things like: nn.get('#sec').get('img')
+    // or: const x = nn.get('#sec'); x.get('img')
+    ele.get = function (query) {
+      let found
+      if (typeof query === 'string') {
+        found = this.querySelector(query)
+        if (!found) {
+          console.error(`nn.get: couldn't find an HTML element matching the CSS selector query "${query}" within this element`)
+          return undefined
+        }
+        return DOM.get(found)
+      } else if (query instanceof window.HTMLElement) {
+        if (!this.contains(query)) {
+          console.error('nn: the element you passed to .get() is not a descendant of this element')
+          return undefined
+        }
+        return DOM.get(query)
+      } else {
+        console.error('nn: the .get() method expects either a CSS query selector string or an HTMLElement')
+        return undefined
+      }
+    }
+
+    ele.getAll = function (query) {
+      if (typeof query !== 'string') {
+        console.error('nn: the .getAll() method expects a CSS query selector string')
+        return []
+      }
+      const arr = []
+      this.querySelectorAll(query).forEach(el => arr.push(DOM.get(el)))
+      return arr
+    }
+
     ele.addTo = function (parent) {
       if (typeof parent !== 'string' && !(parent instanceof window.HTMLElement)) {
         console.error('nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
