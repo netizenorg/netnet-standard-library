@@ -10,6 +10,17 @@ class DOM {
     if (!eve.includes(event)) console.warn(`nn: you might want to make sure that '${event}' is a valid window event type`)
   }
 
+  static off (event, callback) {
+    const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
+    if (typeof event !== 'string') {
+      console.error('nn: the first argument to the .off() method should be an event type written as a string')
+    } else if (typeof callback !== 'function') {
+      console.error('nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
+    }
+    window.removeEventListener(event, callback)
+    if (!eve.includes(event)) console.warn(`nn: you might want to make sure that '${event}' is a valid window event type`)
+  }
+
   static create (type) {
     const eles = ['html', 'base', 'head', 'link', 'meta', 'style', 'title', 'body', 'address', 'article', 'aside', 'footer', 'header', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hgroup', 'main', 'nav', 'section', 'blockquote', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure', 'hr', 'li', 'ol', 'p', 'pre', 'ul', 'a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dfn', 'em', 'i', 'kbd', 'mark', 'q', 'rb', 'rp', 'rt', 'rtc', 'ruby', 's', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr', 'area', 'audio', 'img', 'map', 'track', 'video', 'embed', 'iframe', 'object', 'param', 'picture', 'source', 'svg', 'math', 'canvas', 'noscript', 'script', 'del', 'ins', 'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'button', 'datalist', 'fieldset', 'form', 'input', 'label', 'legend', 'meter', 'optgroup', 'option', 'output', 'progress', 'select', 'textarea', 'details', 'dialog', 'menu', 'summary', 'slot', 'template', 'acronym', 'applet', 'basefont', 'bgsound', 'big', 'blink', 'center', 'command', 'content', 'dir', 'element', 'font', 'frame', 'frameset', 'image', 'isindex', 'keygen', 'listing', 'marquee', 'menuitem', 'multicol', 'nextid', 'nobr', 'noembed', 'noframes', 'plaintext', 'shadow', 'spacer', 'strike', 'tt', 'xmp']
     if (!eles.includes(type)) console.warn(`nn: are you sure that '${type}' is a valid HTMLElement?`)
@@ -44,6 +55,18 @@ class DOM {
         console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
       }
       this.addEventListener(event, callback)
+      const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
+      if (!es.includes(event)) console.warn(`nn: you might want to make sure that this element has a '${event}' event type`)
+      return this
+    }
+
+    ele.off = function (event, callback) {
+      if (typeof event !== 'string') {
+        console.error('nn: the first argument to the .off() method should be an event type written as a string')
+      } else if (typeof callback !== 'function') {
+        console.error('nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
+      }
+      this.removeEventListener(event, callback)
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
       if (!es.includes(event)) console.warn(`nn: you might want to make sure that this element has a '${event}' event type`)
       return this

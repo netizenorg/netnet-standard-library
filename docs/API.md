@@ -31,6 +31,10 @@
 <dt><a href="#on">on()</a> ⇒ <code>undefined</code></dt>
 <dd><p>This method is an alias for <code>window.addEventListener()</code></p>
 </dd>
+<dt><a href="#off">off()</a> ⇒ <code>undefined</code></dt>
+<dd><p>This method is an alias for <code>window.removeEventListener()</code> and is the companion to <code>nn.on()</code>.
+Pass the same function reference you used with <code>nn.on()</code> to remove it.</p>
+</dd>
 <dt><a href="#create">create()</a> ⇒ <code>Object</code></dt>
 <dd><p>This function acts as an alias for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement">document.createElement()</a> method, except that it returns an &quot;overloaded&quot; HTMLElement with a few additional methods, <code>.content()</code> a method for adding content to the element (text or other HTML elements), <code>.set()</code> for applying an object of HTML attributes to the element, <code>.css()</code> for applying an object similar to a CSS rule to the element, <code>.addTo()</code> a method for appending the element to another (it will also remove it from it&#39;s current parent if necessary) and <code>.on()</code>, an alias for <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">.addEventListener()</a></p>
 </dd>
@@ -361,6 +365,21 @@ This method is an alias for `window.addEventListener()`
 **Example**  
 ```js
 nn.on('load', () => console.log('the page has loaded!'))
+```
+<a name="off"></a>
+
+## off() ⇒ <code>undefined</code>
+This method is an alias for `window.removeEventListener()` and is the companion to `nn.on()`.
+Pass the same function reference you used with `nn.on()` to remove it.
+
+**Kind**: global function  
+**Returns**: <code>undefined</code> - returns undefined  
+**Example**  
+```js
+const onResize = () => console.log('resized')
+nn.on('resize', onResize)
+// later...
+nn.off('resize', onResize)
 ```
 <a name="create"></a>
 

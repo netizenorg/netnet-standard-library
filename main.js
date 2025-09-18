@@ -91,6 +91,20 @@ window.nn = {
   on: DOM.on,
 
   /**
+  * This method is an alias for `window.removeEventListener()` and is the companion to `nn.on()`.
+  * Pass the same function reference you used with `nn.on()` to remove it.
+  *
+  * @method off
+  * @return {undefined} returns undefined
+  * @example
+  * const onResize = () => console.log('resized')
+  * nn.on('resize', onResize)
+  * // later...
+  * nn.off('resize', onResize)
+  */
+  off: DOM.off,
+
+  /**
   * This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.set()` for applying an object of HTML attributes to the element, `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
   *
   * @method create
