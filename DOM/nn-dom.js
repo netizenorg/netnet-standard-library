@@ -271,6 +271,84 @@ class DOM {
       }
     })
 
+    // data proxy (syncs with dataset and preserves types)
+    // -------------------------------------------------
+    const parseDataValue = (val) => {
+      if (typeof val !== 'string') return val
+      const s = val.trim()
+      if (s === '') return ''
+      if (s === 'true') return true
+      if (s === 'false') return false
+      if (s === 'null') return null
+      if (s === 'undefined') return undefined
+      // objects/arrays
+      if ((s.startsWith('{') && s.endsWith('}')) || (s.startsWith('[') && s.endsWith(']'))) {
+        try { return JSON.parse(s) } catch (e) { /* fall through */ }
+      }
+      // numbers
+      const n = Number(s)
+      if (!Number.isNaN(n)) return n
+      // fallback to raw string
+      return val
+    }
+
+    const serializeDataValue = (val) => {
+      if (val === undefined) return undefined
+      if (val === null) return 'null'
+      const t = typeof val
+      if (t === 'object') {
+        try { return JSON.stringify(val) } catch (e) { return String(val) }
+      }
+      if (t === 'number' || t === 'boolean' || t === 'bigint') return String(val)
+      return String(val)
+    }
+
+    // Define a Proxy so reads parse types and writes serialize
+    const dataProxy = new Proxy({}, {
+      get: (_target, prop) => {
+        if (typeof prop === 'symbol') return undefined
+        // expose a lightweight snapshot helper
+        if (prop === 'toJSON') {
+          return () => {
+            const out = {}
+            for (const k of Object.keys(ele.dataset)) out[k] = parseDataValue(ele.dataset[k])
+            return out
+          }
+        }
+        return parseDataValue(ele.dataset[prop])
+      },
+      set: (_target, prop, value) => {
+        if (typeof prop === 'symbol') return false
+        const ser = serializeDataValue(value)
+        if (ser === undefined) delete ele.dataset[prop]
+        else ele.dataset[prop] = ser
+        return true
+      },
+      deleteProperty: (_target, prop) => {
+        if (typeof prop === 'symbol') return false
+        delete ele.dataset[prop]
+        return true
+      },
+      has: (_target, prop) => {
+        if (typeof prop === 'symbol') return false
+        return Object.prototype.hasOwnProperty.call(ele.dataset, prop)
+      },
+      ownKeys: () => Object.keys(ele.dataset),
+      getOwnPropertyDescriptor: (_target, prop) => {
+        if (typeof prop === 'symbol') return undefined
+        if (Object.prototype.hasOwnProperty.call(ele.dataset, prop)) {
+          return { enumerable: true, configurable: true }
+        }
+        return undefined
+      }
+    })
+
+    Object.defineProperty(ele, 'data', {
+      get: function () { return dataProxy },
+      enumerable: false,
+      configurable: true
+    })
+
     return ele
   }
 }

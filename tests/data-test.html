@@ -1,6 +1,12 @@
+<body data-num="10" data-big-num="2000"></body>
 <script src="../build/netnet-standard-library.js"></script>
 <script>
   /* global nn */
+
+  // TEST DOM dataset/data
+  const v1 = nn.get('body').data.num
+  const v2 = nn.get('body').data.bigNum
+  console.log('body data-num', v1, 'data-big-num', v2)
 
   async function setup () {
     console.log('CSV:')

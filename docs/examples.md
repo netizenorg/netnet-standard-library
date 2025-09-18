@@ -94,7 +94,7 @@ const gif = nn.create('img')
   })
 ```
 
-Here's another exmaple which demonstrates how to pass multiple HTML attributes to the `.set()` method as well as multiple CSS properties to the `.css()` method. Here we also use the `nn.width` and `nn.height` properties to find the center of our page/window as well as the `nn.sleep()` method to delay the CSS change in the mouseout event. You can also [view/edit](https://netnet.studio/?layout=dock-left#code/eJx9Uc1qwzAMvucpRC9ORhtnPZY2l+0R9gKOrSYerh0spaUbe/fZSdcyGAODjPT9Ce27YK7tXs6lKPakox0ZKOrDamAeaSelNr5+J4POnmPtkWU/yFTsB/oQ+/xNb0OsvFHRbJztoopX2U3WGel9fbKZv0oui3r7Y9MW8gl6FzrlwHt4kkWhgyeG3h7hkFq1jqgYS2FPvagKgJqQy8/0gRxxB0KbOoHFem4px6mlICLHMIuEIyh4eRVp/DXzNdGNPwaybIPPjI6CmxhvMg6PSSe5X6zhASRs1yAlaPSMWXFUPc5ADuMOMnBA2w/8HzIqf7dbZLf0SKWMeQulyEdY1gy+FKcwEYYzRrGGsoJDC0vwtNe8xqKThk11F3rwJk4TRVevf5HVRVnOkckhjuVz0zRVjjy3FRCmA5i/bRL2ZnQ/5DcLLaxB) the example below on netnet.studio.
+Here's another example which demonstrates how to pass multiple HTML attributes to the `.set()` method as well as multiple CSS properties to the `.css()` method. Here we also use the `nn.width` and `nn.height` properties to find the center of our page/window as well as the `nn.sleep()` method to delay the CSS change in the mouseout event. You can also [view/edit](https://netnet.studio/?layout=dock-left#code/eJx9Uc1qwzAMvucpRC9ORhtnPZY2l+0R9gKOrSYerh0spaUbe/fZSdcyGAODjPT9Ce27YK7tXs6lKPakox0ZKOrDamAeaSelNr5+J4POnmPtkWU/yFTsB/oQ+/xNb0OsvFHRbJztoopX2U3WGel9fbKZv0oui3r7Y9MW8gl6FzrlwHt4kkWhgyeG3h7hkFq1jqgYS2FPvagKgJqQy8/0gRxxB0KbOoHFem4px6mlICLHMIuEIyh4eRVp/DXzNdGNPwaybIPPjI6CmxhvMg6PSSe5X6zhASRs1yAlaPSMWXFUPc5ADuMOMnBA2w/8HzIqf7dbZLf0SKWMeQulyEdY1gy+FKcwEYYzRrGGsoJDC0vwtNe8xqKThk11F3rwJk4TRVevf5HVRVnOkckhjuVz0zRVjjy3FRCmA5i/bRL2ZnQ/5DcLLaxB) the example below on netnet.studio.
 
 ```js
 const gif = nn.create('img')
@@ -157,6 +157,52 @@ function animate () {
 }
 
 animate()
+```
+
+### Type-safe data (dataset vs data)
+
+In HTML you can add arbitrary data to elements using the [custom data attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/data-*) like this:
+```html
+<body data-num="10"></body>
+```
+The DOM API creates a JavaScript interface for this in the [dataset property](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset), but unfortunately it converts everything into a string
+```js
+document.body.dataset.num // returns the string "10" not the number 10
+document.body.dataset.num = 21
+document.body.dataset.num // now "21", but still a string
+```
+
+The overloaded elements returned by the `nn` library contain a proxy/alias property called `data` which maintains the type values, for example:
+```js
+nn.get('body').data.num // would return the number 21
+nn.get('body').data.num = 100 // now the number 100
+
+document.body.dataset.num // would still return a string "100"
+```
+
+The values are still stored in custom data attributes and accessible via `dataset`, the `data` property just reads those values and parses them out into their actual types (numbers, booleans, null/undefined, JSON objects/arrays). Writing to `data` serializes the values back into `dataset`. Values like `<body data-big-num="1000">` can be accessed via camelcase `nn.get('body').data.bigNum`.
+
+```js
+const el = nn.create('div').addTo('body')
+
+// "writing" serialize to attributes
+el.data.count = 3 // <div data-count="3">
+el.data.flag = true
+el.data.cfg = { a: 1 }
+
+// but "reads" give typed values
+console.log(el.data.flag)  // true (boolean)
+
+// Reading existing data-* attributes is parsed
+el.set('data-speed', '2.5') // like having <div data-speed="2.5">
+console.log(el.data.speed)  // 2.5 (number)
+
+// Remove via undefined or delete
+el.data.count = undefined   // removes data-count
+delete el.data.flag         // removes data-flag
+
+// Snapshot all parsed data
+const obj = el.data.toJSON() // { speed: 2.5, cfg: { a: 1 } }
 ```
 
 ## color methods
