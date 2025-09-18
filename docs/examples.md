@@ -205,6 +205,61 @@ delete el.data.flag         // removes data-flag
 const obj = el.data.toJSON() // { speed: 2.5, cfg: { a: 1 } }
 ```
 
+## canvas methods
+
+This is a very light wrapper around the native [Canvas 2D API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API). The idea is to learn the real API, not hide it. When you do `nn.create('canvas')`, you get an nn element with the usual helpers plus the CanvasRenderingContext2D interface right on the element.
+
+You can find a useful [Canvas API "cheat sheet" here](https://simon.html5.org/dump/html5-canvas-cheat-sheet.html).
+
+In addition to all those default Canvas API properties and methods, the nn library includes a few extra properties and methods to help beginners:
+  - `.resize(w, h)`: resizes the buffer, preserving state and pixels.
+  - `.fitToParent(dpr?)`: fits canvas to its parent and scales for high‑DPI.
+  - `.mouseX`, `.mouseY`, `.mouseDown`: mouse position/pressed relative to the canvas.
+  - a friendlier `c.drawImage(...)`: waits for image load; uses natural size if omitted.
+  - pixel helpers: `.getPixelData(x,y,w,h)`, `.getPixels()`, `.setPixels(pixels, x,y,w,h)` to read/modify pixels.
+  - quick draw methods: `.circle(x,y,r)`, `.ellipse(x,y,rx,ry)`, `.rect(x,y,w,h)`, `.line(x1,y1,x2,y2)`, `.triangle(...)` which immediately fill+stroke.
+
+**NOTE**: The original canvas API actually already includes methods called [rect](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/rect) and [ellipse](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/ellipse) meant to be used when construing paths, since we use these names for our "quick draw" methods, the originals have been renamed to `.pathRect(...)` and `.pathEllipse(...)` so you can still use those if you want to construct these shapes using paths the manual way.
+
+Example: draw an image, paint circles while dragging, and invert pixels
+
+```js
+nn.get('body').css('margin', 0)
+const c = nn.create('canvas').addTo('body').fitToParent()
+
+// draw an image (auto-waits for load and sizes if needed)
+const img = nn.create('img').set('src', 'dog.jpeg')
+c.drawImage(img, 0, 0)
+
+// use native canvas properties
+c.fillStyle = 'hotpink'
+c.strokeStyle = 'black'
+c.lineWidth = 3
+
+// create a "draw" loop
+function draw () {
+  requestAnimationFrame(draw)
+  if (c.mouseDown) c.circle(c.mouseX, c.mouseY, 30)
+}
+
+nn.on('load', draw)
+
+
+// invert function using pixel helper methods
+function invert () {
+  let pixels = c.getPixels()
+  for (let i = 0; i < pixels.length; i++) {
+    pixels[i].r = 255 - pixels[i].r
+    pixels[i].g = 255 - pixels[i].g
+    pixels[i].b = 255 - pixels[i].b
+  }
+  c.setPixels(pixels)
+}
+
+nn.create('button').content('invert').addTo('body')
+  .on('click', invert)
+```
+
 ## color methods
 
 The library contains a set of color utility methods for working with [color strings](https://developer.mozilla.org/en-US/docs/Web/CSS/color) including various methods for converting a color from one format string to another (from hex to rgb, or from rgb to hsl for example).

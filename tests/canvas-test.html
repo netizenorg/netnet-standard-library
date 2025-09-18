@@ -1,0 +1,60 @@
+<body></body>
+<script src="../build/netnet-standard-library.js"></script>
+<script>
+  const canvas = nn.create('canvas').addTo('body')
+
+  async function setup () {
+    const dog = await nn.loadImage('dog.jpeg')
+    const w = dog.width / 3
+    const h = dog.height / 3
+
+    canvas.resize(w, h)
+    canvas.drawImage(dog, 0, 0, w, h)
+  }
+
+  nn.on('load', setup)
+
+  // ---------------
+  // drawing logic
+  // ---------------
+
+  const osc = (delta, speed, range) => Math.abs(Math.sin(delta * speed) * range)
+
+  canvas.fillColor = 'hotpink'
+  canvas.strokeColor = 'black'
+
+  function draw () {
+    requestAnimationFrame(draw)
+
+    if (canvas.mouseDown) {
+      let x = canvas.mouseX
+      let y = canvas.mouseY
+      let radius = osc(x, 0.02, 20)
+      canvas.circle(x, y, radius)
+    }
+  }
+
+  nn.on('load', draw)
+
+  // ----------------
+  // filter logic
+  // ----------------
+
+  function invert () {
+    let pixels = canvas.getPixels()
+    for (let i = 0; i < pixels.length; i++) {
+      pixels[i].r = 255 - pixels[i].r
+      pixels[i].g = 255 - pixels[i].g
+      pixels[i].b = 255 - pixels[i].b
+    }
+    canvas.setPixels(pixels)
+  }
+
+  nn.create('button')
+    .content('invert')
+    .addTo('body')
+    .on('click', invert)
+
+
+
+</script>

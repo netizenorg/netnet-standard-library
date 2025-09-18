@@ -349,6 +349,17 @@ class DOM {
       configurable: true
     })
 
+    // augment canvas elements with drawing helpers if available
+    // ----------------------------------------------------------
+    try {
+      if (ele instanceof window.HTMLCanvasElement) {
+        let mod
+        try { mod = require('./canvas.js') } catch (e) { mod = (window.NNCanvas || {}) }
+        const augment = (mod && (mod.augment || mod.default))
+        if (typeof augment === 'function') augment(ele)
+      }
+    } catch (e) { /* silently ignore if canvas helpers unavailable */ }
+
     return ele
   }
 }
