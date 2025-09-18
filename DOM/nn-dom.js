@@ -2,28 +2,28 @@ class DOM {
   static on (event, callback) {
     const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
     if (typeof event !== 'string') {
-      console.error('nn: the first argument to the .on() method should be an event type written as a string')
+      console.error('( ◕ ◞ ◕ ) nn: the first argument to the .on() method should be an event type written as a string')
     } else if (typeof callback !== 'function') {
-      console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
+      console.error('( ◕ ◞ ◕ ) nn: the second argument to the .on() method should be a function you want to call "on" that event')
     }
     window.addEventListener(event, callback)
-    if (!eve.includes(event)) console.warn(`nn: you might want to make sure that '${event}' is a valid window event type`)
+    if (!eve.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that '${event}' is a valid window event type`)
   }
 
   static off (event, callback) {
     const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
     if (typeof event !== 'string') {
-      console.error('nn: the first argument to the .off() method should be an event type written as a string')
+      console.error('( ◕ ◞ ◕ ) nn: the first argument to the .off() method should be an event type written as a string')
     } else if (typeof callback !== 'function') {
-      console.error('nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
+      console.error('( ◕ ◞ ◕ ) nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
     }
     window.removeEventListener(event, callback)
-    if (!eve.includes(event)) console.warn(`nn: you might want to make sure that '${event}' is a valid window event type`)
+    if (!eve.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that '${event}' is a valid window event type`)
   }
 
   static create (type) {
     const eles = ['html', 'base', 'head', 'link', 'meta', 'style', 'title', 'body', 'address', 'article', 'aside', 'footer', 'header', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hgroup', 'main', 'nav', 'section', 'blockquote', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure', 'hr', 'li', 'ol', 'p', 'pre', 'ul', 'a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dfn', 'em', 'i', 'kbd', 'mark', 'q', 'rb', 'rp', 'rt', 'rtc', 'ruby', 's', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr', 'area', 'audio', 'img', 'map', 'track', 'video', 'embed', 'iframe', 'object', 'param', 'picture', 'source', 'svg', 'math', 'canvas', 'noscript', 'script', 'del', 'ins', 'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'button', 'datalist', 'fieldset', 'form', 'input', 'label', 'legend', 'meter', 'optgroup', 'option', 'output', 'progress', 'select', 'textarea', 'details', 'dialog', 'menu', 'summary', 'slot', 'template', 'acronym', 'applet', 'basefont', 'bgsound', 'big', 'blink', 'center', 'command', 'content', 'dir', 'element', 'font', 'frame', 'frameset', 'image', 'isindex', 'keygen', 'listing', 'marquee', 'menuitem', 'multicol', 'nextid', 'nobr', 'noembed', 'noframes', 'plaintext', 'shadow', 'spacer', 'strike', 'tt', 'xmp']
-    if (!eles.includes(type)) console.warn(`nn: are you sure that '${type}' is a valid HTMLElement?`)
+    if (!eles.includes(type)) console.warn(`( ◕ ◞ ◕ ) nn: are you sure that '${type}' is a valid HTMLElement?`)
     const ele = document.createElement(type)
     return this.get(ele)
   }
@@ -42,7 +42,7 @@ class DOM {
     const ele = (query instanceof window.HTMLElement) ? query : document.querySelector(query)
 
     if (typeof query === 'string' && !ele) {
-      console.error(`nn.get: couldn't find an HTML element matching the CSS selector query "${query}"`)
+      console.warn(`( ◕ ◞ ◕ ) nn.get: couldn't find an HTML element matching the CSS selector query "${query}"`)
       return undefined
     } else if (!ele) {
       return undefined
@@ -50,31 +50,31 @@ class DOM {
 
     ele.on = function (event, callback) {
       if (typeof event !== 'string') {
-        console.error('nn: the first argument to the .on() method should be an event type written as a string')
+        console.error('( ◕ ◞ ◕ ) nn: the first argument to the .on() method should be an event type written as a string')
       } else if (typeof callback !== 'function') {
-        console.error('nn: the second argument to the .on() method should be a function you want to call "on" that event')
+        console.error('( ◕ ◞ ◕ ) nn: the second argument to the .on() method should be a function you want to call "on" that event')
       }
       this.addEventListener(event, callback)
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
-      if (!es.includes(event)) console.warn(`nn: you might want to make sure that this element has a '${event}' event type`)
+      if (!es.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that this element has a '${event}' event type`)
       return this
     }
 
     ele.off = function (event, callback) {
       if (typeof event !== 'string') {
-        console.error('nn: the first argument to the .off() method should be an event type written as a string')
+        console.error('( ◕ ◞ ◕ ) nn: the first argument to the .off() method should be an event type written as a string')
       } else if (typeof callback !== 'function') {
-        console.error('nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
+        console.error('( ◕ ◞ ◕ ) nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
       }
       this.removeEventListener(event, callback)
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
-      if (!es.includes(event)) console.warn(`nn: you might want to make sure that this element has a '${event}' event type`)
+      if (!es.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that this element has a '${event}' event type`)
       return this
     }
 
     ele.content = function (c) {
       if (typeof c !== 'string') {
-        console.error('nn: the .content() method is expecting some content as a string')
+        console.error('( ◕ ◞ ◕ ) nn: the .content() method is expecting some content as a string')
       }
       this.innerHTML = c
       return this
@@ -88,25 +88,25 @@ class DOM {
       if (typeof query === 'string') {
         found = this.querySelector(query)
         if (!found) {
-          console.error(`nn.get: couldn't find an HTML element matching the CSS selector query "${query}" within this element`)
+          console.warn(`( ◕ ◞ ◕ ) nn.get: couldn't find an HTML element matching the CSS selector query "${query}" within this element`)
           return undefined
         }
         return DOM.get(found)
       } else if (query instanceof window.HTMLElement) {
         if (!this.contains(query)) {
-          console.error('nn: the element you passed to .get() is not a descendant of this element')
+          console.error('( ◕ ◞ ◕ ) nn: the element you passed to .get() is not a descendant of this element')
           return undefined
         }
         return DOM.get(query)
       } else {
-        console.error('nn: the .get() method expects either a CSS query selector string or an HTMLElement')
+        console.error('( ◕ ◞ ◕ ) nn: the .get() method expects either a CSS query selector string or an HTMLElement')
         return undefined
       }
     }
 
     ele.getAll = function (query) {
       if (typeof query !== 'string') {
-        console.error('nn: the .getAll() method expects a CSS query selector string')
+        console.error('( ◕ ◞ ◕ ) nn: the .getAll() method expects a CSS query selector string')
         return []
       }
       const arr = []
@@ -116,7 +116,7 @@ class DOM {
 
     ele.addTo = function (parent) {
       if (typeof parent !== 'string' && !(parent instanceof window.HTMLElement)) {
-        console.error('nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
+        console.error('( ◕ ◞ ◕ ) nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
       }
       if (this.parentNode) this.remove()
       if (parent instanceof window.HTMLElement) parent.appendChild(this)
@@ -128,7 +128,7 @@ class DOM {
       const setAttr = (prop, val) => {
         if (prop === 'stream') {
           if (!(val instanceof window.MediaStream)) {
-            console.error('nn: when passing a "stream" property to .set() the value should a "Promise" which will resolve to a MediaStream object.')
+            console.error('( ◕ ◞ ◕ ) nn: when passing a "stream" property to .set() the value should a "Promise" which will resolve to a MediaStream object.')
           }
           ele.srcObject = val
         } else if (prop === 'options' && val instanceof Array && ele.tagName.toLocaleLowerCase() === 'select') {
@@ -151,7 +151,7 @@ class DOM {
           setAttr(prop, val)
         }
       } else {
-        console.error('nn: the .set() method expects two arguments, an HTML attribute and value, or an object of HTML attributes and values')
+        console.error('( ◕ ◞ ◕ ) nn: the .set() method expects two arguments, an HTML attribute and value, or an object of HTML attributes and values')
       }
       return this
     }
@@ -160,14 +160,14 @@ class DOM {
       if (typeof obj === 'string' && typeof val !== 'undefined') {
         const prop = obj; obj = {}; obj[prop] = val
       } else if (typeof obj !== 'object') {
-        console.error('nn: the .css() method expects two arguments, a CSS property and value, or an object of CSS properties and values')
+        console.error('( ◕ ◞ ◕ ) nn: the .css() method expects two arguments, a CSS property and value, or an object of CSS properties and values')
       }
 
       for (const prop in obj) {
         const val = obj[prop]
         const rightValueType = typeof val === 'string' || typeof val === 'number'
         if (!rightValueType) {
-          console.error('nn: the CSS values in the object passed to .css() should be strings or a numbers')
+          console.error('( ◕ ◞ ◕ ) nn: the CSS values in the object passed to .css() should be strings or a numbers')
         } else if (typeof val === 'string') {
           this.style[prop] = val
         } else if (typeof val === 'number') {
@@ -179,7 +179,7 @@ class DOM {
         }
 
         if (rightValueType && this.style[prop] === '') {
-          console.error(`nn: "${val}" is not a valid value for the "${prop}" property in CSS`)
+          console.error(`( ◕ ◞ ◕ ) nn: "${val}" is not a valid value for the "${prop}" property in CSS`)
         }
       }
       return this
@@ -282,13 +282,13 @@ class DOM {
     ele.position = function (x, y, type, origin) {
       const types = ['absolute', 'relative', 'fixed', 'sticky']
       if (typeof x !== 'number' && typeof x !== 'undefined' && x !== null) {
-        console.error(`nn: the .position(x) method expects the first argument to be a number, but you passed a ${typeof x}`)
+        console.error(`( ◕ ◞ ◕ ) nn: the .position(x) method expects the first argument to be a number, but you passed a ${typeof x}`)
       } else if (typeof y !== 'number' && typeof y !== 'undefined' && y !== null) {
-        console.error(`nn: the .position(x, y) method expects the second argument to be a number, but you passed a ${typeof y}`)
+        console.error(`( ◕ ◞ ◕ ) nn: the .position(x, y) method expects the second argument to be a number, but you passed a ${typeof y}`)
       } else if (typeof type !== 'string' && typeof type !== 'undefined' && type !== null) {
-        console.error(`nn: the .position(x, y, type) method expects the third argument to be a string, specificaly a type of CSS positioning: ${types.map(s => `"${s}"`).join(', ')}`)
+        console.error(`( ◕ ◞ ◕ ) nn: the .position(x, y, type) method expects the third argument to be a string, specificaly a type of CSS positioning: ${types.map(s => `"${s}"`).join(', ')}`)
       } else if (typeof type === 'string' && !types.includes(type)) {
-        console.error(`nn: the .position(x, y, type) method expects the third argument to be a valid CSS positioning value, specificaly: ${types.map(s => `"${s}"`).join(', ')}`)
+        console.error(`( ◕ ◞ ◕ ) nn: the .position(x, y, type) method expects the third argument to be a valid CSS positioning value, specificaly: ${types.map(s => `"${s}"`).join(', ')}`)
       }
       y = y || this.y
       this.style.position = type || 'absolute'
@@ -301,7 +301,7 @@ class DOM {
 
     ele.positionOrigin = function (type) {
       if (type !== 'center' && type !== 'default' && type !== null && type !== undefined) {
-        console.error('nn: the .positionOrigin() method expects either "center" or "default" (which is top/left)')
+        console.error('( ◕ ◞ ◕ ) nn: the .positionOrigin() method expects either "center" or "default" (which is top/left)')
       }
       if (type === 'center') this.__nn_positionOrigin = 'center'
       else this.__nn_positionOrigin = 'default'

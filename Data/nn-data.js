@@ -1,10 +1,10 @@
 class Data {
   static parseCSV (csvText) {
     if (typeof csvText !== 'string') {
-      console.error('nn: parseCSV() method expects a string of CSV data as it\'s first argument')
+      console.error('( ◕ ◞ ◕ ) nn: parseCSV() method expects a string of CSV data as it\'s first argument')
       return
     } else if (csvText.trim().length === 0) {
-      console.error('nn: the CSV string is empty')
+      console.error('( ◕ ◞ ◕ ) nn: the CSV string is empty')
       return
     }
 
@@ -59,7 +59,7 @@ class Data {
     // Extract headers
     const headers = records.shift()
     if (!headers || headers.length === 0) {
-      console.error('nn: the CSV data is missing its headers')
+      console.error('( ◕ ◞ ◕ ) nn: the CSV data is missing its headers')
       return
     }
 
@@ -78,16 +78,16 @@ class Data {
 
   static stringifyCSV (arrayOfObjects) {
     if (!Array.isArray(arrayOfObjects)) {
-      console.error('nn: stringifyCSV() is expecting an array of objects')
+      console.error('( ◕ ◞ ◕ ) nn: stringifyCSV() is expecting an array of objects')
       return
     } else if (arrayOfObjects.length === 0) {
-      console.error('nn: the array passed to stringifyCSV() is empty')
+      console.error('( ◕ ◞ ◕ ) nn: the array passed to stringifyCSV() is empty')
       return
     }
 
     const allObjectsValid = arrayOfObjects.every(obj => typeof obj === 'object' && obj !== null && Object.keys(obj).length > 0)
     if (!allObjectsValid) {
-      console.error('nn: all items in the array passed to stringifyCSV() must be non-empty objects')
+      console.error('( ◕ ◞ ◕ ) nn: all items in the array passed to stringifyCSV() must be non-empty objects')
       return
     }
 
@@ -98,7 +98,7 @@ class Data {
     //   headers.every(header => obj[header])
     // )
     // if (!allObjectsHaveSameKeys) {
-    //   console.warn('nn: not all the objects in the array passed to stringifyCSV() have the same keys, this could pose an issue.')
+    //   console.warn('( ◕ ◞ ◕ ) nn: not all the objects in the array passed to stringifyCSV() have the same keys, this could pose an issue.')
     // }
 
     // Map the array of objects to a CSV string
@@ -127,7 +127,7 @@ class Data {
         try {
           return this.parseJSON(data)
         } catch (error) {
-          console.error('nn: there was an error parsing your JSON string')
+          console.error('( ◕ ◞ ◕ ) nn: there was an error parsing your JSON string')
           console.error(error)
         }
       } else return this.parseCSV(data)

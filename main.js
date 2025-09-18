@@ -35,7 +35,7 @@ window.nn = {
     return this._mouseX
   },
   set mouseX (v) {
-    return console.error('nn: mouseX is a read-only property')
+    return console.error('( ◕ ◞ ◕ ) nn: mouseX is a read-only property')
   },
   /**
   * This property (or internal `nn` variable) is used to check the mouse's current "y" (vertical) position, or the number of pixels from the top of the browser window to the mouse.
@@ -47,7 +47,7 @@ window.nn = {
     return this._mouseY
   },
   set mouseY (v) {
-    return console.error('nn: mouseY is a read-only property')
+    return console.error('( ◕ ◞ ◕ ) nn: mouseY is a read-only property')
   },
   /**
   * This property (or internal `nn` variable) is used to check the mouse is currently pressed down or not.
@@ -59,7 +59,7 @@ window.nn = {
     return this._mouseDown
   },
   set mouseDown (v) {
-    return console.error('nn: mouseDown is a read-only property')
+    return console.error('( ◕ ◞ ◕ ) nn: mouseDown is a read-only property')
   },
   /**
   * This property (or internal `nn` variable) is used to check the browser window's current width
@@ -68,7 +68,7 @@ window.nn = {
   */
   get width () { return window.innerWidth },
   set width (v) {
-    return console.error('nn: width is a read-only property')
+    return console.error('( ◕ ◞ ◕ ) nn: width is a read-only property')
   },
   /**
   * This property (or internal `nn` variable) is used to check the browser window's current height
@@ -77,7 +77,7 @@ window.nn = {
   */
   get height () { return window.innerHeight },
   set height (v) {
-    return console.error('nn: height is a read-only property')
+    return console.error('( ◕ ◞ ◕ ) nn: height is a read-only property')
   },
 
   /**

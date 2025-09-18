@@ -10,7 +10,7 @@ class GIF extends HTMLElement {
     super()
 
     if (typeof opts !== 'object' && typeof opts !== 'string') {
-      throw new Error('nn.GIF: expects either a string (path to the image file) or an object (with image settings)')
+      throw new error('( ◕ ◞ ◕ ) nn.GIF: expects either a string (path to the image file) or an object (with image settings)')
     }
 
     // cusom animation properties
@@ -156,7 +156,7 @@ class GIF extends HTMLElement {
 
   _updateSrc (opts) {
     if (typeof opts !== 'object' && typeof opts !== 'string') {
-      throw new Error('nn.src: expects either a string (path to the image file) or an Array of strings, or an object (with image settings)')
+      throw new error('( ◕ ◞ ◕ ) nn.src: expects either a string (path to the image file) or an Array of strings, or an object (with image settings)')
     }
 
     let err = this._checkImagePaths(opts)
@@ -233,7 +233,7 @@ class GIF extends HTMLElement {
     if (typeof palindrome === 'boolean') {
       this._palindrome = palindrome
     } else if (typeof palindrome !== 'undefined') {
-      throw new Error('nn.GIF: the optional second argument to loop (palindrome) should be a boolean value')
+      throw new error('( ◕ ◞ ◕ ) nn.GIF: the optional second argument to loop (palindrome) should be a boolean value')
     }
     const err = this._checkNum(fps, 'fps')
     if (err) throw new Error(err)
@@ -243,7 +243,7 @@ class GIF extends HTMLElement {
 
   transition (dur, easing) {
     if (typeof dur !== 'string' && typeof dur !== 'number') {
-      throw new Error('nn.GIF: transition expecting either a number or string value as it\'s duration')
+      throw new error('( ◕ ◞ ◕ ) nn.GIF: transition expecting either a number or string value as it\'s duration')
     }
     dur = (typeof dur === 'number') ? dur + 'ms' : dur
 
@@ -259,12 +259,12 @@ class GIF extends HTMLElement {
 
   css (obj) {
     if (typeof obj !== 'object') {
-      throw new Error('nn.GIF: css is expecting an object of CSS properties and values')
+      throw new error('( ◕ ◞ ◕ ) nn.GIF: css is expecting an object of CSS properties and values')
     }
     for (const prop in obj) {
       const val = obj[prop]
       if (typeof val !== 'string') {
-        throw new Error('nn.GIF: css values should be strings')
+        throw new error('( ◕ ◞ ◕ ) nn.GIF: css values should be strings')
       }
       this.style[prop] = val
     }

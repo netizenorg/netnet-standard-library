@@ -13,14 +13,14 @@ class Media {
     // validation
     if (typeof image === 'string') {
       if (image.indexOf('data:image') !== 0) {
-        console.error('nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
+        console.error('( ◕ ◞ ◕ ) nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
       }
     } else if (!(image instanceof window.Image)) {
-      console.error('nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
+      console.error('( ◕ ◞ ◕ ) nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
     }
 
     if (typeof algorithm !== 'function') {
-      console.error('nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
+      console.error('( ◕ ◞ ◕ ) nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
     }
     // ..........
     const canvas = document.createElement('canvas')
@@ -50,13 +50,13 @@ class Media {
 
   static async askForStream (constraints) {
     if (typeof constraints !== 'object' || constraints === null) {
-      console.error('nn.askFor: you forgot to pass an argument, should be something like { video: true }')
+      console.error('( ◕ ◞ ◕ ) nn.askFor: you forgot to pass an argument, should be something like { video: true }')
     }
 
     const { audio, video } = constraints
 
     if (audio === undefined && video === undefined) {
-      console.error('nn.askFor: the object you passed must have at least an audio or video property.')
+      console.error('( ◕ ◞ ◕ ) nn.askFor: the object you passed must have at least an audio or video property.')
     }
 
     const validateMediaConstraints = (media, mediaName) => {
@@ -71,10 +71,10 @@ class Media {
 
     if (audio) {
       const err = validateMediaConstraints(audio, 'audio')
-      if (err) console.error(`nn.askFor: ${err}`)
+      if (err) console.error(`( ◕ ◞ ◕ ) nn.askFor: ${err}`)
     } else if (video) {
       const err = validateMediaConstraints(video, 'video')
-      if (err) console.error(`nn.askFor: ${err}`)
+      if (err) console.error(`( ◕ ◞ ◕ ) nn.askFor: ${err}`)
     }
 
     const stream = await navigator.mediaDevices.getUserMedia(constraints)
@@ -83,13 +83,13 @@ class Media {
 
   static MIDI (func) {
     if (typeof func !== 'function') {
-      console.error('nn.MIDI: requires a callback function, this will run everytime you interact with your MIDI device.')
+      console.error('( ◕ ◞ ◕ ) nn.MIDI: requires a callback function, this will run everytime you interact with your MIDI device.')
     }
 
     function onMIDISuccess (midiAccess) {
       const inputs = midiAccess.inputs.values()
       for (const input of inputs) {
-        console.log(`nn.MIDI: ${input.name} connected!`)
+        console.log(`( ◕ ◞ ◕ ) nn.MIDI: ${input.name} connected!`)
         input.onmidimessage = (message) => func({
           dev: input.name, chl: message.data[1], val: message.data[2]
         })
@@ -98,7 +98,7 @@ class Media {
 
     navigator.requestMIDIAccess()
       .then(onMIDISuccess)
-      .catch(err => console.error(`nn.MIDI: ${err}`))
+      .catch(err => console.error(`( ◕ ◞ ◕ ) nn.MIDI: ${err}`))
   }
 
   static askForGPS (callbackOrOptions, maybeOptions) {
@@ -125,14 +125,14 @@ class Media {
       }
 
       const handleError = (error) => {
-        console.error(`nn.GPS: ${error.message}`)
+        console.error(`( ◕ ◞ ◕ ) nn.GPS: ${error.message}`)
         reject(error)
       }
 
       if (!('geolocation' in navigator)) {
         const m = includeAlerts.support ||
           'oh no! your device does not support geolocation'
-        console.log(`nn.GPS: ${m}`)
+        console.log(`( ◕ ◞ ◕ ) nn.GPS: ${m}`)
         if (typeof includeAlerts.support === 'string') window.alert(m)
         return reject(new Error(m))
       }
@@ -143,12 +143,12 @@ class Media {
         } else if (result.state === 'denied') {
           const m = includeAlerts.enable ||
             'Please enable location services for this website in your browser settings.'
-          console.log(`nn.GPS: ${m}`)
+          console.log(`( ◕ ◞ ◕ ) nn.GPS: ${m}`)
           if (typeof includeAlerts.enable === 'string') window.alert(m)
           reject(new Error(m))
         }
       }).catch(err => {
-        console.error('nn.GPS permission check failed:', err)
+        console.error('( ◕ ◞ ◕ ) nn.GPS permission check failed:', err)
         reject(err)
       })
     })
