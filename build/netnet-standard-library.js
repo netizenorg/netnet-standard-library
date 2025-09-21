@@ -3070,6 +3070,14 @@ class Maths {
   static random (val, val2) {
     if (val instanceof Array) {
       return val[Math.floor(Math.random() * val.length)]
+    } else if (typeof val === 'string') {
+      const words = val.match(/\S+/gu) || []
+      if (words.length === 0) return undefined
+      if (words.length === 1) {
+        const chars = Array.from(words[0])
+        return chars[Math.floor(Math.random() * chars.length)]
+      }
+      return words[Math.floor(Math.random() * words.length)]
     } else {
       let min, max
       if (typeof val !== 'undefined' && typeof val2 === 'undefined') {
@@ -4471,20 +4479,74 @@ window.nn = {
   */
   randomFloat: Maths.randomFloat,
   /**
-  * This random funciton can be used just like the standard `Math.random()` fucnciton in JavaScript, but it can also take a few different types of optional arguments. When passed an array, it will return a random item from that array. When passed number values it behaves the same as `nn.randomFloat` returning a random decimal value within a given range.
+  * This random function can be used just like the standard `Math.random()` fucnciton in JavaScript, but it can also take a few different types of optional arguments. When passed an array, it will return a random item from that array. When passed a string it will return a random letter or word from that string. When passed number values it behaves the same as `nn.randomFloat` returning a random decimal value within a given range.
   *
   * @method random
   * @method random
-  * @param {Number|Array} a either an array to select a random item from, or a number. When it's a number and no `b` value is passed, this is the max value, otherwise it is the minimum value
+  * @param {Number|Array} a either an array to select a random item from, or a string to select a random letter or word from, or a number. When it's a number and no `b` value is passed, this is the max value, otherwise it is the minimum value
   * @param {Number} b the max value
   * @return {Number} a random item from the passed array, or a random float within the specified range
   * @example
   * nn.random(['straw', 'wood', 'brick']) // could return "brick"
+  * nn.random('world wide web') // could return 'web'
+  * nn.random('worldwideweb') // could return 'w'
   * nn.random(10, 50) // could return 34.823298753
   * nn.random(10) // could return 6.213897459
   * nn.random() // could return 0.103984723014
   */
-  random: Maths.random,
+  random: (v1, v2) => {
+    const err = msg => console.error(`( ◕ ◞ ◕ ) nn: ${msg}`)
+    const warn = msg => console.warn(`( ◕ ◞ ◕ ) nn: ${msg}`)
+    // no args → passthrough to base random()
+    if (typeof v1 === 'undefined' && typeof v2 === 'undefined') {
+      return Maths.random()
+    }
+    // array → random item
+    if (Array.isArray(v1)) {
+      if (v1.length === 0) {
+        err('the first argument to .random() was an empty array, add at least one item.')
+        return undefined
+      }
+      return Maths.random(v1)
+    }
+    // string → random word; if single word, random char
+    if (typeof v1 === 'string') {
+      // must include at least one non-whitespace character
+      if (!/\S/u.test(v1)) {
+        err('the first argument to .random() was an empty/whitespace-only string, add some letters or words.')
+        return undefined
+      }
+      return Maths.random(v1)
+    }
+    // number(s) → random float in range
+    if (typeof v1 === 'number') {
+      if (!Number.isFinite(v1)) {
+        err('the first argument to .random() must be a finite number.')
+        return undefined
+      }
+      // single number → [0, v1)
+      if (typeof v2 === 'undefined') {
+        return Maths.random(v1)
+      }
+      // two numbers → [min, max)
+      if (typeof v2 !== 'number' || !Number.isFinite(v2)) {
+        err('when the first argument in .random() is a number, the second argument (max) must also be a finite number.')
+        return undefined
+      }
+      if (v1 === v2) {
+        warn('you passed identical min and max to the .random() method, returning that exact value.')
+        return v1
+      }
+      if (v1 > v2) {
+        warn('you passed a min that was greater than max to the .random() method, so I swapped them for you.')
+        return Maths.random(v2, v1)
+      }
+      return Maths.random(v1, v2)
+    }
+    // anything else
+    err('the first argument to .random() should be an Array, String, Number, or nothing.')
+    return undefined
+  },
   /**
   * The perlin method returns a perlinNoise object, which first needs to be seeded && then can be used to return 1 or 2 dimensional noise from -1 to 1
   *

@@ -195,7 +195,7 @@ Pass the same function reference you used with <code>nn.on()</code> to remove it
 <dd><p>This function returns a random float (decimal) given a max value or a min/max range</p>
 </dd>
 <dt><a href="#random">random(a, b)</a> ⇒ <code>Number</code></dt>
-<dd><p>This random funciton can be used just like the standard <code>Math.random()</code> fucnciton in JavaScript, but it can also take a few different types of optional arguments. When passed an array, it will return a random item from that array. When passed number values it behaves the same as <code>nn.randomFloat</code> returning a random decimal value within a given range.</p>
+<dd><p>This random function can be used just like the standard <code>Math.random()</code> fucnciton in JavaScript, but it can also take a few different types of optional arguments. When passed an array, it will return a random item from that array. When passed a string it will return a random letter or word from that string. When passed number values it behaves the same as <code>nn.randomFloat</code> returning a random decimal value within a given range.</p>
 </dd>
 <dt><a href="#perlin">perlin(a, b)</a> ⇒ <code>Number</code></dt>
 <dd><p>The perlin method returns a perlinNoise object, which first needs to be seeded &amp;&amp; then can be used to return 1 or 2 dimensional noise from -1 to 1</p>
@@ -1230,19 +1230,21 @@ nn.randomFloat(10) // could return 6.213897459
 <a name="random"></a>
 
 ## random(a, b) ⇒ <code>Number</code>
-This random funciton can be used just like the standard `Math.random()` fucnciton in JavaScript, but it can also take a few different types of optional arguments. When passed an array, it will return a random item from that array. When passed number values it behaves the same as `nn.randomFloat` returning a random decimal value within a given range.
+This random function can be used just like the standard `Math.random()` fucnciton in JavaScript, but it can also take a few different types of optional arguments. When passed an array, it will return a random item from that array. When passed a string it will return a random letter or word from that string. When passed number values it behaves the same as `nn.randomFloat` returning a random decimal value within a given range.
 
 **Kind**: global function  
 **Returns**: <code>Number</code> - a random item from the passed array, or a random float within the specified range  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| a | <code>Number</code> \| <code>Array</code> | either an array to select a random item from, or a number. When it's a number and no `b` value is passed, this is the max value, otherwise it is the minimum value |
+| a | <code>Number</code> \| <code>Array</code> | either an array to select a random item from, or a string to select a random letter or word from, or a number. When it's a number and no `b` value is passed, this is the max value, otherwise it is the minimum value |
 | b | <code>Number</code> | the max value |
 
 **Example**  
 ```js
 nn.random(['straw', 'wood', 'brick']) // could return "brick"
+nn.random('world wide web') // could return 'web'
+nn.random('worldwideweb') // could return 'w'
 nn.random(10, 50) // could return 34.823298753
 nn.random(10) // could return 6.213897459
 nn.random() // could return 0.103984723014
