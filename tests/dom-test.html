@@ -4,46 +4,43 @@
 
   const bgColor = '#e585ca'
   const gifURL = 'https://netart.rocks/images/butterfly.gif'
-  const gifWidth = 150
-  const gifOffsetX = 75
-  const gifOffsetY = 75
 
-  function createGif (x, y) {
-    const gif = nn.create('img')
-      .set({ src: gifURL })
-      .css({
-        position: 'absolute',
-        left: x + 'px',
-        top:  y + 'px',
-        width: gifWidth + 'px',
-        transition: 'width 2s'
-      })
+  function createGif (gif, x, y, w) {
+    nn.create('img')
+      .set ('src', `${gif}?r=${nn.random()}`)
       .addTo('body')
-      .on('mouseover', () => {
-        gif.css({ width: '0px' })
+      .position(x, y)
+      .css({
+        width: w,
+        transition: 'all 1.5s ease-out'
       })
-      .on('mouseout', () => {
-        setTimeout(() => {
-          gif.css({ width: gifWidth + 'px' })
-        }, 1000)
+      .on('mouseover', function (e) {
+        this.css('width', 0)
+      })
+      .on('mouseout', async function () {
+        await nn.sleep(1000)
+        this.css('width', w)
       })
   }
 
-  function createGifCircle (num, scale, radius) {
+  function createGifCircle (gif, num, scale, radius) {
     for (let i = 0; i < num; i++) {
-      const cx = nn.width / 2 - gifOffsetX
-      const cy = nn.height / 2 - gifOffsetY
+      const cx = nn.width / 2 - gif.width / 2
+      const cy = nn.height / 2 - gif.height / 2
       const x = cx + Math.sin(i * scale) * radius
       const y = cy + Math.cos(i * scale) * radius
-      createGif(x, y)
+      createGif(gif.src, x, y, gif.width)
     }
   }
 
-  function setup () {
+  async function setup () {
     nn.get('body').css({ background:  bgColor })
-    createGifCircle(22, 0.3, 100)
-    setTimeout(createGifCircle, 100, 22, 0.3, 150)
-    setTimeout(createGifCircle, 200, 22, 0.3, 200)
+    const gif = await nn.loadImage(gifURL)
+    createGifCircle(gif, 22, 0.3, 100)
+    await nn.sleep(100)
+    createGifCircle(gif, 22, 0.3, 150)
+    await nn.sleep(200)
+    createGifCircle(gif, 22, 0.3, 200)
   }
 
   nn.on('load', setup)

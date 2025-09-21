@@ -54,7 +54,12 @@ class DOM {
       } else if (typeof callback !== 'function') {
         console.error('( ◕ ◞ ◕ ) nn: the second argument to the .on() method should be a function you want to call "on" that event')
       }
-      this.addEventListener(event, callback)
+      if (!this.__nn_listeners) this.__nn_listeners = {}
+      if (!this.__nn_listeners[event]) this.__nn_listeners[event] = new Map()
+      const self = this
+      const wrapped = function (e) { return callback.call(self, e) }
+      this.addEventListener(event, wrapped)
+      this.__nn_listeners[event].set(callback, wrapped)
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
       if (!es.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that this element has a '${event}' event type`)
       return this
@@ -66,7 +71,15 @@ class DOM {
       } else if (typeof callback !== 'function') {
         console.error('( ◕ ◞ ◕ ) nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
       }
-      this.removeEventListener(event, callback)
+      let fn = callback
+      if (this.__nn_listeners && this.__nn_listeners[event]) {
+        const wrapped = this.__nn_listeners[event].get(callback)
+        if (wrapped) {
+          fn = wrapped
+          this.__nn_listeners[event].delete(callback)
+        }
+      }
+      this.removeEventListener(event, fn)
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
       if (!es.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that this element has a '${event}' event type`)
       return this
