@@ -1,23 +1,24 @@
 class DOM {
-  static on (event, callback) {
+  static on (event, callback, options) {
     const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
     if (typeof event !== 'string') {
       console.error('( ◕ ◞ ◕ ) nn: the first argument to the .on() method should be an event type written as a string')
     } else if (typeof callback !== 'function') {
       console.error('( ◕ ◞ ◕ ) nn: the second argument to the .on() method should be a function you want to call "on" that event')
     }
-    window.addEventListener(event, callback)
+    window.addEventListener(event, callback, options)
     if (!eve.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that '${event}' is a valid window event type`)
   }
 
-  static off (event, callback) {
+  static off (event, callback, options) {
     const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
     if (typeof event !== 'string') {
       console.error('( ◕ ◞ ◕ ) nn: the first argument to the .off() method should be an event type written as a string')
     } else if (typeof callback !== 'function') {
       console.error('( ◕ ◞ ◕ ) nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
     }
-    window.removeEventListener(event, callback)
+    const capture = (typeof options === 'boolean') ? options : (options && typeof options === 'object' && options.capture === true)
+    window.removeEventListener(event, callback, capture)
     if (!eve.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that '${event}' is a valid window event type`)
   }
 
