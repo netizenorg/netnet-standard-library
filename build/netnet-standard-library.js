@@ -4718,6 +4718,58 @@ window.nn = {
   randomColor: Color.random,
 
   /**
+  * Build a CSS rgb/rgba color string from channel values.
+  * If `a` is provided, returns an rgba string with alpha 0.0–1.0.
+  *
+  * @method rgb
+  * @param {Number} r red 0–255
+  * @param {Number} g green 0–255
+  * @param {Number} b blue 0–255
+  * @param {Number} [a] alpha 0.0–1.0
+  * @return {String} CSS color string like 'rgb(255, 0, 0)' or 'rgba(255, 0, 0, 0.5)'
+  * @example
+  * nn.rgb(255, 0, 0)      // 'rgb(255, 0, 0)'
+  * nn.rgb(255, 0, 0, 0.5) // 'rgba(255, 0, 0, 0.5)'
+  */
+  rgb: (r, g, b, a) => {
+    const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
+    const rc = Math.round(clamp(Number(r), 0, 255))
+    const gc = Math.round(clamp(Number(g), 0, 255))
+    const bc = Math.round(clamp(Number(b), 0, 255))
+    if (typeof a === 'number') {
+      const ac = clamp(a, 0, 1)
+      return `rgba(${rc}, ${gc}, ${bc}, ${ac})`
+    }
+    return `rgb(${rc}, ${gc}, ${bc})`
+  },
+
+  /**
+  * Build a CSS hsl/hsla color string from channel values.
+  * If `a` is provided, returns an hsla string with alpha 0.0–1.0.
+  *
+  * @method hsl
+  * @param {Number} h hue 0–360
+  * @param {Number} s saturation 0–100
+  * @param {Number} l lightness 0–100
+  * @param {Number} [a] alpha 0.0–1.0
+  * @return {String} CSS color string like 'hsl(0, 100%, 50%)' or 'hsla(0, 100%, 50%, 0.5)'
+  * @example
+  * nn.hsl(0, 100, 50)      // 'hsl(0, 100%, 50%)'
+  * nn.hsl(0, 100, 50, 0.5) // 'hsla(0, 100%, 50%, 0.5)'
+  */
+  hsl: (h, s, l, a) => {
+    const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
+    const hc = Math.round(clamp(Number(h), 0, 360))
+    const sc = Math.round(clamp(Number(s), 0, 100))
+    const lc = Math.round(clamp(Number(l), 0, 100))
+    if (typeof a === 'number') {
+      const ac = clamp(a, 0, 1)
+      return `hsla(${hc}, ${sc}%, ${lc}%, ${ac})`
+    }
+    return `hsl(${hc}, ${sc}%, ${lc}%)`
+  },
+
+  /**
   * It can often be useful to know if a color is "light" or "dark" when pairing other colors with it, for example to determine if a font color should be black or white so that it best stands out on a given background color. The `.isLight()` method takes a color string (either in hex or rgb) and will return `true` if it is a light color or `false` if it is a dark color.
   *
   * @method isLight

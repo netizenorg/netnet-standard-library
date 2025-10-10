@@ -80,8 +80,8 @@ For more examples demonstrating how this library can be used checkout the [examp
 - [nn.askForGPS()](docs/API.md#askForGPS) `// ask user permission for location data`
 - [nn.MIDI()](docs/API.md#askFor) `// access any plugged in MIDI devices`  
 - [nn.sleep()](docs/API.md#sleep) `// pauses code for a specified time`
-- [nn.times()](docs/API.md#sleep) `// loops a function a set number of times`
-- [nn.range()](docs/API.md#sleep) `// loops a function over a given range`
+- [nn.times()](docs/API.md#times) `// loops a function a set number of times`
+- [nn.range()](docs/API.md#range) `// loops a function over a given range`
 - [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
 
 Function for binding CSS variables to interactions with HTML elements (input, buttons, etc)
@@ -134,6 +134,8 @@ Other useful **math** functions often used in creative coding projects which are
 
 Functions for doing various **color** maths. These come from the [Color.js](https://github.com/nbriz/Color) sub-module.
 
+- [nn.rgb()](docs/API.md#rgb) `// generate an rgb color string`
+- [nn.hsl()](docs/API.md#hsl) `// generate an hsl color string`
 - [nn.randomColor()](docs/API.md#randomColor) `// generate a random color string`
 - [nn.isLight()](docs/API.md#isLight) `// checks if a color is light or dark`
 - [nn.colorMatch()](docs/API.md#colorMatch) `// finds color strings in larger strings`

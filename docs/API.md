@@ -216,6 +216,14 @@ If <code>map</code> is provided, returns values mapped with <code>(value, index)
 <dt><a href="#randomColor">randomColor([type], [alpha])</a> ⇒ <code>String</code></dt>
 <dd><p>This function generates random color strings. It accepts two optional arguments, type and alpha. The type can be: &#39;hex&#39;, &#39;rgb&#39;, &#39;rgba&#39;, &#39;hsl&#39; or &#39;hsla&#39; and the alpha can be a float value (0.0 - 1.0) or a boolean</p>
 </dd>
+<dt><a href="#rgb">rgb(r, g, b, [a])</a> ⇒ <code>String</code></dt>
+<dd><p>Build a CSS rgb/rgba color string from channel values.
+If <code>a</code> is provided, returns an rgba string with alpha 0.0–1.0.</p>
+</dd>
+<dt><a href="#hsl">hsl(h, s, l, [a])</a> ⇒ <code>String</code></dt>
+<dd><p>Build a CSS hsl/hsla color string from channel values.
+If <code>a</code> is provided, returns an hsla string with alpha 0.0–1.0.</p>
+</dd>
 <dt><a href="#isLight">isLight(color)</a> ⇒ <code>Boolean</code></dt>
 <dd><p>It can often be useful to know if a color is &quot;light&quot; or &quot;dark&quot; when pairing other colors with it, for example to determine if a font color should be black or white so that it best stands out on a given background color. The <code>.isLight()</code> method takes a color string (either in hex or rgb) and will return <code>true</code> if it is a light color or <code>false</code> if it is a dark color.</p>
 </dd>
@@ -1380,6 +1388,48 @@ nn.randomColor('rgb') // ex: "rgb(136, 44, 204)"
 nn.randomColor('rgba') // ex: "rgba(85, 177, 23, 1)"
 nn.randomColor('rgb', true) // ex: "rgba(122, 46, 239, 0.53)"
 nn.randomColor('rgb', 0.5) // ex: "rgba(107, 110, 7, 0.5)"
+```
+<a name="rgb"></a>
+
+## rgb(r, g, b, [a]) ⇒ <code>String</code>
+Build a CSS rgb/rgba color string from channel values.
+If `a` is provided, returns an rgba string with alpha 0.0–1.0.
+
+**Kind**: global function  
+**Returns**: <code>String</code> - CSS color string like 'rgb(255, 0, 0)' or 'rgba(255, 0, 0, 0.5)'  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| r | <code>Number</code> | red 0–255 |
+| g | <code>Number</code> | green 0–255 |
+| b | <code>Number</code> | blue 0–255 |
+| [a] | <code>Number</code> | alpha 0.0–1.0 |
+
+**Example**  
+```js
+nn.rgb(255, 0, 0)      // 'rgb(255, 0, 0)'
+nn.rgb(255, 0, 0, 0.5) // 'rgba(255, 0, 0, 0.5)'
+```
+<a name="hsl"></a>
+
+## hsl(h, s, l, [a]) ⇒ <code>String</code>
+Build a CSS hsl/hsla color string from channel values.
+If `a` is provided, returns an hsla string with alpha 0.0–1.0.
+
+**Kind**: global function  
+**Returns**: <code>String</code> - CSS color string like 'hsl(0, 100%, 50%)' or 'hsla(0, 100%, 50%, 0.5)'  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| h | <code>Number</code> | hue 0–360 |
+| s | <code>Number</code> | saturation 0–100 |
+| l | <code>Number</code> | lightness 0–100 |
+| [a] | <code>Number</code> | alpha 0.0–1.0 |
+
+**Example**  
+```js
+nn.hsl(0, 100, 50)      // 'hsl(0, 100%, 50%)'
+nn.hsl(0, 100, 50, 0.5) // 'hsla(0, 100%, 50%, 0.5)'
 ```
 <a name="isLight"></a>
 
