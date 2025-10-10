@@ -49,7 +49,7 @@ class DOM {
       return undefined
     }
 
-    ele.on = function (event, callback) {
+    ele.on = function (event, callback, options) {
       if (typeof event !== 'string') {
         console.error('( ◕ ◞ ◕ ) nn: the first argument to the .on() method should be an event type written as a string')
       } else if (typeof callback !== 'function') {
@@ -59,28 +59,34 @@ class DOM {
       if (!this.__nn_listeners[event]) this.__nn_listeners[event] = new Map()
       const self = this
       const wrapped = function (e) { return callback.call(self, e) }
-      this.addEventListener(event, wrapped)
-      this.__nn_listeners[event].set(callback, wrapped)
+      const capture = (typeof options === 'boolean') ? options : (options && typeof options === 'object' && options.capture === true)
+      this.addEventListener(event, wrapped, options)
+      this.__nn_listeners[event].set(callback, { wrapped, capture })
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
       if (!es.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that this element has a '${event}' event type`)
       return this
     }
 
-    ele.off = function (event, callback) {
+    ele.off = function (event, callback, options) {
       if (typeof event !== 'string') {
         console.error('( ◕ ◞ ◕ ) nn: the first argument to the .off() method should be an event type written as a string')
       } else if (typeof callback !== 'function') {
         console.error('( ◕ ◞ ◕ ) nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
       }
       let fn = callback
+      let capture
       if (this.__nn_listeners && this.__nn_listeners[event]) {
-        const wrapped = this.__nn_listeners[event].get(callback)
-        if (wrapped) {
-          fn = wrapped
+        const entry = this.__nn_listeners[event].get(callback)
+        if (entry) {
+          fn = entry.wrapped
+          capture = entry.capture
           this.__nn_listeners[event].delete(callback)
         }
       }
-      this.removeEventListener(event, fn)
+      if (typeof capture === 'undefined') {
+        capture = (typeof options === 'boolean') ? options : (options && typeof options === 'object' && options.capture === true)
+      }
+      this.removeEventListener(event, fn, capture)
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
       if (!es.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that this element has a '${event}' event type`)
       return this

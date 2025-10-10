@@ -95,6 +95,16 @@ Pass the same function reference you used with <code>nn.on()</code> to remove it
 <dt><a href="#sleep">sleep(ms)</a> ⇒ <code>Promise</code></dt>
 <dd><p>Languages like python, Bash and PHP have &quot;sleep&quot; functions built-in, unfortunately JavaScript does not, hence why we&#39;ve included it in this library. A &quot;sleep&quot; function pauses execution for a specified amount of time. This function is useful in asynchronous workflows when you want to intentionally delay something (like animations, polling, retries, or just slowing things down for dramatic effect).</p>
 </dd>
+<dt><a href="#times">times(n, fn)</a> ⇒ <code>Array.&lt;any&gt;</code></dt>
+<dd><p>Call a function a number of times, passing the current index each time.
+Returns an array of results from the callback.</p>
+</dd>
+<dt><a href="#range">range(startOrEnd, [end], [stepOrMap], [map])</a> ⇒ <code>Array.&lt;any&gt;</code></dt>
+<dd><p>Create a numeric range as an array, with optional mapping.
+<code>range(end[, map])</code> → [0, 1, ..., end-1]
+<code>range(start, end[, step][, map])</code> → values from start toward end (end-exclusive) using <code>step</code>.
+If <code>map</code> is provided, returns values mapped with <code>(value, index) =&gt; any</code>.</p>
+</dd>
 <dt><a href="#bindCSS">bindCSS()</a> ⇒ <code>void</code></dt>
 <dd><p>Running this function will bind together any HTML elements with <code>data-bind-var</code> and <code>data-bind-click</code> attributes to CSS variables, enabling dynamic and interactive styling based on user input and actions. For example, an input element with <code>data-bind-var=&quot;--main-color&quot;</code> will update the CSS variable <code>--main-color</code> if it&#39;s value changes, and any element with <code>data-bind-click=&quot;--main-font: add(2px)&quot;</code> will add two pixels to the current value of CSS variable <code>--main-font</code> once clicked. Other operations include <code>sub(val)</code>, <code>toggle(valA, valB)</code>, and <code>cycle(val1, val2, etc...)</code>.</p>
 </dd>
@@ -725,6 +735,51 @@ async function blink () {
 }
 
 nn.on('load', blink)
+```
+<a name="times"></a>
+
+## times(n, fn) ⇒ <code>Array.&lt;any&gt;</code>
+Call a function a number of times, passing the current index each time.
+Returns an array of results from the callback.
+
+**Kind**: global function  
+**Returns**: <code>Array.&lt;any&gt;</code> - Array of results returned by `fn`  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| n | <code>number</code> | How many times to call `fn` (floats are floored, negatives become 0) |
+| fn | <code>function</code> | Function called with the current index (0 → n-1) |
+
+**Example**  
+```js
+// create 5 divs
+nn.times(5, (i) => nn.create('div').content(`item ${i}`).addTo('body'))
+```
+<a name="range"></a>
+
+## range(startOrEnd, [end], [stepOrMap], [map]) ⇒ <code>Array.&lt;any&gt;</code>
+Create a numeric range as an array, with optional mapping.
+`range(end[, map])` → [0, 1, ..., end-1]
+`range(start, end[, step][, map])` → values from start toward end (end-exclusive) using `step`.
+If `map` is provided, returns values mapped with `(value, index) => any`.
+
+**Kind**: global function  
+**Returns**: <code>Array.&lt;any&gt;</code> - Array of numbers (or mapped values if `map` provided).  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| startOrEnd | <code>number</code> | If one arg, the exclusive end. If two+, the start value. |
+| [end] | <code>number</code> | Exclusive end (not included). If omitted, start at 0 to `startOrEnd`. |
+| [stepOrMap] | <code>number</code> \| <code>function</code> | Step between values (defaults to 1 or -1), or a mapping function. |
+| [map] | <code>function</code> | Optional mapping function `(value, index) => any`. |
+
+**Example**  
+```js
+nn.range(4)           // [0,1,2,3]
+nn.range(2, 6)        // [2,3,4,5]
+nn.range(10, 4, -2)   // [10,8,6]
+nn.range(2, 5, (v) => v * v) // [4,9,16]
+nn.range(10, 4, -3, (v,i) => `${i}:${v}`) // ['0:10','1:7','2:4']
 ```
 <a name="bindCSS"></a>
 

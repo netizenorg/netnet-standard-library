@@ -2111,7 +2111,7 @@ class DOM {
       return undefined
     }
 
-    ele.on = function (event, callback) {
+    ele.on = function (event, callback, options) {
       if (typeof event !== 'string') {
         console.error('( ◕ ◞ ◕ ) nn: the first argument to the .on() method should be an event type written as a string')
       } else if (typeof callback !== 'function') {
@@ -2121,28 +2121,34 @@ class DOM {
       if (!this.__nn_listeners[event]) this.__nn_listeners[event] = new Map()
       const self = this
       const wrapped = function (e) { return callback.call(self, e) }
-      this.addEventListener(event, wrapped)
-      this.__nn_listeners[event].set(callback, wrapped)
+      const capture = (typeof options === 'boolean') ? options : (options && typeof options === 'object' && options.capture === true)
+      this.addEventListener(event, wrapped, options)
+      this.__nn_listeners[event].set(callback, { wrapped, capture })
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
       if (!es.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that this element has a '${event}' event type`)
       return this
     }
 
-    ele.off = function (event, callback) {
+    ele.off = function (event, callback, options) {
       if (typeof event !== 'string') {
         console.error('( ◕ ◞ ◕ ) nn: the first argument to the .off() method should be an event type written as a string')
       } else if (typeof callback !== 'function') {
         console.error('( ◕ ◞ ◕ ) nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
       }
       let fn = callback
+      let capture
       if (this.__nn_listeners && this.__nn_listeners[event]) {
-        const wrapped = this.__nn_listeners[event].get(callback)
-        if (wrapped) {
-          fn = wrapped
+        const entry = this.__nn_listeners[event].get(callback)
+        if (entry) {
+          fn = entry.wrapped
+          capture = entry.capture
           this.__nn_listeners[event].delete(callback)
         }
       }
-      this.removeEventListener(event, fn)
+      if (typeof capture === 'undefined') {
+        capture = (typeof options === 'boolean') ? options : (options && typeof options === 'object' && options.capture === true)
+      }
+      this.removeEventListener(event, fn, capture)
       const es = (this instanceof window.HTMLMediaElement) ? [...eve, ...mev] : eve
       if (!es.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that this element has a '${event}' event type`)
       return this
@@ -4093,6 +4099,93 @@ window.nn = {
   */
   sleep: (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms))
+  },
+
+  /**
+  * Call a function a number of times, passing the current index each time.
+  * Returns an array of results from the callback.
+  *
+  * @method times
+  * @param {number} n How many times to call `fn` (floats are floored, negatives become 0)
+  * @param {function(number): any} fn Function called with the current index (0 → n-1)
+  * @return {any[]} Array of results returned by `fn`
+  * @example
+  * // create 5 divs
+  * nn.times(5, (i) => nn.create('div').content(`item ${i}`).addTo('body'))
+  */
+  times: (n, fn) => {
+    if (typeof n !== 'number' || !isFinite(n)) {
+      console.error('( ◕ ◞ ◕ ) nn.times: first argument should be a finite number')
+      return []
+    }
+    if (typeof fn !== 'function') {
+      console.error('( ◕ ◞ ◕ ) nn.times: second argument should be a function')
+      return []
+    }
+    const count = Math.max(0, Math.floor(n))
+    const out = []
+    for (let i = 0; i < count; i++) out.push(fn(i))
+    return out
+  },
+
+  /**
+  * Create a numeric range as an array, with optional mapping.
+  * `range(end[, map])` → [0, 1, ..., end-1]
+  * `range(start, end[, step][, map])` → values from start toward end (end-exclusive) using `step`.
+  * If `map` is provided, returns values mapped with `(value, index) => any`.
+  *
+  * @method range
+  * @param {number} startOrEnd If one arg, the exclusive end. If two+, the start value.
+  * @param {number} [end] Exclusive end (not included). If omitted, start at 0 to `startOrEnd`.
+  * @param {number|function} [stepOrMap] Step between values (defaults to 1 or -1), or a mapping function.
+  * @param {function} [map] Optional mapping function `(value, index) => any`.
+  * @return {any[]} Array of numbers (or mapped values if `map` provided).
+  * @example
+  * nn.range(4)           // [0,1,2,3]
+  * nn.range(2, 6)        // [2,3,4,5]
+  * nn.range(10, 4, -2)   // [10,8,6]
+  * nn.range(2, 5, (v) => v * v) // [4,9,16]
+  * nn.range(10, 4, -3, (v,i) => `${i}:${v}`) // ['0:10','1:7','2:4']
+  */
+  range: (startOrEnd, end, stepOrMap, maybeMap) => {
+    if (typeof startOrEnd !== 'number' || !isFinite(startOrEnd)) {
+      console.error('( ◕ ◞ ◕ ) nn.range: expects numbers. Usage: range(end) or range(start, end, step[, map])')
+      return []
+    }
+    // Extract optional mapper
+    let map
+    if (typeof maybeMap === 'function') map = maybeMap
+    else if (typeof stepOrMap === 'function') map = stepOrMap
+
+    let start
+    if (typeof end === 'undefined') {
+      start = 0
+      end = startOrEnd
+    } else {
+      start = startOrEnd
+    }
+    if (typeof end !== 'number' || !isFinite(end)) {
+      console.error('( ◕ ◞ ◕ ) nn.range: end must be a finite number')
+      return []
+    }
+    // Determine step
+    let step
+    if (typeof stepOrMap === 'number') step = stepOrMap
+    if (typeof step === 'undefined' || step === null) {
+      step = end > start ? 1 : -1
+    }
+    if (typeof step !== 'number' || !isFinite(step) || step === 0) {
+      console.error('( ◕ ◞ ◕ ) nn.range: step must be a non-zero finite number')
+      return []
+    }
+    const out = []
+    // end-exclusive progression
+    if (step > 0) {
+      for (let i = 0, v = start; v < end; v += step, i++) out.push(map ? map(v, i) : v)
+    } else {
+      for (let i = 0, v = start; v > end; v += step, i++) out.push(map ? map(v, i) : v)
+    }
+    return out
   },
 
   /**

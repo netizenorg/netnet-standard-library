@@ -80,6 +80,8 @@ For more examples demonstrating how this library can be used checkout the [examp
 - [nn.askForGPS()](docs/API.md#askForGPS) `// ask user permission for location data`
 - [nn.MIDI()](docs/API.md#askFor) `// access any plugged in MIDI devices`  
 - [nn.sleep()](docs/API.md#sleep) `// pauses code for a specified time`
+- [nn.times()](docs/API.md#sleep) `// loops a function a set number of times`
+- [nn.range()](docs/API.md#sleep) `// loops a function over a given range`
 - [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
 
 Function for binding CSS variables to interactions with HTML elements (input, buttons, etc)
