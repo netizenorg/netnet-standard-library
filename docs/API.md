@@ -242,7 +242,7 @@ If <code>a</code> is provided, returns an hsla string with alpha 0.0–1.0.</p>
 </dd>
 <dt><a href="#colorContrast">colorContrast(colorA, colorB)</a> ⇒ <code>Number</code></dt>
 <dd><p>Compute the WCAG contrast ratio between two colors.
-Returns a number ≥ 1. Typical thresholds: 4.5 (AA), 7 (AAA).
+Returns a number greater than 1. Typical thresholds: 4.5 (AA), 7 (AAA).
 Accepts hex/rgb/hsl strings or channel objects.</p>
 </dd>
 <dt><a href="#colorMatch">colorMatch(string)</a> ⇒ <code>Array</code></dt>
@@ -1428,9 +1428,9 @@ options for saturation, lightness, angles, count, and basic WCAG contrast handli
 | [options.includeBase] | <code>Boolean</code> | <code>true</code> | Whether to include the base color |
 | [options.angle] | <code>Number</code> | <code>30</code> | Angle step in degrees (used by analogous) |
 | [options.offset] | <code>Number</code> | <code>30</code> | Offset angle in degrees (used by split/compound) |
-| [options.contrast] | <code>Number</code> \| <code>String</code> |  | Min contrast ratio (e.g. 4.5, 7 or 'AA'/'AAA') against `contrastAgainst` |
-| [options.contrastAgainst] | <code>String</code> \| <code>Object</code> \| <code>Number</code> |  | Color to compare contrast against |
-| [options.contrastStrategy] | <code>String</code> | <code>&#x27;adjust&#x27;</code> | 'adjust' to tweak lightness, or 'filter' to skip non-compliant colors |
+| [options.contrast] | <code>Number</code> \| <code>String</code> |  | Min contrast ratio (e.g. 4.5, 7 or 'AA'/'AAA') |
+| [options.against] | <code>String</code> \| <code>Object</code> \| <code>Number</code> |  | Color to compare contrast against |
+| [options.strategy] | <code>String</code> | <code>&#x27;adjust&#x27;</code> | 'adjust' to tweak lightness, or 'filter' to skip non-compliant colors |
 | [options.steps] | <code>Number</code> | <code>1</code> | Steps to search when adjusting for contrast (higher = finer) |
 
 **Example**  
@@ -1538,7 +1538,7 @@ nn.isLight('#001100') // returns false
 
 ## colorContrast(colorA, colorB) ⇒ <code>Number</code>
 Compute the WCAG contrast ratio between two colors.
-Returns a number ≥ 1. Typical thresholds: 4.5 (AA), 7 (AAA).
+Returns a number greater than 1. Typical thresholds: 4.5 (AA), 7 (AAA).
 Accepts hex/rgb/hsl strings or channel objects.
 
 **Kind**: global function  

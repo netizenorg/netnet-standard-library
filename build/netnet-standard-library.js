@@ -5002,9 +5002,9 @@ window.nn = {
   * @param {Boolean} [options.includeBase=true] Whether to include the base color
   * @param {Number} [options.angle=30] Angle step in degrees (used by analogous)
   * @param {Number} [options.offset=30] Offset angle in degrees (used by split/compound)
-  * @param {Number|String} [options.contrast] Min contrast ratio (e.g. 4.5, 7 or 'AA'/'AAA') against `contrastAgainst`
-  * @param {String|Object|Number} [options.contrastAgainst] Color to compare contrast against
-  * @param {String} [options.contrastStrategy='adjust'] 'adjust' to tweak lightness, or 'filter' to skip non-compliant colors
+  * @param {Number|String} [options.contrast] Min contrast ratio (e.g. 4.5, 7 or 'AA'/'AAA')
+  * @param {String|Object|Number} [options.against] Color to compare contrast against
+  * @param {String} [options.strategy='adjust'] 'adjust' to tweak lightness, or 'filter' to skip non-compliant colors
   * @param {Number} [options.steps=1] Steps to search when adjusting for contrast (higher = finer)
   * @return {String[]} Array of hex color strings
   * @example
@@ -5106,7 +5106,7 @@ window.nn = {
 
   /**
   * Compute the WCAG contrast ratio between two colors.
-  * Returns a number ≥ 1. Typical thresholds: 4.5 (AA), 7 (AAA).
+  * Returns a number greater than 1. Typical thresholds: 4.5 (AA), 7 (AAA).
   * Accepts hex/rgb/hsl strings or channel objects.
   *
   * @method colorContrast
@@ -5118,6 +5118,7 @@ window.nn = {
   * nn.colorContrast('rgb(0,0,0)', 'hsl(0,0%,100%)') // 21
   */
   colorContrast: Color.contrast,
+  contrast: Color.contrast,
 
   /**
   * This function takes a string and returns the first color string it finds in the form of a parsed array (if no color is found it returns null)
