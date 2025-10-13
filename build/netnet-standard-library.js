@@ -1065,6 +1065,10 @@ else window.Bind = Bind
     Color._hsv2hsl(h, s, v)
     Color.hsv2hsl(h, s, v)
 
+    // normalize input to HSL or RGB
+    Color.toHSL(value, defaults)
+    Color.toRGB(value, defaults)
+
     // creates a random color string
     Color.random()
 
@@ -1076,6 +1080,12 @@ else window.Bind = Bind
     // determines whether a hex or rgb color string is light or dark
     // returns true for light colors and false for dark colors
     Color.isLight(colorString)
+
+    // WCAG contrast ratio between two colors
+    Color.contrast(colorA, colorB)
+
+    // create color schemes
+    Color.scheme({ harmony, base, ...options })
 
     // match method takes a string and returns the first color string it finds
     // in the form of a parsed array (if no color is found it returns null)
@@ -1336,8 +1346,84 @@ class Color {
     }
   }
 
-  // ~ ~ ~
-    
+  // normalize an input into HSL {h,s,l} with degrees/percent ranges
+  static toHSL (value, defaults = {}) {
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n))
+    const normHue = h => ((h % 360) + 360) % 360
+
+    if (typeof value === 'number') {
+      return {
+        h: normHue(value),
+        s: typeof defaults.saturation === 'number' ? clamp(defaults.saturation, 0, 100) : 100,
+        l: typeof defaults.lightness === 'number' ? clamp(defaults.lightness, 0, 100) : 50
+      }
+    }
+
+    if (typeof value === 'string' && value) {
+      const s = value.trim()
+      if (s[0] === '#') return this.hex2hsl(s)
+      const m = this.match(s)
+      if (m) {
+        const kind = m[0]
+        if (kind === 'hex') return this.hex2hsl(m[1])
+        if (kind === 'rgb') {
+          const r = parseFloat(m[2]); const g = parseFloat(m[3]); const b = parseFloat(m[4])
+          return this.rgb2hsl(r, g, b)
+        }
+        if (kind === 'hsl') {
+          const h = parseFloat(m[2]); const S = parseFloat(m[3]); const L = parseFloat(m[4])
+          return { h: normHue(h), s: clamp(S, 0, 100), l: clamp(L, 0, 100) }
+        }
+      }
+    }
+
+    if (value && typeof value === 'object') {
+      if ('h' in value && 's' in value && 'l' in value) {
+        return { h: normHue(value.h), s: clamp(value.s, 0, 100), l: clamp(value.l, 0, 100) }
+      }
+      if ('h' in value && 's' in value && 'v' in value) {
+        const hsl = this.hsv2hsl(value.h, value.s, value.v)
+        return { h: normHue(hsl.h), s: clamp(hsl.s, 0, 100), l: clamp(hsl.l, 0, 100) }
+      }
+      if ('r' in value && 'g' in value && 'b' in value) {
+        return this.rgb2hsl(value.r, value.g, value.b)
+      }
+    }
+
+    return { h: 0, s: 100, l: 50 }
+  }
+
+  // normalize an input into RGB {r,g,b} with 0-255 ranges
+  static toRGB (value, defaults = {}) {
+    if (typeof value === 'number' || (value && typeof value === 'object' && 'h' in value)) {
+      const hsl = this.toHSL(value, defaults)
+      return this.hsl2rgb(hsl.h, hsl.s, hsl.l)
+    }
+    if (typeof value === 'string' && value) {
+      const s = value.trim()
+      if (s[0] === '#') return this.hex2rgb(s)
+      const m = this.match(s)
+      if (m) {
+        const kind = m[0]
+        if (kind === 'hex') return this.hex2rgb(m[1])
+        if (kind === 'rgb') {
+          return { r: parseFloat(m[2]), g: parseFloat(m[3]), b: parseFloat(m[4]) }
+        }
+        if (kind === 'hsl') {
+          const h = parseFloat(m[2]); const S = parseFloat(m[3]); const L = parseFloat(m[4])
+          return this.hsl2rgb(h, S, L)
+        }
+      }
+    }
+    if (value && typeof value === 'object' && 'r' in value && 'g' in value && 'b' in value) {
+      return { r: value.r, g: value.g, b: value.b }
+    }
+    // fallback: pure red
+    return { r: 255, g: 0, b: 0 }
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ random color  ~ ~ ~
+
   static random (type, alpha) {
     let r, g, b, h, s, l, a, hex
     const opac = type === 'rgba' || type === 'hsla'
@@ -1371,6 +1457,21 @@ class Color {
       hex = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`
       return a ? hex + a : hex
     }
+  }
+
+  // Compute contrast ratio per WCAG between two colors (hex/rgb/hsl or objects)
+  static contrast (a, b) {
+    const rgbA = this.toRGB(a)
+    const rgbB = this.toRGB(b)
+    const toLin = (c) => {
+      const v = c / 255
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+    }
+    const LA = 0.2126 * toLin(rgbA.r) + 0.7152 * toLin(rgbA.g) + 0.0722 * toLin(rgbA.b)
+    const LB = 0.2126 * toLin(rgbB.r) + 0.7152 * toLin(rgbB.g) + 0.0722 * toLin(rgbB.b)
+    const L1 = Math.max(LA, LB)
+    const L2 = Math.min(LA, LB)
+    return (L1 + 0.05) / (L2 + 0.05)
   }
 
   // via: https://awik.io/determine-color-bright-dark-using-javascript/
@@ -1410,6 +1511,175 @@ class Color {
     else if (rgb) return ['rgb', ...rgb]
     else if (hsl) return ['hsl', ...hsl]
     else return null
+  }
+
+  // create color schemes based on harmony types
+  // returns an array of hex color strings
+  // API: Color.scheme({ harmony, base, ...options })
+  static scheme (options = {}) {
+    const t = (options.harmony || '').toLowerCase()
+    const o = options || {}
+
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n))
+    const normHue = h => ((h % 360) + 360) % 360
+
+    const base = this.toHSL(options.base, { saturation: o.saturation, lightness: o.lightness })
+    const h0 = normHue(base.h)
+    const s0 = ('saturation' in o) ? clamp(o.saturation, 0, 100) : clamp(base.s, 0, 100)
+    const l0 = ('lightness' in o) ? clamp(o.lightness, 0, 100) : clamp(base.l, 0, 100)
+
+    const includeBase = ('includeBase' in o) ? !!o.includeBase : true
+    const count = typeof o.count === 'number' && o.count > 0 ? Math.floor(o.count) : undefined
+    const angle = typeof o.angle === 'number' ? o.angle : 30 // for analogous
+    const offset = typeof o.offset === 'number' ? o.offset : 30 // for split/compound
+
+    // contrast handling options
+    const cOpt = o.contrast != null ? o.contrast : o.minContrast
+    const contrastMin = typeof cOpt === 'string' ? ((cOpt.toUpperCase() === 'AAA') ? 7 : 4.5) : (typeof cOpt === 'number' ? cOpt : null)
+    const contrastAgainst = o.contrastAgainst || o.against
+    const contrastStrategy = o.contrastStrategy || o.strategy || 'adjust' // 'adjust' | 'filter'
+    const steps = (typeof o.steps === 'number' && o.steps > 0) ? Math.min(50, Math.floor(o.steps)) : 1
+
+    const meetsContrast = (hex) => {
+      if (!contrastMin || !contrastAgainst) return true
+      return this.contrast(hex, contrastAgainst) >= contrastMin
+    }
+
+    const adjustForContrast = (hex) => {
+      if (!contrastMin || !contrastAgainst) return hex
+      if (meetsContrast(hex)) return hex
+      const hsl = this.toHSL(hex)
+      const tryDir = (dir) => {
+        let low = dir === 'darker' ? 0 : hsl.l
+        let high = dir === 'darker' ? hsl.l : 100
+        let best = null
+        for (let i = 0; i < steps; i++) {
+          const mid = (low + high) / 2
+          const testHex = this.hsl2hex(hsl.h, hsl.s, mid)
+          const ok = this.contrast(testHex, contrastAgainst) >= contrastMin
+          if (ok) {
+            best = { l: mid, hex: testHex }
+            if (dir === 'darker') high = mid; else low = mid
+          } else {
+            if (dir === 'darker') low = mid; else high = mid
+          }
+        }
+        return best
+      }
+      const darker = tryDir('darker')
+      const lighter = tryDir('lighter')
+      if (!darker && !lighter) return hex
+      if (darker && !lighter) return darker.hex
+      if (!darker && lighter) return lighter.hex
+      // choose the minimal lightness change
+      return (Math.abs(darker.l - hsl.l) <= Math.abs(lighter.l - hsl.l)) ? darker.hex : lighter.hex
+    }
+
+    const push = (h, s = s0, l = l0, arr) => {
+      let hex = this.hsl2hex(normHue(h), clamp(s, 0, 100), clamp(l, 0, 100))
+      if (contrastMin && contrastAgainst) {
+        if (contrastStrategy === 'adjust') {
+          hex = adjustForContrast(hex)
+        } else if (!meetsContrast(hex)) {
+          return // skip if filtering
+        }
+      }
+      ;(arr || res).push(hex)
+    }
+
+    const res = []
+
+    if (t === 'random') {
+      const n = count || 5
+      for (let i = 0; i < n; i++) res.push(this.random('hex'))
+      return res
+    }
+
+    if (t === 'analogous') {
+      const n = count || 5
+      // generate around base hue in steps of `angle`
+      const start = includeBase ? -Math.floor((n - 1) / 2) : -Math.floor(n / 2)
+      for (let i = 0; i < n; i++) {
+        let idx = start + i
+        if (!includeBase && idx >= 0) idx += 1 // skip base (0)
+        push(h0 + idx * angle)
+      }
+      return res
+    }
+
+    if (t === 'monochromatic') {
+      const n = count || 5
+      const range = Array.isArray(o.lightnessRange) && o.lightnessRange.length === 2
+        ? [clamp(o.lightnessRange[0], 0, 100), clamp(o.lightnessRange[1], 0, 100)]
+        : [clamp(Math.max(0, l0 - 40), 0, 100), clamp(Math.min(100, l0 + 40), 0, 100)]
+      for (let i = 0; i < n; i++) {
+        const li = n === 1 ? l0 : range[0] + (range[1] - range[0]) * (i / (n - 1))
+        push(h0, s0, li)
+      }
+      return res
+    }
+
+    if (t === 'shades') {
+      const n = count || 5
+      const range = Array.isArray(o.lightnessRange) && o.lightnessRange.length === 2
+        ? [clamp(o.lightnessRange[0], 0, 100), clamp(o.lightnessRange[1], 0, 100)]
+        : [10, 90]
+      for (let i = 0; i < n; i++) {
+        const li = n === 1 ? l0 : range[0] + (range[1] - range[0]) * (i / (n - 1))
+        push(h0, s0, li)
+      }
+      return res
+    }
+
+    if (t === 'triad') {
+      let hues = [h0, h0 + 120, h0 + 240]
+      if (!includeBase) hues = hues.slice(1)
+      if (count) hues = hues.slice(0, count)
+      hues.forEach(h => push(h))
+      return res
+    }
+
+    if (t === 'complementary') {
+      let hues = [h0, h0 + 180]
+      if (!includeBase) hues = hues.slice(1)
+      if (count) hues = hues.slice(0, count)
+      hues.forEach(h => push(h))
+      return res
+    }
+
+    if (t === 'split-complementary' || t === 'split_complementary' || t === 'split') {
+      let hues = [h0, h0 + 180 - offset, h0 + 180 + offset]
+      if (!includeBase) hues = hues.slice(1)
+      if (count) hues = hues.slice(0, count)
+      hues.forEach(h => push(h))
+      return res
+    }
+
+    if (t === 'square') {
+      let hues = [h0, h0 + 90, h0 + 180, h0 + 270]
+      if (!includeBase) hues = hues.slice(1)
+      if (count) hues = hues.slice(0, count)
+      hues.forEach(h => push(h))
+      return res
+    }
+
+    if (t === 'compound') {
+      let hues = [h0 - offset, h0, h0 + offset, h0 + 180 - offset, h0 + 180 + offset]
+      if (!includeBase) hues = hues.filter(h => normHue(h) !== normHue(h0))
+      if (count) hues = hues.slice(0, count)
+      hues.forEach(h => push(h))
+      return res
+    }
+
+    // default to analogous if unknown type
+    const n = count || 5
+    const start = includeBase ? -Math.floor((n - 1) / 2) : -Math.floor(n / 2)
+    for (let i = 0; i < n; i++) {
+      let idx = start + i
+      if (!includeBase && idx >= 0) idx += 1
+      push(h0 + idx * angle)
+    }
+    return res
   }
 }
 
@@ -4718,6 +4988,45 @@ window.nn = {
   randomColor: Color.random,
 
   /**
+  * Generate a color scheme (array of hex strings) from a base color and a harmony type.
+  * Supports common harmony types such as 'analogous' and 'monochromatic', and exposes
+  * options for saturation, lightness, angles, count, and basic WCAG contrast handling.
+  *
+  * @method colorScheme
+  * @param {Object} options Configuration
+  * @param {String} options.harmony Harmony type (e.g. 'analogous', 'monochromatic', 'complementary', 'triadic', etc.)
+  * @param {String|Object|Number} options.base The base color (hex/rgb/hsl string or {h,s,l}/{r,g,b} or hue number)
+  * @param {Number} [options.saturation] Override saturation (0–100)
+  * @param {Number} [options.lightness] Override lightness (0–100)
+  * @param {Number} [options.count] How many colors to return
+  * @param {Boolean} [options.includeBase=true] Whether to include the base color
+  * @param {Number} [options.angle=30] Angle step in degrees (used by analogous)
+  * @param {Number} [options.offset=30] Offset angle in degrees (used by split/compound)
+  * @param {Number|String} [options.contrast] Min contrast ratio (e.g. 4.5, 7 or 'AA'/'AAA') against `contrastAgainst`
+  * @param {String|Object|Number} [options.contrastAgainst] Color to compare contrast against
+  * @param {String} [options.contrastStrategy='adjust'] 'adjust' to tweak lightness, or 'filter' to skip non-compliant colors
+  * @param {Number} [options.steps=1] Steps to search when adjusting for contrast (higher = finer)
+  * @return {String[]} Array of hex color strings
+  * @example
+  * nn.colorScheme({ harmony: 'analogous', base: '#ff0066', count: 5 })
+  */
+  colorScheme: Color.scheme,
+
+  /**
+  * Normalize a color into an RGB object `{ r, g, b }` with 0–255 channels.
+  * Accepts hex/rgb/hsl strings, `{h,s,l}`/`{r,g,b}` objects, or a hue number.
+  *
+  * @method toRGB
+  * @param {String|Object|Number} value The input color (hex/rgb/hsl string, object, or hue number)
+  * @param {Object} [defaults] Optional defaults used when converting from hue (e.g., `{ saturation: 100, lightness: 50 }`)
+  * @return {{r:number,g:number,b:number}} RGB channels in 0–255
+  * @example
+  * nn.toRGB('#ff0000') // { r:255, g:0, b:0 }
+  * nn.toRGB({ h: 200, s: 60, l: 50 }) // → { r:..., g:..., b:... }
+  */
+  toRGB: Color.toRGB,
+
+  /**
   * Build a CSS rgb/rgba color string from channel values.
   * If `a` is provided, returns an rgba string with alpha 0.0–1.0.
   *
@@ -4742,6 +5051,20 @@ window.nn = {
     }
     return `rgb(${rc}, ${gc}, ${bc})`
   },
+
+  /**
+  * Normalize a color into an HSL object `{ h, s, l }` where h is 0–360 and s/l are 0–100.
+  * Accepts hex/rgb/hsl strings, `{h,s,l}`/`{r,g,b}`/`{h,s,v}` objects, or a hue number.
+  *
+  * @method toHSL
+  * @param {String|Object|Number} value The input color (hex/rgb/hsl string, object, or hue number)
+  * @param {Object} [defaults] Optional defaults used when converting from hue (e.g., `{ saturation: 100, lightness: 50 }`)
+  * @return {{h:number,s:number,l:number}} HSL channels (0–360, 0–100, 0–100)
+  * @example
+  * nn.toHSL('#ff0000') // { h:0, s:100, l:50 }
+  * nn.toHSL({ r: 255, g: 0, b: 0 }) // → { h:0, s:100, l:50 }
+  */
+  toHSL: Color.toHSL,
 
   /**
   * Build a CSS hsl/hsla color string from channel values.
@@ -4780,6 +5103,21 @@ window.nn = {
   * nn.isLight('#001100') // returns false
   */
   isLight: Color.isLight,
+
+  /**
+  * Compute the WCAG contrast ratio between two colors.
+  * Returns a number ≥ 1. Typical thresholds: 4.5 (AA), 7 (AAA).
+  * Accepts hex/rgb/hsl strings or channel objects.
+  *
+  * @method colorContrast
+  * @param {String|Object} colorA First color (hex/rgb/hsl string or object)
+  * @param {String|Object} colorB Second color (hex/rgb/hsl string or object)
+  * @return {Number} Contrast ratio (L1+0.05)/(L2+0.05)
+  * @example
+  * nn.colorContrast('#000', '#fff') // 21
+  * nn.colorContrast('rgb(0,0,0)', 'hsl(0,0%,100%)') // 21
+  */
+  colorContrast: Color.contrast,
 
   /**
   * This function takes a string and returns the first color string it finds in the form of a parsed array (if no color is found it returns null)

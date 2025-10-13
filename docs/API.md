@@ -216,9 +216,22 @@ If <code>map</code> is provided, returns values mapped with <code>(value, index)
 <dt><a href="#randomColor">randomColor([type], [alpha])</a> ⇒ <code>String</code></dt>
 <dd><p>This function generates random color strings. It accepts two optional arguments, type and alpha. The type can be: &#39;hex&#39;, &#39;rgb&#39;, &#39;rgba&#39;, &#39;hsl&#39; or &#39;hsla&#39; and the alpha can be a float value (0.0 - 1.0) or a boolean</p>
 </dd>
+<dt><a href="#colorScheme">colorScheme(options)</a> ⇒ <code>Array.&lt;String&gt;</code></dt>
+<dd><p>Generate a color scheme (array of hex strings) from a base color and a harmony type.
+Supports common harmony types such as &#39;analogous&#39; and &#39;monochromatic&#39;, and exposes
+options for saturation, lightness, angles, count, and basic WCAG contrast handling.</p>
+</dd>
+<dt><a href="#toRGB">toRGB(value, [defaults])</a> ⇒ <code>Object</code></dt>
+<dd><p>Normalize a color into an RGB object <code>{ r, g, b }</code> with 0–255 channels.
+Accepts hex/rgb/hsl strings, <code>{h,s,l}</code>/<code>{r,g,b}</code> objects, or a hue number.</p>
+</dd>
 <dt><a href="#rgb">rgb(r, g, b, [a])</a> ⇒ <code>String</code></dt>
 <dd><p>Build a CSS rgb/rgba color string from channel values.
 If <code>a</code> is provided, returns an rgba string with alpha 0.0–1.0.</p>
+</dd>
+<dt><a href="#toHSL">toHSL(value, [defaults])</a> ⇒ <code>Object</code></dt>
+<dd><p>Normalize a color into an HSL object <code>{ h, s, l }</code> where h is 0–360 and s/l are 0–100.
+Accepts hex/rgb/hsl strings, <code>{h,s,l}</code>/<code>{r,g,b}</code>/<code>{h,s,v}</code> objects, or a hue number.</p>
 </dd>
 <dt><a href="#hsl">hsl(h, s, l, [a])</a> ⇒ <code>String</code></dt>
 <dd><p>Build a CSS hsl/hsla color string from channel values.
@@ -226,6 +239,11 @@ If <code>a</code> is provided, returns an hsla string with alpha 0.0–1.0.</p>
 </dd>
 <dt><a href="#isLight">isLight(color)</a> ⇒ <code>Boolean</code></dt>
 <dd><p>It can often be useful to know if a color is &quot;light&quot; or &quot;dark&quot; when pairing other colors with it, for example to determine if a font color should be black or white so that it best stands out on a given background color. The <code>.isLight()</code> method takes a color string (either in hex or rgb) and will return <code>true</code> if it is a light color or <code>false</code> if it is a dark color.</p>
+</dd>
+<dt><a href="#colorContrast">colorContrast(colorA, colorB)</a> ⇒ <code>Number</code></dt>
+<dd><p>Compute the WCAG contrast ratio between two colors.
+Returns a number ≥ 1. Typical thresholds: 4.5 (AA), 7 (AAA).
+Accepts hex/rgb/hsl strings or channel objects.</p>
 </dd>
 <dt><a href="#colorMatch">colorMatch(string)</a> ⇒ <code>Array</code></dt>
 <dd><p>This function takes a string and returns the first color string it finds in the form of a parsed array (if no color is found it returns null)</p>
@@ -1389,6 +1407,55 @@ nn.randomColor('rgba') // ex: "rgba(85, 177, 23, 1)"
 nn.randomColor('rgb', true) // ex: "rgba(122, 46, 239, 0.53)"
 nn.randomColor('rgb', 0.5) // ex: "rgba(107, 110, 7, 0.5)"
 ```
+<a name="colorScheme"></a>
+
+## colorScheme(options) ⇒ <code>Array.&lt;String&gt;</code>
+Generate a color scheme (array of hex strings) from a base color and a harmony type.
+Supports common harmony types such as 'analogous' and 'monochromatic', and exposes
+options for saturation, lightness, angles, count, and basic WCAG contrast handling.
+
+**Kind**: global function  
+**Returns**: <code>Array.&lt;String&gt;</code> - Array of hex color strings  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| options | <code>Object</code> |  | Configuration |
+| options.harmony | <code>String</code> |  | Harmony type (e.g. 'analogous', 'monochromatic', 'complementary', 'triadic', etc.) |
+| options.base | <code>String</code> \| <code>Object</code> \| <code>Number</code> |  | The base color (hex/rgb/hsl string or {h,s,l}/{r,g,b} or hue number) |
+| [options.saturation] | <code>Number</code> |  | Override saturation (0–100) |
+| [options.lightness] | <code>Number</code> |  | Override lightness (0–100) |
+| [options.count] | <code>Number</code> |  | How many colors to return |
+| [options.includeBase] | <code>Boolean</code> | <code>true</code> | Whether to include the base color |
+| [options.angle] | <code>Number</code> | <code>30</code> | Angle step in degrees (used by analogous) |
+| [options.offset] | <code>Number</code> | <code>30</code> | Offset angle in degrees (used by split/compound) |
+| [options.contrast] | <code>Number</code> \| <code>String</code> |  | Min contrast ratio (e.g. 4.5, 7 or 'AA'/'AAA') against `contrastAgainst` |
+| [options.contrastAgainst] | <code>String</code> \| <code>Object</code> \| <code>Number</code> |  | Color to compare contrast against |
+| [options.contrastStrategy] | <code>String</code> | <code>&#x27;adjust&#x27;</code> | 'adjust' to tweak lightness, or 'filter' to skip non-compliant colors |
+| [options.steps] | <code>Number</code> | <code>1</code> | Steps to search when adjusting for contrast (higher = finer) |
+
+**Example**  
+```js
+nn.colorScheme({ harmony: 'analogous', base: '#ff0066', count: 5 })
+```
+<a name="toRGB"></a>
+
+## toRGB(value, [defaults]) ⇒ <code>Object</code>
+Normalize a color into an RGB object `{ r, g, b }` with 0–255 channels.
+Accepts hex/rgb/hsl strings, `{h,s,l}`/`{r,g,b}` objects, or a hue number.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - RGB channels in 0–255  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>String</code> \| <code>Object</code> \| <code>Number</code> | The input color (hex/rgb/hsl string, object, or hue number) |
+| [defaults] | <code>Object</code> | Optional defaults used when converting from hue (e.g., `{ saturation: 100, lightness: 50 }`) |
+
+**Example**  
+```js
+nn.toRGB('#ff0000') // { r:255, g:0, b:0 }
+nn.toRGB({ h: 200, s: 60, l: 50 }) // → { r:..., g:..., b:... }
+```
 <a name="rgb"></a>
 
 ## rgb(r, g, b, [a]) ⇒ <code>String</code>
@@ -1409,6 +1476,25 @@ If `a` is provided, returns an rgba string with alpha 0.0–1.0.
 ```js
 nn.rgb(255, 0, 0)      // 'rgb(255, 0, 0)'
 nn.rgb(255, 0, 0, 0.5) // 'rgba(255, 0, 0, 0.5)'
+```
+<a name="toHSL"></a>
+
+## toHSL(value, [defaults]) ⇒ <code>Object</code>
+Normalize a color into an HSL object `{ h, s, l }` where h is 0–360 and s/l are 0–100.
+Accepts hex/rgb/hsl strings, `{h,s,l}`/`{r,g,b}`/`{h,s,v}` objects, or a hue number.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - HSL channels (0–360, 0–100, 0–100)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>String</code> \| <code>Object</code> \| <code>Number</code> | The input color (hex/rgb/hsl string, object, or hue number) |
+| [defaults] | <code>Object</code> | Optional defaults used when converting from hue (e.g., `{ saturation: 100, lightness: 50 }`) |
+
+**Example**  
+```js
+nn.toHSL('#ff0000') // { h:0, s:100, l:50 }
+nn.toHSL({ r: 255, g: 0, b: 0 }) // → { h:0, s:100, l:50 }
 ```
 <a name="hsl"></a>
 
@@ -1447,6 +1533,26 @@ It can often be useful to know if a color is "light" or "dark" when pairing othe
 ```js
 nn.isLight('#ffffcc') // returns true
 nn.isLight('#001100') // returns false
+```
+<a name="colorContrast"></a>
+
+## colorContrast(colorA, colorB) ⇒ <code>Number</code>
+Compute the WCAG contrast ratio between two colors.
+Returns a number ≥ 1. Typical thresholds: 4.5 (AA), 7 (AAA).
+Accepts hex/rgb/hsl strings or channel objects.
+
+**Kind**: global function  
+**Returns**: <code>Number</code> - Contrast ratio (L1+0.05)/(L2+0.05)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| colorA | <code>String</code> \| <code>Object</code> | First color (hex/rgb/hsl string or object) |
+| colorB | <code>String</code> \| <code>Object</code> | Second color (hex/rgb/hsl string or object) |
+
+**Example**  
+```js
+nn.colorContrast('#000', '#fff') // 21
+nn.colorContrast('rgb(0,0,0)', 'hsl(0,0%,100%)') // 21
 ```
 <a name="colorMatch"></a>
 
