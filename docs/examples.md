@@ -82,9 +82,15 @@ const wrap = nn.create('div')
   .css({ display: 'flex', gap: 12, padding: 12 })
   .addTo('body')
 
-colors.forEach(c => {
+colors.forEach(clr => {
   nn.create('div')
-    .css({ width: 100, height: 80, background: c, border: '1px solid #ddd', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000' })
+    .css({
+      width: 100,
+      height: 80,
+      padding: 10,
+      background: clr,
+      color: '#fff'
+    })
     .content(c)
     .addTo(wrap)
 })
