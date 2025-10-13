@@ -1050,6 +1050,45 @@ window.nn = {
   randomColor: Color.random,
 
   /**
+  * Generate a color scheme (array of hex strings) from a base color and a harmony type.
+  * Supports common harmony types such as 'analogous' and 'monochromatic', and exposes
+  * options for saturation, lightness, angles, count, and basic WCAG contrast handling.
+  *
+  * @method colorScheme
+  * @param {Object} options Configuration
+  * @param {String} options.harmony Harmony type (e.g. 'analogous', 'monochromatic', 'complementary', 'triadic', etc.)
+  * @param {String|Object|Number} options.base The base color (hex/rgb/hsl string or {h,s,l}/{r,g,b} or hue number)
+  * @param {Number} [options.saturation] Override saturation (0–100)
+  * @param {Number} [options.lightness] Override lightness (0–100)
+  * @param {Number} [options.count] How many colors to return
+  * @param {Boolean} [options.includeBase=true] Whether to include the base color
+  * @param {Number} [options.angle=30] Angle step in degrees (used by analogous)
+  * @param {Number} [options.offset=30] Offset angle in degrees (used by split/compound)
+  * @param {Number|String} [options.contrast] Min contrast ratio (e.g. 4.5, 7 or 'AA'/'AAA') against `contrastAgainst`
+  * @param {String|Object|Number} [options.contrastAgainst] Color to compare contrast against
+  * @param {String} [options.contrastStrategy='adjust'] 'adjust' to tweak lightness, or 'filter' to skip non-compliant colors
+  * @param {Number} [options.steps=1] Steps to search when adjusting for contrast (higher = finer)
+  * @return {String[]} Array of hex color strings
+  * @example
+  * nn.colorScheme({ harmony: 'analogous', base: '#ff0066', count: 5 })
+  */
+  colorScheme: Color.scheme,
+
+  /**
+  * Normalize a color into an RGB object `{ r, g, b }` with 0–255 channels.
+  * Accepts hex/rgb/hsl strings, `{h,s,l}`/`{r,g,b}` objects, or a hue number.
+  *
+  * @method toRGB
+  * @param {String|Object|Number} value The input color (hex/rgb/hsl string, object, or hue number)
+  * @param {Object} [defaults] Optional defaults used when converting from hue (e.g., `{ saturation: 100, lightness: 50 }`)
+  * @return {{r:number,g:number,b:number}} RGB channels in 0–255
+  * @example
+  * nn.toRGB('#ff0000') // { r:255, g:0, b:0 }
+  * nn.toRGB({ h: 200, s: 60, l: 50 }) // → { r:..., g:..., b:... }
+  */
+  toRGB: Color.toRGB,
+
+  /**
   * Build a CSS rgb/rgba color string from channel values.
   * If `a` is provided, returns an rgba string with alpha 0.0–1.0.
   *
@@ -1074,6 +1113,20 @@ window.nn = {
     }
     return `rgb(${rc}, ${gc}, ${bc})`
   },
+
+  /**
+  * Normalize a color into an HSL object `{ h, s, l }` where h is 0–360 and s/l are 0–100.
+  * Accepts hex/rgb/hsl strings, `{h,s,l}`/`{r,g,b}`/`{h,s,v}` objects, or a hue number.
+  *
+  * @method toHSL
+  * @param {String|Object|Number} value The input color (hex/rgb/hsl string, object, or hue number)
+  * @param {Object} [defaults] Optional defaults used when converting from hue (e.g., `{ saturation: 100, lightness: 50 }`)
+  * @return {{h:number,s:number,l:number}} HSL channels (0–360, 0–100, 0–100)
+  * @example
+  * nn.toHSL('#ff0000') // { h:0, s:100, l:50 }
+  * nn.toHSL({ r: 255, g: 0, b: 0 }) // → { h:0, s:100, l:50 }
+  */
+  toHSL: Color.toHSL,
 
   /**
   * Build a CSS hsl/hsla color string from channel values.
@@ -1112,6 +1165,21 @@ window.nn = {
   * nn.isLight('#001100') // returns false
   */
   isLight: Color.isLight,
+
+  /**
+  * Compute the WCAG contrast ratio between two colors.
+  * Returns a number ≥ 1. Typical thresholds: 4.5 (AA), 7 (AAA).
+  * Accepts hex/rgb/hsl strings or channel objects.
+  *
+  * @method colorContrast
+  * @param {String|Object} colorA First color (hex/rgb/hsl string or object)
+  * @param {String|Object} colorB Second color (hex/rgb/hsl string or object)
+  * @return {Number} Contrast ratio (L1+0.05)/(L2+0.05)
+  * @example
+  * nn.colorContrast('#000', '#fff') // 21
+  * nn.colorContrast('rgb(0,0,0)', 'hsl(0,0%,100%)') // 21
+  */
+  colorContrast: Color.contrast,
 
   /**
   * This function takes a string and returns the first color string it finds in the form of a parsed array (if no color is found it returns null)

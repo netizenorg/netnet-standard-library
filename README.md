@@ -137,8 +137,12 @@ Functions for doing various **color** maths. These come from the [Color.js](http
 - [nn.rgb()](docs/API.md#rgb) `// generate an rgb color string`
 - [nn.hsl()](docs/API.md#hsl) `// generate an hsl color string`
 - [nn.randomColor()](docs/API.md#randomColor) `// generate a random color string`
+- [nn.colorScheme()](docs/API.md#colorScheme) `// generate a color scheme array`
 - [nn.isLight()](docs/API.md#isLight) `// checks if a color is light or dark`
+- [nn.colorContrast()](docs/API.md#colorContrast) `// compares to colors, returns WCAG ratio`
 - [nn.colorMatch()](docs/API.md#colorMatch) `// finds color strings in larger strings`
+- [nn.toRGB()](docs/API.md#toRGB) `// converts color string or object to RGB`
+- [nn.toHSL()](docs/API.md#toHSL) `// converts color string or object to HSL`
 - [nn.alpha2hex()](docs/API.md#alpha2hex) `// converts alpha float value to hex byte string`
 - [nn.hex2alpha()](docs/API.md#hex2alpha) `// converts a hex byte string to alpha float value`
 - [nn.hex2rgb()](docs/API.md#hex2rgb) `// converts a hex color string to an rgb object`
