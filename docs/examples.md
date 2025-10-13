@@ -91,7 +91,7 @@ colors.forEach(clr => {
       background: clr,
       color: '#fff'
     })
-    .content(c)
+    .content(clr)
     .addTo(wrap)
 })
 ```
