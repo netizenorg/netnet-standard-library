@@ -1180,7 +1180,7 @@ window.nn = {
   * nn.colorContrast('rgb(0,0,0)', 'hsl(0,0%,100%)') // 21
   */
   colorContrast: Color.contrast,
-  contrast: Color.contrast,
+  contrast: Color.contrast, // alias (for internals)
 
   /**
   * This function takes a string and returns the first color string it finds in the form of a parsed array (if no color is found it returns null)
@@ -1193,6 +1193,7 @@ window.nn = {
   * // returns ["rgb", "rgba(34, 56, 88, 0.5)", "34", "56", "88", "0.5"]
   */
   colorMatch: Color.match,
+  match: Color.match, // alias (for internals)
 
   /**
   * This function takes an alpha value between `0.0` and `1.0` and returns its corresponding hex character string
