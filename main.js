@@ -441,7 +441,6 @@ window.nn = {
    */
   transposeScale: Music.transposeScale,
 
-
   /**
   * This functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** This function only works in netnet.studio sketches and is meant for experimental/educational use.
   *

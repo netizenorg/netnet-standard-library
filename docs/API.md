@@ -89,6 +89,19 @@ Pass the same function reference you used with <code>nn.on()</code> to remove it
 <dt><a href="#createChord">createChord(scale, ch)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
 <dd><p>Create an array of notes in a chord by selecting from a scale</p>
 </dd>
+<dt><a href="#rotateScale">rotateScale(scale, k)</a> ⇒ <code>Array.&lt;string&gt;</code> | <code>Array.&lt;number&gt;</code></dt>
+<dd><p>Rotate a scale so a chosen degree becomes the first element (non-destructive).
+Useful for viewing a parent scale from another degree (e.g., modes).</p>
+</dd>
+<dt><a href="#transposeScale">transposeScale(scale, semitones)</a> ⇒ <code>Array.&lt;(string|number)&gt;</code></dt>
+<dd><p>Transpose every element of a scale by a fixed number of semitones (non-destructive).
+Works with note names (with or without octave) and MIDI numbers.</p>
+<ul>
+<li>If an element has an octave (e.g., &#39;C4&#39;), it is transposed via MIDI and returned with octave.</li>
+<li>If an element is a pitch-class only (e.g., &#39;C&#39;, &#39;F#&#39;), it wraps within 12 semitones.</li>
+<li>If an element is a number, it is treated as a MIDI value and shifted numerically.</li>
+</ul>
+</dd>
 <dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
 <dd><p>This functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> This function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
 </dd>
@@ -719,6 +732,65 @@ const cMajorScale = nn.createScale('C4', 'major')
 const cMajorTriad = nn.createChord(cMajorScale, 'triad')
 console.log(cMajorTriad)
 // → ['C4','E4','G4']
+```
+<a name="rotateScale"></a>
+
+## rotateScale(scale, k) ⇒ <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;number&gt;</code>
+Rotate a scale so a chosen degree becomes the first element (non-destructive).
+Useful for viewing a parent scale from another degree (e.g., modes).
+
+**Kind**: global function  
+**Returns**: <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;number&gt;</code> - New array with the same elements, re-ordered  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| scale | <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;number&gt;</code> | Array of notes (with or without octave), or MIDI numbers |
+| k | <code>number</code> | Zero-based index to rotate by (e.g., 0 = no change, 1 = start at degree 2) |
+
+**Example**  
+```js
+// Pitch-classes (no octaves)
+nn.rotateScale(['C','D','E','F','G','A','B'], 2)
+// → ['E','F','G','A','B','C','D']
+
+// With octaves
+nn.rotateScale(['C4','D4','E4','F4','G4','A4','B4','C5'], 1)
+// → ['D4','E4','F4','G4','A4','B4','C5','C4']
+
+// MIDI numbers
+nn.rotateScale([60, 62, 64, 65, 67, 69, 71], 3)
+// → [65, 67, 69, 71, 60, 62, 64]
+```
+<a name="transposeScale"></a>
+
+## transposeScale(scale, semitones) ⇒ <code>Array.&lt;(string\|number)&gt;</code>
+Transpose every element of a scale by a fixed number of semitones (non-destructive).
+Works with note names (with or without octave) and MIDI numbers.
+- If an element has an octave (e.g., 'C4'), it is transposed via MIDI and returned with octave.
+- If an element is a pitch-class only (e.g., 'C', 'F#'), it wraps within 12 semitones.
+- If an element is a number, it is treated as a MIDI value and shifted numerically.
+
+**Kind**: global function  
+**Returns**: <code>Array.&lt;(string\|number)&gt;</code> - New array with each element transposed  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| scale | <code>Array.&lt;(string\|number)&gt;</code> | Notes (e.g., ['C4','D4',...], or ['C','D#',...], or [60,62,...]) |
+| semitones | <code>number</code> | Number of semitones to shift (positive or negative) |
+
+**Example**  
+```js
+// With octaves (note names preserved with octave)
+nn.transposeScale(['C4','D4','E4','F4','G4','A4','B4'], 2)
+// → ['D4','E4','F#4','G4','A4','B4','C#5']
+
+// Pitch-classes only (wraps mod 12)
+nn.transposeScale(['C','D#','F'], 1)
+// → ['C#','E','F#']
+
+// MIDI numbers
+nn.transposeScale([60, 62, 64], -12)
+// → [48, 50, 52]
 ```
 <a name="fetch"></a>
 
