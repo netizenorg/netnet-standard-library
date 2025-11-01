@@ -393,6 +393,56 @@ window.nn = {
   createChord: Music.createChord,
 
   /**
+   * Rotate a scale so a chosen degree becomes the first element (non-destructive).
+   * Useful for viewing a parent scale from another degree (e.g., modes).
+   *
+   * @method rotateScale
+   * @param {string[]|number[]} scale Array of notes (with or without octave), or MIDI numbers
+   * @param {number} k Zero-based index to rotate by (e.g., 0 = no change, 1 = start at degree 2)
+   * @return {string[]|number[]} New array with the same elements, re-ordered
+   * @example
+   * // Pitch-classes (no octaves)
+   * nn.rotateScale(['C','D','E','F','G','A','B'], 2)
+   * // → ['E','F','G','A','B','C','D']
+   *
+   * // With octaves
+   * nn.rotateScale(['C4','D4','E4','F4','G4','A4','B4','C5'], 1)
+   * // → ['D4','E4','F4','G4','A4','B4','C5','C4']
+   *
+   * // MIDI numbers
+   * nn.rotateScale([60, 62, 64, 65, 67, 69, 71], 3)
+   * // → [65, 67, 69, 71, 60, 62, 64]
+   */
+  rotateScale: Music.rotateScale,
+
+  /**
+   * Transpose every element of a scale by a fixed number of semitones (non-destructive).
+   * Works with note names (with or without octave) and MIDI numbers.
+   * - If an element has an octave (e.g., 'C4'), it is transposed via MIDI and returned with octave.
+   * - If an element is a pitch-class only (e.g., 'C', 'F#'), it wraps within 12 semitones.
+   * - If an element is a number, it is treated as a MIDI value and shifted numerically.
+   *
+   * @method transposeScale
+   * @param {Array<string|number>} scale Notes (e.g., ['C4','D4',...], or ['C','D#',...], or [60,62,...])
+   * @param {number} semitones Number of semitones to shift (positive or negative)
+   * @return {Array<string|number>} New array with each element transposed
+   * @example
+   * // With octaves (note names preserved with octave)
+   * nn.transposeScale(['C4','D4','E4','F4','G4','A4','B4'], 2)
+   * // → ['D4','E4','F#4','G4','A4','B4','C#5']
+   *
+   * // Pitch-classes only (wraps mod 12)
+   * nn.transposeScale(['C','D#','F'], 1)
+   * // → ['C#','E','F#']
+   *
+   * // MIDI numbers
+   * nn.transposeScale([60, 62, 64], -12)
+   * // → [48, 50, 52]
+   */
+  transposeScale: Music.transposeScale,
+
+
+  /**
   * This functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** This function only works in netnet.studio sketches and is meant for experimental/educational use.
   *
   * @method fetch

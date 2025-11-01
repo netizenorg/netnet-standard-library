@@ -114,6 +114,48 @@ class Music {
     }
     return chord
   }
+
+  static rotateScale (scale, k = 0) {
+    if (!Array.isArray(scale) || scale.length === 0) return []
+    const n = scale.length
+    const r = ((k % n) + n) % n
+    if (r === 0) return scale.slice()
+    return scale.slice(r).concat(scale.slice(0, r))
+  }
+
+  static transposeScale (scale, semitones = 0) {
+    if (!Array.isArray(scale) || scale.length === 0 || !Number.isFinite(semitones)) return scale ? scale.slice() : scale
+
+    return scale.map(x => {
+      if (typeof x === 'number') {
+        // MIDI number in, MIDI number out
+        return x + semitones
+      }
+
+      if (typeof x !== 'string') return x
+
+      // note name with optional octave?
+      const m = /^([A-Ga-g])(#{1}|b{1})?(\d+)?$/.exec(x)
+      if (!m) return x // unknown token; leave as-is
+
+      const letter = m[1].toUpperCase()
+      const acc = m[2] || ''
+      const hasOct = m[3] != null
+
+      if (hasOct) {
+        // use midi math when octave is present
+        const midi = Music.noteToMidi(letter + acc + m[3])
+        return midi == null ? x : Music.midiToNote(midi + semitones)
+      } else {
+        // pitch-class only: wrap within 12
+        let pc = Music.NOTE_TO_SEMITONE[letter]
+        if (acc === '#') pc += 1
+        if (acc === 'b') pc -= 1
+        const wrapped = ((pc + semitones) % 12 + 12) % 12
+        return Music.SEMITONE_TO_NOTE[wrapped]
+      }
+    })
+  }
 }
 
 Music.NOTE_TO_SEMITONE = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }
