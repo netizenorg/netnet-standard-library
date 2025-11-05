@@ -393,6 +393,34 @@ window.nn = {
   createChord: Music.createChord,
 
   /**
+   * Voice a chord upward into strictly ascending notes.
+   * Accepts note names (with or without octave) or MIDI numbers.
+   * - If a note includes an octave (e.g., 'E3'), it is used as-is and lifted by octaves only if needed
+   *   to keep the sequence strictly ascending.
+   * - If a note is a pitch-class only (e.g., 'G', 'Bb'), `oct` seeds the starting octave and is advanced
+   *   as needed to maintain ascending order.
+   * - If a note is a number, it is treated as MIDI and returned as MIDI; numbers are lifted by 12 as needed.
+   *
+   * @method voiceChord
+   * @param {Array<string|number>} ch Array of chord tones (e.g., ['C','E','G'] or [60,64,67])
+   * @param {number} [oct=4] Starting octave for pitch-classes (ignored for MIDI or notes with octave)
+   * @return {Array<string|number>} Ascending chord tones (note names with octave, or MIDI numbers)
+   * @example
+   * // Pitch-classes (no octaves)
+   * nn.voiceChord(['C','E','G'])
+   * // → ['C4','E4','G4']
+   *
+   * // Out-of-order input is lifted to ascend
+   * nn.voiceChord(['C','G','E'])
+   * // → ['C4','G4','E5']
+   *
+   * // MIDI in → MIDI out
+   * nn.voiceChord([60, 55, 64])
+   * // → [60, 67, 76]
+   */
+  voiceChord: Music.voiceChord,
+
+  /**
    * Rotate a scale so a chosen degree becomes the first element (non-destructive).
    * Useful for viewing a parent scale from another degree (e.g., modes).
    *
@@ -440,6 +468,22 @@ window.nn = {
    * // → [48, 50, 52]
    */
   transposeScale: Music.transposeScale,
+
+  /**
+   * Remove octave numbers from a note or an array of notes.
+   * Accepts note names with or without octave (e.g., 'B4', 'C#4') and returns pitch-classes only.
+   * Non-note tokens and numbers are returned unchanged.
+   *
+   * @method stripOctave
+   * @param {string|Array<string|number>} x A single note or an array of notes
+   * @return {string|Array<string|number>} Pitch-class or array of pitch-classes
+   * @example
+   * nn.stripOctave('B4')
+   * // → 'B'
+   * nn.stripOctave(['C#4', 'D4'])
+   * // → ['C#', 'D']
+   */
+  stripOctave: Music.stripOctave,
 
   /**
   * This functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** This function only works in netnet.studio sketches and is meant for experimental/educational use.

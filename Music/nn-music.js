@@ -156,6 +156,69 @@ class Music {
       }
     })
   }
+
+  static stripOctave (x) {
+    const stripOne = (val) => {
+      if (typeof val !== 'string') return val
+      const m = /^([A-Ga-g])(#{1}|b{1})?(\d+)?$/.exec(val)
+      if (!m) return val
+      const letter = m[1].toUpperCase()
+      const acc = m[2] || ''
+      return letter + acc
+    }
+
+    if (Array.isArray(x)) return x.map(stripOne)
+    return stripOne(x)
+  }
+
+  static voiceChord (ch, oct = 4) {
+    if (!Array.isArray(ch) || ch.length === 0) return []
+
+    let startOctave = (typeof oct === 'number' && isFinite(oct)) ? Math.floor(oct) : 4
+    let prevMidi = -Infinity
+    const out = []
+
+    for (const n of ch) {
+      // MIDI number input → keep numbers, ensure strictly ascending by lifting 12s
+      if (typeof n === 'number' && isFinite(n)) {
+        let m = Math.round(n)
+        while (m <= prevMidi) m += 12
+        prevMidi = m
+        out.push(m)
+        continue
+      }
+
+      // Non-string tokens are passed through
+      if (typeof n !== 'string') { out.push(n); continue }
+
+      // note name with optional octave
+      const m = /^([A-Ga-g])(#{1}|b{1})?(\d+)?$/.exec(n)
+      if (!m) { out.push(n); continue }
+
+      const letter = m[1].toUpperCase()
+      const acc = m[2] || ''
+      const hasOct = m[3] != null
+
+      let octave = hasOct ? parseInt(m[3]) : startOctave
+      let midi = Music.noteToMidi(letter + acc + octave)
+      if (midi == null || !isFinite(midi)) { out.push(n); continue }
+
+      // raise by octaves until strictly above previous MIDI
+      while (midi <= prevMidi) {
+        octave += 1
+        midi = Music.noteToMidi(letter + acc + octave)
+        if (midi == null) break
+      }
+
+      prevMidi = midi
+      out.push(Music.midiToNote(midi))
+
+      // If no octave was provided, carry the updated octave forward
+      if (!hasOct) startOctave = octave
+    }
+
+    return out
+  }
 }
 
 Music.NOTE_TO_SEMITONE = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }

@@ -89,6 +89,17 @@ Pass the same function reference you used with <code>nn.on()</code> to remove it
 <dt><a href="#createChord">createChord(scale, ch)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
 <dd><p>Create an array of notes in a chord by selecting from a scale</p>
 </dd>
+<dt><a href="#voiceChord">voiceChord(ch, [oct])</a> ⇒ <code>Array.&lt;(string|number)&gt;</code></dt>
+<dd><p>Voice a chord upward into strictly ascending notes.
+Accepts note names (with or without octave) or MIDI numbers.</p>
+<ul>
+<li>If a note includes an octave (e.g., &#39;E3&#39;), it is used as-is and lifted by octaves only if needed
+to keep the sequence strictly ascending.</li>
+<li>If a note is a pitch-class only (e.g., &#39;G&#39;, &#39;Bb&#39;), <code>oct</code> seeds the starting octave and is advanced
+as needed to maintain ascending order.</li>
+<li>If a note is a number, it is treated as MIDI and returned as MIDI; numbers are lifted by 12 as needed.</li>
+</ul>
+</dd>
 <dt><a href="#rotateScale">rotateScale(scale, k)</a> ⇒ <code>Array.&lt;string&gt;</code> | <code>Array.&lt;number&gt;</code></dt>
 <dd><p>Rotate a scale so a chosen degree becomes the first element (non-destructive).
 Useful for viewing a parent scale from another degree (e.g., modes).</p>
@@ -101,6 +112,11 @@ Works with note names (with or without octave) and MIDI numbers.</p>
 <li>If an element is a pitch-class only (e.g., &#39;C&#39;, &#39;F#&#39;), it wraps within 12 semitones.</li>
 <li>If an element is a number, it is treated as a MIDI value and shifted numerically.</li>
 </ul>
+</dd>
+<dt><a href="#stripOctave">stripOctave(x)</a> ⇒ <code>string</code> | <code>Array.&lt;(string|number)&gt;</code></dt>
+<dd><p>Remove octave numbers from a note or an array of notes.
+Accepts note names with or without octave (e.g., &#39;B4&#39;, &#39;C#4&#39;) and returns pitch-classes only.
+Non-note tokens and numbers are returned unchanged.</p>
 </dd>
 <dt><a href="#fetch">fetch()</a> ⇒ <code>Object</code></dt>
 <dd><p>This functions works exactly like the Web&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch">Fetch API</a> except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet&#39;s proxy to get around this issue. <strong>NOTE:</strong> This function only works in netnet.studio sketches and is meant for experimental/educational use.</p>
@@ -733,6 +749,39 @@ const cMajorTriad = nn.createChord(cMajorScale, 'triad')
 console.log(cMajorTriad)
 // → ['C4','E4','G4']
 ```
+<a name="voiceChord"></a>
+
+## voiceChord(ch, [oct]) ⇒ <code>Array.&lt;(string\|number)&gt;</code>
+Voice a chord upward into strictly ascending notes.
+Accepts note names (with or without octave) or MIDI numbers.
+- If a note includes an octave (e.g., 'E3'), it is used as-is and lifted by octaves only if needed
+  to keep the sequence strictly ascending.
+- If a note is a pitch-class only (e.g., 'G', 'Bb'), `oct` seeds the starting octave and is advanced
+  as needed to maintain ascending order.
+- If a note is a number, it is treated as MIDI and returned as MIDI; numbers are lifted by 12 as needed.
+
+**Kind**: global function  
+**Returns**: <code>Array.&lt;(string\|number)&gt;</code> - Ascending chord tones (note names with octave, or MIDI numbers)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| ch | <code>Array.&lt;(string\|number)&gt;</code> |  | Array of chord tones (e.g., ['C','E','G'] or [60,64,67]) |
+| [oct] | <code>number</code> | <code>4</code> | Starting octave for pitch-classes (ignored for MIDI or notes with octave) |
+
+**Example**  
+```js
+// Pitch-classes (no octaves)
+nn.voiceChord(['C','E','G'])
+// → ['C4','E4','G4']
+
+// Out-of-order input is lifted to ascend
+nn.voiceChord(['C','G','E'])
+// → ['C4','G4','E5']
+
+// MIDI in → MIDI out
+nn.voiceChord([60, 55, 64])
+// → [60, 67, 76]
+```
 <a name="rotateScale"></a>
 
 ## rotateScale(scale, k) ⇒ <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;number&gt;</code>
@@ -791,6 +840,27 @@ nn.transposeScale(['C','D#','F'], 1)
 // MIDI numbers
 nn.transposeScale([60, 62, 64], -12)
 // → [48, 50, 52]
+```
+<a name="stripOctave"></a>
+
+## stripOctave(x) ⇒ <code>string</code> \| <code>Array.&lt;(string\|number)&gt;</code>
+Remove octave numbers from a note or an array of notes.
+Accepts note names with or without octave (e.g., 'B4', 'C#4') and returns pitch-classes only.
+Non-note tokens and numbers are returned unchanged.
+
+**Kind**: global function  
+**Returns**: <code>string</code> \| <code>Array.&lt;(string\|number)&gt;</code> - Pitch-class or array of pitch-classes  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| x | <code>string</code> \| <code>Array.&lt;(string\|number)&gt;</code> | A single note or an array of notes |
+
+**Example**  
+```js
+nn.stripOctave('B4')
+// → 'B'
+nn.stripOctave(['C#4', 'D4'])
+// → ['C#', 'D']
 ```
 <a name="fetch"></a>
 

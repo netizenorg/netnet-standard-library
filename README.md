@@ -172,8 +172,10 @@ Functions for doing **music** theory, like working with pitches, scales, and cho
 - [nn.randomMode()](docs/API.md#randommode) `// generate a random seven-step mode`
 - [nn.createScale()](docs/API.md#createscale) `// a scale from a root note and a mode name/array`
 - [nn.createChord()](docs/API.md#createchord) `// a chord from a scale and chord name/array`
+- [nn.voiceChord()](docs/API.md#voicechord) `// voice a chord upward into strictly ascending notes`
 - [nn.rotateScale()](docs/API.md#rotatescale) `// rotate a scale to a new first degree`
 - [nn.transposeScale()](docs/API.md#transposescale) `// transponse all the notes in a scale`
+- [nn.stripOctave()](docs/API.md#stripoctave) `// remove octave numbers from notes (returns pitch-classes)`
 
 
 ## classes
