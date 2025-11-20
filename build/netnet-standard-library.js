@@ -3815,7 +3815,7 @@ class Music {
     return steps
   }
 
-  static createScale (root = 'C', mode = 'major') {
+  static createScale (root = 'C', mode = 'major', includeEndOctave = false) {
     const modes = Music.MODES
 
     const steps = mode instanceof Array
@@ -3832,7 +3832,7 @@ class Music {
     const [, letter, accidental, octaveStr] = match
     const rootNote = letter + (accidental || '')
     let octave = octaveStr ? parseInt(octaveStr) : 4
-    const includeOctave = !!octaveStr
+    const annotateOctave = !!octaveStr
 
     const notes = Music.SEMITONE_TO_NOTE
 
@@ -3841,7 +3841,7 @@ class Music {
 
     const scale = []
     // first degree
-    scale.push(includeOctave ? rootNote + octave : rootNote)
+    scale.push(annotateOctave ? rootNote + octave : rootNote)
 
     // build each next degree
     for (const interval of steps) {
@@ -3850,9 +3850,11 @@ class Music {
         idx %= notes.length
         octave++
       }
-      scale.push(includeOctave ? notes[idx] + octave : notes[idx])
+      scale.push(annotateOctave ? notes[idx] + octave : notes[idx])
     }
 
+    // By default, omit the terminal octave note
+    if (!includeEndOctave && scale.length > 0) scale.pop()
     return scale
   }
 
@@ -4406,17 +4408,25 @@ window.nn = {
   randomMode: Music.randomMode,
 
   /**
-   * Build a scale from a root pitch or pitch-class and a mode name or array of intervals
+   * Build a scale from a root pitch or pitch-class and a mode name or array of intervals.
+   * By default returns one octave worth of degrees (no terminal octave). Pass `true` as the third
+   * argument to include the terminal octave at the end.
    *
    * @method createScale
    * @param {string} root Root like 'C', 'F#3', 'Bb4'
    * @param {string|number[]} mode Mode name (e.g. 'ionian', 'minor', 'random') or custom steps array
+   * @param {boolean} [includeEndOctave=false] If true, include the top octave note at the end
    * @return {string[]|null} Array of notes (with octave if provided) or null if invalid
    * @example
+   * // Default (no terminal octave)
    * nn.createScale('C4', 'major')
-   * // → ['C4','D4','E4','F4','G4','A4','B4','C5']
+   * // → ['C4','D4','E4','F4','G4','A4','B4']
    * nn.createScale('D', 'dorian')
-   * // → ['D','E','F','G','A','B','C','D']
+   * // → ['D','E','F','G','A','B','C']
+   *
+   * // Include terminal octave
+   * nn.createScale('C4', 'major', true)
+   * // → ['C4','D4','E4','F4','G4','A4','B4','C5']
    */
   createScale: Music.createScale,
 

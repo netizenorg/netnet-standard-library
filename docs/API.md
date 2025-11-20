@@ -83,8 +83,10 @@ Pass the same function reference you used with <code>nn.on()</code> to remove it
 <dt><a href="#randomMode">randomMode()</a> ⇒ <code>Array.&lt;number&gt;</code></dt>
 <dd><p>Generate a random seven-step mode that spans exactly one octave (12 semitones)</p>
 </dd>
-<dt><a href="#createScale">createScale(root, mode)</a> ⇒ <code>Array.&lt;string&gt;</code> | <code>null</code></dt>
-<dd><p>Build a scale from a root pitch or pitch-class and a mode name or array of intervals</p>
+<dt><a href="#createScale">createScale(root, mode, [includeEndOctave])</a> ⇒ <code>Array.&lt;string&gt;</code> | <code>null</code></dt>
+<dd><p>Build a scale from a root pitch or pitch-class and a mode name or array of intervals.
+By default returns one octave worth of degrees (no terminal octave). Pass <code>true</code> as the third
+argument to include the terminal octave at the end.</p>
 </dd>
 <dt><a href="#createChord">createChord(scale, ch)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
 <dd><p>Create an array of notes in a chord by selecting from a scale</p>
@@ -711,23 +713,31 @@ nn.randomMode()
 ```
 <a name="createScale"></a>
 
-## createScale(root, mode) ⇒ <code>Array.&lt;string&gt;</code> \| <code>null</code>
-Build a scale from a root pitch or pitch-class and a mode name or array of intervals
+## createScale(root, mode, [includeEndOctave]) ⇒ <code>Array.&lt;string&gt;</code> \| <code>null</code>
+Build a scale from a root pitch or pitch-class and a mode name or array of intervals.
+By default returns one octave worth of degrees (no terminal octave). Pass `true` as the third
+argument to include the terminal octave at the end.
 
 **Kind**: global function  
 **Returns**: <code>Array.&lt;string&gt;</code> \| <code>null</code> - Array of notes (with octave if provided) or null if invalid  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| root | <code>string</code> | Root like 'C', 'F#3', 'Bb4' |
-| mode | <code>string</code> \| <code>Array.&lt;number&gt;</code> | Mode name (e.g. 'ionian', 'minor', 'random') or custom steps array |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| root | <code>string</code> |  | Root like 'C', 'F#3', 'Bb4' |
+| mode | <code>string</code> \| <code>Array.&lt;number&gt;</code> |  | Mode name (e.g. 'ionian', 'minor', 'random') or custom steps array |
+| [includeEndOctave] | <code>boolean</code> | <code>false</code> | If true, include the top octave note at the end |
 
 **Example**  
 ```js
+// Default (no terminal octave)
 nn.createScale('C4', 'major')
-// → ['C4','D4','E4','F4','G4','A4','B4','C5']
+// → ['C4','D4','E4','F4','G4','A4','B4']
 nn.createScale('D', 'dorian')
-// → ['D','E','F','G','A','B','C','D']
+// → ['D','E','F','G','A','B','C']
+
+// Include terminal octave
+nn.createScale('C4', 'major', true)
+// → ['C4','D4','E4','F4','G4','A4','B4','C5']
 ```
 <a name="createChord"></a>
 

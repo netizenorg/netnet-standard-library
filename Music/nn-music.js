@@ -62,7 +62,7 @@ class Music {
     return steps
   }
 
-  static createScale (root = 'C', mode = 'major') {
+  static createScale (root = 'C', mode = 'major', includeEndOctave = false) {
     const modes = Music.MODES
 
     const steps = mode instanceof Array
@@ -79,7 +79,7 @@ class Music {
     const [, letter, accidental, octaveStr] = match
     const rootNote = letter + (accidental || '')
     let octave = octaveStr ? parseInt(octaveStr) : 4
-    const includeOctave = !!octaveStr
+    const annotateOctave = !!octaveStr
 
     const notes = Music.SEMITONE_TO_NOTE
 
@@ -88,7 +88,7 @@ class Music {
 
     const scale = []
     // first degree
-    scale.push(includeOctave ? rootNote + octave : rootNote)
+    scale.push(annotateOctave ? rootNote + octave : rootNote)
 
     // build each next degree
     for (const interval of steps) {
@@ -97,9 +97,11 @@ class Music {
         idx %= notes.length
         octave++
       }
-      scale.push(includeOctave ? notes[idx] + octave : notes[idx])
+      scale.push(annotateOctave ? notes[idx] + octave : notes[idx])
     }
 
+    // By default, omit the terminal octave note
+    if (!includeEndOctave && scale.length > 0) scale.pop()
     return scale
   }
 
