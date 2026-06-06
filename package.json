@@ -8,7 +8,8 @@
     "prebuild": "npm run lint",
     "build": "browserify main.js > build/netnet-standard-library.js",
     "postbuild": "terser build/netnet-standard-library.js -cm -o build/nn.min.js",
-    "docs": "node scripts/update-doc-sources.js"
+    "docs": "node scripts/update-doc-sources.js",
+    "netitor-docs": "node scripts/compile-netitor-docs.js"
   },
   "repository": {
     "type": "git",
