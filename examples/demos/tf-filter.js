@@ -145,7 +145,7 @@ async function setup () {
     })
 
   // create a <canvas> rendering a processed version of the video
-  videoCanvas = nn.filterVideo(video, wackyInvert)
+  videoCanvas = nn.filterVideo(video, wackyInvert, { raw: true })
   // add the video canvas to the page
   videoCanvas
     .position(0, 0)

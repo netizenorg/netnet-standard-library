@@ -13,7 +13,8 @@ async function setup () {
   // liveFilter creates a <canvas> from
   // a video element and a filtering function
   // (the "process" function, defined below)
-  const vcanvas = nn.filterVideo(video, process)
+  // { raw: true } passes a flat Uint8ClampedArray for best performance
+  const vcanvas = nn.filterVideo(video, process, { raw: true })
   vcanvas.addTo('body')
 }
 
