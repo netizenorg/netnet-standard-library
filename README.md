@@ -154,24 +154,24 @@ full documentation page here: [https://netizenorg.github.io/netnet-standard-libr
 
 # media utilities
 
-- [nn.loadImage(src)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/loadImage) `// Promise-based image loading`
-- [nn.filterImage(image, fn, opts?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/filterImage) `// filter image pixels; fn receives { r,g,b,a } (default), or raw array`
-- [nn.filterVideo(video, fn, opts?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/filterVideo) `// live filter video pixels; fn receives { r,g,b,a } (default), or raw array`
-- [nn.popup(url, x, y, w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/popup) `// open a new browser window`
-- [nn.hyper(media)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/hyper) `// attach time-based cues to audio/video with .at(seconds, fn)`
+- [nn.loadImage(src)](https://netizenorg.github.io/netnet-standard-library/docs/#media/loadImage) `// Promise-based image loading`
+- [nn.filterImage(image, fn, opts?)](https://netizenorg.github.io/netnet-standard-library/docs/#media/filterImage) `// filter image pixels; fn receives { r,g,b,a } (default), or raw array`
+- [nn.filterVideo(video, fn, opts?)](https://netizenorg.github.io/netnet-standard-library/docs/#media/filterVideo) `// live filter video pixels; fn receives { r,g,b,a } (default), or raw array`
+- [nn.popup(url, x, y, w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#media/popup) `// open a new browser window`
+- [nn.hyper(media)](https://netizenorg.github.io/netnet-standard-library/docs/#media/hyper) `// attach time-based cues to audio/video with .at(seconds, fn)`
 
 # user permissions
-- [nn.askFor(type)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askFor) `// request camera, mic, gps, etc. ('video','audio','capture','gps','notifications','clipboard','bluetooth','usb','serial','motion','orientation')`
-- [nn.askForStream(constraints)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForStream) `// full getUserMedia with constraints object`
-- [nn.askForCapture()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForCapture) `// screen/window/tab capture`
-- [nn.askForNotifications()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForNotifications) `// request notification permission`
-- [nn.askForClipboard()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForClipboard) `// read the clipboard`
-- [nn.askForBluetooth(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForBluetooth) `// show Bluetooth device picker`
-- [nn.askForUSB(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForUSB) `// show USB device picker`
-- [nn.askForSerial(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForSerial) `// show serial port picker`
-- [nn.askForMotion()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForMotion) `// request device motion permission (iOS 13+)`
-- [nn.askForOrientation()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForOrientation) `// request device orientation permission (iOS 13+)`
-- [nn.askForGPS()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForGPS) `// request geolocation`
+- [nn.askFor(type)](https://netizenorg.github.io/netnet-standard-library/docs/#media/askFor) `// request camera, mic, gps, etc. ('video','audio','capture','gps','notifications','clipboard','bluetooth','usb','serial','motion','orientation')`
+- [nn.askForStream(constraints)](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForStream) `// full getUserMedia with constraints object`
+- [nn.askForCapture()](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForCapture) `// screen/window/tab capture`
+- [nn.askForNotifications()](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForNotifications) `// request notification permission`
+- [nn.askForClipboard()](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForClipboard) `// read the clipboard`
+- [nn.askForBluetooth(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForBluetooth) `// show Bluetooth device picker`
+- [nn.askForUSB(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForUSB) `// show USB device picker`
+- [nn.askForSerial(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForSerial) `// show serial port picker`
+- [nn.askForMotion()](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForMotion) `// request device motion permission (iOS 13+)`
+- [nn.askForOrientation()](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForOrientation) `// request device orientation permission (iOS 13+)`
+- [nn.askForGPS()](https://netizenorg.github.io/netnet-standard-library/docs/#media/askForGPS) `// request geolocation`
 - [nn.MIDI](https://netizenorg.github.io/netnet-standard-library/docs/#dom/MIDI) `// access plugged-in MIDI devices`
 
 ## data
