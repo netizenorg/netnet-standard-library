@@ -1,7 +1,7 @@
 const MEDIA_DOCS = [
   {
     name: 'loadImage',
-    source: { filepath: 'Media/media.js', start: 2, end: 10 },
+    source: { filepath: 'src/Media/media.js', start: 2, end: 10 },
     signature: 'nn.loadImage(url)',
     description: 'Returns a `Promise` that resolves with an `&lt;img&gt;` element once the image at `url` has fully loaded. Useful when you need to wait for an image before drawing it to a canvas or reading its pixels.',
     friendly: 'This method loads an image from a URL and gives it back to you once it has fully loaded. Use it with <code>await</code> so your code pauses and waits for the image to be ready before continuing.',
@@ -22,7 +22,7 @@ nn.on('load', setup)`
 
   {
     name: 'filterImage',
-    source: { filepath: 'Media/media.js', start: 12, end: 44 },
+    source: { filepath: 'src/Media/media.js', start: 12, end: 44 },
     signature: 'nn.filterImage(image, fn, opts?)',
     description: 'Loads an image onto a hidden canvas, passes its pixel data to `fn`, then writes the result back. By default `fn` receives an array of `{ r, g, b, a }` pixel objects, modify their properties directly. Pass `{ raw: true }` as the third argument to receive the underlying `Uint8ClampedArray` instead, where each pixel occupies four consecutive indices (`[i]` = R, `[i+1]` = G, `[i+2]` = B, `[i+3]` = A). For live video filters, see `nn.filterVideo()`.',
     friendly: 'This method lets you manipulate an image\'s pixels directly. You pass it an image and a function, and inside that function you can change the red, green, blue, and alpha (transparency) values of every pixel.',
@@ -60,7 +60,7 @@ nn.on('load', setup)`
 
   {
     name: 'filterVideo',
-    source: { filepath: 'Media/media.js', start: 46, end: 78 },
+    source: { filepath: 'src/Media/media.js', start: 46, end: 78 },
     signature: 'nn.filterVideo(video, fn, opts?)',
     description: 'Applies a pixel-manipulation filter to a live `&lt;video&gt;` element in real time. Starts a `requestAnimationFrame` loop internally and returns a `&lt;canvas&gt;` element that updates every frame with the filtered result, just add it to the page and it runs. By default `fn` receives an array of `{ r, g, b, a }` pixel objects. Because this runs every frame, pass `{ raw: true }` to receive the underlying `Uint8ClampedArray` instead for better performance with high-resolution video. Call `.stop()` on the returned canvas to cancel the loop.',
     friendly: 'This method applies a pixel filter to a live video stream in real time. You pass it a video element and a function that modifies pixel values, and it returns a canvas that shows the filtered result, updating every frame automatically.',
@@ -126,7 +126,7 @@ nn.on('click', update)`
 
   {
     name: 'askFor',
-    source: { filepath: 'Media/media.js', start: 46, end: 80 },
+    source: { filepath: 'src/Media/media.js', start: 46, end: 80 },
     signature: 'nn.askFor(type, callback?)',
     description: "Unified entry point for requesting access to any browser device or permission. Pass a string naming what you want, `'video'`, `'audio'`, `'capture'`, `'gps'`, `'notifications'`, `'clipboard'`, `'bluetooth'`, `'usb'`, `'serial'`, `'motion'`, or `'orientation'`. Returns a `Promise` with the result. An optional callback can be passed as the second argument as an alternative to `async`/`await`. Each type also has its own dedicated method (e.g. `nn.askForCapture()`, `nn.askForGPS()`) for direct use with custom options.",
     friendly: 'This is a single method for requesting access to any browser device or permission. Pass a string like <code>\'video\'</code>, <code>\'audio\'</code>, or <code>\'gps\'</code> and the browser will prompt the user to grant access.',
@@ -157,7 +157,7 @@ nn.on('load', setup)`
 
   {
     name: 'askForStream',
-    source: { filepath: 'Media/media.js', start: 82, end: 100 },
+    source: { filepath: 'src/Media/media.js', start: 82, end: 100 },
     signature: 'nn.askForStream(constraints)',
     description: 'Requests access to the camera and/or microphone using the full [MediaDevices constraints API](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia). Use this when you need fine-grained control, e.g. specifying a facing mode, resolution, or frame rate. For simple cases, `nn.askFor(\'video\')` or `nn.askFor(\'audio\')` is easier.',
     friendly: 'This method requests camera and/or microphone access with fine-grained control, like specifying a resolution or frame rate. For most cases <code>nn.askFor(\'video\')</code> is simpler.',
@@ -197,7 +197,7 @@ nn.on('load', setup)`
 
   {
     name: 'askForCapture',
-    source: { filepath: 'Media/media.js', start: 102, end: 105 },
+    source: { filepath: 'src/Media/media.js', start: 102, end: 105 },
     signature: 'nn.askForCapture(constraints?)',
     description: "Asks the user to pick a screen, window, or tab to share and returns a `Promise` resolving with a `MediaStream`. It must be called from a user gesture (e.g. a click), browsers will block it if called on page load. Optionally pass a `getDisplayMedia` constraints object for fine-grained control. For simple use, `nn.askFor('capture')` is equivalent.",
     friendly: 'This method asks the user to share their screen, a window, or a browser tab, and returns a live video stream of it. It must be triggered by a user action like a button click.',
@@ -235,7 +235,7 @@ nn.create('button')
 
   {
     name: 'askForNotifications',
-    source: { filepath: 'Media/media.js', start: 107, end: 109 },
+    source: { filepath: 'src/Media/media.js', start: 107, end: 109 },
     signature: 'nn.askForNotifications()',
     description: "Asks the user for permission to show browser notifications. Returns a `Promise` that resolves with `'granted'`, `'denied'`, or `'default'`. It must be called from a user gesture (e.g. a click), most browsers will block the prompt if called on page load. Once granted you can use the browser's [Notification API](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API) directly to send messages. Also available as `nn.askFor('notifications')`.",
     friendly: 'This method asks the user for permission to show browser notifications. It must be triggered by a user action like a button click, and resolves with <code>\'granted\'</code>, <code>\'denied\'</code>, or <code>\'default\'</code>.',
@@ -269,7 +269,7 @@ nn.get('body')
 
   {
     name: 'askForClipboard',
-    source: { filepath: 'Media/media.js', start: 111, end: 113 },
+    source: { filepath: 'src/Media/media.js', start: 111, end: 113 },
     signature: 'nn.askForClipboard()',
     description: "Asks the user for permission to read the clipboard and returns a `Promise` that resolves with the current clipboard text. The browser will show a permission prompt the first time. Also available as `nn.askFor('clipboard')` or with a callback: `nn.askFor('clipboard', fn)`.",
     friendly: 'This method asks the user for permission to read their clipboard and returns the text that was most recently copied to it.',
@@ -298,7 +298,7 @@ nn.get('body')
 
   {
     name: 'askForBluetooth',
-    source: { filepath: 'Media/media.js', start: 119, end: 124 },
+    source: { filepath: 'src/Media/media.js', start: 119, end: 124 },
     signature: 'nn.askForBluetooth(filters?)',
     description: "Shows the browser's Bluetooth device picker and returns a `Promise` that resolves with the selected `BluetoothDevice`. It must be called from a user gesture (e.g. a click), browsers will block it if called on page load. By default all nearby devices are shown. Pass a filters object (e.g. `{ filters: [{ name: 'MyDevice' }] }`) to narrow the list. Also available as `nn.askFor('bluetooth')`. [Check compatibility](https://caniuse.com/web-bluetooth), this may not be supported in all browsers.",
     friendly: 'This method shows the browser\'s Bluetooth device picker and connects to whichever device the user selects. It must be triggered by a user action like a button click, and may not be supported in all browsers.',
@@ -329,7 +329,7 @@ nn.get('body')
 
   {
     name: 'askForUSB',
-    source: { filepath: 'Media/media.js', start: 126, end: 129 },
+    source: { filepath: 'src/Media/media.js', start: 126, end: 129 },
     signature: 'nn.askForUSB(filters?)',
     description: "Shows the browser's USB device picker and returns a `Promise` that resolves with the selected `USBDevice`. It must be called from a user gesture (e.g. a click), browsers will block it if called on page load. Pass a filters object like `{ vendorId: 0x2341 }` to filter by vendor (e.g. Arduino). Also available as `nn.askFor('usb')`. [Check compatibility](https://caniuse.com/webusb), this may not be supported in all browsers.",
     friendly: 'This method shows the browser\'s USB device picker and connects to the device the user selects. It must be triggered by a user action like a button click, and may not be supported in all browsers.',
@@ -360,7 +360,7 @@ nn.get('body')
 
   {
     name: 'askForSerial',
-    source: { filepath: 'Media/media.js', start: 131, end: 134 },
+    source: { filepath: 'src/Media/media.js', start: 131, end: 134 },
     signature: 'nn.askForSerial(filters?)',
     description: "Shows the browser's serial port picker and returns a `Promise` that resolves with the selected `SerialPort`. It must be called from a user gesture (e.g. a click), browsers will block it if called on page load. Useful for communicating with microcontrollers like Arduino over USB. Pass a filters object like `{ usbVendorId: 0x2341 }` to filter by vendor. Also available as `nn.askFor('serial')`. [Check compatibility](https://caniuse.com/web-serial), this may not be supported in all browsers.",
     friendly: 'This method shows the browser\'s serial port picker, useful for communicating with hardware like Arduino over USB. It must be triggered by a user action like a button click, and may not be supported in all browsers.',
@@ -394,7 +394,7 @@ nn.get('body')
 
   {
     name: 'askForMotion',
-    source: { filepath: 'Media/media.js', start: 136, end: 142 },
+    source: { filepath: 'src/Media/media.js', start: 136, end: 142 },
     signature: 'nn.askForMotion()',
     description: "On iOS 13+ triggers the system permission dialog for device motion events, then resolves with `'granted'` or `'denied'`. On all other platforms resolves immediately with `'granted'` since no permission is required. After granting, listen with `nn.on('devicemotion', fn)`. Also available as `nn.askFor('motion')`.",
     friendly: 'This method asks the user for permission to access the device\'s accelerometer, which measures physical movement and shaking. On iOS you must ask explicitly, but on most other devices no prompt is needed.',
@@ -437,7 +437,7 @@ nn.get('body')
 
   {
     name: 'askForOrientation',
-    source: { filepath: 'Media/media.js', start: 144, end: 150 },
+    source: { filepath: 'src/Media/media.js', start: 144, end: 150 },
     signature: 'nn.askForOrientation()',
     description: "On iOS 13+ triggers the system permission dialog for device orientation events, then resolves with `'granted'` or `'denied'`. On all other platforms resolves immediately with `'granted'`. After granting, listen with `nn.on('deviceorientation', fn)`. Also available as `nn.askFor('orientation')`.",
     friendly: 'This method asks the user for permission to access the device\'s gyroscope, which tracks how the device is tilted and rotated in space. On iOS you must ask explicitly, but on most other devices no prompt is needed.',
@@ -479,7 +479,7 @@ nn.get('body')
 
   {
     name: 'askForGPS',
-    source: { filepath: 'Media/media.js', start: 104, end: 155 },
+    source: { filepath: 'src/Media/media.js', start: 104, end: 155 },
     signature: 'nn.askForGPS(callback?, options?)',
     description: "Asks the user for their location and returns a `Promise` that resolves with `{ lat, lng, timestamp, coords }`. An optional callback is called with the same data. An optional `options` object can include custom alert messages for when geolocation isn't supported (`options.support`) or has been blocked (`options.enable`).",
     friendly: 'This method asks the user for their current location and returns the latitude and longitude. The browser will prompt the user for permission before sharing their location.',
@@ -510,7 +510,7 @@ nn.on('load', setup)`
 
   {
     name: 'hyper',
-    source: { filepath: 'Media/media.js', start: 104, end: 160 },
+    source: { filepath: 'src/Media/media.js', start: 104, end: 160 },
     signature: 'nn.hyper(media).at(seconds, fn)',
     description: 'Attaches a time-based cue system to an audio or video element. `nn.hyper(media)` returns a cue object with chainable `.at(seconds, fn)` and `.off(seconds, fn)` methods. `.at()` registers a callback to fire when the playhead naturally reaches that time during playback, seeking past a cue silently skips it. `.off()` unregisters a previously added callback by matching both the time and the function reference.',
     friendly: 'This method lets you attach timed events to a video or audio element, so a function automatically runs when playback reaches a specific moment. Chain <code>.at(seconds, fn)</code> to register each cue.',
@@ -572,7 +572,7 @@ cues.off(6, third)`
 
   {
     name: 'popup',
-    source: { filepath: 'Media/media.js', start: 1, end: 20 },
+    source: { filepath: 'src/Media/media.js', start: 1, end: 20 },
     signature: 'nn.popup(url, x, y, w, h)',
     description: 'Opens a new browser window (aka popup) at the given URL, positioned and sized according to the arguments. You can pass `x`, `y`, `w`, `h` as individual numbers, or bundle them into an options object ` nn.popup(url, { left, top, width, height })`. Returns the new window reference, use it to move, resize, focus, or close the window later with the native `moveTo()`, `moveBy()`, `resizeTo()`, `resizeBy()`, `focus()`, and `close()` methods.',
     friendly: 'This method opens a new browser window at a given URL, with a position and size you control. It returns a reference to that window so you can later move it with <code>.moveTo()</code>, resize it with <code>.resizeTo()</code>, or close it with <code>.close()</code>.',
@@ -634,7 +634,7 @@ nn.create('button')
 
   {
     name: 'MIDI',
-    source: { filepath: 'Media/media.js', start: 84, end: 102 },
+    source: { filepath: 'src/Media/media.js', start: 84, end: 102 },
     signature: 'nn.MIDI(fn)',
     description: 'Requests Web MIDI access and registers `fn` as the handler for all incoming MIDI messages. The callback receives an object with `dev` (device name), `chl` (channel / note number), and `val` (velocity or control value). Requires a connected MIDI device. [Check compatibility](https://caniuse.com/midi), this may not be supported in all browsers.',
     friendly: 'This method requests access to any connected MIDI devices and registers a function that gets called every time a MIDI message arrives, like a key press on a MIDI keyboard. The message object has <code>dev</code> (device name), <code>chl</code> (channel/note), and <code>val</code> (velocity) properties.',

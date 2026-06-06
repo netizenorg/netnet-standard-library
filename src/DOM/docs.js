@@ -2,7 +2,7 @@ const DOM_DOCS = [
   // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ window & events ~ ~ ~ ~ ~ ~ ~
   {
     name: 'on',
-    source: { filepath: 'DOM/dom.js', start: 18, end: 56 },
+    source: { filepath: 'src/DOM/dom.js', start: 18, end: 56 },
     signature: 'nn.on(event, callback, options?) / ele.on(event, callback, options?)',
     description: 'Attaches an event listener. When called directly on `nn`, it listens on the `window`. When called on an element returned by `nn.get()` or `nn.create()`, it listens on that specific element and returns the element so further calls can be chained. Pass an optional third argument, a boolean (`true` for capture phase) or an [AddEventListenerOptions](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#options), to control listener behaviour.',
     friendly: 'This is an event listener, a piece of code that waits for a specific action, like a \'click\',  \'keypress\' and <a href="https://devdoc.net/web/developer.mozilla.org/en-US/docs/DOM/DOM_event_reference.1.html" target="_blank">others</a>, and then runs a function when that action happens. We specify the type of the event (a string) we want to listen for as the first argument, and pass the name of (or "reference" to) the function we want to call as the second argument.',
@@ -33,7 +33,7 @@ nn.on('load', setup)`
 
   {
     name: 'off',
-    source: { filepath: 'DOM/dom.js', start: 58, end: 81 },
+    source: { filepath: 'src/DOM/dom.js', start: 58, end: 81 },
     signature: 'nn.off(event, callback, options?) / ele.off(event, callback, options?)',
     description: 'Removes an event listener previously added with `.on()`. You must pass the exact same function reference that was originally passed to `.on()`. When called on `nn`, it removes a window-level listener. When called on an element, it removes an element-level listener and returns the element for chaining.',
     friendly: 'If you had previously set an event listener with <code>.on()</code> you can remove it with <code>.off()</code>, just make sure you pass the same event type (a string) and function name to this method as you originally did with on.',
@@ -75,7 +75,7 @@ nn.on('click', update)`
 
   {
     name: 'mouseX',
-    source: { filepath: 'DOM/dom.js', start: 589, end: 593 },
+    source: { filepath: 'src/DOM/dom.js', start: 589, end: 593 },
     signature: 'nn.mouseX',
     description: 'A read-only property that returns the current horizontal mouse position in pixels, relative to the left edge of the viewport. Updated automatically whenever the mouse moves. Accessing this property for the first time starts the internal mouse tracker.',
     friendly: 'This property stores a number, the current horizontal mouse position in pixels relative to the left edge of the window',
@@ -106,7 +106,7 @@ nn.on('mousemove', update)`
 
   {
     name: 'mouseY',
-    source: { filepath: 'DOM/dom.js', start: 594, end: 598 },
+    source: { filepath: 'src/DOM/dom.js', start: 594, end: 598 },
     signature: 'nn.mouseY',
     description: 'A read-only property that returns the current vertical mouse position in pixels, relative to the top edge of the viewport. Updated automatically alongside `nn.mouseX`.',
     friendly: 'This property stores a number, the current vertical mouse position in pixels relative to the top edge of the window',
@@ -137,7 +137,7 @@ nn.on('mousemove', update)`
 
   {
     name: 'mouseDown',
-    source: { filepath: 'DOM/dom.js', start: 599, end: 603 },
+    source: { filepath: 'src/DOM/dom.js', start: 599, end: 603 },
     signature: 'nn.mouseDown',
     description: 'A read-only boolean that is `true` while any mouse button is held down, and `false` otherwise. Updated automatically alongside `nn.mouseX` and `nn.mouseY`.',
     friendly: 'This property stores a boolean value, <code>true</code> if the mouse is currently being pressed down, or <code>false</code> if it is not.',
@@ -164,7 +164,7 @@ nn.on('mousemove', draw)`
 
   {
     name: 'pointer',
-    source: { filepath: 'DOM/dom.js', start: 36, end: 48 },
+    source: { filepath: 'src/DOM/dom.js', start: 36, end: 48 },
     signature: 'nn.pointer',
     description: 'A read-only property that returns the first currently active pointer contact as an object `{ x, y, id, type }`, or `null` when nothing is pressing or touching. `x` and `y` are viewport coordinates; `type` is `\'mouse\'`, `\'touch\'`, or `\'pen\'`. Convenient shorthand for `nn.pointers[0]` when you only need to track one contact at a time.',
     friendly: 'A pointer can be your mouse, but it could also be a pen/stylus or a finger touching a screen (on mobile devies), it\'s an object with <code>pointer.x</code> and <code>pointer.y</code> properties as well as <code>pointer.type</code> (mouse, touch or pen) and <code>pointer.id</code> (if there\'s more than one finger touching the screen)',
@@ -193,7 +193,7 @@ nn.on('pointermove', draw)`
 
   {
     name: 'pointers',
-    source: { filepath: 'DOM/dom.js', start: 22, end: 35 },
+    source: { filepath: 'src/DOM/dom.js', start: 22, end: 35 },
     signature: 'nn.pointers',
     description: 'A read-only property that returns a live array of all currently active pointer contacts, each as `{ x, y, id, type }`. The array is empty when nothing is pressing or touching. `type` is `\'mouse\'`, `\'touch\'`, or `\'pen\'`. On a touchscreen, each simultaneous finger gets its own entry. On desktop, a mouse button press adds one entry for as long as the button is held. Because active contacts are the only entries, there is no stale "last position" ambiguity.',
     friendly: 'This is an array (or list) of "pointers", which can be a mouse, a pen/stylus or fingers touching a screen (on mobile devies). Pointers are objects with <code>p.x</code> and <code>p.y</code> properties as well as <code>p.type</code> (mouse, touch or pen)',
@@ -224,7 +224,7 @@ nn.on('pointermove', draw)`
 
   {
     name: 'width',
-    source: { filepath: 'DOM/dom.js', start: 604, end: 608 },
+    source: { filepath: 'src/DOM/dom.js', start: 604, end: 608 },
     signature: 'nn.width / element.width',
     description: 'A read-only property with two uses. On `nn`, it returns the browser window\'s inner width in pixels (`window.innerWidth`). On an element returned by `nn.get()` or `nn.create()`, it returns the element\'s rendered width including padding and borders, sourced from `getBoundingClientRect()`.',
     friendly: 'This is either the width of the screen in pixels when <code>nn.width</code>, or of a particular element, for example <code>img.width</code>',
@@ -250,7 +250,7 @@ nn.create('div')
 
   {
     name: 'height',
-    source: { filepath: 'DOM/dom.js', start: 609, end: 613 },
+    source: { filepath: 'src/DOM/dom.js', start: 609, end: 613 },
     signature: 'nn.height / element.height',
     description: 'A read-only property with two uses. On `nn`, it returns the browser window\'s inner height in pixels (`window.innerHeight`). On an element returned by `nn.get()` or `nn.create()`, it returns the element\'s rendered height including padding and borders, sourced from `getBoundingClientRect()`.',
     friendly: 'This is either the height of the screen in piexels when <code>nn.height</code>, or of a particular element, for example <code>img.height</code>',
@@ -277,7 +277,7 @@ nn.create('div')
   // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ selecting & creating ~ ~ ~ ~ ~ ~
   {
     name: 'get',
-    source: { filepath: 'DOM/dom.js', start: 102, end: 575 },
+    source: { filepath: 'src/DOM/dom.js', start: 102, end: 575 },
     signature: 'nn.get(query) / element.get(query)',
     description: 'Finds an element and augments it with all of the nn helper methods (`.css()`, `.on()`, `.content()`, `.addTo()`, etc.) so you can immediately chain calls onto it. Pass a CSS selector string to search the whole document, or pass an `HTMLElement` reference directly. Elements returned by `nn.create()` are already augmented. Augmented elements also have their own `.get()` method for scoped, descendants-only queries.',
     friendly: 'When there\'s there\'s an element on your page you want to reference or modify in your JavaScript you can "get" it using this method, you can pass an elemnt type <code>.get(\'div\')</code>, a class <code>.get(\'.title\')</code> or id <code>.get(\'#title\')</code>. It will find the first element that matches the argument string.',
@@ -301,7 +301,7 @@ nn.get('body')
 
   {
     name: 'getAll',
-    source: { filepath: 'DOM/dom.js', start: 95, end: 100 },
+    source: { filepath: 'src/DOM/dom.js', start: 95, end: 100 },
     signature: 'nn.getAll(query) / element.getAll(query)',
     description: 'Returns an array of all elements in the document matching a CSS selector, each augmented with nn helper methods. When called on an augmented element, the search is scoped to that element\'s descendants only. Returns an empty array if nothing matches.',
     friendly: 'Similar to <code>nn.get()</code>, which can be used to grab a specific element, by id for example <code>.get(\'#title\')</code>, when there\'s multiple elements on your page you want to grab all at once you can pull them into an array using this method. For example <code>nn.getAll(\'.cards\')</code> returns a list of all the elements where <code>class="cards"</code>.',
@@ -352,7 +352,7 @@ nn.on('click', update)
 
   {
     name: 'create',
-    source: { filepath: 'DOM/dom.js', start: 83, end: 93 },
+    source: { filepath: 'src/DOM/dom.js', start: 83, end: 93 },
     signature: 'nn.create(type)',
     description: 'Creates a new HTML element of the given tag name and immediately augments it with all nn helper methods. The element is not added to the page until you chain `.addTo()`.',
     friendly: 'You can use this method to dynamically create any HTML element via JavaScript. Keep in mind, it won\'t be rendered on the page until you also call `.addTo()` to inject it into a specific element, like <code>nn.create(\'input\').addTo(\'body\')</code>',
@@ -386,7 +386,7 @@ hi.addTo('body')`
   // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ element methods ~ ~ ~ ~ ~ ~
   {
     name: 'content',
-    source: { filepath: 'DOM/dom.js', start: 183, end: 189 },
+    source: { filepath: 'src/DOM/dom.js', start: 183, end: 189 },
     signature: 'element.content(str)',
     description: 'Sets the `innerHTML` of the element to the provided string and returns the element so further calls can be chained. Replaces any existing content. Pass an empty string (`\'\'`) or `null` to clear the element completely.',
     friendly: 'This method is used to change the content inside of the element. Passing an empty string or <code>null</code> clears out the content of the elment',
@@ -405,7 +405,7 @@ nn.get('body') // then style its CSS
 
   {
     name: 'addTo',
-    source: { filepath: 'DOM/dom.js', start: 225, end: 233 },
+    source: { filepath: 'src/DOM/dom.js', start: 225, end: 233 },
     signature: 'element.addTo(parent)',
     description: 'Appends the element to a parent and returns the element for chaining. `parent` can be a CSS selector string or an `HTMLElement` or `nn` augmented element reference. If the element already has a parent it is removed from its current location first, then re-appended to the new parent.',
     friendly: 'This method places the element onto the page by injecting it inside a parent element. For example, <code>.addTo(\'body\')</code> makes it visible by adding it inside the <code>&lt;body&gt;</code> tag.',
@@ -438,7 +438,7 @@ nn.times(8, () => {
 
   {
     name: 'set',
-    source: { filepath: 'DOM/dom.js', start: 257, end: 302 },
+    source: { filepath: 'src/DOM/dom.js', start: 257, end: 302 },
     signature: 'element.set(obj|prop, val?)',
     description: 'Sets one or more HTML attributes on the element and returns it for chaining. Pass a property name and value, or a plain object of name/value pairs. As a shorthand, pass a CSS-selector-style string to set `class` or `id`: `.set(\'.foo\')` sets `className` to `\'foo\'`, `.set(\'.foo.bar\')` sets it to `\'foo bar\'`, and `.set(\'#my-id\')` sets the element\'s `id`. Two additional special cases: passing `\'options\'` with an array on a `&lt;select&gt;` element populates it with `&lt;option&gt;` children; passing `\'stream\'` with a `MediaStream` assigns it to `srcObject`.',
     friendly: 'This method sets HTML attributes on an element, like the <code>src</code> on an image or <code>href</code> on a link. For example <code>.set(\'src\', \'photo.jpg\')</code> tells an <code>&lt;img&gt;</code> which image file to display.',
@@ -493,7 +493,7 @@ nn.create('input')
 
   {
     name: 'css',
-    source: { filepath: 'DOM/dom.js', start: 267, end: 294 },
+    source: { filepath: 'src/DOM/dom.js', start: 267, end: 294 },
     signature: 'element.css(obj|prop, val))',
     description: 'Sets one or more inline CSS styles on the element and returns it for chaining. Pass a CSS property name and value, or a plain object of CSS property/value pairs. Property names can use camelCase, e.g. `backgroundColor`, or quoted kebab-case, `\'background-color\'`. Numeric values automatically get `\'px\'` appended when needed, so `.css(\'width\', 200)` becomes `width: 200px`.',
     friendly: 'This method applies CSS styles directly to an element, like changing its <code>background</code>, <code>width</code>, or <code>fontSize</code>. You can set one style at a time or pass an object with many styles at once.',
@@ -534,7 +534,7 @@ card.on('click', () => {
 
   {
     name: 'transition',
-    source: { filepath: 'DOM/dom.js', start: 296, end: 309 },
+    source: { filepath: 'src/DOM/dom.js', start: 296, end: 309 },
     signature: 'element.transition(obj|prop, duration)',
     description: 'Sets a CSS `transition` on the element and returns it for chaining. Pass a property name and duration, or an object where each key is a CSS property and each value is a duration. Duration can be a number (milliseconds) or a CSS string like `\'0.3s ease-in-out\'`. This makes subsequent `.css()` and transform changes animate smoothly.',
     friendly: 'This method makes style changes animate smoothly rather than snapping instantly to their new values. For example, <code>.transition(\'background\', 500)</code> means any future background color change will smoothly fade over 500 milliseconds.',
@@ -583,7 +583,7 @@ nn.on('click', () => {
   // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ transforms ~ ~ ~ ~ ~ ~ ~ ~
   {
     name: 'position',
-    source: { filepath: 'DOM/dom.js', start: 405, end: 423 },
+    source: { filepath: 'src/DOM/dom.js', start: 405, end: 423 },
     signature: 'element.position(x, y, type?)',
     description: 'Positions the element using CSS `left` / `top` and returns it for chaining. By default uses `position: absolute`, but you can pass `\'relative\'`, `\'fixed\'`, or `\'sticky\'` as the third argument. If `.positionOrigin(\'center\')` was previously called, `x` and `y` refer to the element\'s center rather than its top-left corner.',
     friendly: 'This method places the element at a specific (x, y) coordinate on the page, where x is measured from the left edge and y from the top edge of the window.',
@@ -623,7 +623,7 @@ nn.on('mousemove', () => {
 
   {
     name: 'positionOrigin',
-    source: { filepath: 'DOM/dom.js', start: 425, end: 432 },
+    source: { filepath: 'src/DOM/dom.js', start: 425, end: 432 },
     signature: 'element.positionOrigin(type)',
     description: 'Controls how `.position()` interprets coordinates. Pass `\'center\'` so that `x` and `y` refer to the element\'s center point. Pass `\'default\'` (or call with no argument) to restore top-left corner behaviour. Must be set before calling `.position()`. Returns the element for chaining.',
     friendly: 'By default <code>.position(x, y)</code> places the element\'s top-left corner at those coordinates. Calling <code>.positionOrigin(\'center\')</code> first makes the coordinates point to the element\'s center instead.',
@@ -667,7 +667,7 @@ nn.create('div')
 
   {
     name: 'size',
-    source: { filepath: 'DOM/dom.js', start: 469, end: 492 },
+    source: { filepath: 'src/DOM/dom.js', start: 469, end: 492 },
     signature: 'element.size(w, h?)',
     description: 'Sets the element\'s width and height. Numbers are treated as pixels; strings are used as-is so any CSS unit works, e.g. `\'100vw\'`, `\'50%\'`. If only one argument is passed the same value is applied to both width and height. Pass `null` for either dimension to leave it unchanged. If the element\'s computed `display` is `\'inline\'`, it is automatically bumped to `\'inline-block\'` (once, on the first call) so that the dimensions take effect. Returns the element for chaining.',
     friendly: 'This method sets the width and height of an element. Pass numbers to use pixels, or strings like <code>\'100vw\'</code> or <code>\'50%\'</code> for other units. Pass just one value to make it a square, or pass <code>null</code> for a dimension you want to leave unchanged.',
@@ -703,7 +703,7 @@ nn.create('div')
 
   {
     name: 'rotate',
-    source: { filepath: 'DOM/dom.js', start: 391, end: 394 },
+    source: { filepath: 'src/DOM/dom.js', start: 391, end: 394 },
     signature: 'element.rotate(deg)',
     description: 'Applies a CSS `rotate()` transform to the element and returns it for chaining. Combines correctly with `scale()` and `skew()`, all three helpers share the same `transform` style string and update it non-destructively.',
     friendly: 'This method rotates the element by a given number of degrees. Positive values spin it clockwise; negative values spin it counter-clockwise.',
@@ -747,7 +747,7 @@ box.data.angle = 0`
 
   {
     name: 'scale',
-    source: { filepath: 'DOM/dom.js', start: 385, end: 389 },
+    source: { filepath: 'src/DOM/dom.js', start: 385, end: 389 },
     signature: 'element.scale(x, y?)',
     description: 'Applies a CSS `scale()` transform to the element and returns it for chaining. If `y` is omitted the element scales uniformly. `1` is normal size, `2` is double, `0.5` is half. Coexists on the same `transform` string as `rotate()` and `skew()`.',
     friendly: 'This method resizes the element relative to its original size. A value of <code>1</code> is normal, <code>2</code> is double the size, and <code>0.5</code> is half.',
@@ -784,7 +784,7 @@ box
 
   {
     name: 'skew',
-    source: { filepath: 'DOM/dom.js', start: 396, end: 400 },
+    source: { filepath: 'src/DOM/dom.js', start: 396, end: 400 },
     signature: 'element.skew(xDeg, yDeg?)',
     description: 'Applies a CSS `skew()` transform to the element. `xDeg` shears along the horizontal axis; `yDeg` shears along the vertical axis (defaults to `0`). Returns the element for chaining.',
     friendly: 'This method slants the element along the horizontal and/or vertical axis, creating a leaning or shearing effect, like italicizing a shape.',
@@ -816,7 +816,7 @@ nn.times(5, i => {
   // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ css filters ~ ~ ~ ~ ~ ~ ~
   {
     name: 'blur',
-    source: { filepath: 'DOM/dom.js', start: 324, end: 327 },
+    source: { filepath: 'src/DOM/dom.js', start: 324, end: 327 },
     signature: 'element.blur(px)',
     description: 'Applies a CSS `blur()` filter to the element. Stacks with other filter helpers (`brightness`, `grayscale`, etc.), all filter helpers share the same `filter` style string and update it non-destructively. Returns the element for chaining.',
     friendly: 'This method blurs the element, making it look out of focus. The higher the number, the blurrier it appears.',
@@ -853,7 +853,7 @@ img.data.b = 0 // keep track of blur amount`
 
   {
     name: 'brightness',
-    source: { filepath: 'DOM/dom.js', start: 329, end: 332 },
+    source: { filepath: 'src/DOM/dom.js', start: 329, end: 332 },
     signature: 'element.brightness(val)',
     description: 'Applies a CSS `brightness()` filter to the element. `1` is the original brightness, `0` produces black, values above `1` over-expose. Returns the element for chaining.',
     friendly: 'This method adjusts how bright the element appears. A value of <code>1</code> is normal, <code>0</code> is completely black, and values above <code>1</code> make it brighter than normal.',
@@ -881,7 +881,7 @@ img
 
   {
     name: 'contrast',
-    source: { filepath: 'DOM/dom.js', start: 334, end: 337 },
+    source: { filepath: 'src/DOM/dom.js', start: 334, end: 337 },
     signature: 'element.contrast(val)',
     description: 'Applies a CSS `contrast()` filter. `1` is normal contrast, `0` is flat gray, values above `1` push colors further apart. Returns the element for chaining.',
     friendly: 'This method adjusts the contrast of the element. A value of <code>1</code> is normal, <code>0</code> turns it flat gray, and values above <code>1</code> make light areas lighter and dark areas darker.',
@@ -922,7 +922,7 @@ img.data.toggled = false`
 
   {
     name: 'dropShadow',
-    source: { filepath: 'DOM/dom.js', start: 339, end: 342 },
+    source: { filepath: 'src/DOM/dom.js', start: 339, end: 342 },
     signature: 'element.dropShadow(x, y, blur, color)',
     description: 'Applies a CSS `drop-shadow()` filter. Unlike the `box-shadow` property, this filter traces the element\'s actual visible pixels, so it works correctly on transparent PNGs, SVGs, and cutout shapes. Returns the element for chaining.',
     friendly: 'This method adds a shadow to the element. Unlike a regular box shadow, this one traces the actual visible shape of the element, so it works properly on images with transparent backgrounds.',
@@ -955,7 +955,7 @@ nn.create('div')
 
   {
     name: 'grayscale',
-    source: { filepath: 'DOM/dom.js', start: 344, end: 347 },
+    source: { filepath: 'src/DOM/dom.js', start: 344, end: 347 },
     signature: 'element.grayscale(val)',
     description: 'Applies a CSS `grayscale()` filter. `0` is full color, `1` is fully desaturated. Returns the element for chaining.',
     friendly: 'This method removes color from the element. A value of <code>0</code> keeps it in full color, and <code>1</code> turns it completely black and white.',
@@ -988,7 +988,7 @@ img
 
   {
     name: 'hueRotate',
-    source: { filepath: 'DOM/dom.js', start: 349, end: 352 },
+    source: { filepath: 'src/DOM/dom.js', start: 349, end: 352 },
     signature: 'element.hueRotate(deg)',
     description: 'Applies a CSS `hue-rotate()` filter, shifting all colors in the element by the given angle around the color wheel. `0` and `360` are the same. Returns the element for chaining.',
     friendly: 'This method shifts all the colors in the element by a given number of degrees around the color wheel. Think of it like cycling through different color palettes without changing the shapes or patterns.',
@@ -1028,7 +1028,7 @@ img.data.hue = 0`
 
   {
     name: 'invert',
-    source: { filepath: 'DOM/dom.js', start: 354, end: 357 },
+    source: { filepath: 'src/DOM/dom.js', start: 354, end: 357 },
     signature: 'element.invert(val)',
     description: 'Applies a CSS `invert()` filter. `0` has no effect, `1` fully inverts all colors. Values between `0` and `1` produce a partial inversion. Returns the element for chaining.',
     friendly: 'This method flips all the colors to their opposites, like a photo negative. A value of <code>1</code> fully inverts; <code>0</code> has no effect.',
@@ -1069,7 +1069,7 @@ img.data.inverted = false`
 
   {
     name: 'opacity',
-    source: { filepath: 'DOM/dom.js', start: 359, end: 362 },
+    source: { filepath: 'src/DOM/dom.js', start: 359, end: 362 },
     signature: 'element.opacity(val)',
     description: 'Applies a CSS `opacity()` filter (not the `opacity` style property, this version participates in the stacked filter pipeline). `1` is fully opaque, `0` is fully transparent. Returns the element for chaining.',
     friendly: 'This method controls how transparent the element is. A value of <code>1</code> is fully visible, and <code>0</code> makes it completely invisible.',
@@ -1105,7 +1105,7 @@ nn.times(5, i => {
 
   {
     name: 'sepia',
-    source: { filepath: 'DOM/dom.js', start: 364, end: 367 },
+    source: { filepath: 'src/DOM/dom.js', start: 364, end: 367 },
     signature: 'element.sepia(val)',
     description: 'Applies a CSS `sepia()` filter, shifting the element\'s colors toward warm brownish tones. `0` is no effect, `1` is fully sepia. Returns the element for chaining.',
     friendly: 'This method gives the element a warm brownish vintage tone, like an old photograph. A value of <code>0</code> is no change; <code>1</code> is fully sepia.',
@@ -1136,7 +1136,7 @@ img
 
   {
     name: 'saturate',
-    source: { filepath: 'DOM/dom.js', start: 369, end: 372 },
+    source: { filepath: 'src/DOM/dom.js', start: 369, end: 372 },
     signature: 'element.saturate(val)',
     description: 'Applies a CSS `saturate()` filter. `1` is normal, `0` is fully desaturated (same as `grayscale(1)`), values above `1` oversaturate colors. Returns the element for chaining.',
     friendly: 'This method controls how vivid or muted the colors are. A value of <code>1</code> is normal, <code>0</code> makes it grayscale, and higher values like <code>3</code> make the colors intensely vibrant.',
@@ -1169,7 +1169,7 @@ img
   // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ element properties ~ ~ ~ ~ ~ ~
   {
     name: 'x',
-    source: { filepath: 'DOM/dom.js', start: 446, end: 456 },
+    source: { filepath: 'src/DOM/dom.js', start: 446, end: 456 },
     signature: 'element.x',
     description: 'A read-only property that returns the element\'s horizontal distance from the left edge of the viewport, sourced from `getBoundingClientRect()`. Equivalent to `element.left`. Defined as a getter so it always reflects the element\'s current position.',
     friendly: 'This property contains a number representing how far the element\'s left edge is from the left side of the window, in pixels.',
@@ -1213,7 +1213,7 @@ function update ( ){
 
   {
     name: 'y',
-    source: { filepath: 'DOM/dom.js', start: 446, end: 456 },
+    source: { filepath: 'src/DOM/dom.js', start: 446, end: 456 },
     signature: 'element.y',
     description: 'A read-only property that returns the element\'s vertical distance from the top edge of the viewport, sourced from `getBoundingClientRect()`. Equivalent to `element.top`. Defined as a getter so it always reflects the element\'s current position.',
     friendly: 'This property contains a number representing how far the element\'s top edge is from the top of the window, in pixels.',
@@ -1257,7 +1257,7 @@ function update ( ){
 
   {
     name: 'top',
-    source: { filepath: 'DOM/dom.js', start: 446, end: 456 },
+    source: { filepath: 'src/DOM/dom.js', start: 446, end: 456 },
     signature: 'element.top',
     description: 'A read-only property that returns the distance from the top edge of the viewport to the top edge of the element, sourced from `getBoundingClientRect()`. Equivalent to `element.y`.',
     friendly: 'This property contains a number representing how far the element\'s top edge is from the top of the window, in pixels. Same value as <code>.y</code>.',
@@ -1303,7 +1303,7 @@ function update ( ){
 
   {
     name: 'left',
-    source: { filepath: 'DOM/dom.js', start: 446, end: 456 },
+    source: { filepath: 'src/DOM/dom.js', start: 446, end: 456 },
     signature: 'element.left',
     description: 'A read-only property that returns the distance from the left edge of the viewport to the left edge of the element, sourced from `getBoundingClientRect()`. Equivalent to `element.x`.',
     friendly: 'This property contains a number representing how far the element\'s left edge is from the left side of the window, in pixels. Same value as <code>.x</code>.',
@@ -1349,7 +1349,7 @@ function update ( ){
 
   {
     name: 'bottom',
-    source: { filepath: 'DOM/dom.js', start: 446, end: 456 },
+    source: { filepath: 'src/DOM/dom.js', start: 446, end: 456 },
     signature: 'element.bottom',
     description: 'A read-only property that returns the distance from the top edge of the viewport to the bottom edge of the element, sourced from `getBoundingClientRect()`. Equal to `element.top + element.height`.',
     friendly: 'This property contains a number representing how far the element\'s bottom edge is from the top of the window, in pixels.',
@@ -1395,7 +1395,7 @@ function update ( ){
 
   {
     name: 'right',
-    source: { filepath: 'DOM/dom.js', start: 446, end: 456 },
+    source: { filepath: 'src/DOM/dom.js', start: 446, end: 456 },
     signature: 'element.right',
     description: 'A read-only property that returns the distance from the left edge of the viewport to the right edge of the element, sourced from `getBoundingClientRect()`. Equal to `element.left + element.width`.',
     friendly: 'This property contains a number representing how far the element\'s right edge is from the left side of the window, in pixels.',
@@ -1441,7 +1441,7 @@ function update ( ){
 
   {
     name: 'data',
-    source: { filepath: 'DOM/dom.js', start: 458, end: 534 },
+    source: { filepath: 'src/DOM/dom.js', start: 458, end: 534 },
     signature: 'element.data',
     description: 'A proxy that reads and writes the element\'s `dataset` (HTML `data-*` attributes) while automatically converting types. Assigning `element.data.count = 5` stores `"5"` on the element; reading it back returns the JavaScript number `5`. Booleans, `null`, arrays, and plain objects are all round-tripped correctly. Deleting a key removes the corresponding attribute.',
     friendly: 'This property lets you attach your own custom data directly to an element. For example, <code>box.data.score = 10</code> stores a score on that element, and <code>box.data.score</code> reads it back later.',

@@ -1,7 +1,7 @@
 const UTILS_DOCS = [
   {
     name: 'sleep',
-    source: { filepath: 'Utils/utils.js', start: 1, end: 3 },
+    source: { filepath: 'src/Utils/utils.js', start: 1, end: 3 },
     signature: 'nn.sleep(ms)',
     description: 'Returns a `Promise` that resolves after `ms` milliseconds. Use it with `async`/`await` to pause execution inside an async function without blocking the rest of the page.',
     friendly: 'This method pauses your code for a given number of milliseconds before continuing. Use it with <code>await</code> inside an <code>async</code> function, for example <code>await nn.sleep(1000)</code> waits one second.',
@@ -41,7 +41,7 @@ nn.on('load', pulse) `
 
   {
     name: 'times',
-    source: { filepath: 'Utils/utils.js', start: 5, end: 18 },
+    source: { filepath: 'src/Utils/utils.js', start: 5, end: 18 },
     signature: 'nn.times(n, fn)',
     description: 'Calls `fn` exactly `n` times, passing the current index (`0`-based) as the argument each time, and returns an array of the return values. A concise alternative to writing a `for` loop when you want to build a collection or run a side effect a fixed number of times.',
     friendly: 'This method calls a function a specific number of times, a shorthand for writing a <code>for</code> loop. For example, <code>nn.times(5, draw)</code> calls your <code>draw</code> function five times in a row.',
@@ -76,7 +76,7 @@ nn.times(12, randomColorDiv)`
 
   {
     name: 'range',
-    source: { filepath: 'Utils/utils.js', start: 20, end: 59 },
+    source: { filepath: 'src/Utils/utils.js', start: 20, end: 59 },
     signature: 'nn.range(end) / nn.range(start, end, step?, map?)',
     description: 'Generates an array of numbers from `start` (default `0`) up to but not including `end`, incrementing by `step` (default `1`). An optional `map` function can be passed as the last argument to transform each value before it is added to the array. Counting downward is supported by passing a negative `step` or by having `start` greater than `end`.',
     friendly: 'This method generates an array of numbers between a start and end value. For example, <code>nn.range(1, 5)</code> gives you <code>[1, 2, 3, 4]</code>, which you can then loop over to create or position things.',

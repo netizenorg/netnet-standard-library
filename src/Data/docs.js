@@ -1,7 +1,7 @@
 const DATA_DOCS = [
   {
     name: 'parse',
-    source: { filepath: 'Data/data.js', start: 113, end: 131 },
+    source: { filepath: 'src/Data/data.js', start: 113, end: 131 },
     signature: 'nn.parse(str, options?)',
     description: 'Parses a string into JavaScript data. Automatically detects whether the string is JSON or CSV. JSON strings (starting with `{` or `[`) are parsed with `JSON.parse()`. CSV strings are parsed into an array of objects using the first row as keys, or into a 2D array if you pass `{ headers: false }`.',
     friendly: 'This method converts a raw text string (like CSV or JSON) into actual JavaScript data you can work with. For example, if you fetch a spreadsheet from the web, passing the resulting text through this method turns it into an array of objects.',
@@ -80,7 +80,7 @@ nn.on('load', setup)`
 
   {
     name: 'serialize',
-    source: { filepath: 'Data/data.js', start: 133, end: 148 },
+    source: { filepath: 'src/Data/data.js', start: 133, end: 148 },
     signature: 'nn.serialize(data, format?)',
     description: 'Converts JavaScript data into a string. By default, an array of plain objects becomes CSV and everything else becomes JSON. The inverse of `nn.parse()`. Pass `\'csv\'` or `\'json\'` as the second argument to override the auto-detection.',
     friendly: 'This method converts JavaScript data into a plain text string so it can be saved or sent somewhere. An array of objects becomes CSV text, and everything else becomes JSON text.',
@@ -120,7 +120,7 @@ nn.create('textarea')
 
   {
     name: 'download',
-    source: { filepath: 'Data/data.js', start: 127, end: 195 },
+    source: { filepath: 'src/Data/data.js', start: 127, end: 195 },
     signature: 'nn.download(data, filename?)',
     description: 'Triggers a file download in the browser. Automatically detects the type of data and picks the right format and file extension. Also returns the serialized string (or data URL for canvas/images) so you can use the result without downloading if needed. The `filename` argument is optional, if omitted a sensible default is used.',
     friendly: 'This method saves something to the user\'s computer as a file download. You can pass it a canvas, an image, an SVG, or plain data, and it automatically picks the right file format and extension.',
@@ -148,7 +148,7 @@ canvas.on('click', () => {
 
   {
     name: 'upload',
-    source: { filepath: 'Data/data.js', start: 197, end: 248 },
+    source: { filepath: 'src/Data/data.js', start: 197, end: 248 },
     signature: 'nn.upload(options?)',
     description: 'Opens the browser\'s file picker and returns a `Promise` that resolves with a result object containing `name` (filename), `size` (bytes), `type` (MIME type), and `data` (the parsed contents). Images, video, and audio files resolve with a URL string as `data` (ready to assign to `img.src`, `video.src`, or `audio.src`), `.csv` files with an array of objects, `.json` files with a parsed object, and everything else with raw text. Pass an options object to restrict file types, limit file size, or allow multiple files.',
     friendly: 'This method opens the browser\'s file picker so the user can choose a file from their computer. It returns the file\'s contents already parsed, so images come back as a URL you can display, and CSV or JSON files come back as usable data.',
