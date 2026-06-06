@@ -1,15 +1,14 @@
 {
   "name": "netnet-standard-library",
   "version": "1.0.0",
-  "description": "a collection of other netizen utility libs primarily for use within netnet.studio projects",
+  "description": "A browser based JavaScript library designed to aid creative coders (artists, designers, etc), it's a core utility library used within [netnet.studio](https://netnet.studio)",
   "main": "main.js",
   "scripts": {
-    "pull-modules": "git submodule update --init --recursive",
-    "update-modules": "git submodule update --remote --merge",
     "lint": "standard *.js",
-    "prebuild": "npm run lint; jsdoc2md --files main.js > docs/API.md",
+    "prebuild": "npm run lint",
     "build": "browserify main.js > build/netnet-standard-library.js",
-    "postbuild": "terser build/netnet-standard-library.js -cm -o build/nn.min.js"
+    "postbuild": "terser build/netnet-standard-library.js -cm -o build/nn.min.js",
+    "docs": "node scripts/update-doc-sources.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +22,6 @@
   "homepage": "https://github.com/netizenorg/netnet-standard-library#readme",
   "dependencies": {
     "browserify": "^17.0.0",
-    "jsdoc-to-markdown": "^7.1.1",
     "standard": "^17.0.0",
     "terser": "^5.15.1"
   }

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>nn ( ◕ ◞ ◕ ) demos</title>
+    <style>
+      :root {
+        --nav-height:    48px;
+        --divider-width: 1px;
+        --divider-style: dashed;
+        --divider-color: var(--netizen-tag);
+        --border:        color-mix(in srgb, var(--netizen-background) 70%, var(--netizen-comment));
+        --bg-raised:     color-mix(in srgb, var(--netizen-background) 85%, var(--netizen-text));
+        --code-bg:       var(--netizen-background);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--netizen-background);
+        color: var(--netizen-text);
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-size: 14px;
+      }
+
+      a { color: var(--netizen-tag); }
+      a:hover { text-decoration: none; }
+
+      /* ── GALLERY ── */
+      #gallery {
+        padding: 40px;
+        display: grid;
+        /* grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); */
+        grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+        gap: 32px;
+      }
+
+      /* ── DEMO CARD ── */
+      .demo-card {
+        display: flex;
+        flex-direction: column;
+        border: var(--divider-width) var(--divider-style) var(--divider-color);
+        border-radius: 6px;
+        overflow: hidden;
+        transition: border-color 0.15s;
+      }
+      .demo-card:hover {
+        border-color: var(--netizen-keyword);
+      }
+
+      .demo-thumb {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: var(--bg-raised);
+        overflow: hidden;
+      }
+
+      .demo-thumb iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+
+      .demo-info {
+        padding: 16px 18px 18px;
+        border-top: var(--divider-width) var(--divider-style) var(--divider-color);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .demo-title {
+        font-family: monospace;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--netizen-keyword);
+        margin: 0;
+      }
+
+      .demo-desc {
+        font-size: 13px;
+        line-height: 1.6;
+        color: var(--netizen-text);
+        opacity: 0.75;
+        margin: 0;
+      }
+
+      .demo-links {
+        display: flex;
+        gap: 16px;
+        margin-top: 4px;
+      }
+
+      .demo-links a {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        color: var(--netizen-tag);
+        transition: color 0.1s;
+      }
+      .demo-links a:hover { color: var(--netizen-keyword); }
+
+      .demo-links .remix-link {
+        color: var(--netizen-keyword);
+        opacity: 0.7;
+      }
+      .demo-links .remix-link:hover { opacity: 1; }
+    </style>
+  </head>
+  <body>
+
+    <nn-nav base="../../" page="demos"></nn-nav>
+
+    <!-- ── GALLERY ── -->
+    <main id="gallery"></main>
+
+    <script src="../netitor.min.js"></script>
+    <script src="../../docs/nn-nav.js"></script>
+    <script src="../helper-functions.js"></script>
+    <script src="../demos.js"></script>
+    <script src="../../build/nn.min.js"></script>
+    <script>
+      /* global nn, Netitor, DEMO_DOCS */
+
+      let currentTheme = localStorage.getItem('nn-docs-theme') || 'dark'
+
+      nn.on('nn-theme-change', (e) => {
+        currentTheme = e.detail.theme
+        // update all "view code" links to reflect the new theme
+        nn.getAll('a[href*="cat=demo"]').forEach(a => {
+          a.href = a.href.replace(/theme=[^&]+/, `theme=${currentTheme}`)
+        })
+      })
+
+      // ── base href for srcdoc iframes ──────────────────────────────────────
+      // demos/ is two levels below the project root, so go up twice
+      const projectBase = new URL('../../', location.href).href
+
+      // ── remix a demo on netnet.studio ─────────────────────────────────────
+      async function remixDemo (demo) {
+        const tmpId = 'nn-remix-encoder-' + Math.random().toString(36).slice(2)
+        const tmpEl = nn.create('div')
+          .set('#' + tmpId)
+          .css({ position: 'fixed', top: -9999, left: -9999, width: 1, height: 1, overflow: 'hidden', pointerEvents: 'none' })
+          .addTo('body')
+        const encoder = new Netitor({ ele: '#' + tmpId, theme: currentTheme })
+
+        const res = await fetch(demo.filename)
+        const code = await res.text()
+        let template = '<body><\/body>\n<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"><\/script>\n'
+        template += window.appendLibs(code)
+        template += '\n<script>{{code}}<\/script>'
+        const html = template.replace('{{code}}', `\n\n${code}\n`)
+        const hash = encoder._encode(html)
+        tmpEl.remove()
+        window.open(`https://netnet.studio/?layout=dock-left#code/${hash}`, '_blank')
+      }
+
+      // ── build gallery ─────────────────────────────────────────────────────
+      const GALLERY_DEMOS = [
+        'drawing-tool', 'matter-circles', 'hydra-waves', 'tf-filter', '3d-gallery', 'music'
+      ]
+
+      async function buildGallery () {
+        const galleryEl = nn.get('#gallery')
+        const demos = DEMO_DOCS.filter(d => GALLERY_DEMOS.includes(d.name))
+          .sort((a, b) => GALLERY_DEMOS.indexOf(a.name) - GALLERY_DEMOS.indexOf(b.name))
+
+        for (const demo of demos) {
+          // fetch and render the demo into a srcdoc iframe
+          const res = await fetch(demo.filename)
+          const code = await res.text()
+          let srcdoc = `<!DOCTYPE html>
+<html><head><base href="${projectBase}examples/"></head>
+<body></body>
+<script src="${projectBase}build/nn.min.js"><\/script>`
+          srcdoc += window.appendLibs(code)
+          srcdoc += `<script>${code}<\/script>\n</html>`
+
+          const card = nn.create('div').set('.demo-card')
+          const thumb = nn.create('div').set('.demo-thumb').addTo(card)
+
+          nn.create('iframe')
+            .set({ srcdoc, title: demo.title || demo.name })
+            .addTo(thumb)
+
+          const info = nn.create('div')
+            .set('.demo-info')
+            .content(`
+              <h3 class="demo-title">${demo.title || demo.name}</h3>
+              <p class="demo-desc">${demo.description}</p>
+              <div class="demo-links">
+                <a href="../index.html?theme=${currentTheme}&cat=demo&func=${demo.name}" target="_blank">view code →</a>
+                <a href="#" class="remix-link">remix on netnet ↗</a>
+              </div>
+            `)
+            .addTo(card)
+
+          info.get('.remix-link').on('click', (e) => {
+            e.preventDefault()
+            remixDemo(demo)
+          })
+
+          card.addTo(galleryEl)
+        }
+      }
+
+      buildGallery()
+    </script>
+
+  </body>
+</html>

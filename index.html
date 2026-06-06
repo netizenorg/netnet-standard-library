@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>nn ( ◕ ◞ ◕ ) the netnet-standard-library</title>
+    <link rel="stylesheet" href="docs/home.css">
+  </head>
+  <body>
+
+    <nn-nav base="./" page="home"></nn-nav>
+
+    <!-- ── SPLASH ── -->
+    <section id="splash">
+      <iframe id="demo-bg" title="demo background"></iframe>
+      <div id="splash-overlay"></div>
+      <div id="splash-content">
+        <h1>nn<span id="typewriter"></span></h1>
+        <p>
+          The <span style="font-family: monospace; color: var(--netizen-keyword)">netnet-standard-library.js</span> <code style="color: var(--netizen-variable); background: var(--netizen-background);">nn.min.js</code> is a browser-based JavaScript library designed to aid creative coders working on internet art and web design projects. It serves as the core utility library for <a href="https://netnet.studio/" target="_blank">netnet.studio</a>, functioning both as a tool-kit for creating interactive and generative work within the platform and as a tool for building netnet.studio itself. The library is intentionally approachable for beginners, featuring helpful error messages and friendly documentation, yet expressive enough to support complex creative work.
+        </p>
+        <div class="splash-ctas">
+          <a class="cta-btn cta-primary" href="#getting-started">get started ↓</a>
+          <a class="cta-btn cta-secondary" href="docs/">docs →</a>
+          <a class="cta-btn cta-secondary" href="examples/demos/">demos →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── GETTING STARTED ── -->
+    <section id="getting-started">
+      <div id="getting-started-content">
+        <h2>getting started</h2>
+        <p>
+          Add a single <code>&lt;script&gt;</code> tag to your HTML, there's no build step, no package
+          manager, no dependencies. The global <code>nn</code> object is then available everywhere
+          on the page.
+        </p>
+        <div id="snippet-tabs">
+          <button class="version-tab" data-version="latest">latest</button>
+          <button class="version-tab active" data-version="1.0.0">1.0.0</button>
+          <button class="version-tab" data-version="0.9.0">0.9.0</button>
+        </div>
+        <div class="snippet-wrap">
+          <code id="cdn-snippet">&lt;script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.0/build/nn.min.js"&gt;&lt;/script&gt;</code>
+          <button id="copy-btn">copy</button>
+        </div>
+        <p id="snippet-warning" hidden>⚠ <strong>NOTE:</strong> This URL always loads the newest version of the library. That means if the library gets updated (even if <em>you</em> haven't changed your code) your project might start looking/behaving differently. If you want access to the latest (often experimental) features use this URL. For projects you want to keep stable, it's safer to pin to a specific version like <strong>1.0.0</strong>.</p>
+        <br>
+        <p>
+          Here's a <a href="https://netnet.studio/?layout=dock-left#code/eJxlUbFOwzAQ3fMV1y52pDbeUWFCYmRhgDG1L+lBco58TkNB/Dt2QtoByZJP53vP7947iA00RJBg77enGAe5M8Y6rt7FYUfnUDFG055MuugL2Yc2l+nsJdbs6uD2HR1DHS7mOFLnDHPVU8ZvHw5mYX8oDmsB0IxsI3kGF+rpiRoBXcJ3egAwBqiB3o+CQALsI+hNCUNAEXTg/MSAnxSvHDMqQfQm/5pxj2mmhIBxDLxy+njCMJHgDmzAOiLUwDhBS808krBLXyvqW1XOTYBKMGqVjFE7UKs1y+6VxNGRT0ZVieSGGLxQ1vUcqCXWyiJHDP/f9Sr3dQdr+XadsiJaDZ4ydo/nxCFZAnvGG1Xt3IvX6ujdZW7+FMW8rO3IfkBKJvvb/plZ2+BFIPkAKQhEXmajn0NYzYC0PWCHff6xmH1JUtVM0fszJhFrZmVxzfYXc4a6Tg==" target="_blank">basic example</a> on netnet.studio.
+        </p>
+        <p>
+          There are many amazing creative coding libraries that extend the capabilities of the Web's creative APIs, often providing frameworks for expressing higher-level concepts, like how A-Frame's Entity-Component-System adds game design principles to WebGL and WebXR, or how Tone.js brings music synthesis and DAW (Digital Audio Workstation) concepts to the Web Audio API. While the <code>nn</code> library can be used on its own, it's really designed to work alongside these other frameworks. For example, you could use D3.js to generate data visualizations, then apply nn's color theory methods to ensure the chart colors follow harmonious color schemes and meet WCAG AA accessibility standards. Similarly, you could use nn's music theory utilities to generate scales and chords, then pass them to Tone.js for playback. You can see this in action in our <a href="examples/demos">demos</a> gallery.
+        </p>
+        <p>
+          Below you'll find introductions to the basic concepts and patterns in the library. The full API (all of the properties and methods inside of the global <code>nn</code> object) is documented with explanations and examples in the <a href="docs">docs</a> page.
+        </p>
+        <p style="text-align:center;font-size: 24px;">↓</p>
+      </div>
+    </section>
+
+    <!-- ── INTERACTIVE ── -->
+    <section id="interactive">
+      <div id="tabs"></div>
+      <div id="interactive-body">
+        <div id="info-panel">
+          <p id="demo-desc"></p>
+          <button id="rerun-btn" class="cta-btn cta-secondary" title="Re-run the example">↺ render code</button>
+        </div>
+        <div id="preview-wrap">
+          <span class="pane-label label-example">example code</span>
+          <span class="pane-label label-output">rendered output</span>
+          <iframe id="preview"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <script src="examples/netitor.min.js"></script>
+    <script src="docs/nn-nav.js"></script>
+    <script src="build/nn.min.js"></script>
+    <script src="examples/helper-functions.js"></script>
+    <script src="examples/demos.js"></script>
+    <script>
+      /* global nn, Netitor, DEMO_DOCS */
+
+      let currentTheme = localStorage.getItem('nn-docs-theme') || 'dark'
+
+      nn.on('nn-theme-change', (e) => {
+        currentTheme = e.detail.theme
+        updatePreview()
+      })
+
+      // ── splash bg — randomly pick from available demos ───────────────────
+      const DEMO_FILES = [
+        'matter-circles', 'hydra-waves', '3d-gallery'
+      ]
+
+      async function loadSplashBg () {
+        const name = nn.random(DEMO_FILES)
+        const demo = DEMO_DOCS.find(d => d.name === name)
+        if (!demo) return
+        const res = await fetch(`examples/demos/${demo.filename}`)
+        const code = await res.text()
+        const base = location.href.replace(/\/[^\/]*$/, '/')
+        let srcdoc = `<!DOCTYPE html>\n<html><head><base href="${base}examples/"></head>\n<body></body>\n`
+        srcdoc += `<script src="../build/nn.min.js"><\/script>\n`
+        srcdoc += window.appendLibs(code)
+        srcdoc += `<script>${code}<\/script>\n</html>`
+        nn.get('#demo-bg').set('srcdoc', srcdoc)
+      }
+
+      loadSplashBg()
+
+      // forward mouse events on the splash background into the demo iframe as synthetic events
+      // (the iframe is same-origin via srcdoc, so we can dispatch directly into its document)
+      function forwardToDemo (type, e) {
+        const iframe = nn.get('#demo-bg')
+        if (!iframe.contentDocument) return
+        const rect = iframe.getBoundingClientRect()
+        iframe.contentDocument.dispatchEvent(new MouseEvent(type, {
+          bubbles: true,
+          clientX: e.clientX - rect.left,
+          clientY: e.clientY - rect.top
+        }))
+      }
+
+      nn.get('#splash')
+        .on('mousemove', (e) => forwardToDemo('mousemove', e))
+        .on('click', (e) => {
+          if (nn.get('#splash-content').contains(e.target)) return
+          forwardToDemo('mousemove', e) // ensure mouseX/mouseY are current before click fires
+          forwardToDemo('click', e)
+        })
+
+      // ── version snippet tabs ─────────────────────────────────────────────
+      const SNIPPETS = {
+        latest: 'https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js',
+        '1.0.0': 'https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.0/build/nn.min.js',
+        '0.9.0': 'https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@0.9.0/build/nn.min.js'
+      }
+
+      let activeVersion = '1.0.0'
+      const snippetEl = nn.get('#cdn-snippet')
+      const warningEl = nn.get('#snippet-warning')
+
+      function selectVersion (version) {
+        activeVersion = version
+        const url = SNIPPETS[version]
+        snippetEl.textContent = `<script src="${url}"><\/script>`
+        nn.getAll('.version-tab').forEach(b => {
+          b.classList.toggle('active', b.data.version === version)
+        })
+        if (version === 'latest') {
+          warningEl.removeAttribute('hidden')
+        } else {
+          warningEl.setAttribute('hidden', '')
+        }
+      }
+
+      nn.getAll('.version-tab').forEach(btn => {
+        btn.on('click', () => selectVersion(btn.data.version))
+      })
+
+      // ── copy CDN snippet ─────────────────────────────────────────────────
+      nn.get('#copy-btn').on('click', function () {
+        const url = SNIPPETS[activeVersion]
+        const text = `<script src="${url}"><\/script>`
+        navigator.clipboard.writeText(text).then(() => {
+          this.textContent = 'copied!'
+          setTimeout(() => { this.textContent = 'copy' }, 2000)
+        })
+      })
+
+      // ── interactive preview ───────────────────────────────────────────────
+      const TAB_FILES = [
+        'dom-elements',
+        'callbacks',
+        'events',
+        'async',
+        'rendering',
+        'animate'
+      ]
+
+      let currentDemo = null
+
+      function updatePreview () {
+        if (!currentDemo) return
+        nn.get('#preview').set('src', `examples/index.html?theme=${currentTheme}&cat=demo&func=${currentDemo}`)
+      }
+
+      function loadDemo (demo) {
+        currentDemo = demo.name
+        nn.get('#demo-desc').content(demo.description)
+        nn.getAll('.tab-btn').forEach(b => b.classList.remove('active'))
+        nn.get(`.tab-btn[data-name="${demo.name}"]`).classList.add('active')
+        updatePreview()
+      }
+
+      function buildTabs () {
+        const tabDemos = DEMO_DOCS.filter(d => TAB_FILES.includes(d.name))
+          .sort((a, b) => TAB_FILES.indexOf(a.name) - TAB_FILES.indexOf(b.name))
+        tabDemos.forEach((demo, i) => {
+          const btn = nn.create('button')
+            .set('.tab-btn')
+            .content(demo.title || demo.name)
+            .on('click', () => {
+              loadDemo(demo)
+              history.replaceState(null, '', '#' + demo.name)
+            })
+            .addTo('#tabs')
+          btn.data.name = demo.name
+          if (i === 0) loadDemo(demo)
+        })
+      }
+
+      function checkHash () {
+        const hash = location.hash.slice(1)
+        if (!TAB_FILES.includes(hash)) return
+        const demo = DEMO_DOCS.find(d => d.name === hash)
+        if (!demo) return
+        loadDemo(demo)
+        nn.get('#interactive').scrollIntoView({ behavior: 'smooth' })
+      }
+
+      nn.get('#rerun-btn').on('click', () => {
+        nn.get('#preview').contentWindow.postMessage({ type: 'rerun' }, '*')
+      })
+
+      buildTabs()
+      checkHash()
+      nn.on('hashchange', checkHash)
+
+      // ── typewriter h1 ────────────────────────────────────────────────────
+      const TYPEWRITER_METHODS = [
+        '.create(\'img\')',
+        '.filterImage()',
+        '.hyper(video)',
+        '.popup(\'page.html\')',
+        '.randomColor()',
+        '.colorScheme()',
+        '.createScale()',
+        '.createChord()',
+        '.voiceChord()'
+      ]
+
+      const twEl = nn.get('#typewriter')
+      let twIndex = 0
+
+      async function runTypewriter () {
+        while (true) {
+          const text = TYPEWRITER_METHODS[twIndex % TYPEWRITER_METHODS.length]
+          // type out
+          for (let i = 1; i <= text.length; i++) {
+            twEl.data.text = text.slice(0, i)
+            twEl.textContent = text.slice(0, i)
+            await nn.sleep(80)
+          }
+          // hold
+          await nn.sleep(2200)
+          // backspace
+          for (let i = text.length - 1; i >= 0; i--) {
+            twEl.textContent = text.slice(0, i)
+            await nn.sleep(45)
+          }
+          // brief pause before next word
+          await nn.sleep(350)
+          twIndex++
+        }
+      }
+
+      runTypewriter()
+    </script>
+
+  </body>
+</html>

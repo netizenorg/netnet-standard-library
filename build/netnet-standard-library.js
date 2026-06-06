@@ -1,50 +1,371 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const Maths = require('./src/Maths/Maths.js')
+const Averigua = require('./src/Averigua/Averigua.js')
+const Color = require('./src/Color/Color.js')
+const Music = require('./src/Music/music.js')
+const Media = require('./src/Media/media.js')
+const DOM = require('./src/DOM/dom.js')
+const Data = require('./src/Data/data.js')
+const Utils = require('./src/Utils/utils.js')
+
+const nn = {
+  popup: Media.popup,
+  loadImage: Media.loadImage,
+  filterImage: Media.filterImage,
+  filterVideo: Media.filterVideo,
+  askFor: Media.askFor,
+  askForStream: Media.askForStream,
+  askForCapture: Media.askForCapture,
+  askForNotifications: Media.askForNotifications,
+  askForClipboard: Media.askForClipboard,
+  askForBluetooth: Media.askForBluetooth,
+  askForUSB: Media.askForUSB,
+  askForSerial: Media.askForSerial,
+  askForMotion: Media.askForMotion,
+  askForOrientation: Media.askForOrientation,
+  askForGPS: Media.askForGPS,
+  MIDI: Media.MIDI,
+  hyper: Media.hyper,
+
+  notes: Music.SEMITONE_TO_NOTE,
+  modes: Music.MODES,
+  chords: Music.CHORDS,
+  noteToMidi: Music.noteToMidi,
+  noteToFrequency: Music.noteToFrequency,
+  midiToNote: Music.midiToNote,
+  midiToFrequency: Music.midiToFrequency,
+  frequencyToMidi: Music.frequencyToMidi,
+  frequencyToNote: Music.frequencyToNote,
+  randomMode: Music.randomMode,
+  createScale: Music.createScale,
+  createChord: Music.createChord,
+  voiceChord: Music.voiceChord,
+  rotateScale: Music.rotateScale,
+  transposeScale: Music.transposeScale,
+  stripOctave: Music.stripOctave,
+
+  sleep: Utils.sleep,
+  times: Utils.times,
+  range: Utils.range,
+
+  parse: Data.parse,
+  serialize: Data.serialize,
+  download: Data.download,
+  upload: Data.upload,
+
+  isBrowser: Averigua.isBrowser.bind(Averigua),
+  isMobile: Averigua.isMobile.bind(Averigua),
+  hasWebGL: Averigua.hasWebGL.bind(Averigua),
+  hasWebVR: Averigua.hasWebVR.bind(Averigua),
+  hasMIDI: Averigua.hasMIDI.bind(Averigua),
+  hasTouch: Averigua.hasTouch.bind(Averigua),
+  orientation: Averigua.orientation.bind(Averigua),
+  screen: Averigua.screen.bind(Averigua),
+  gpuInfo: Averigua.gpuInfo.bind(Averigua),
+  browserInfo: Averigua.browserInfo.bind(Averigua),
+  platformInfo: Averigua.platformInfo.bind(Averigua),
+  audioSupport: Averigua.audioSupport.bind(Averigua),
+  videoSupport: Averigua.videoSupport.bind(Averigua),
+  storageSupport: Averigua.storageSupport.bind(Averigua),
+  fontSupport: Averigua.fontSupport.bind(Averigua),
+  language: Averigua.language.bind(Averigua),
+  timeZone: Averigua.timeZone.bind(Averigua),
+  hasWebAudio: Averigua.hasWebAudio.bind(Averigua),
+  hasWebXR: Averigua.hasWebXR.bind(Averigua),
+  hasMediaDevices: Averigua.hasMediaDevices.bind(Averigua),
+  hasDeviceMotion: Averigua.hasDeviceMotion.bind(Averigua),
+  hasDeviceOrientation: Averigua.hasDeviceOrientation.bind(Averigua),
+  hasPointerLock: Averigua.hasPointerLock.bind(Averigua),
+  hasGamepad: Averigua.hasGamepad.bind(Averigua),
+  hasWebSerial: Averigua.hasWebSerial.bind(Averigua),
+  hasWebUSB: Averigua.hasWebUSB.bind(Averigua),
+  hasBluetooth: Averigua.hasBluetooth.bind(Averigua),
+  hasSpeechRecognition: Averigua.hasSpeechRecognition.bind(Averigua),
+  hasSpeechSynthesis: Averigua.hasSpeechSynthesis.bind(Averigua),
+  hasWebAssembly: Averigua.hasWebAssembly.bind(Averigua),
+  hasFullscreen: Averigua.hasFullscreen.bind(Averigua),
+
+  norm: Maths.norm,
+  clamp: Maths.clamp,
+  lerp: Maths.lerp,
+  _lerp: Maths._lerp,
+  map: Maths.map,
+  dist: Maths.dist,
+  angleBtw: Maths.angleBtw,
+  radToDeg: Maths.radToDeg,
+  degToRad: Maths.degToRad,
+  cartesianToPolar: Maths.cartesianToPolar,
+  polarToCartesian: Maths.polarToCartesian,
+  shuffle: Maths.shuffle,
+  randomInt: Maths.randomInt,
+  randomFloat: Maths.randomFloat,
+  random: Maths.random.bind(Maths),
+  perlin: Maths.perlin,
+  ease: (type, t) => Maths[`ease${type}`](t),
+
+  randomColor: Color.random.bind(Color),
+  lerpColor: Color.lerpColor.bind(Color),
+  colorGradient: Color.colorGradient.bind(Color),
+  colorScheme: Color.scheme.bind(Color),
+  toRGB: Color.toRGB.bind(Color),
+  rgb: Color.rgb.bind(Color),
+  toHSL: Color.toHSL.bind(Color),
+  hsl: Color.hsl.bind(Color),
+  toHex: Color.toHex.bind(Color),
+  hex: Color.hex.bind(Color),
+  isLight: Color.isLight.bind(Color),
+  colorContrast: Color.contrast.bind(Color),
+  contrast: Color.contrast.bind(Color),
+  colorMatch: Color.match.bind(Color),
+  match: Color.match.bind(Color),
+  alpha2hex: Color.alpha2hex.bind(Color),
+  hex2alpha: Color.hex2alpha.bind(Color),
+  closestColor: Color.closestColor.bind(Color)
+}
+
+DOM.register(nn)
+window.nn = nn
+
+},{"./src/Averigua/Averigua.js":4,"./src/Color/Color.js":5,"./src/DOM/dom.js":9,"./src/Data/data.js":11,"./src/Maths/Maths.js":12,"./src/Media/media.js":13,"./src/Music/music.js":14,"./src/Utils/utils.js":15}],2:[function(require,module,exports){
+exports.endianness = function () { return 'LE' };
+
+exports.hostname = function () {
+    if (typeof location !== 'undefined') {
+        return location.hostname
+    }
+    else return '';
+};
+
+exports.loadavg = function () { return [] };
+
+exports.uptime = function () { return 0 };
+
+exports.freemem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.totalmem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.cpus = function () { return [] };
+
+exports.type = function () { return 'Browser' };
+
+exports.release = function () {
+    if (typeof navigator !== 'undefined') {
+        return navigator.appVersion;
+    }
+    return '';
+};
+
+exports.networkInterfaces
+= exports.getNetworkInterfaces
+= function () { return {} };
+
+exports.arch = function () { return 'javascript' };
+
+exports.platform = function () { return 'browser' };
+
+exports.tmpdir = exports.tmpDir = function () {
+    return '/tmp';
+};
+
+exports.EOL = '\n';
+
+exports.homedir = function () {
+	return '/'
+};
+
+},{}],3:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],4:[function(require,module,exports){
 (function (process){(function (){
 /* global DocumentTouch */
-/*
-    Averigua
-    -----------
-    by Nick Briz <nickbriz@gmail.com>
-    GNU GPLv3 - https://www.gnu.org/licenses/gpl-3.0.txt
-    2019
-
-    -----------
-       info
-    -----------
-
-    A vanilla JS class that checks for all the things i'm always checking for.
-
-    -----------
-       usage
-    -----------
-
-    Averigua.isNode()         // Boolean
-    Averigua.isBrowser()      // Boolean
-    Averigua.isMobile()       // Boolean
-
-    Averigua.hasWebGL()       // Boolean
-    Averigua.hasWebVR()       // Boolean
-    Averigua.hasMIDI()        // Boolean
-    Averigua.hasTouch()       // Boolean
-
-    Averigua.doNotTrack()     // Boolean
-
-    Averigua.language()       // returns object with language and country
-    Averigua.timeZone()       // String
-
-    Averigua.orientation()    // String (landscape, portrait or no-support)
-    Averigua.screen()         // returns object with screen info
-
-    Averigua.gpuInfo()        // returns object with GPU info
-    Averigua.browserInfo()    // returns object with browser info
-    Averigua.platformInfo()   // returns object with platform info
-
-    Averigua.audioSupport()   // returns object with audio support info
-    Averigua.videoSupport()   // returns object with video support info
-    Averigua.pluginSupport()  // returns array with plugin info objects
-    Averigua.storageSupport() // returns object with web storage support info
-    Averigua.fontSupport()    // returns array of supported fonts
-*/
 class Averigua {
   static _browserErr () {
     console.error('Averigua: this is not a browser')
@@ -160,24 +481,45 @@ class Averigua {
     if (!this.isBrowser()) return this._browserErr()
 
     const ua = navigator.userAgent
-    let M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []
-    let tem
-    if (/trident/i.test(M[1])) {
-      tem = /\brv[ :]+(\d+)/g.exec(ua) || []
-      return 'IE ' + (tem[1] || '')
-    }
-    if (M[1] === 'Chrome') {
-      tem = ua.match(/\b(OPR|Edge)\/(\d+)/)
-      if (tem !== null) return tem.slice(1).join(' ').replace('OPR', 'Opera')
-    }
-    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?']
-    if ((tem = ua.match(/version\/(\d+)/i)) !== null) M.splice(1, 1, tem[1])
-    // check for Brave browser
-    if (window.navigator.brave &&
+    const match = (re) => { const m = ua.match(re); return m ? m[1] : null }
+
+    // Brave — not in UA, requires API check
+    if (window.navigator.brave && window.navigator.brave.isBrave &&
         window.navigator.brave.isBrave.name === 'isBrave') {
-      M[0] = 'Brave'; M[1] = null
+      return { name: 'Brave', version: match(/Chrome\/(\d+)/) }
     }
-    return { name: M[0], version: M[1] }
+    // Vivaldi — "Vivaldi/X.Y.Z.W" in UA, or window.vivaldi when compatibility mode hides it
+    if (/Vivaldi/i.test(ua) || window.vivaldi) return { name: 'Vivaldi', version: match(/Vivaldi\/(\d+)/) }
+    // Yandex — "YaBrowser/X.Y" in UA
+    if (/YaBrowser/i.test(ua)) return { name: 'Yandex', version: match(/YaBrowser\/(\d+)/) }
+    // Samsung Internet — "SamsungBrowser/X.Y" in UA
+    if (/SamsungBrowser/i.test(ua)) return { name: 'Samsung Internet', version: match(/SamsungBrowser\/(\d+)/) }
+    // UC Browser — "UCBrowser/X.Y" in UA
+    if (/UCBrowser/i.test(ua)) return { name: 'UC Browser', version: match(/UCBrowser\/(\d+)/) }
+    // DuckDuckGo mobile — "DuckDuckGo/X" in UA
+    if (/DuckDuckGo/i.test(ua)) return { name: 'DuckDuckGo', version: match(/DuckDuckGo\/(\d+)/) }
+    // Electron — "Electron/X.Y" in UA
+    if (/Electron/i.test(ua)) return { name: 'Electron', version: match(/Electron\/(\d+)/) }
+    // Opera (modern) — "OPR/X" in UA
+    if (/OPR/i.test(ua)) return { name: 'Opera', version: match(/OPR\/(\d+)/) }
+    // Opera (legacy) — "Opera/X" or "Version/X Opera"
+    if (/Opera/i.test(ua)) return { name: 'Opera', version: match(/Opera\/(\d+)/) || match(/Version\/(\d+)/) }
+    // Edge Chromium — "Edg/X" (no 'e' suffix), must come before Chrome
+    if (/Edg\//.test(ua)) return { name: 'Edge', version: match(/Edg\/(\d+)/) }
+    // Edge Legacy (EdgeHTML) — "Edge/X"
+    if (/Edge\//.test(ua)) return { name: 'Edge', version: match(/Edge\/(\d+)/) }
+    // Firefox
+    if (/Firefox/i.test(ua)) return { name: 'Firefox', version: match(/Firefox\/(\d+)/) }
+    // IE (Trident engine)
+    if (/Trident/i.test(ua)) return { name: 'IE', version: match(/rv:(\d+)/) }
+    if (/MSIE/i.test(ua)) return { name: 'IE', version: match(/MSIE (\d+)/) }
+    // Chrome (and Chrome for iOS: CriOS)
+    if (/CriOS/i.test(ua)) return { name: 'Chrome', version: match(/CriOS\/(\d+)/) }
+    if (/Chrome/i.test(ua)) return { name: 'Chrome', version: match(/Chrome\/(\d+)/) }
+    // Safari
+    if (/Safari/i.test(ua)) return { name: 'Safari', version: match(/Version\/(\d+)/) }
+
+    return { name: navigator.appName, version: navigator.appVersion }
   }
 
   static platformInfo () {
@@ -276,6 +618,80 @@ class Averigua {
     }
 
     return plugins
+  }
+
+  static hasWebAudio () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!(window.AudioContext || window.webkitAudioContext)
+  }
+
+  static hasWebXR () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!(navigator.xr)
+  }
+
+  static hasMediaDevices () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
+  }
+
+  static hasDeviceMotion () {
+    if (!this.isBrowser()) return this._browserErr()
+    return (typeof window.DeviceMotionEvent !== 'undefined')
+  }
+
+  static hasDeviceOrientation () {
+    if (!this.isBrowser()) return this._browserErr()
+    return (typeof window.DeviceOrientationEvent !== 'undefined')
+  }
+
+  static hasPointerLock () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!(document.pointerLockElement !== undefined ||
+      document.mozPointerLockElement !== undefined ||
+      document.webkitPointerLockElement !== undefined)
+  }
+
+  static hasGamepad () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!(navigator.getGamepads || navigator.webkitGetGamepads)
+  }
+
+  static hasWebSerial () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!navigator.serial
+  }
+
+  static hasWebUSB () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!navigator.usb
+  }
+
+  static hasBluetooth () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!navigator.bluetooth
+  }
+
+  static hasSpeechRecognition () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!(window.SpeechRecognition || window.webkitSpeechRecognition)
+  }
+
+  static hasSpeechSynthesis () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!window.speechSynthesis
+  }
+
+  static hasWebAssembly () {
+    return typeof WebAssembly === 'object' && typeof WebAssembly.instantiate === 'function'
+  }
+
+  static hasFullscreen () {
+    if (!this.isBrowser()) return this._browserErr()
+    return !!(document.fullscreenEnabled ||
+      document.mozFullScreenEnabled ||
+      document.webkitFullscreenEnabled ||
+      document.msFullscreenEnabled)
   }
 
   static storageSupport () {
@@ -868,232 +1284,9 @@ if (typeof module !== 'undefined') module.exports = Averigua
 else window.Averigua = Averigua
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":13,"os":12}],2:[function(require,module,exports){
-class Bind {
-  /*
-     -- -- -- -- -- -- DATA BINDING METHODS -- -- -- -- --
-  */
-  static bindCSS () {
-    // SETUP DATA-BIND-VAR
-    // --------------------
-    const elements = document.querySelectorAll('[data-bind-var]')
-    elements.forEach(element => {
-      const cssVarName = element.getAttribute('data-bind-var')
+},{"_process":3,"os":2}],5:[function(require,module,exports){
+const CSS_NAMED_COLORS = require('./css-named-colors.js')
 
-      // Retrieve and parse the current value of the CSS variable
-      const initialStyle = window.getComputedStyle(document.documentElement).getPropertyValue(cssVarName).trim()
-      const unitMatch = initialStyle.match(/[a-z%]+$/i)
-      const initialUnit = unitMatch ? unitMatch[0] : ''
-
-      const valueMatch = initialStyle.match(/^-?\d+(\.\d+)?/)
-      const initialValue = valueMatch ? valueMatch[0] : ''
-
-      // Initialize the element's value if a numeric value is present
-      if (initialValue !== '') {
-        element.value = initialValue
-      }
-
-      const updateCSSVar = () => {
-        let value = element.value.trim()
-
-        // Handle numeric and non-numeric values
-        if (initialUnit) {
-          if (!isNaN(value) && value !== '') {
-            value = parseFloat(value) + ''
-            value += initialUnit
-          }
-          // Non-numeric values are assumed to be valid CSS values provided by the user
-        }
-
-        // Update the CSS variable if the value is valid
-        if (value !== '') {
-          document.documentElement.style.setProperty(cssVarName, value)
-        }
-      }
-
-      // Attach event listeners for real-time updates
-      element.addEventListener('input', updateCSSVar)
-      element.addEventListener('change', updateCSSVar)
-    })
-
-    // SETUP BIND-DATA-CLICK
-    // ---------------------
-    const buttons = document.querySelectorAll('[data-bind-click]')
-    buttons.forEach(button => {
-      const bindClickAttr = button.getAttribute('data-bind-click')
-      if (!bindClickAttr) {
-        console.error('Missing data-bind-click attribute on button:', button)
-        return
-      }
-
-      const [cssVarName, action] = bindClickAttr.split(':')
-      if (!action) {
-        console.error('Invalid data-bind-click format on button:', button)
-        return
-      }
-
-      // Parse the action to extract operation and arguments
-      const actionMatch = action.match(/(\w+)\(([^)]+)\)/)
-      if (!actionMatch) {
-        console.error('Invalid action format in data-bind-click:', action)
-        return
-      }
-
-      const [, op, args] = actionMatch
-      const values = args.split(',').map(val => val.trim())
-
-      const updateCSSVar = () => {
-        const currentStyle = window.getComputedStyle(document.documentElement).getPropertyValue(cssVarName).trim()
-        let newValue
-
-        const operation = op.toLowerCase()
-
-        if (operation === 'add' || operation === 'sub') {
-          // Extract unit and numeric value
-          const unitMatch = currentStyle.match(/[a-z%]+$/i)
-          const unit = unitMatch ? unitMatch[0] : ''
-
-          const valueMatch = currentStyle.match(/^-?\d+(\.\d+)?/)
-          const currentValue = valueMatch ? parseFloat(valueMatch[0]) : NaN
-
-          const modifier = parseFloat(values[0])
-
-          if (isNaN(currentValue) || isNaN(modifier)) {
-            console.error(`Invalid numeric values for operation '${op}' on CSS variable '${cssVarName}'.`)
-            return
-          }
-
-          if (operation === 'add') {
-            newValue = (currentValue + modifier) + unit
-          } else { // 'sub'
-            newValue = (currentValue - modifier) + unit
-          }
-        } else if (operation === 'toggle') {
-          if (values.length < 2) {
-            console.error(`Toggle operation requires at least two values. Provided: ${values.length}`)
-            return
-          }
-
-          const normalizedCurrent = currentStyle.toLowerCase()
-          const normalizedValues = values.map(val => val.toLowerCase())
-
-          const currentIndex = normalizedValues.indexOf(normalizedCurrent)
-
-          if (currentIndex === 0) {
-            newValue = values[1]
-          } else {
-            newValue = values[0]
-          }
-        } else if (operation === 'cycle') {
-          if (values.length === 0) {
-            console.error('Cycle operation requires at least one value.')
-            return
-          }
-
-          const currentIndex = values.findIndex(val => val === currentStyle)
-          const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % values.length
-          newValue = values[nextIndex]
-        } else {
-          console.error(`Unsupported operation in data-bind-click: ${op}`)
-          return
-        }
-
-        // Update the CSS variable with the new value
-        document.documentElement.style.setProperty(cssVarName, newValue)
-      }
-
-      // Attach click event listener
-      button.addEventListener('click', updateCSSVar)
-    })
-  }
-}
-
-if (typeof module !== 'undefined') module.exports = Bind
-else window.Bind = Bind
-
-},{}],3:[function(require,module,exports){
-/*
-    Color
-    -----------
-    by Nick Briz <nickbriz@gmail.com>
-    GNU GPLv3 - https://www.gnu.org/licenses/gpl-3.0.txt
-    2019
-
-    -----------
-       info
-    -----------
-
-    A vanilla JS class with common Color maths
-
-    -----------
-       usage
-    -----------
-
-    // hsv && hsl methods that start w/an underscore expect/return values like:
-    // { h: 0-1, s: 0-1, v: 0-1 }
-    // where as those that don't expect/return values like:
-    // { h: 0-360, s: 0-100, v: 0-100 }
-
-    Color.alpha2hex(a)
-    Color.hex2alpha(hex)
-
-    Color._hex2rgb(hex)
-    Color.hex2rgb(hex)
-    Color._hex2hsl(hex)
-    Color.hex2hsl(hex)
-    Color._hex2hsv(hex)
-    Color.hex2hsv(hex)
-
-    Color._rgb2hex(r, g, b)
-    Color.rgb2hex(r, g, b)
-    Color._rgb2hsl(r, g, b)
-    Color.rgb2hsl(r, g, b)
-    Color._rgb2hsv(r, g, b)
-    Color.rgb2hsv(r, g, b)
-
-    Color._hsl2hex(h, s, l)
-    Color.hsl2hex(h, s, l)
-    Color._hsl2rgb(h, s, l)
-    Color.hsl2rgb(h, s, l)
-    Color._hsl2hsv(h, s, l)
-    Color.hsl2hsv(h, s, l)
-
-    Color._hsv2hex(h, s, v)
-    Color.hsv2hex(h, s, v)
-    Color._hsv2rgb(h, s, v)
-    Color.hsv2rgb(h, s, v)
-    Color._hsv2hsl(h, s, v)
-    Color.hsv2hsl(h, s, v)
-
-    // normalize input to HSL or RGB
-    Color.toHSL(value, defaults)
-    Color.toRGB(value, defaults)
-
-    // creates a random color string
-    Color.random()
-
-    // also accepts two optional arguments, type and alpha
-    // type can be: 'hex', 'rgb', 'rgba', 'hsl' or 'hsla'
-    // alpha can be a float value (0.0 - 1.0) or a boolean
-    Color.random(type, alpha)
-
-    // determines whether a hex or rgb color string is light or dark
-    // returns true for light colors and false for dark colors
-    Color.isLight(colorString)
-
-    // WCAG contrast ratio between two colors
-    Color.contrast(colorA, colorB)
-
-    // create color schemes
-    Color.scheme({ harmony, base, ...options })
-
-    // match method takes a string and returns the first color string it finds
-    // in the form of a parsed array (if no color is found it returns null)
-    // for example:
-
-    Color.match('color: rgba(34, 56, 88, 0.5); font-size: 23px;')
-    // returns ["rgb", "rgba(34, 56, 88, 0.5)", "34", "56", "88", "0.5"]
-*/
 class Color {
   static alpha2hex (a) {
     const n = a * 255
@@ -1137,8 +1330,6 @@ class Color {
   }
 
   static hex2hsl (hex) { // ('#ff0000') => { h: 0, s: 100, l: 50 }
-    if (hex.length === 9) hex = hex.substring(0, 7)
-    else if (hex.length === 5) hex = hex.substring(0, 4)
     const c = this.hex2rgb(hex)
     return this.rgb2hsl(c.r, c.g, c.b)
   }
@@ -1166,14 +1357,34 @@ class Color {
     return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
   }
 
+  static hex (r, g, b, alpha) { // (255, 0, 0) => '#ff0000', (255, 0, 0, 0.5) => '#ff00007f'
+    const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
+    const rc = Math.round(clamp(Number(r), 0, 255))
+    const gc = Math.round(clamp(Number(g), 0, 255))
+    const bc = Math.round(clamp(Number(b), 0, 255))
+    const base = '#' + ((1 << 24) + (rc << 16) + (gc << 8) + bc).toString(16).slice(1)
+    if (typeof alpha === 'number') return base + this.alpha2hex(clamp(alpha, 0, 1))
+    return base
+  }
+
   static _rgb2hsl (r, g, b) { // (1, 0, 0) => { h: 0, s: 1, l: 0.5 }
-    const c = this._rgb2hsv(r, g, b)
-    return this._hsv2hsl(c.h, c.s, c.v)
+    const max = Math.max(r, g, b)
+    const min = Math.min(r, g, b)
+    const l = (max + min) / 2
+    if (max === min) return { h: 0, s: 0, l }
+    const d = max - min
+    const s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+    let h
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break
+      case g: h = (b - r) / d + 2; break
+      case b: h = (r - g) / d + 4; break
+    }
+    return { h: h / 6, s, l }
   }
 
   static rgb2hsl (r, g, b) { // (255, 0, 0) => { h: 0, s: 100, l: 50 }
-    const c = this._rgb2hsv(r / 255, g / 255, b / 255)
-    const o = this._hsv2hsl(c.h, c.s, c.v)
+    const o = this._rgb2hsl(r / 255, g / 255, b / 255)
     return {
       h: Math.round(o.h * 360),
       s: Math.round(o.s * 100),
@@ -1216,26 +1427,16 @@ class Color {
   // ................................................................. HSL .....
 
   static _hsl2hex (h, s, l) { // (0, 1, 0.5) => '#ff0000'
-    // const c = this._hsl2rgb(h, s, l)
-    // return this._rgb2hex(c.r, c.g, c.b)
     const f = this._hsl2rgb(h, s, l)
-
     const toHex = x => {
       const hex = Math.round(x * 255).toString(16)
       return hex.length === 1 ? '0' + hex : hex
     }
-
     return `#${toHex(f.r)}${toHex(f.g)}${toHex(f.b)}`
   }
 
   static hsl2hex (h, s, l) { // (0, 100, 50) => '#ff0000'
-    // const c = this.hsl2rgb(h, s, l)
-    // return this.rgb2hex(c.r, c.g, c.b)
-    h /= 360
-    s /= 100
-    l /= 100
-
-    return this._hsl2hex(h, s, l)
+    return this._hsl2hex(h / 360, s / 100, l / 100)
   }
 
   static _hsl2rgb (h, s, l) { // (0, 1, 0.5) => { r: 1, g: 0, b: 0 }
@@ -1246,25 +1447,17 @@ class Color {
   }
 
   static hsl2rgb (h, s, l) { // (0, 100, 50) => { r: 255, g: 0, b: 0 }
-    const scale = (num, inMin, inMax, outMin, outMax) => {
-      return (num - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
-    }
-    h = Math.round(scale(h, 0, 360, 0, 1) * 10) / 10
-    s = Math.round(scale(s, 0, 100, 0, 1) * 10) / 10
-    l = Math.round(scale(l, 0, 100, 0, 1) * 10) / 10
-
-    const c = this._hsl2rgb(h, s, l)
-
+    const c = this._hsl2rgb(h / 360, s / 100, l / 100)
     return {
-      r: Math.ceil(c.r * 255),
-      g: Math.ceil(c.g * 255),
-      b: Math.ceil(c.b * 255)
+      r: Math.round(c.r * 255),
+      g: Math.round(c.g * 255),
+      b: Math.round(c.b * 255)
     }
   }
 
   static _hsl2hsv (h, s, l) { // (0, 1, 0.5) => { h: 0, s: 1, v: 1 }
     l *= 2
-    s *= (l <= 1) ? l : 2 - 1
+    s *= (l <= 1) ? l : 2 - l
     const v = (1 + s) / 2
     s = (2 * s) / (l + s)
     return { h, s, v }
@@ -1362,6 +1555,8 @@ class Color {
     if (typeof value === 'string' && value) {
       const s = value.trim()
       if (s[0] === '#') return this.hex2hsl(s)
+      const named = CSS_NAMED_COLORS[s.toLowerCase()]
+      if (named) return this.hex2hsl(named)
       const m = this.match(s)
       if (m) {
         const kind = m[0]
@@ -1393,6 +1588,13 @@ class Color {
     return { h: 0, s: 100, l: 50 }
   }
 
+  // normalize an input into a hex color string
+  static toHex (value) {
+    if (typeof value === 'string' && value.trim()[0] === '#') return value.trim()
+    const rgb = this.toRGB(value)
+    return this.rgb2hex(rgb.r, rgb.g, rgb.b)
+  }
+
   // normalize an input into RGB {r,g,b} with 0-255 ranges
   static toRGB (value, defaults = {}) {
     if (typeof value === 'number' || (value && typeof value === 'object' && 'h' in value)) {
@@ -1402,6 +1604,8 @@ class Color {
     if (typeof value === 'string' && value) {
       const s = value.trim()
       if (s[0] === '#') return this.hex2rgb(s)
+      const named = CSS_NAMED_COLORS[s.toLowerCase()]
+      if (named) return this.hex2rgb(named)
       const m = this.match(s)
       if (m) {
         const kind = m[0]
@@ -1420,6 +1624,69 @@ class Color {
     }
     // fallback: pure red
     return { r: 255, g: 0, b: 0 }
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ lerp / gradient ~ ~ ~
+
+  static lerpColor (a, b, t) {
+    t = Math.max(0, Math.min(1, t))
+    const ca = this.toHSL(a)
+    const cb = this.toHSL(b)
+    // shortest-path hue interpolation
+    let dh = cb.h - ca.h
+    if (dh > 180) dh -= 360
+    if (dh < -180) dh += 360
+    const h = ((ca.h + dh * t) % 360 + 360) % 360
+    const s = ca.s + (cb.s - ca.s) * t
+    const l = ca.l + (cb.l - ca.l) * t
+    return this.toHex({ h, s, l })
+  }
+
+  static colorGradient (colors, stepsOrDirection) {
+    if (!Array.isArray(colors) || colors.length < 2) {
+      console.error('nn.colorGradient: first argument must be an array of at least 2 colors')
+      return typeof stepsOrDirection === 'number' ? [] : ''
+    }
+    // CSS string mode — infer gradient type from the direction string
+    if (typeof stepsOrDirection === 'string') {
+      const stops = colors.map(c => this.toHex(c)).join(', ')
+      const d = stepsOrDirection.trim().toLowerCase()
+      if (/^from\b/.test(d)) {
+        return `conic-gradient(${stepsOrDirection}, ${stops})`
+      }
+      if (/\b(circle|ellipse|closest-side|closest-corner|farthest-side|farthest-corner)\b/.test(d) || /^at\s/.test(d)) {
+        return `radial-gradient(${stepsOrDirection}, ${stops})`
+      }
+      return `linear-gradient(${stepsOrDirection}, ${stops})`
+    }
+    // Array interpolation mode
+    const steps = Math.max(2, Math.floor(stepsOrDirection))
+    const n = colors.length
+    const result = []
+    for (let i = 0; i < steps; i++) {
+      const pos = i / (steps - 1)
+      const scaled = pos * (n - 1)
+      const idx = Math.min(Math.floor(scaled), n - 2)
+      const t = scaled - idx
+      result.push(this.lerpColor(colors[idx], colors[idx + 1], t))
+    }
+    return result
+  }
+
+  static closestColor (color, palette) {
+    if (!Array.isArray(palette) || palette.length === 0) {
+      console.error('nn.closestColor: second argument must be a non-empty array')
+      return null
+    }
+    const { r: tr, g: tg, b: tb } = this.toRGB(color)
+    let best = null
+    let bestDist = Infinity
+    for (const c of palette) {
+      const { r, g, b } = this.toRGB(c)
+      const d = (r - tr) ** 2 + (g - tg) ** 2 + (b - tb) ** 2
+      if (d < bestDist) { bestDist = d; best = c }
+    }
+    return best
   }
 
   // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ random color  ~ ~ ~
@@ -1454,7 +1721,7 @@ class Color {
         return `hsl(${h}, ${s}%, ${l}%)`
       }
     } else {
-      hex = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`
+      hex = '#' + Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0')
       return a ? hex + a : hex
     }
   }
@@ -1474,29 +1741,10 @@ class Color {
     return (L1 + 0.05) / (L2 + 0.05)
   }
 
-  // via: https://awik.io/determine-color-bright-dark-using-javascript/
   static isLight (color) {
-    // Variables for red, green, blue values
-    let r, g, b
-    // Check the format of the color, HEX or RGB?
-    if (color.match(/^rgb/)) {
-      // If RGB --> store the red, green, blue values in separate variables
-      color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/)
-      r = color[1]
-      g = color[2]
-      b = color[3]
-    } else {
-      // If hex --> Convert it to RGB: http://gist.github.com/983661
-      color = +('0x' + color.slice(1).replace(color.length < 5 && /./g, '$&$&'))
-      r = color >> 16
-      g = color >> 8 & 255
-      b = color & 255
-    }
-
-    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+    const { r, g, b } = this.toRGB(color)
+    // HSP equation from http://alienryderflex.com/hsp.html
     const hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))
-
-    // Using the HSP value, determine whether the color is light or dark
     return hsp > 127.5
   }
 
@@ -1507,9 +1755,12 @@ class Color {
     const rgb = str.match(rgbRegex)
     const hslRegex = /hsla?\((?:(-?\d+(?:deg|g?rad|turn)?),\s*((?:\d{1,2}|100)%),\s*((?:\d{1,2}|100)%)(?:,\s*((?:\d{1,2}|100)%|0(?:\.\d+)?|1))?|(-?\d+(?:deg|g?rad|turn)?)\s+((?:\d{1,2}|100)%)\s+((?:\d{1,2}|100)%)(?:\s+((?:\d{1,2}|100)%|0(?:\.\d+)?|1))?)\)/
     const hsl = str.match(hslRegex)
+    const namedRegex = new RegExp('\\b(' + Object.keys(CSS_NAMED_COLORS).join('|') + ')\\b', 'i')
+    const named = str.match(namedRegex)
     if (hex) return ['hex', ...hex]
     else if (rgb) return ['rgb', ...rgb]
     else if (hsl) return ['hsl', ...hsl]
+    else if (named) return ['named', named[1].toLowerCase()]
     else return null
   }
 
@@ -1681,11 +1932,189 @@ class Color {
     }
     return res
   }
+
+  static rgb (r, g, b, a) {
+    const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
+    const rc = Math.round(clamp(Number(r), 0, 255))
+    const gc = Math.round(clamp(Number(g), 0, 255))
+    const bc = Math.round(clamp(Number(b), 0, 255))
+    if (typeof a === 'number') {
+      const ac = clamp(a, 0, 1)
+      return `rgba(${rc}, ${gc}, ${bc}, ${ac})`
+    }
+    return `rgb(${rc}, ${gc}, ${bc})`
+  }
+
+  static hsl (h, s, l, a) {
+    const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
+    const hc = Math.round(clamp(Number(h), 0, 360))
+    const sc = Math.round(clamp(Number(s), 0, 100))
+    const lc = Math.round(clamp(Number(l), 0, 100))
+    if (typeof a === 'number') {
+      const ac = clamp(a, 0, 1)
+      return `hsla(${hc}, ${sc}%, ${lc}%, ${ac})`
+    }
+    return `hsl(${hc}, ${sc}%, ${lc}%)`
+  }
 }
 
 if (typeof module !== 'undefined') module.exports = Color
 
-},{}],4:[function(require,module,exports){
+},{"./css-named-colors.js":6}],6:[function(require,module,exports){
+const CSS_NAMED_COLORS = {
+  aliceblue: '#f0f8ff',
+  antiquewhite: '#faebd7',
+  aqua: '#00ffff',
+  aquamarine: '#7fffd4',
+  azure: '#f0ffff',
+  beige: '#f5f5dc',
+  bisque: '#ffe4c4',
+  black: '#000000',
+  blanchedalmond: '#ffebcd',
+  blue: '#0000ff',
+  blueviolet: '#8a2be2',
+  brown: '#a52a2a',
+  burlywood: '#deb887',
+  cadetblue: '#5f9ea0',
+  chartreuse: '#7fff00',
+  chocolate: '#d2691e',
+  coral: '#ff7f50',
+  cornflowerblue: '#6495ed',
+  cornsilk: '#fff8dc',
+  crimson: '#dc143c',
+  cyan: '#00ffff',
+  darkblue: '#00008b',
+  darkcyan: '#008b8b',
+  darkgoldenrod: '#b8860b',
+  darkgray: '#a9a9a9',
+  darkgreen: '#006400',
+  darkgrey: '#a9a9a9',
+  darkkhaki: '#bdb76b',
+  darkmagenta: '#8b008b',
+  darkolivegreen: '#556b2f',
+  darkorange: '#ff8c00',
+  darkorchid: '#9932cc',
+  darkred: '#8b0000',
+  darksalmon: '#e9967a',
+  darkseagreen: '#8fbc8f',
+  darkslateblue: '#483d8b',
+  darkslategray: '#2f4f4f',
+  darkslategrey: '#2f4f4f',
+  darkturquoise: '#00ced1',
+  darkviolet: '#9400d3',
+  deeppink: '#ff1493',
+  deepskyblue: '#00bfff',
+  dimgray: '#696969',
+  dimgrey: '#696969',
+  dodgerblue: '#1e90ff',
+  firebrick: '#b22222',
+  floralwhite: '#fffaf0',
+  forestgreen: '#228b22',
+  fuchsia: '#ff00ff',
+  gainsboro: '#dcdcdc',
+  ghostwhite: '#f8f8ff',
+  gold: '#ffd700',
+  goldenrod: '#daa520',
+  gray: '#808080',
+  green: '#008000',
+  greenyellow: '#adff2f',
+  grey: '#808080',
+  honeydew: '#f0fff0',
+  hotpink: '#ff69b4',
+  indianred: '#cd5c5c',
+  indigo: '#4b0082',
+  ivory: '#fffff0',
+  khaki: '#f0e68c',
+  lavender: '#e6e6fa',
+  lavenderblush: '#fff0f5',
+  lawngreen: '#7cfc00',
+  lemonchiffon: '#fffacd',
+  lightblue: '#add8e6',
+  lightcoral: '#f08080',
+  lightcyan: '#e0ffff',
+  lightgoldenrodyellow: '#fafad2',
+  lightgray: '#d3d3d3',
+  lightgreen: '#90ee90',
+  lightgrey: '#d3d3d3',
+  lightpink: '#ffb6c1',
+  lightsalmon: '#ffa07a',
+  lightseagreen: '#20b2aa',
+  lightskyblue: '#87cefa',
+  lightslategray: '#778899',
+  lightslategrey: '#778899',
+  lightsteelblue: '#b0c4de',
+  lightyellow: '#ffffe0',
+  lime: '#00ff00',
+  limegreen: '#32cd32',
+  linen: '#faf0e6',
+  magenta: '#ff00ff',
+  maroon: '#800000',
+  mediumaquamarine: '#66cdaa',
+  mediumblue: '#0000cd',
+  mediumorchid: '#ba55d3',
+  mediumpurple: '#9370db',
+  mediumseagreen: '#3cb371',
+  mediumslateblue: '#7b68ee',
+  mediumspringgreen: '#00fa9a',
+  mediumturquoise: '#48d1cc',
+  mediumvioletred: '#c71585',
+  midnightblue: '#191970',
+  mintcream: '#f5fffa',
+  mistyrose: '#ffe4e1',
+  moccasin: '#ffe4b5',
+  navajowhite: '#ffdead',
+  navy: '#000080',
+  oldlace: '#fdf5e6',
+  olive: '#808000',
+  olivedrab: '#6b8e23',
+  orange: '#ffa500',
+  orangered: '#ff4500',
+  orchid: '#da70d6',
+  palegoldenrod: '#eee8aa',
+  palegreen: '#98fb98',
+  paleturquoise: '#afeeee',
+  palevioletred: '#db7093',
+  papayawhip: '#ffefd5',
+  peachpuff: '#ffdab9',
+  peru: '#cd853f',
+  pink: '#ffc0cb',
+  plum: '#dda0dd',
+  powderblue: '#b0e0e6',
+  purple: '#800080',
+  rebeccapurple: '#663399',
+  red: '#ff0000',
+  rosybrown: '#bc8f8f',
+  royalblue: '#4169e1',
+  saddlebrown: '#8b4513',
+  salmon: '#fa8072',
+  sandybrown: '#f4a460',
+  seagreen: '#2e8b57',
+  seashell: '#fff5ee',
+  sienna: '#a0522d',
+  silver: '#c0c0c0',
+  skyblue: '#87ceeb',
+  slateblue: '#6a5acd',
+  slategray: '#708090',
+  slategrey: '#708090',
+  snow: '#fffafa',
+  springgreen: '#00ff7f',
+  steelblue: '#4682b4',
+  tan: '#d2b48c',
+  teal: '#008080',
+  thistle: '#d8bfd8',
+  tomato: '#ff6347',
+  turquoise: '#40e0d0',
+  violet: '#ee82ee',
+  wheat: '#f5deb3',
+  white: '#ffffff',
+  whitesmoke: '#f5f5f5',
+  yellow: '#ffff00',
+  yellowgreen: '#9acd32'
+}
+
+if (typeof module !== 'undefined') module.exports = CSS_NAMED_COLORS
+
+},{}],7:[function(require,module,exports){
 // nn canvas augmentation: adds just a few 2D helpers onto an existing <canvas> element
 // but tries to stay pretty close to the native canvas API for edu purposes.
 function augmentCanvas (ele) {
@@ -1948,9 +2377,9 @@ function augmentCanvas (ele) {
   })
 
   // helpers
-  ele.resize = function (width, height) {
+  ele.size = function (width, height) {
     if (typeof width !== 'number' || typeof height !== 'number') {
-      throw new Error(`canvas.resize() expects two numbers, for example canvas.resize(640, 480) but you passed ${typeof width} and ${typeof height}`)
+      throw new Error(`canvas.size() expects two numbers, for example canvas.size(640, 480) but you passed ${typeof width} and ${typeof height}`)
     }
     const oldCanvas = document.createElement('canvas')
     oldCanvas.width = this.width
@@ -2007,6 +2436,8 @@ function augmentCanvas (ele) {
     return this
   }
 
+  ele.resize = ele.size
+
   ele.getPixelData = function (x = 0, y = 0, w, h) {
     if (typeof x !== 'number' || typeof y !== 'number') {
       throw new Error('canvas.getPixelData() x and y must be numbers, for example canvas.getPixelData(0, 0)')
@@ -2020,8 +2451,9 @@ function augmentCanvas (ele) {
     return imageData.data
   }
 
-  ele.getPixels = function () {
+  ele.getPixels = function (opts = {}) {
     const data = this.getPixelData()
+    if (opts.raw) return data
     const pixels = []
     for (let i = 0; i < data.length; i += 4) {
       pixels.push({ r: data[i], g: data[i + 1], b: data[i + 2], a: data[i + 3] })
@@ -2030,8 +2462,10 @@ function augmentCanvas (ele) {
   }
 
   ele.setPixels = function (pixels, x = 0, y = 0, w, h) {
-    if (!Array.isArray(pixels)) {
-      throw new Error(`canvas.setPixels() expects an array of pixel objects, but you passed a ${typeof pixels}`)
+    const isRaw = pixels instanceof window.Uint8ClampedArray ||
+      (Array.isArray(pixels) && typeof pixels[0] === 'number')
+    if (!isRaw && !Array.isArray(pixels)) {
+      throw new Error(`canvas.setPixels() expects an array of pixel objects or a Uint8ClampedArray, but you passed a ${typeof pixels}`)
     }
     w = w || this.width
     h = h || this.height
@@ -2040,13 +2474,20 @@ function augmentCanvas (ele) {
     }
     const imageData = this.ctx.getImageData(x, y, w, h)
     const data = imageData.data
-    for (let i = 0; i < data.length; i += 4) {
-      const idx = Math.floor(i / 4)
-      const px = pixels[idx]
-      if (!px || typeof px.r !== 'number' || typeof px.g !== 'number' || typeof px.b !== 'number' || typeof px.a !== 'number') {
-        throw new Error(`canvas.setPixels() pixel at index ${idx} is invalid; each pixel needs numeric r, g, b, a properties`)
+    if (isRaw) {
+      if (pixels.length !== data.length) {
+        throw new Error(`canvas.setPixels() raw array length (${pixels.length}) does not match canvas pixel data length (${data.length})`)
       }
-      data[i] = px.r; data[i + 1] = px.g; data[i + 2] = px.b; data[i + 3] = px.a
+      for (let i = 0; i < data.length; i++) data[i] = pixels[i]
+    } else {
+      for (let i = 0; i < data.length; i += 4) {
+        const idx = i / 4
+        const px = pixels[idx]
+        if (!px || typeof px.r !== 'number' || typeof px.g !== 'number' || typeof px.b !== 'number' || typeof px.a !== 'number') {
+          throw new Error(`canvas.setPixels() pixel at index ${idx} is invalid; each pixel needs numeric r, g, b, a properties`)
+        }
+        data[i] = px.r; data[i + 1] = px.g; data[i + 2] = px.b; data[i + 3] = px.a
+      }
     }
     this.ctx.putImageData(imageData, x, y)
     return this
@@ -2090,9 +2531,10 @@ function augmentCanvas (ele) {
   }
 
   ele.rect = function (x, y, w, h) {
-    if ([x, y, w, h].some(v => typeof v !== 'number')) {
+    if ([x, y, w].some(v => typeof v !== 'number')) {
       throw new Error('canvas.rect() expects numbers, for example canvas.rect(10, 10, 100, 50)')
     }
+    if (typeof h !== 'number') h = w
     this.ctx.beginPath()
     this.ctx.rect(x, y, w, h)
     this.ctx.closePath()
@@ -2108,7 +2550,6 @@ function augmentCanvas (ele) {
     this.ctx.beginPath()
     this.ctx.moveTo(x1, y1)
     this.ctx.lineTo(x2, y2)
-    this.ctx.closePath()
     this.ctx.stroke()
     return this
   }
@@ -2239,7 +2680,17 @@ function augmentCanvas (ele) {
   // Canvas transform API parity (override CSS transform helpers for canvas)
   ele.scale = function (x, y) { if (typeof x !== 'number') throw new Error('scale() expects numbers'); this.ctx.scale(x, (typeof y === 'number') ? y : x); return this }
   ele.rotate = function (angle) { if (typeof angle !== 'number') throw new Error('rotate() expects a number in radians'); this.ctx.rotate(angle); return this }
-  ele.translate = function (x, y) { if (typeof x !== 'number' || typeof y !== 'number') throw new Error('translate() expects two numbers'); this.ctx.translate(x, y); return this }
+  // HTMLElement has a native .translate accessor (for i18n), so a plain
+  // assignment is swallowed by its setter — use defineProperty to override it.
+  Object.defineProperty(ele, 'translate', {
+    value: function (x, y) {
+      if (typeof x !== 'number' || typeof y !== 'number') throw new Error('translate() expects two numbers')
+      this.ctx.translate(x, y)
+      return this
+    },
+    writable: true,
+    configurable: true
+  })
   ele.transform = function (m11, m12, m21, m22, dx, dy) { if ([m11, m12, m21, m22, dx, dy].some(v => typeof v !== 'number')) throw new Error('transform() expects six numbers'); this.ctx.transform(m11, m12, m21, m22, dx, dy); return this }
   ele.setTransform = function (m11, m12, m21, m22, dx, dy) { if ([m11, m12, m21, m22, dx, dy].some(v => typeof v !== 'number')) throw new Error('setTransform() expects six numbers'); this.ctx.setTransform(m11, m12, m21, m22, dx, dy); return this }
 
@@ -2252,98 +2703,216 @@ function augmentCanvas (ele) {
     this.ctx.restore(); return this
   }
 
-  // Fit buffer to parent size with devicePixelRatio scaling (clears canvas)
-  ele.fitToParent = function (dpr) {
-    const parent = this.parentNode
-    if (!(parent instanceof window.HTMLElement)) {
-      throw new Error('canvas.fitToParent() requires the canvas to be in the DOM (use .addTo() first)')
-    }
-    const cssW = parent.clientWidth || parent.offsetWidth
-    const cssH = parent.clientHeight || parent.offsetHeight
-    const ratio = (typeof dpr === 'number' && isFinite(dpr) && dpr > 0) ? dpr : (window.devicePixelRatio || 1)
-
-    // preserve context state (do not preserve pixels)
-    const props = {
-      fillColor: this.fillColor,
-      strokeColor: this.strokeColor,
-      lineWidth: this.lineWidth,
-      lineCap: this.lineCap,
-      lineJoin: this.lineJoin,
-      font: this.font,
-      textAlign: this.textAlign,
-      textBaseline: this.textBaseline,
-      blendMode: this.blendMode,
-      filter: this.ctx.filter,
-      globalAlpha: typeof this.ctx.globalAlpha === 'number' ? this.ctx.globalAlpha : undefined,
-      miterLimit: typeof this.ctx.miterLimit === 'number' ? this.ctx.miterLimit : undefined,
-      shadowBlur: this.ctx.shadowBlur,
-      shadowColor: this.ctx.shadowColor,
-      shadowOffsetX: this.ctx.shadowOffsetX,
-      shadowOffsetY: this.ctx.shadowOffsetY,
-      imageSmoothingEnabled: this.ctx.imageSmoothingEnabled,
-      imageSmoothingQuality: this.ctx.imageSmoothingQuality,
-      lineDash: this.ctx.getLineDash ? this.ctx.getLineDash() : [],
-      lineDashOffset: this.ctx.lineDashOffset
-    }
-
-    // set CSS display size
-    this.style.width = cssW + 'px'
-    this.style.height = cssH + 'px'
-
-    // set buffer size (clears canvas)
-    this.width = Math.max(1, Math.floor(cssW * ratio))
-    this.height = Math.max(1, Math.floor(cssH * ratio))
-
-    // reapply state
-    this.fillColor = props.fillColor
-    this.strokeColor = props.strokeColor
-    this.lineWidth = props.lineWidth
-    this.lineCap = props.lineCap
-    this.lineJoin = props.lineJoin
-    this.font = props.font
-    this.textAlign = props.textAlign
-    this.textBaseline = props.textBaseline
-    this.blendMode = props.blendMode
-    this.ctx.filter = props.filter
-    if (typeof props.globalAlpha === 'number') this.ctx.globalAlpha = props.globalAlpha
-    if (typeof props.miterLimit === 'number') this.ctx.miterLimit = props.miterLimit
-    this.ctx.shadowBlur = props.shadowBlur
-    this.ctx.shadowColor = props.shadowColor
-    this.ctx.shadowOffsetX = props.shadowOffsetX
-    this.ctx.shadowOffsetY = props.shadowOffsetY
-    if (typeof props.imageSmoothingEnabled !== 'undefined') this.ctx.imageSmoothingEnabled = props.imageSmoothingEnabled
-    if (typeof props.imageSmoothingQuality !== 'undefined') this.ctx.imageSmoothingQuality = props.imageSmoothingQuality
-    if (typeof props.lineDashOffset === 'number') this.ctx.lineDashOffset = props.lineDashOffset
-    if (this.ctx.setLineDash && Array.isArray(props.lineDash)) this.ctx.setLineDash(props.lineDash)
-
-    // scale so 1 unit = 1 CSS pixel
-    if (this.ctx.setTransform) this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
-    else this.ctx.scale(ratio, ratio)
-
-    return this
-  }
-
   return ele
 }
 
 if (typeof module !== 'undefined') module.exports = { augment: augmentCanvas }
 else window.NNCanvas = { augment: augmentCanvas }
 
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+// Shared helper for smart CSS url() value resolution.
+// Used by both dom.js and svg.js .css() methods.
+//
+// Allows beginner-friendly shorthands like:
+//   .css('cursor', '💿')        → SVG data URL cursor (32×32)
+//   .css('cursor', 'cat.png')   → url('cat.png'), auto
+//   .css('background-image', '★') → scalable SVG data URL
+//   .css('background-image', 'bg.jpg') → url('bg.jpg')
+
+// CSS properties that exclusively (or near-exclusively) accept url()/image values.
+// Shorthands like 'background' and 'mask' are intentionally excluded — they also
+// accept colors, gradients, positions, etc., making them too ambiguous to transform.
+const URL_PROPS = new Set([
+  'cursor',
+  'background-image', 'backgroundImage',
+  'border-image-source', 'borderImageSource',
+  'list-style-image', 'listStyleImage',
+  'mask-image', 'maskImage'
+])
+
+// Known CSS cursor keywords — pass through unchanged
+const CURSOR_KEYWORDS = new Set([
+  'auto', 'default', 'none', 'pointer', 'crosshair', 'text', 'vertical-text',
+  'alias', 'copy', 'move', 'no-drop', 'not-allowed', 'grab', 'grabbing',
+  'e-resize', 'n-resize', 'ne-resize', 'nw-resize', 's-resize', 'se-resize',
+  'sw-resize', 'w-resize', 'ew-resize', 'ns-resize', 'nesw-resize',
+  'nwse-resize', 'col-resize', 'row-resize', 'all-scroll', 'zoom-in',
+  'zoom-out', 'cell', 'context-menu', 'help', 'progress', 'wait',
+  'inherit', 'initial', 'unset', 'revert', 'revert-layer'
+])
+
+// General CSS-wide keywords that apply to any property
+const GENERAL_KEYWORDS = new Set([
+  'none', 'inherit', 'initial', 'unset', 'revert', 'revert-layer'
+])
+
+// Detects file paths / URLs that point to images
+function looksLikeImagePath (val) {
+  return /\.(png|jpe?g|gif|svg|webp|cur|ico|bmp|tiff?)(\?.*)?$/i.test(val.trim())
+}
+
+// Converts any text/emoji/unicode string into an SVG data URL.
+// isCursor=true → fixed 32×32 (browser cursor size convention)
+// isCursor=false → viewBox only, no intrinsic size (scales with CSS)
+function textToSVGDataURL (text, isCursor) {
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+
+  let svg
+  if (isCursor) {
+    svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">` +
+          `<text x="16" y="16" font-size="24" text-anchor="middle" dominant-baseline="middle">${escaped}</text>` +
+          `</svg>`
+  } else {
+    // No explicit width/height — SVG scales to fill whatever context it's placed in
+    svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">` +
+          `<text x="0.5" y="0.5" font-size="0.75" text-anchor="middle" dominant-baseline="middle">${escaped}</text>` +
+          `</svg>`
+  }
+
+  return `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}')`
+}
+
+// Main resolver — call this inside .css() before assigning to element.style
+// Returns the transformed CSS value string, or the original if no transform needed.
+function smartCSSValue (prop, val) {
+  if (typeof val !== 'string') return val
+  const trimmed = val.trim()
+
+  // Already a url() value — pass through
+  if (trimmed.startsWith('url(')) return val
+
+  // Any CSS function call (rgba(), linear-gradient(), hsl(), calc(), etc.) — pass through
+  if (trimmed.includes('(')) return val
+
+  // Only applies to url()-accepting properties
+  if (!URL_PROPS.has(prop)) return val
+
+  const isCursor = prop === 'cursor'
+  const keywords = isCursor ? CURSOR_KEYWORDS : GENERAL_KEYWORDS
+
+  // Known CSS keyword — pass through unchanged
+  if (keywords.has(trimmed.toLowerCase())) return val
+
+  // Looks like an image file path — wrap in url()
+  if (looksLikeImagePath(trimmed)) {
+    return isCursor
+      ? `url('${trimmed}'), auto`
+      : `url('${trimmed}')`
+  }
+
+  // Anything else (emoji, unicode char, text) — generate inline SVG data URL
+  const dataUrl = textToSVGDataURL(trimmed, isCursor)
+  return isCursor ? `${dataUrl}, auto` : dataUrl
+}
+
+if (typeof module !== 'undefined') module.exports = { smartCSSValue }
+else window._nnCssUrlHelper = { smartCSSValue }
+
+},{}],9:[function(require,module,exports){
+// module-level private mouse state
+let _mouseX = 0
+let _mouseY = 0
+let _mouseDown = false
+let _trackingMouse = false
+
+let _smartCSSValue
+try { _smartCSSValue = require('./css-url-helper.js').smartCSSValue } catch (e) {
+  _smartCSSValue = (window._nnCssUrlHelper || {}).smartCSSValue || ((prop, val) => val)
+}
+
+function _trackMouse () {
+  window.addEventListener('mousemove', (e) => {
+    _mouseX = e.clientX
+    _mouseY = e.clientY
+  })
+  window.addEventListener('mousedown', () => { _mouseDown = true })
+  window.addEventListener('mouseup', () => { _mouseDown = false })
+  _trackingMouse = true
+}
+
+// module-level private pointer state
+let _pointers = new Map() // pointerId → { x, y, id, type }
+let _trackingPointers = false
+
+function _trackPointers () {
+  window.addEventListener('pointerdown', (e) => {
+    _pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, id: e.pointerId, type: e.pointerType })
+  })
+  window.addEventListener('pointermove', (e) => {
+    if (_pointers.has(e.pointerId)) {
+      _pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, id: e.pointerId, type: e.pointerType })
+    }
+  })
+  window.addEventListener('pointerup', (e) => { _pointers.delete(e.pointerId) })
+  window.addEventListener('pointercancel', (e) => { _pointers.delete(e.pointerId) })
+  _trackingPointers = true
+}
+
 class DOM {
   static on (event, callback, options) {
-    const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
+    const eve = [
+      // lifecycle / navigation
+      'afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'error', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'pagehide', 'pageshow', 'popstate', 'rejectionhandled', 'resize', 'scroll', 'storage', 'unhandledrejection', 'unload', 'visibilitychange',
+      // focus
+      'blur', 'focus',
+      // keyboard
+      'keydown', 'keypress', 'keyup',
+      // mouse
+      'click', 'contextmenu', 'dblclick', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'wheel',
+      // touch
+      'touchstart', 'touchend', 'touchmove', 'touchcancel',
+      // pointer
+      'pointerdown', 'pointerup', 'pointermove', 'pointerover', 'pointerout', 'pointerenter', 'pointerleave', 'pointercancel',
+      // drag
+      'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop',
+      // clipboard
+      'copy', 'cut', 'paste',
+      // device
+      'devicemotion', 'deviceorientation', 'deviceorientationabsolute',
+      // gamepad
+      'gamepadconnected', 'gamepaddisconnected',
+      // animation / transition
+      'animationstart', 'animationend', 'animationiteration', 'animationcancel', 'transitionstart', 'transitionend', 'transitioncancel', 'transitionrun',
+      // fullscreen
+      'fullscreenchange', 'fullscreenerror'
+    ]
     if (typeof event !== 'string') {
       console.error('( ◕ ◞ ◕ ) nn: the first argument to the .on() method should be an event type written as a string')
     } else if (typeof callback !== 'function') {
       console.error('( ◕ ◞ ◕ ) nn: the second argument to the .on() method should be a function you want to call "on" that event')
+    }
+    if (DOM._preMouseHook && DOM._mouseEvents.has(event)) {
+      DOM._preMouseHook()
+      DOM._preMouseHook = null
+    }
+    if (DOM._prePointerHook && DOM._pointerEvents.has(event)) {
+      DOM._prePointerHook()
+      DOM._prePointerHook = null
     }
     window.addEventListener(event, callback, options)
     if (!eve.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that '${event}' is a valid window event type`)
   }
 
   static off (event, callback, options) {
-    const eve = ['afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'blur', 'copy', 'cut', 'devicemotion', 'deviceorientation', 'deviceorientationabsolute', 'error', 'focus', 'gamepadconnected', 'gamepaddisconnected', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'Deprecated', 'pagehide', 'pageshow', 'paste', 'popstate', 'rejectionhandled', 'resize', 'storage', 'unhandledrejection', 'unload', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'click', 'contextmenu', 'dblclick']
+    const eve = [
+      'afterprint', 'appinstalled', 'beforeinstallprompt', 'beforeprint', 'beforeunload', 'error', 'hashchange', 'languagechange', 'load', 'message', 'messageerror', 'offline', 'online', 'orientationchange', 'pagehide', 'pageshow', 'popstate', 'rejectionhandled', 'resize', 'scroll', 'storage', 'unhandledrejection', 'unload', 'visibilitychange',
+      'blur', 'focus',
+      'keydown', 'keypress', 'keyup',
+      'click', 'contextmenu', 'dblclick', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'wheel',
+      'touchstart', 'touchend', 'touchmove', 'touchcancel',
+      'pointerdown', 'pointerup', 'pointermove', 'pointerover', 'pointerout', 'pointerenter', 'pointerleave', 'pointercancel',
+      'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop',
+      'copy', 'cut', 'paste',
+      'devicemotion', 'deviceorientation', 'deviceorientationabsolute',
+      'gamepadconnected', 'gamepaddisconnected',
+      'animationstart', 'animationend', 'animationiteration', 'animationcancel', 'transitionstart', 'transitionend', 'transitioncancel', 'transitionrun',
+      'fullscreenchange', 'fullscreenerror'
+    ]
     if (typeof event !== 'string') {
       console.error('( ◕ ◞ ◕ ) nn: the first argument to the .off() method should be an event type written as a string')
     } else if (typeof callback !== 'function') {
@@ -2356,6 +2925,12 @@ class DOM {
 
   static create (type) {
     const eles = ['html', 'base', 'head', 'link', 'meta', 'style', 'title', 'body', 'address', 'article', 'aside', 'footer', 'header', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hgroup', 'main', 'nav', 'section', 'blockquote', 'dd', 'div', 'dl', 'dt', 'figcaption', 'figure', 'hr', 'li', 'ol', 'p', 'pre', 'ul', 'a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'code', 'data', 'dfn', 'em', 'i', 'kbd', 'mark', 'q', 'rb', 'rp', 'rt', 'rtc', 'ruby', 's', 'samp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr', 'area', 'audio', 'img', 'map', 'track', 'video', 'embed', 'iframe', 'object', 'param', 'picture', 'source', 'svg', 'math', 'canvas', 'noscript', 'script', 'del', 'ins', 'caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'button', 'datalist', 'fieldset', 'form', 'input', 'label', 'legend', 'meter', 'optgroup', 'option', 'output', 'progress', 'select', 'textarea', 'details', 'dialog', 'menu', 'summary', 'slot', 'template', 'acronym', 'applet', 'basefont', 'bgsound', 'big', 'blink', 'center', 'command', 'content', 'dir', 'element', 'font', 'frame', 'frameset', 'image', 'isindex', 'keygen', 'listing', 'marquee', 'menuitem', 'multicol', 'nextid', 'nobr', 'noembed', 'noframes', 'plaintext', 'shadow', 'spacer', 'strike', 'tt', 'xmp']
+    const svgEles = ['svg', 'circle', 'ellipse', 'path', 'line', 'polyline', 'polygon', 'rect', 'text', 'tspan', 'g', 'defs', 'use', 'symbol', 'linearGradient', 'radialGradient', 'stop', 'clipPath', 'mask', 'animate', 'animateTransform', 'animateMotion']
+    if (svgEles.includes(type)) {
+      const ele = document.createElementNS('http://www.w3.org/2000/svg', type)
+      if (type === 'svg') ele.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+      return this.get(ele)
+    }
     if (!eles.includes(type)) console.warn(`( ◕ ◞ ◕ ) nn: are you sure that '${type}' is a valid HTMLElement?`)
     const ele = document.createElement(type)
     return this.get(ele)
@@ -2369,10 +2944,35 @@ class DOM {
   }
 
   static get (query) {
-    const eve = ['activate', 'afterupdate', 'beforeactivate', 'beforecopy', 'beforecut', 'beforedeactivate', 'beforeeditfocus', 'beforepaste', 'beforeupdate', 'blur', 'click', 'contextmenu', 'controlselect', 'copy', 'cut', 'dblclick', 'deactivate', 'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop', 'errorupdate', 'filterchange', 'focus', 'focusin', 'focusout', 'help', 'input', 'keydown', 'keypress', 'keyup', 'losecapture', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'mousewheel', 'move', 'moveend', 'movestart', 'paste', 'propertychange', 'readystatechange', 'resize', 'resizeend', 'resizestart', 'selectstart', 'timeerror']
+    const eve = [
+      // mouse
+      'click', 'dblclick', 'contextmenu', 'mousedown', 'mouseup', 'mousemove', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'mousewheel',
+      // keyboard
+      'keydown', 'keypress', 'keyup',
+      // focus
+      'focus', 'blur', 'focusin', 'focusout',
+      // input / form
+      'input', 'change', 'submit', 'reset', 'select', 'invalid',
+      // clipboard
+      'copy', 'cut', 'paste',
+      // drag
+      'drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop',
+      // scroll / wheel
+      'scroll', 'wheel',
+      // touch
+      'touchstart', 'touchend', 'touchmove', 'touchcancel',
+      // pointer
+      'pointerdown', 'pointerup', 'pointermove', 'pointerover', 'pointerout', 'pointerenter', 'pointerleave', 'pointercancel',
+      // animation / transition
+      'animationstart', 'animationend', 'animationiteration', 'animationcancel', 'transitionstart', 'transitionend', 'transitioncancel', 'transitionrun',
+      // resource
+      'load', 'error', 'abort',
+      // misc
+      'resize', 'readystatechange', 'selectstart', 'fullscreenchange', 'fullscreenerror'
+    ]
     const mev = ['abort', 'canplay', 'canplaythrough', 'durationchange', 'emptied', 'encrypted', 'ended', 'error', 'loadeddata', 'loadedmetadata', 'loadstart', 'pause', 'play', 'playing', 'progress', 'ratechange', 'seeked', 'seeking', 'stalled', 'suspend', 'timeupdate', 'volumechange', 'waiting']
 
-    const ele = (query instanceof window.HTMLElement) ? query : document.querySelector(query)
+    const ele = (query instanceof window.HTMLElement || query instanceof window.SVGElement || query instanceof window.Element) ? query : document.querySelector(query)
 
     if (typeof query === 'string' && !ele) {
       console.warn(`( ◕ ◞ ◕ ) nn.get: couldn't find an HTML element matching the CSS selector query "${query}"`)
@@ -2425,8 +3025,8 @@ class DOM {
     }
 
     ele.content = function (c) {
-      if (typeof c !== 'string') {
-        console.error('( ◕ ◞ ◕ ) nn: the .content() method is expecting some content as a string')
+      if (typeof c !== 'string' && typeof c !== 'number' && c !== null && c !== undefined) {
+        console.error('( ◕ ◞ ◕ ) nn: the .content() method is expecting a string, number, or null')
       }
       this.innerHTML = c
       return this
@@ -2467,11 +3067,11 @@ class DOM {
     }
 
     ele.addTo = function (parent) {
-      if (typeof parent !== 'string' && !(parent instanceof window.HTMLElement)) {
+      if (typeof parent !== 'string' && !(parent instanceof window.HTMLElement) && !(parent instanceof window.SVGElement)) {
         console.error('( ◕ ◞ ◕ ) nn: the .addTo() method expects either a CSS query selector string or an HTMLElement')
       }
       if (this.parentNode) this.remove()
-      if (parent instanceof window.HTMLElement) parent.appendChild(this)
+      if (parent instanceof window.HTMLElement || parent instanceof window.SVGElement) parent.appendChild(this)
       else document.querySelector(parent).appendChild(this)
       return this
     }
@@ -2495,7 +3095,23 @@ class DOM {
         }
       }
 
-      if (typeof obj === 'string' && typeof val !== 'undefined') {
+      if (typeof obj === 'string' && val === undefined && obj.startsWith('.')) {
+        // shorthand: .set('.foo') or .set('.foo.bar') → sets className
+        const classes = obj.slice(1).split('.').filter(c => c.length > 0)
+        if (classes.length === 0) {
+          console.error('( ◕ ◞ ◕ ) nn: .set(\'.\') is missing a class name, try something like .set(\'.my-class\')')
+        } else {
+          this.className = classes.join(' ')
+        }
+      } else if (typeof obj === 'string' && val === undefined && obj.startsWith('#')) {
+        // shorthand: .set('#my-id') → sets id
+        const id = obj.slice(1)
+        if (id.length === 0) {
+          console.error('( ◕ ◞ ◕ ) nn: .set(\'#\') is missing an id, try something like .set(\'#my-id\')')
+        } else {
+          this.id = id
+        }
+      } else if (typeof obj === 'string' && typeof val !== 'undefined') {
         setAttr(obj, val)
       } else if (typeof obj === 'object' && !val) {
         for (const prop in obj) {
@@ -2517,22 +3133,38 @@ class DOM {
 
       for (const prop in obj) {
         const val = obj[prop]
-        const rightValueType = typeof val === 'string' || typeof val === 'number'
+        const cssVal = typeof val === 'string' ? _smartCSSValue(prop, val) : val
+        const rightValueType = typeof cssVal === 'string' || typeof cssVal === 'number'
         if (!rightValueType) {
           console.error('( ◕ ◞ ◕ ) nn: the CSS values in the object passed to .css() should be strings or a numbers')
-        } else if (typeof val === 'string') {
-          this.style[prop] = val
-        } else if (typeof val === 'number') {
+        } else if (typeof cssVal === 'string') {
+          this.style[prop] = cssVal
+        } else if (typeof cssVal === 'number') {
           const before = this.style[prop]
-          this.style[prop] = val
+          this.style[prop] = cssVal
           if (this.style[prop] === '' || before === this.style[prop]) {
-            this.style[prop] = val + 'px'
+            this.style[prop] = cssVal + 'px'
           }
         }
 
         if (rightValueType && this.style[prop] === '') {
           console.error(`( ◕ ◞ ◕ ) nn: "${val}" is not a valid value for the "${prop}" property in CSS`)
         }
+      }
+      return this
+    }
+
+    ele.transition = function (prop, ms) {
+      const toKebab = (s) => s.replace(/([A-Z])/g, m => '-' + m.toLowerCase())
+      if (typeof prop === 'string' && (typeof ms === 'number' || typeof ms === 'string')) {
+        const dur = typeof ms === 'number' ? `${ms}ms` : ms
+        this.style.transition = `${toKebab(prop)} ${dur}`
+      } else if (typeof prop === 'object' && prop !== null) {
+        this.style.transition = Object.entries(prop)
+          .map(([p, v]) => `${toKebab(p)} ${typeof v === 'number' ? `${v}ms` : v}`)
+          .join(', ')
+      } else {
+        console.error('( ◕ ◞ ◕ ) nn: .transition() expects a property name and duration, or an object of property/duration pairs')
       }
       return this
     }
@@ -2642,12 +3274,32 @@ class DOM {
       } else if (typeof type === 'string' && !types.includes(type)) {
         console.error(`( ◕ ◞ ◕ ) nn: the .position(x, y, type) method expects the third argument to be a valid CSS positioning value, specificaly: ${types.map(s => `"${s}"`).join(', ')}`)
       }
-      y = y || this.y
+      y = (y !== undefined && y !== null) ? y : this.y
       this.style.position = type || 'absolute'
       const ox = this.__nn_positionOrigin === 'center' ? -(this.width / 2) : 0
       const oy = this.__nn_positionOrigin === 'center' ? -(this.height / 2) : 0
       this.style.left = ox + x + 'px'
       this.style.top = oy + y + 'px'
+      // if the element has no dimensions yet, re-apply position once they're available.
+      // images: wait for the load event. everything else: wait one animation frame
+      // (by then the synchronous chain — .addTo(), .css() — will have completed).
+      // the rAF only re-runs if dimensions are non-zero to avoid infinite loops.
+      if (this.__nn_positionOrigin === 'center' && this.width === 0 && this.height === 0) {
+        const self = this
+        // hide until the deferred re-position fires, so the element is never
+        // briefly visible at the un-centered position (ghost image in Firefox)
+        const prevVisibility = self.style.visibility
+        self.style.visibility = 'hidden'
+        const reveal = () => { self.style.visibility = prevVisibility || '' }
+        if (self instanceof window.HTMLImageElement) {
+          self.addEventListener('load', () => { self.position(x, y, type); reveal() }, { once: true })
+        } else {
+          requestAnimationFrame(() => {
+            if (self.width > 0 || self.height > 0) { self.position(x, y, type); reveal() }
+            else reveal() // no dimensions even after rAF — reveal anyway to avoid permanent hide
+          })
+        }
+      }
       return this
     }
 
@@ -2660,8 +3312,61 @@ class DOM {
       return this
     }
 
+    // Use Object.defineProperty instead of direct assignment because
+    // HTMLInputElement (and HTMLSelectElement) have a native 'size' IDL
+    // attribute with a setter that validates its value. Inside an ES6 class
+    // (which is always strict mode), a direct assignment like
+    //   ele.size = function...
+    // goes through the prototype setter rather than creating an own property.
+    // The setter coerces the function to NaN → 0, which fails the ≥1 range
+    // check and throws DOMException: INDEX_SIZE_ERR. Object.defineProperty
+    // bypasses the prototype setter and writes the own property directly.
+    Object.defineProperty(ele, 'size', {
+      value: function (w, h) {
+        if (w === undefined) {
+          console.error('( ◕ ◞ ◕ ) nn: the .size() method expects at least one argument, a number, a CSS string like "100vw", or null to skip that dimension')
+          return this
+        }
+        if (w !== null && typeof w !== 'number' && typeof w !== 'string') {
+          console.error(`( ◕ ◞ ◕ ) nn: the .size(w) method expects the first argument to be a number, a CSS string, or null, but you passed a ${typeof w}`)
+          return this
+        }
+        if (h !== undefined && h !== null && typeof h !== 'number' && typeof h !== 'string') {
+          console.error(`( ◕ ◞ ◕ ) nn: the .size(w, h) method expects the second argument to be a number, a CSS string, or null, but you passed a ${typeof h}`)
+          return this
+        }
+        // check computed display once per element and bump inline → inline-block
+        // wrapped in try/catch because getComputedStyle can throw on detached
+        // elements in sandboxed srcdoc iframes
+        if (!this.__nn_displayChecked) {
+          this.__nn_displayChecked = true
+          try {
+            if (window.getComputedStyle(this).display === 'inline') {
+              this.style.display = 'inline-block'
+            }
+          } catch (e) {}
+        }
+        const toVal = v => typeof v === 'number' ? v + 'px' : v
+        if (w !== null) this.style.width = toVal(w)
+        if (h === undefined) {
+          // single-arg: square — only if w was not null
+          if (w !== null) this.style.height = toVal(w)
+        } else if (h !== null) {
+          this.style.height = toVal(h)
+        }
+        return this
+      },
+      writable: true,
+      configurable: true,
+      enumerable: false
+    })
+
     // getters for box properties
     // -------------------------------------------------
+    // NOTE: when updating lots of elements, this tends to be
+    // a little too costly, either need a diff approach or let
+    // students know they should store x/y/dx/dy/etc valuse in
+    // their own data struct (maybe data.x/data.y etc)
     const avoid = (e) => {
       return e instanceof window.HTMLIFrameElement ||
         // e instanceof window.HTMLVideoElement ||
@@ -2671,10 +3376,16 @@ class DOM {
     const box = ['x', 'y', 'width', 'height', 'top', 'left', 'bottom', 'right']
     box.forEach(prop => {
       const sizeProp = (prop === 'width' || prop === 'height')
-      if (typeof ele[prop] !== 'number' || ele[prop] === 0) {
+      // reading ele[prop] can throw DOMException on detached elements in
+      // sandboxed srcdoc iframes (e.g. HTMLInputElement.width IDL attribute)
+      let current
+      try { current = ele[prop] } catch (e) { current = undefined }
+      if (typeof current !== 'number' || current === 0) {
         if (sizeProp && avoid(ele)) return
         Object.defineProperty(ele, prop, {
-          get: function () { return this.getBoundingClientRect()[prop] },
+          get: function () {
+            try { return this.getBoundingClientRect()[prop] } catch (e) { return 0 }
+          },
           configurable: true
         })
       }
@@ -2758,6 +3469,21 @@ class DOM {
       configurable: true
     })
 
+    // auto-coerce .value to a number for number/range inputs
+    // -------------------------------------------------
+    if (ele instanceof window.HTMLInputElement) {
+      const nativeValue = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')
+      Object.defineProperty(ele, 'value', {
+        get: function () {
+          if (this.type === 'number' || this.type === 'range') return this.valueAsNumber
+          return nativeValue.get.call(this)
+        },
+        set: function (v) { nativeValue.set.call(this, v) },
+        configurable: true,
+        enumerable: true
+      })
+    }
+
     // augment canvas elements with drawing helpers if available
     // ----------------------------------------------------------
     try {
@@ -2769,25 +3495,850 @@ class DOM {
       }
     } catch (e) { /* silently ignore if canvas helpers unavailable */ }
 
+    // augment SVG elements with SVG helpers if available
+    // ----------------------------------------------------------
+    try {
+      const svgTagNames = new Set(['svg', 'circle', 'ellipse', 'path', 'line', 'polyline', 'polygon', 'rect', 'text', 'tspan', 'g', 'defs', 'use', 'symbol', 'lineargradient', 'radialgradient', 'stop', 'clippath', 'mask', 'animate', 'animatetransform', 'animatemotion', 'image', 'filter', 'title', 'desc'])
+      if (ele && ele.tagName && svgTagNames.has(ele.tagName.toLowerCase())) {
+        let mod
+        try { mod = require('./svg.js') } catch (e) { mod = (window.NNSvg || {}) }
+        const augment = (mod && (mod.augment || mod.default))
+        if (typeof augment === 'function') augment(ele)
+      }
+    } catch (e) { console.error('( ◕ ◞ ◕ ) nn: SVG augment error:', e) }
+
     return ele
   }
+}
+
+// Optional hook called once before the first mouse-related window listener
+// is registered, ensuring nn.mouseX/Y are up-to-date when the user's
+// handler fires. Set by DOM.register() to the internal _trackMouse function.
+DOM._preMouseHook = null
+DOM._mouseEvents = new Set(['mousemove', 'mousedown', 'mouseup', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'click', 'dblclick', 'contextmenu'])
+
+DOM._prePointerHook = null
+DOM._pointerEvents = new Set(['pointerdown', 'pointerup', 'pointermove', 'pointerover', 'pointerout', 'pointerenter', 'pointerleave', 'pointercancel'])
+
+DOM.register = function (nn) {
+  // wire up the pre-mouse hook so tracking starts before the first listener
+  DOM._preMouseHook = _trackMouse
+  // wire up the pre-pointer hook so tracking starts before the first listener
+  DOM._prePointerHook = _trackPointers
+
+  // define read-only mouse, pointer, and window properties directly on nn
+  Object.defineProperties(nn, {
+    mouseX: {
+      get () { if (!_trackingMouse) _trackMouse(); return _mouseX },
+      set () { console.error('( ◕ ◞ ◕ ) nn: mouseX is a read-only property') },
+      configurable: true
+    },
+    mouseY: {
+      get () { if (!_trackingMouse) _trackMouse(); return _mouseY },
+      set () { console.error('( ◕ ◞ ◕ ) nn: mouseY is a read-only property') },
+      configurable: true
+    },
+    mouseDown: {
+      get () { if (!_trackingMouse) _trackMouse(); return _mouseDown },
+      set () { console.error('( ◕ ◞ ◕ ) nn: mouseDown is a read-only property') },
+      configurable: true
+    },
+    pointers: {
+      get () { if (!_trackingPointers) _trackPointers(); return Array.from(_pointers.values()) },
+      set () { console.error('( ◕ ◞ ◕ ) nn: pointers is a read-only property') },
+      configurable: true
+    },
+    pointer: {
+      get () { if (!_trackingPointers) _trackPointers(); return Array.from(_pointers.values())[0] || null },
+      set () { console.error('( ◕ ◞ ◕ ) nn: pointer is a read-only property') },
+      configurable: true
+    },
+    width: {
+      get () { return window.innerWidth },
+      set () { console.error('( ◕ ◞ ◕ ) nn: width is a read-only property') },
+      configurable: true
+    },
+    height: {
+      get () { return window.innerHeight },
+      set () { console.error('( ◕ ◞ ◕ ) nn: height is a read-only property') },
+      configurable: true
+    }
+  })
+
+  nn.on = DOM.on
+  nn.off = DOM.off
+  nn.create = DOM.create
+  nn.get = DOM.get
+  nn.getAll = DOM.getAll
 }
 
 if (typeof module !== 'undefined') module.exports = DOM
 else window.DOM = DOM
 
-},{"./canvas.js":4}],6:[function(require,module,exports){
-class Data {
-  static parseCSV (csvText) {
-    if (typeof csvText !== 'string') {
-      console.error('( ◕ ◞ ◕ ) nn: parseCSV() method expects a string of CSV data as it\'s first argument')
-      return
-    } else if (csvText.trim().length === 0) {
-      console.error('( ◕ ◞ ◕ ) nn: the CSV string is empty')
-      return
+},{"./canvas.js":7,"./css-url-helper.js":8,"./svg.js":10}],10:[function(require,module,exports){
+// nn SVG augmentation: adds chainable helper methods onto SVG elements
+// mirrors the pattern used in DOM/canvas.js and DOM/dom.js
+
+let _smartCSSValue
+try { _smartCSSValue = require('./css-url-helper.js').smartCSSValue } catch (e) {
+  _smartCSSValue = (window._nnCssUrlHelper || {}).smartCSSValue || ((prop, val) => val)
+}
+
+function augmentSVGElement (ele) {
+  if (ele.__nn_svgAugmented) return ele
+  ele.__nn_svgAugmented = true
+
+  const tag = ele.tagName ? ele.tagName.toLowerCase() : ''
+
+  // Updates a named function inside the SVG transform attribute
+  // e.g. setTransformPart('rotate', '45') produces transform="rotate(45)"
+  // or updates the existing rotate(...) part if already present
+  function setTransformPart (fnName, value) {
+    const regex = new RegExp(`${fnName}\\([^)]*\\)`)
+    let transform = ele.getAttribute('transform') || ''
+    if (regex.test(transform)) {
+      transform = transform.replace(regex, `${fnName}(${value})`)
+    } else {
+      transform += ` ${fnName}(${value})`
+    }
+    ele.setAttribute('transform', transform.trim())
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ set attribute ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.set = function (obj, val) {
+    if (typeof obj === 'string' && typeof val !== 'undefined') {
+      this.setAttribute(obj, val)
+    } else if (typeof obj === 'object' && obj !== null && typeof val === 'undefined') {
+      for (const prop in obj) {
+        this.setAttribute(prop, obj[prop])
+      }
+    } else {
+      console.error('( ◕ ◞ ◕ ) nn: the .set() method expects two arguments, an SVG attribute and value, or an object of SVG attributes and values')
+    }
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ css styles ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.css = function (obj, val) {
+    if (typeof obj === 'string' && typeof val !== 'undefined') {
+      const prop = obj; obj = {}; obj[prop] = val
+    } else if (typeof obj !== 'object') {
+      console.error('( ◕ ◞ ◕ ) nn: the .css() method expects two arguments, a CSS property and value, or an object of CSS properties and values')
     }
 
-    // Initialize state variables
+    for (const prop in obj) {
+      const val = obj[prop]
+      const cssVal = typeof val === 'string' ? _smartCSSValue(prop, val) : val
+      const rightValueType = typeof cssVal === 'string' || typeof cssVal === 'number'
+      if (!rightValueType) {
+        console.error('( ◕ ◞ ◕ ) nn: the CSS values in the object passed to .css() should be strings or numbers')
+      } else if (typeof cssVal === 'string') {
+        this.style[prop] = cssVal
+      } else if (typeof cssVal === 'number') {
+        const before = this.style[prop]
+        this.style[prop] = cssVal
+        if (this.style[prop] === '' || before === this.style[prop]) {
+          this.style[prop] = cssVal + 'px'
+        }
+      }
+
+      if (rightValueType && this.style[prop] === '') {
+        console.error(`( ◕ ◞ ◕ ) nn: "${val}" is not a valid value for the "${prop}" property in CSS`)
+      }
+    }
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ event listeners ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  const svgEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'contextmenu', 'dblclick', 'focus', 'blur', 'keydown', 'keyup', 'keypress', 'pointerdown', 'pointerup', 'pointermove', 'touchstart', 'touchend', 'touchmove', 'wheel']
+
+  ele.on = function (event, callback, options) {
+    if (typeof event !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn: the first argument to the .on() method should be an event type written as a string')
+    } else if (typeof callback !== 'function') {
+      console.error('( ◕ ◞ ◕ ) nn: the second argument to the .on() method should be a function you want to call "on" that event')
+    }
+    if (!this.__nn_listeners) this.__nn_listeners = {}
+    if (!this.__nn_listeners[event]) this.__nn_listeners[event] = new Map()
+    const self = this
+    const wrapped = function (e) { return callback.call(self, e) }
+    const capture = (typeof options === 'boolean') ? options : (options && typeof options === 'object' && options.capture === true)
+    this.addEventListener(event, wrapped, options)
+    this.__nn_listeners[event].set(callback, { wrapped, capture })
+    if (!svgEvents.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that '${event}' is a valid SVG event type`)
+    return this
+  }
+
+  ele.off = function (event, callback, options) {
+    if (typeof event !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn: the first argument to the .off() method should be an event type written as a string')
+    } else if (typeof callback !== 'function') {
+      console.error('( ◕ ◞ ◕ ) nn: the second argument to the .off() method should be the same function reference previously passed to .on()')
+    }
+    let fn = callback
+    let capture
+    if (this.__nn_listeners && this.__nn_listeners[event]) {
+      const entry = this.__nn_listeners[event].get(callback)
+      if (entry) {
+        fn = entry.wrapped
+        capture = entry.capture
+        this.__nn_listeners[event].delete(callback)
+      }
+    }
+    if (typeof capture === 'undefined') {
+      capture = (typeof options === 'boolean') ? options : (options && typeof options === 'object' && options.capture === true)
+    }
+    this.removeEventListener(event, fn, capture)
+    if (!svgEvents.includes(event)) console.warn(`( ◕ ◞ ◕ ) nn: you might want to make sure that '${event}' is a valid SVG event type`)
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ content ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.content = function (str) {
+    this.textContent = str
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ addTo ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.addTo = function (parent) {
+    let parentEl
+    if (typeof parent === 'string') {
+      parentEl = document.querySelector(parent)
+    } else if (parent instanceof window.SVGElement || parent instanceof window.HTMLElement) {
+      parentEl = parent
+    } else {
+      console.error('( ◕ ◞ ◕ ) nn: the .addTo() method expects either a CSS query selector string or an SVGElement/HTMLElement')
+      return this
+    }
+
+    // warn if adding a non-root SVG shape to an HTML element
+    if (tag !== 'svg' && parentEl instanceof window.HTMLElement && !(parentEl instanceof window.SVGElement)) {
+      console.error("( ◕ ◞ ◕ ) nn: SVG shape elements should be added to an SVG container (like <svg> or <g>), not an HTML element. Create an <svg> first with nn.create('svg').addTo('body'), then add shapes to that.")
+    }
+
+    if (this.parentNode) this.remove()
+    if (parentEl) parentEl.appendChild(this)
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ scoped selectors ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.get = function (query) {
+    if (typeof query === 'string') {
+      const found = this.querySelector(query)
+      if (!found) {
+        console.warn(`( ◕ ◞ ◕ ) nn.get: couldn't find an SVG element matching the CSS selector query "${query}" within this element`)
+        return undefined
+      }
+      return augmentSVGElement(found)
+    } else if (query instanceof window.SVGElement || query instanceof window.HTMLElement) {
+      if (!this.contains(query)) {
+        console.error('( ◕ ◞ ◕ ) nn: the element you passed to .get() is not a descendant of this element')
+        return undefined
+      }
+      return augmentSVGElement(query)
+    } else {
+      console.error('( ◕ ◞ ◕ ) nn: the .get() method expects either a CSS query selector string or an SVGElement')
+      return undefined
+    }
+  }
+
+  ele.getAll = function (query) {
+    if (typeof query !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn: the .getAll() method expects a CSS query selector string')
+      return []
+    }
+    const arr = []
+    this.querySelectorAll(query).forEach(el => arr.push(augmentSVGElement(el)))
+    return arr
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ presentation shorthands ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.fill = function (color) {
+    if (typeof color !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn: the .fill() method expects a color string')
+      return this
+    }
+    this.setAttribute('fill', color)
+    return this
+  }
+
+  ele.stroke = function (color) {
+    if (typeof color !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn: the .stroke() method expects a color string')
+      return this
+    }
+    this.setAttribute('stroke', color)
+    return this
+  }
+
+  ele.strokeWidth = function (n) {
+    if (typeof n !== 'number' && typeof n !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn: the .strokeWidth() method expects a number or string')
+      return this
+    }
+    this.setAttribute('stroke-width', n)
+    return this
+  }
+
+  ele.strokeDash = function (val) {
+    if (Array.isArray(val)) {
+      this.setAttribute('stroke-dasharray', val.join(' '))
+    } else if (typeof val === 'number') {
+      this.setAttribute('stroke-dasharray', val)
+    } else {
+      console.error('( ◕ ◞ ◕ ) nn: the .strokeDash() method expects a number or an array of numbers')
+    }
+    return this
+  }
+
+  ele.strokeOffset = function (n) {
+    if (typeof n !== 'number') {
+      console.error('( ◕ ◞ ◕ ) nn: the .strokeOffset() method expects a number')
+      return this
+    }
+    this.setAttribute('stroke-dashoffset', n)
+    return this
+  }
+
+  ele.opacity = function (n) {
+    if (typeof n !== 'number') {
+      console.error('( ◕ ◞ ◕ ) nn: the .opacity() method expects a number')
+      return this
+    }
+    this.setAttribute('opacity', n)
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ positionOrigin ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.positionOrigin = function (type) {
+    if (type !== 'center' && type !== 'default') {
+      console.error("( ◕ ◞ ◕ ) nn: the .positionOrigin() method expects either 'center' or 'default'")
+      return this
+    }
+    this.__nn_svgPositionOrigin = type
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ position ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.position = function (x, y, x2, y2) {
+    if (typeof x !== 'number') {
+      console.error(`( ◕ ◞ ◕ ) nn: the .position(x, y) method expects the first argument to be a number, but you passed a ${typeof x}`)
+      return this
+    }
+    const cssPositionTypes = ['absolute', 'relative', 'fixed', 'sticky', 'static']
+    if (typeof x2 === 'string' && cssPositionTypes.includes(x2)) {
+      console.warn('( ◕ ◞ ◕ ) nn: the third argument to .position() sets a CSS positioning type, which only applies to HTML elements. For SVG elements just pass x and y — SVG uses its own coordinate system.')
+    }
+    if (tag === 'svg') {
+      // root <svg> in HTML needs CSS positioning, just like any HTML element
+      this.style.position = 'absolute'
+      this.style.left = x + 'px'
+      this.style.top = y + 'px'
+    } else if (tag === 'circle' || tag === 'ellipse') {
+      this.setAttribute('cx', x)
+      this.setAttribute('cy', y)
+    } else if (tag === 'line') {
+      if (typeof x2 !== 'undefined' && typeof x2 !== 'number') {
+        console.error('( ◕ ◞ ◕ ) nn: for <line> elements, the third argument to .position() should be a number (the x2 end coordinate) or omitted')
+        return this
+      }
+      if (typeof y2 !== 'undefined' && typeof y2 !== 'number') {
+        console.error('( ◕ ◞ ◕ ) nn: for <line> elements, the fourth argument to .position() should be a number (the y2 end coordinate) or omitted')
+        return this
+      }
+      this.setAttribute('x1', x)
+      this.setAttribute('y1', y)
+      if (typeof x2 === 'number') this.setAttribute('x2', x2)
+      if (typeof y2 === 'number') this.setAttribute('y2', y2)
+    } else if (tag === 'g') {
+      setTransformPart('translate', `${x}, ${y}`)
+    } else {
+      // rect, text, image, use, etc.
+      if (this.__nn_svgPositionOrigin === 'center') {
+        const w = parseFloat(this.getAttribute('width')) || 0
+        const h = parseFloat(this.getAttribute('height')) || 0
+        this.setAttribute('x', x - w / 2)
+        this.setAttribute('y', y - h / 2)
+      } else {
+        this.setAttribute('x', x)
+        this.setAttribute('y', y)
+      }
+    }
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ transform methods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  ele.translate = function (x, y) {
+    if (typeof x !== 'number' || typeof y !== 'number') {
+      console.error('( ◕ ◞ ◕ ) nn: the .translate(x, y) method expects both arguments to be numbers')
+      return this
+    }
+    setTransformPart('translate', `${x}, ${y}`)
+    return this
+  }
+
+  ele.rotate = function (deg, cx, cy) {
+    if (typeof deg !== 'number') {
+      console.error('( ◕ ◞ ◕ ) nn: the .rotate(deg) method expects the first argument to be a number')
+      return this
+    }
+    if (typeof cx !== 'undefined' && typeof cy !== 'undefined') {
+      setTransformPart('rotate', `${deg}, ${cx}, ${cy}`)
+    } else {
+      setTransformPart('rotate', `${deg}`)
+    }
+    return this
+  }
+
+  ele.scale = function (x, y) {
+    if (typeof x !== 'number') {
+      console.error('( ◕ ◞ ◕ ) nn: the .scale(x) method expects the first argument to be a number')
+      return this
+    }
+    const sy = (typeof y === 'number') ? y : x
+    setTransformPart('scale', `${x}, ${sy}`)
+    return this
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ text-specific methods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  if (tag === 'text' || tag === 'tspan') {
+    ele.textAlign = function (val) {
+      const map = { left: 'start', center: 'middle', right: 'end' }
+      const native = ['start', 'middle', 'end']
+      if (map[val]) {
+        this.setAttribute('text-anchor', map[val])
+      } else if (native.includes(val)) {
+        this.setAttribute('text-anchor', val)
+      } else {
+        console.error("( ◕ ◞ ◕ ) nn: the .textAlign() method expects one of: 'left', 'center', 'right', 'start', 'middle', 'end'")
+      }
+      return this
+    }
+
+    ele.textBaseline = function (val) {
+      const map = { top: 'text-top', bottom: 'text-bottom' }
+      const native = ['middle', 'alphabetic', 'hanging', 'ideographic', 'text-top', 'text-bottom']
+      if (map[val]) {
+        this.setAttribute('dominant-baseline', map[val])
+      } else if (native.includes(val) || val === 'middle' || val === 'alphabetic' || val === 'hanging' || val === 'ideographic') {
+        this.setAttribute('dominant-baseline', val)
+      } else {
+        console.error("( ◕ ◞ ◕ ) nn: the .textBaseline() method expects one of: 'top', 'middle', 'bottom', 'alphabetic', 'hanging', 'ideographic'")
+      }
+      return this
+    }
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ circle-specific methods ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  if (tag === 'circle') {
+    ele.radius = function (r) {
+      if (typeof r !== 'number') {
+        console.error('( ◕ ◞ ◕ ) nn: the .radius() method expects a number')
+        return this
+      }
+      this.setAttribute('r', r)
+      return this
+    }
+
+    ele.size = function (r) {
+      return this.radius(r)
+    }
+
+    Object.defineProperty(ele, 'r', {
+      get: function () { return parseFloat(this.getAttribute('r')) || 0 },
+      set: function (v) { this.setAttribute('r', v) },
+      configurable: true
+    })
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ellipse-specific methods ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  if (tag === 'ellipse') {
+    ele.size = function (rx, ry) {
+      const rry = (typeof ry === 'number') ? ry : rx
+      this.setAttribute('rx', rx)
+      this.setAttribute('ry', rry)
+      return this
+    }
+
+    Object.defineProperty(ele, 'rx', {
+      get: function () { return parseFloat(this.getAttribute('rx')) || 0 },
+      set: function (v) { this.setAttribute('rx', v) },
+      configurable: true
+    })
+
+    Object.defineProperty(ele, 'ry', {
+      get: function () { return parseFloat(this.getAttribute('ry')) || 0 },
+      set: function (v) { this.setAttribute('ry', v) },
+      configurable: true
+    })
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ rect-specific methods ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  if (tag === 'rect') {
+    ele.size = function (w, h) {
+      const hh = (typeof h === 'number') ? h : w
+      this.setAttribute('width', w)
+      this.setAttribute('height', hh)
+      return this
+    }
+
+    ele.borderRadius = function (rx, ry) {
+      this.setAttribute('rx', rx)
+      if (typeof ry === 'number') this.setAttribute('ry', ry)
+      return this
+    }
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ svg root-specific methods ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  if (tag === 'svg') {
+    // apply visible defaults when no explicit dimensions have been provided yet.
+    // SVG coordinate space is defined by the width/height *attributes*, not CSS —
+    // without them the spec fallback is 300×150 user units regardless of how large
+    // the element renders, so shapes placed with window-based coordinates would be
+    // invisible. setting pixel attributes to match the window gives a 1:1 mapping
+    // (same pattern as <canvas>). students who want a smaller SVG just call
+    // .size(w, h) afterwards, which sets the attributes and overrides this.
+    if (!ele.hasAttribute('width') && !ele.hasAttribute('height')) {
+      const w = window.innerWidth
+      const h = window.innerHeight
+      ele.setAttribute('width', w)
+      ele.setAttribute('height', h)
+      ele.setAttribute('viewBox', `0 0 ${w} ${h}`)
+      ele.style.display = 'block'
+    }
+
+    ele.size = function (w, h) {
+      if (typeof w !== 'number' || typeof h !== 'number') {
+        console.error('( ◕ ◞ ◕ ) nn: the .size(w, h) method on <svg> expects both arguments to be numbers')
+        return this
+      }
+      this.setAttribute('width', w)
+      this.setAttribute('height', h)
+      this.setAttribute('viewBox', `0 0 ${w} ${h}`)
+      return this
+    }
+
+    // SVGSVGElement has a built-in read-only IDL attribute called `viewBox`
+    // (returns an SVGAnimatedRect), so a plain assignment silently fails on a
+    // proper SVGSVGElement created with createElementNS. Object.defineProperty
+    // creates an own property that shadows the prototype getter.
+    Object.defineProperty(ele, 'viewBox', {
+      value: function (x, y, w, h) {
+        if (typeof x !== 'number' || typeof y !== 'number' || typeof w !== 'number' || typeof h !== 'number') {
+          console.error('( ◕ ◞ ◕ ) nn: the .viewBox(x, y, w, h) method expects all four arguments to be numbers')
+          return this
+        }
+        this.setAttribute('viewBox', `${x} ${y} ${w} ${h}`)
+        return this
+      },
+      writable: true,
+      configurable: true
+    })
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ line-specific properties ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  if (tag === 'line') {
+    Object.defineProperty(ele, 'x2', {
+      get: function () { return parseFloat(this.getAttribute('x2')) || 0 },
+      set: function (v) { this.setAttribute('x2', v) },
+      configurable: true
+    })
+
+    Object.defineProperty(ele, 'y2', {
+      get: function () { return parseFloat(this.getAttribute('y2')) || 0 },
+      set: function (v) { this.setAttribute('y2', v) },
+      configurable: true
+    })
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ bounding box / position properties ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+  Object.defineProperty(ele, 'screenX', {
+    get: function () { return this.getBoundingClientRect().x },
+    configurable: true
+  })
+
+  Object.defineProperty(ele, 'screenY', {
+    get: function () { return this.getBoundingClientRect().y },
+    configurable: true
+  })
+
+  // x property
+  if (tag === 'circle' || tag === 'ellipse') {
+    Object.defineProperty(ele, 'x', {
+      get: function () { return parseFloat(this.getAttribute('cx')) || 0 },
+      set: function (v) { this.setAttribute('cx', v) },
+      configurable: true
+    })
+  } else if (tag === 'rect' || tag === 'text' || tag === 'tspan' || tag === 'image' || tag === 'use') {
+    Object.defineProperty(ele, 'x', {
+      get: function () { return parseFloat(this.getAttribute('x')) || 0 },
+      set: function (v) { this.setAttribute('x', v) },
+      configurable: true
+    })
+  } else if (tag === 'line') {
+    Object.defineProperty(ele, 'x', {
+      get: function () { return parseFloat(this.getAttribute('x1')) || 0 },
+      set: function (v) { this.setAttribute('x1', v) },
+      configurable: true
+    })
+  } else if (tag === 'g') {
+    Object.defineProperty(ele, 'x', {
+      get: function () {
+        const t = this.getAttribute('transform') || ''
+        const m = t.match(/translate\(\s*([-\d.]+)/)
+        return m ? parseFloat(m[1]) : 0
+      },
+      set: function (v) {
+        const t = this.getAttribute('transform') || ''
+        const m = t.match(/translate\(\s*([-\d.]+)[,\s]+([-\d.]+)/)
+        const cy = m ? parseFloat(m[2]) : 0
+        setTransformPart('translate', `${v}, ${cy}`)
+      },
+      configurable: true
+    })
+  } else {
+    // path, polygon, polyline, etc. — read-only from getBBox
+    Object.defineProperty(ele, 'x', {
+      get: function () {
+        try { return this.getBBox().x } catch (e) { return 0 }
+      },
+      configurable: true
+    })
+  }
+
+  // y property
+  if (tag === 'circle' || tag === 'ellipse') {
+    Object.defineProperty(ele, 'y', {
+      get: function () { return parseFloat(this.getAttribute('cy')) || 0 },
+      set: function (v) { this.setAttribute('cy', v) },
+      configurable: true
+    })
+  } else if (tag === 'rect' || tag === 'text' || tag === 'tspan' || tag === 'image' || tag === 'use') {
+    Object.defineProperty(ele, 'y', {
+      get: function () { return parseFloat(this.getAttribute('y')) || 0 },
+      set: function (v) { this.setAttribute('y', v) },
+      configurable: true
+    })
+  } else if (tag === 'line') {
+    Object.defineProperty(ele, 'y', {
+      get: function () { return parseFloat(this.getAttribute('y1')) || 0 },
+      set: function (v) { this.setAttribute('y1', v) },
+      configurable: true
+    })
+  } else if (tag === 'g') {
+    Object.defineProperty(ele, 'y', {
+      get: function () {
+        const t = this.getAttribute('transform') || ''
+        const m = t.match(/translate\(\s*[-\d.]+[,\s]+([-\d.]+)/)
+        return m ? parseFloat(m[1]) : 0
+      },
+      set: function (v) {
+        const t = this.getAttribute('transform') || ''
+        const m = t.match(/translate\(\s*([-\d.]+)/)
+        const cx = m ? parseFloat(m[1]) : 0
+        setTransformPart('translate', `${cx}, ${v}`)
+      },
+      configurable: true
+    })
+  } else {
+    Object.defineProperty(ele, 'y', {
+      get: function () {
+        try { return this.getBBox().y } catch (e) { return 0 }
+      },
+      configurable: true
+    })
+  }
+
+  // width property
+  if (tag === 'rect' || tag === 'image' || tag === 'svg') {
+    Object.defineProperty(ele, 'width', {
+      get: function () { return parseFloat(this.getAttribute('width')) || 0 },
+      set: function (v) { this.setAttribute('width', v) },
+      configurable: true
+    })
+  } else {
+    Object.defineProperty(ele, 'width', {
+      get: function () {
+        try { return this.getBBox().width } catch (e) { return 0 }
+      },
+      configurable: true
+    })
+  }
+
+  // height property
+  if (tag === 'rect' || tag === 'image' || tag === 'svg') {
+    Object.defineProperty(ele, 'height', {
+      get: function () { return parseFloat(this.getAttribute('height')) || 0 },
+      set: function (v) { this.setAttribute('height', v) },
+      configurable: true
+    })
+  } else {
+    Object.defineProperty(ele, 'height', {
+      get: function () {
+        try { return this.getBBox().height } catch (e) { return 0 }
+      },
+      configurable: true
+    })
+  }
+
+  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ factory methods (svg, g, symbol, defs) ~ ~ ~ ~ ~ ~ ~
+
+  if (tag === 'svg' || tag === 'g' || tag === 'symbol' || tag === 'defs') {
+    const ns = 'http://www.w3.org/2000/svg'
+
+    ele.circle = function (cx, cy, r) {
+      if (typeof cx !== 'number' || typeof cy !== 'number' || typeof r !== 'number') {
+        console.error('( ◕ ◞ ◕ ) nn: .circle(cx, cy, r) expects all three arguments to be numbers')
+        return
+      }
+      const el = document.createElementNS(ns, 'circle')
+      el.setAttribute('cx', cx)
+      el.setAttribute('cy', cy)
+      el.setAttribute('r', r)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.ellipse = function (cx, cy, rx, ry) {
+      if (typeof cx !== 'number' || typeof cy !== 'number' || typeof rx !== 'number') {
+        console.error('( ◕ ◞ ◕ ) nn: .ellipse(cx, cy, rx, ry) expects at least three number arguments')
+        return
+      }
+      const rry = (typeof ry === 'number') ? ry : rx
+      const el = document.createElementNS(ns, 'ellipse')
+      el.setAttribute('cx', cx)
+      el.setAttribute('cy', cy)
+      el.setAttribute('rx', rx)
+      el.setAttribute('ry', rry)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.rect = function (x, y, w, h) {
+      const hh = (typeof h === 'number') ? h : w
+      const el = document.createElementNS(ns, 'rect')
+      el.setAttribute('x', x)
+      el.setAttribute('y', y)
+      el.setAttribute('width', w)
+      el.setAttribute('height', hh)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.line = function (x1, y1, x2, y2) {
+      if (typeof x1 !== 'number' || typeof y1 !== 'number' || typeof x2 !== 'number' || typeof y2 !== 'number') {
+        console.error('( ◕ ◞ ◕ ) nn: .line(x1, y1, x2, y2) expects all four arguments to be numbers')
+        return
+      }
+      const el = document.createElementNS(ns, 'line')
+      el.setAttribute('x1', x1)
+      el.setAttribute('y1', y1)
+      el.setAttribute('x2', x2)
+      el.setAttribute('y2', y2)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.path = function (d) {
+      if (typeof d !== 'string') {
+        console.error('( ◕ ◞ ◕ ) nn: .path(d) expects a path data string')
+        return
+      }
+      const el = document.createElementNS(ns, 'path')
+      el.setAttribute('d', d)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.polygon = function (points) {
+      let pts
+      if (typeof points === 'string') {
+        pts = points
+      } else if (Array.isArray(points)) {
+        pts = points.map(p => `${p[0]},${p[1]}`).join(' ')
+      } else {
+        console.error('( ◕ ◞ ◕ ) nn: .polygon(points) expects a points string or an array of [x, y] pairs')
+        return
+      }
+      const el = document.createElementNS(ns, 'polygon')
+      el.setAttribute('points', pts)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.polyline = function (points) {
+      let pts
+      if (typeof points === 'string') {
+        pts = points
+      } else if (Array.isArray(points)) {
+        pts = points.map(p => `${p[0]},${p[1]}`).join(' ')
+      } else {
+        console.error('( ◕ ◞ ◕ ) nn: .polyline(points) expects a points string or an array of [x, y] pairs')
+        return
+      }
+      const el = document.createElementNS(ns, 'polyline')
+      el.setAttribute('points', pts)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.text = function (str, x, y) {
+      const el = document.createElementNS(ns, 'text')
+      if (str !== undefined) el.textContent = str
+      if (typeof x === 'number') el.setAttribute('x', x)
+      if (typeof y === 'number') el.setAttribute('y', y)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.group = function () {
+      const el = document.createElementNS(ns, 'g')
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+
+    ele.image = function (href, x, y, w, h) {
+      const el = document.createElementNS(ns, 'image')
+      if (typeof href === 'string') el.setAttribute('href', href)
+      if (typeof x === 'number') el.setAttribute('x', x)
+      if (typeof y === 'number') el.setAttribute('y', y)
+      if (typeof w === 'number') el.setAttribute('width', w)
+      if (typeof h === 'number') el.setAttribute('height', h)
+      this.appendChild(el)
+      return augmentSVGElement(el)
+    }
+  }
+
+  return ele
+}
+
+if (typeof module !== 'undefined') module.exports = { augment: augmentSVGElement }
+else window.NNSvg = { augment: augmentSVGElement }
+
+},{"./css-url-helper.js":8}],11:[function(require,module,exports){
+class Data {
+  // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  // internal helpers
+  // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+  static _parseCSV (csvText, headers) {
     const records = []
     let record = []
     let field = ''
@@ -2796,286 +4347,256 @@ class Data {
     for (let i = 0; i < csvText.length; i++) {
       const char = csvText[i]
       const nextChar = csvText[i + 1]
-
       if (char === '"' && field === '' && !insideQuotes) {
-        // Start of a quoted field
         insideQuotes = true
         continue
       } else if (char === '"' && insideQuotes) {
-        if (nextChar === '"') {
-          // Double quotes inside quoted field, add a single quote to the field
-          field += char
-          i++ // Skip the next character
-        } else {
-          // End of a quoted field
-          insideQuotes = false
-        }
+        if (nextChar === '"') { field += char; i++ } else insideQuotes = false
         continue
       } else if (char === ',' && !insideQuotes) {
-        // End of a field
         record.push(field.trim())
         field = ''
         continue
       } else if (char === '\n' && !insideQuotes) {
-        // End of a record
         record.push(field.trim())
         records.push(record)
         record = []
         field = ''
         continue
       } else {
-        // Part of a field
         field += char
       }
     }
 
-    // Handle last field and record (if not empty)
     if (field !== '' || record.length > 0) {
       record.push(field.trim())
       records.push(record)
     }
 
-    // Extract headers
-    const headers = records.shift()
-    if (!headers || headers.length === 0) {
-      console.error('( ◕ ◞ ◕ ) nn: the CSV data is missing its headers')
-      return
+    if (!headers) return records
+
+    const headerRow = records.shift()
+    if (!headerRow || headerRow.length === 0) {
+      console.error('( ◕ ◞ ◕ ) nn.parse: the CSV data is missing its headers')
+      return null
     }
 
-    // Convert records into objects
-    return records.map(record => {
-      return headers.reduce((object, header, index) => {
-        object[header] = record[index]
-        return object
+    return records.map(row =>
+      headerRow.reduce((obj, key, i) => {
+        obj[key] = row[i]
+        return obj
       }, {})
-    })
+    )
   }
 
-  static parseJSON (jsonText) {
-    return JSON.parse(jsonText)
-  }
-
-  static stringifyCSV (arrayOfObjects) {
-    if (!Array.isArray(arrayOfObjects)) {
-      console.error('( ◕ ◞ ◕ ) nn: stringifyCSV() is expecting an array of objects')
-      return
-    } else if (arrayOfObjects.length === 0) {
-      console.error('( ◕ ◞ ◕ ) nn: the array passed to stringifyCSV() is empty')
-      return
-    }
-
-    const allObjectsValid = arrayOfObjects.every(obj => typeof obj === 'object' && obj !== null && Object.keys(obj).length > 0)
-    if (!allObjectsValid) {
-      console.error('( ◕ ◞ ◕ ) nn: all items in the array passed to stringifyCSV() must be non-empty objects')
-      return
-    }
-
+  static _stringifyCSV (arrayOfObjects) {
     const headers = Object.keys(arrayOfObjects[0])
-
-    // const allObjectsHaveSameKeys = arrayOfObjects.every(obj =>
-    //   Object.keys(obj).length === headers.length &&
-    //   headers.every(header => obj[header])
-    // )
-    // if (!allObjectsHaveSameKeys) {
-    //   console.warn('( ◕ ◞ ◕ ) nn: not all the objects in the array passed to stringifyCSV() have the same keys, this could pose an issue.')
-    // }
-
-    // Map the array of objects to a CSV string
-    const rows = arrayOfObjects.map(obj => {
-      return headers.map(header => {
-        // Handle values that contain commas or newlines
-        const value = `${obj[header]}` // Ensure the value is a string
-        return `"${value.replace(/"/g, '""')}"` // Escape double quotes
+    const rows = arrayOfObjects.map(obj =>
+      headers.map(h => {
+        const value = String(obj[h])
+        return '"' + value.replace(/"/g, '""') + '"'
       }).join(',')
-    })
-    // Combine headers and rows
-    const csv = [
-      headers.join(','), // Join headers to create the header row
-      ...rows // Spread rows array
-    ].join('\n') // Join with newline characters to form the CSV string
-    return csv
+    )
+    return [headers.join(','), ...rows].join('\n')
   }
 
-  static stringifyJSON (data) {
+  static _triggerDownload (filename, href, isObjectURL) {
+    const a = document.createElement('a')
+    a.href = href
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    if (isObjectURL) URL.revokeObjectURL(href)
+  }
+
+  static _blobDownload (str, mimeType, filename) {
+    const blob = new Blob([str], { type: mimeType })
+    const url = URL.createObjectURL(blob)
+    Data._triggerDownload(filename, url, true)
+  }
+
+  static _readFile (file, headers) {
+    const meta = { name: file.name, size: file.size, type: file.type }
+    if (file.type.startsWith('image/') || file.type.startsWith('video/') || file.type.startsWith('audio/')) {
+      return Promise.resolve(Object.assign(meta, { data: URL.createObjectURL(file) }))
+    }
+    return file.text().then(text => {
+      const isCSV = file.type === 'text/csv' || file.name.endsWith('.csv')
+      const isJSON = file.type === 'application/json' || file.name.endsWith('.json')
+      let data
+      if (isCSV) data = Data._parseCSV(text, headers)
+      else if (isJSON) {
+        try { data = JSON.parse(text) } catch (e) { data = text }
+      } else {
+        data = text
+      }
+      return Object.assign(meta, { data })
+    })
+  }
+
+  // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  // public API
+  // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+  static parse (str, options) {
+    if (typeof str !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn.parse: expects a string')
+      return null
+    }
+    const opts = (typeof options === 'object' && options !== null) ? options : {}
+    const headers = opts.headers !== false
+    const trimmed = str.trim()
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+      try {
+        return JSON.parse(str)
+      } catch (e) {
+        console.error('( ◕ ◞ ◕ ) nn.parse: failed to parse as JSON')
+        console.error(e)
+        return null
+      }
+    }
+    return Data._parseCSV(str, headers)
+  }
+
+  static serialize (data, format) {
+    if (format === 'csv') {
+      if (!Array.isArray(data) || !data.every(i => typeof i === 'object' && i !== null && !Array.isArray(i))) {
+        console.error('( ◕ ◞ ◕ ) nn.serialize: CSV format requires an array of objects')
+        return null
+      }
+      return Data._stringifyCSV(data)
+    }
+    if (format === 'json') return JSON.stringify(data)
+    // auto-detect
+    const isArrayOfObjects = Array.isArray(data) &&
+      data.length > 0 &&
+      data.every(item => typeof item === 'object' && item !== null && !Array.isArray(item))
+    if (isArrayOfObjects) return Data._stringifyCSV(data)
     return JSON.stringify(data)
   }
 
-  static parseData (data) {
-    if (typeof data === 'string') {
-      if (data.trim().startsWith('{') || data.trim().startsWith('[')) {
-        try {
-          return this.parseJSON(data)
-        } catch (error) {
-          console.error('( ◕ ◞ ◕ ) nn: there was an error parsing your JSON string')
-          console.error(error)
-        }
-      } else return this.parseCSV(data)
-    } else {
-      return this.parseJSON(data)
+  static download (data, filename) {
+    if (data === null || data === undefined) {
+      console.error('( ◕ ◞ ◕ ) nn.download: first argument cannot be null or undefined')
+      return null
     }
+
+    const isCanvas = data instanceof window.HTMLCanvasElement
+    const isImg = data instanceof window.HTMLImageElement
+    const isSVG = data instanceof window.SVGElement
+    const isEle = data instanceof window.HTMLElement
+    const isStr = typeof data === 'string'
+    const isArrayOfObjects = Array.isArray(data) &&
+      data.length > 0 &&
+      data.every(i => typeof i === 'object' && i !== null && !Array.isArray(i))
+
+    // canvas or image → PNG (or JPG if filename says so)
+    if (isCanvas || isImg) {
+      let canvas = data
+      if (isImg) {
+        canvas = document.createElement('canvas')
+        canvas.width = data.naturalWidth || data.width
+        canvas.height = data.naturalHeight || data.height
+        canvas.getContext('2d').drawImage(data, 0, 0)
+      }
+      const isJPG = filename && /\.jpe?g$/i.test(filename)
+      const ext = isJPG ? 'jpeg' : 'png'
+      const dataURL = canvas.toDataURL('image/' + ext)
+      Data._triggerDownload(filename || ('sketch.' + (isJPG ? 'jpg' : 'png')), dataURL, false)
+      return dataURL
+    }
+
+    // SVG element → .svg
+    if (isSVG) {
+      const str = data.outerHTML
+      Data._blobDownload(str, 'image/svg+xml', filename || 'image.svg')
+      return str
+    }
+
+    // any other DOM element → .html
+    if (isEle) {
+      const str = data.outerHTML
+      Data._blobDownload(str, 'text/html', filename || 'page.html')
+      return str
+    }
+
+    // array of plain objects → .csv
+    if (isArrayOfObjects) {
+      const str = Data._stringifyCSV(data)
+      Data._blobDownload(str, 'text/csv', filename || 'data.csv')
+      return str
+    }
+
+    // any other non-string value → .json
+    if (!isStr) {
+      const str = JSON.stringify(data)
+      Data._blobDownload(str, 'application/json', filename || 'data.json')
+      return str
+    }
+
+    // string: infer filename from content if none provided
+    let name = filename
+    if (!name) {
+      const t = data.trim()
+      if (t.startsWith('<')) name = 'page.html'
+      else if (t.startsWith('{') || t.startsWith('[')) name = 'data.json'
+      else name = 'file.txt'
+    }
+    const ext = name.split('.').pop()
+    const mimeMap = {
+      html: 'text/html',
+      json: 'application/json',
+      csv: 'text/csv',
+      svg: 'image/svg+xml',
+      txt: 'text/plain'
+    }
+    Data._blobDownload(data, mimeMap[ext] || 'text/plain', name)
+    return data
   }
 
-  static stringifyData (data) {
-    // Determine format based on data structure
-    if (Array.isArray(data) && data.every(item => typeof item === 'object' && !Array.isArray(item))) {
-      // Data is an array of objects, suitable for CSV format
-      return this.stringifyCSV(data)
-    } else {
-      return this.stringifyJSON(data)
-    }
-  }
+  static upload (options) {
+    const opts = (typeof options === 'object' && options !== null) ? options : {}
+    const types = opts.types || []
+    const maxSize = opts.maxSize || null
+    const filter = opts.filter || null
+    const multiple = opts.multiple || false
+    const headers = opts.headers !== false
 
-  static async loadData (path, type) {
-    const getExt = (fp) => {
-      const idx = fp.lastIndexOf('.')
-      return (idx === -1) ? '' : fp.substring(idx + 1)
-    }
-    const ext = type || getExt(path)
-    const res = await window.fetch(path)
-    if (ext === 'json') {
-      const data = await res.json()
-      return data
-    } else {
-      const data = await res.text()
-      if (ext === 'csv') return this.parseCSV(data)
-      else return data
-    }
-  }
+    return new Promise(resolve => {
+      const input = document.createElement('input')
+      input.type = 'file'
+      if (types.length > 0) input.accept = types.join(',')
+      if (multiple) input.multiple = true
 
-  /*
-     -- -- -- -- -- -- DATA BINDING METHODS -- -- -- -- --
-  */
-  static bindCSS () {
-    // SETUP DATA-BIND-VAR
-    // --------------------
-    const elements = document.querySelectorAll('[data-bind-var]')
-    elements.forEach(element => {
-      const cssVarName = element.getAttribute('data-bind-var')
+      input.addEventListener('cancel', () => resolve(multiple ? [] : null))
 
-      // Retrieve and parse the current value of the CSS variable
-      const initialStyle = window.getComputedStyle(document.documentElement).getPropertyValue(cssVarName).trim()
-      const unitMatch = initialStyle.match(/[a-z%]+$/i)
-      const initialUnit = unitMatch ? unitMatch[0] : ''
+      input.addEventListener('change', async () => {
+        const files = Array.from(input.files)
 
-      const valueMatch = initialStyle.match(/^-?\d+(\.\d+)?/)
-      const initialValue = valueMatch ? valueMatch[0] : ''
-
-      // Initialize the element's value if a numeric value is present
-      if (initialValue !== '') {
-        element.value = initialValue
-      }
-
-      const updateCSSVar = () => {
-        let value = element.value.trim()
-
-        // Handle numeric and non-numeric values
-        if (initialUnit) {
-          if (!isNaN(value) && value !== '') {
-            value = parseFloat(value) + ''
-            value += initialUnit
+        const results = await Promise.all(files.map(async file => {
+          const meta = { name: file.name, size: file.size, type: file.type }
+          if (maxSize !== null && file.size > maxSize * 1024) {
+            return Object.assign(meta, { error: 'exceeds maxSize of ' + maxSize + 'KB' })
           }
-          // Non-numeric values are assumed to be valid CSS values provided by the user
-        }
-
-        // Update the CSS variable if the value is valid
-        if (value !== '') {
-          document.documentElement.style.setProperty(cssVarName, value)
-        }
-      }
-
-      // Attach event listeners for real-time updates
-      element.addEventListener('input', updateCSSVar)
-      element.addEventListener('change', updateCSSVar)
-    })
-
-    // SETUP BIND-DATA-CLICK
-    // ---------------------
-    const buttons = document.querySelectorAll('[data-bind-click]')
-    buttons.forEach(button => {
-      const bindClickAttr = button.getAttribute('data-bind-click')
-      if (!bindClickAttr) {
-        console.error('Missing data-bind-click attribute on button:', button)
-        return
-      }
-
-      const [cssVarName, action] = bindClickAttr.split(':')
-      if (!action) {
-        console.error('Invalid data-bind-click format on button:', button)
-        return
-      }
-
-      // Parse the action to extract operation and arguments
-      const actionMatch = action.match(/(\w+)\(([^)]+)\)/)
-      if (!actionMatch) {
-        console.error('Invalid action format in data-bind-click:', action)
-        return
-      }
-
-      const [, op, args] = actionMatch
-      const values = args.split(',').map(val => val.trim())
-
-      const updateCSSVar = () => {
-        const currentStyle = window.getComputedStyle(document.documentElement).getPropertyValue(cssVarName).trim()
-        let newValue
-
-        const operation = op.toLowerCase()
-
-        if (operation === 'add' || operation === 'sub') {
-          // Extract unit and numeric value
-          const unitMatch = currentStyle.match(/[a-z%]+$/i)
-          const unit = unitMatch ? unitMatch[0] : ''
-
-          const valueMatch = currentStyle.match(/^-?\d+(\.\d+)?/)
-          const currentValue = valueMatch ? parseFloat(valueMatch[0]) : NaN
-
-          const modifier = parseFloat(values[0])
-
-          if (isNaN(currentValue) || isNaN(modifier)) {
-            console.error(`Invalid numeric values for operation '${op}' on CSS variable '${cssVarName}'.`)
-            return
+          if (types.length > 0) {
+            const matched = types.some(t =>
+              t.endsWith('/*') ? file.type.startsWith(t.slice(0, -1)) : file.type === t
+            )
+            if (!matched) {
+              return Object.assign(meta, { error: 'does not match accepted types' })
+            }
           }
-
-          if (operation === 'add') {
-            newValue = (currentValue + modifier) + unit
-          } else { // 'sub'
-            newValue = (currentValue - modifier) + unit
+          if (filter !== null && !filter(file)) {
+            return Object.assign(meta, { error: 'rejected by filter' })
           }
-        } else if (operation === 'toggle') {
-          if (values.length < 2) {
-            console.error(`Toggle operation requires at least two values. Provided: ${values.length}`)
-            return
-          }
+          return Data._readFile(file, headers)
+        }))
 
-          const normalizedCurrent = currentStyle.toLowerCase()
-          const normalizedValues = values.map(val => val.toLowerCase())
+        resolve(multiple ? results : (results.length > 0 ? results[0] : null))
+      })
 
-          const currentIndex = normalizedValues.indexOf(normalizedCurrent)
-
-          if (currentIndex === 0) {
-            newValue = values[1]
-          } else {
-            newValue = values[0]
-          }
-        } else if (operation === 'cycle') {
-          if (values.length === 0) {
-            console.error('Cycle operation requires at least one value.')
-            return
-          }
-
-          const currentIndex = values.findIndex(val => val === currentStyle)
-          const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % values.length
-          newValue = values[nextIndex]
-        } else {
-          console.error(`Unsupported operation in data-bind-click: ${op}`)
-          return
-        }
-
-        // Update the CSS variable with the new value
-        document.documentElement.style.setProperty(cssVarName, newValue)
-      }
-
-      // Attach click event listener
-      button.addEventListener('click', updateCSSVar)
+      input.click()
     })
   }
 }
@@ -3083,209 +4604,7 @@ class Data {
 if (typeof module !== 'undefined') module.exports = Data
 else window.Data = Data
 
-},{}],7:[function(require,module,exports){
-/* global alert */
-/*
-    FileUploader
-    -----------
-    by Nick Briz <nickbriz@gmail.com>
-    GNU GPLv3 - https://www.gnu.org/licenses/gpl-3.0.txt
-    2019
-
-    -----------
-       info
-    -----------
-
-    this class for quickly handling file uploads via clicking on elements or
-    drag and dropping onto elements.
-
-    -----------
-       usage
-    -----------
-
-    const fu = new FileUploader({
-      maxSize: 1000,                        // limit max file size in kb
-      types: ['image/jpeg','audio/mpeg3'],  // limit allowed file mime types
-      filter: callback,                      // or alternative callback filter
-      click: '#button',                     // selector for clickable element
-      drop: '#background',                  // selector for drag&drop element
-      dropping: callback,                   // runs when file is dragged over
-      dropped: callback,                    // runs when file has been dropped
-      ready: callback,                      // runs when data is ready
-      error: callback,                      // runs when there's an error
-    })
-
-*/
-class FileUploader {
-  constructor (config) {
-    this.clickEle = document.querySelectorAll(config.click)
-    this.dropEle = document.querySelector(config.drop)
-    this.dropping = config.dropping
-    this.dropped = config.dropped
-    this.maxSize = config.maxSize
-    this.types = config.types
-    this.filter = config.filter
-    this.error = config.error
-    this.ready = (typeof config.ready === 'function') ? config.ready
-      : this.err('missing "ready" callback to constructor to handle data')
-
-    if (this.clickEle) this.createClickable()
-
-    if ('draggable' in document.createElement('span')) {
-      if (this.dropEle) {
-        this.dropEle.addEventListener('dragenter', (e) => this.dndEnter(e), false)
-        this.dropEle.addEventListener('dragover', (e) => this.dndOver(e), false)
-        this.dropEle.addEventListener('drop', (e) => this.dndDrop(e), false)
-      }
-    } else {
-      this.err('your browser does not support drag and drop')
-    }
-  }
-
-  err (message) {
-    if (this.error) this.error(message)
-    console.error(`FileUploader: ${message}`)
-  }
-
-  createClickable () {
-    this.input = document.createElement('input')
-    this.input.setAttribute('type', 'file')
-    this.input.setAttribute('hidden', true)
-    document.body.appendChild(this.input)
-    this.input.addEventListener('change', (e) => {
-      this.readFile(this.input.files[0])
-    })
-    for (let i = 0; i < this.clickEle.length; i++) {
-      this.clickEle[i].addEventListener('click', () => {
-        this.input.click()
-      })
-    }
-  }
-
-  dndEnter (e) {
-    e.stopPropagation()
-    e.preventDefault()
-    if (this.dropping) this.dropping(this.dropEle)
-  }
-
-  dndOver (e) {
-    e.stopPropagation()
-    e.preventDefault()
-  }
-
-  dndDrop (e) {
-    e.stopPropagation()
-    e.preventDefault()
-    if (this.dropped) this.dropped(this.dropEle)
-    if (e.dataTransfer.files.length > 1) {
-      alert('You can only drag and drop one file at a time.')
-    } else this.readFile(e.dataTransfer.files[0])
-  }
-
-  isAllowed (type) {
-    if (this.types) {
-      return this.types.indexOf(type) > -1
-    } else if (this.filter) {
-      return this.filter(type)
-    } else return true
-  }
-
-  readFile (file) {
-    const maxBytes = (this.maxSize) ? this.maxSize * 1000 : Infinity
-    if (typeof FileReader !== 'undefined' &&
-      this.isAllowed(file.type) &&
-      file.size <= maxBytes) {
-      const reader = new window.FileReader()
-      reader.onload = (e) => {
-        this.handleFile(file.name, file.type, e.target.result)
-      }
-      reader.readAsDataURL(file)
-    } else {
-      if (typeof FileReader === 'undefined' && this.error) {
-        this.error('browser does not support FileReader')
-      } else if (!this.isAllowed(file.type)) {
-        this.error(`attempted to upload restricted file type ${file.type}`)
-      } else if (file.size > maxBytes) {
-        this.error(`file larger than max size of ${maxBytes}`)
-      }
-    }
-  }
-
-  handleFile (name, type, data) {
-    this.ready({ name, type, data })
-  }
-}
-
-if (typeof module !== 'undefined') module.exports = FileUploader
-
-},{}],8:[function(require,module,exports){
-/*
-    Maths
-    -----------
-    by Nick Briz <nickbriz@gmail.com>
-    GNU GPLv3 - https://www.gnu.org/licenses/gpl-3.0.txt
-    2019
-
-    -----------
-       info
-    -----------
-
-    A vanilla JS class with Math functions not included in the JS standard
-    library Math object
-
-    -----------
-       usage
-    -----------
-
-    Maths.norm(value, min, max)
-    Maths.clamp(value, min, max)
-    Maths.lerp(valueA, valueB, t)
-    Maths.map(value, sourceMin, sourceMax, destMin, destMax)
-
-    Maths.dist(p1x, p1y, p2x, p2y)
-    Maths.angleBtw(p1x, p1y, p2x, p2y)
-
-    Maths.radToDeg(radians)
-    Maths.degToRad(degrees)
-    Maths.cartesianToPolar(x, y)
-    Maths.polarToCartesian(distance, angle)
-
-    Maths.shuffle(array)
-    Maths.randomInt(min, max)
-    Maths.randomFloat(min, max)
-    Maths.random(val, val2)
-    Maths.perlin()
-
-    Maths.easeInQuad(t)
-    Maths.easeOutQuad(t)
-    Maths.easeInOutQuad(t)
-    Maths.easeInCubic(t)
-    Maths.easeOutCubic(t)
-    Maths.easeInOutCubic(t)
-    Maths.easeInQuart(t)
-    Maths.easeOutQuart(t)
-    Maths.easeInOutQuart(t)
-    Maths.easeInQuint(t)
-    Maths.easeOutQuint(t)
-    Maths.easeInOutQuint(t)
-    Maths.easeInSine(t)
-    Maths.easeOutSine(t)
-    Maths.easeInOutSine(t)
-    Maths.easeInCirc(t)
-    Maths.easeOutCirc(t)
-    Maths.easeInOutCirc(t)
-    Maths.easeInElastic(t)
-    Maths.easeOutElastic(t)
-    Maths.easeInOutElastic(t)
-    Maths.easeInExpo(t)
-    Maths.easeOutExpo(t)
-    Maths.easeInOutExpo(t)
-    Maths.easeInBack(t)
-    Maths.easeOutBack(t)
-    Maths.easeInOutBack(t)
-    Maths.easeInBounce(t)
-    Maths.easeOutBounce(t)
-*/
+},{}],12:[function(require,module,exports){
 class Maths {
   static norm (value, min, max) { return (value - min) / (max - min) }
 
@@ -3300,11 +4619,14 @@ class Maths {
   }
 
   static dist (p1x, p1y, p2x, p2y) {
+    if (typeof p2x === 'undefined' && typeof p2y === 'undefined') {
+      return Math.abs(p1x - p1y)
+    }
     return Math.sqrt(Math.pow(p2x - p1x, 2) + Math.pow(p2y - p1y, 2))
   }
 
   static angleBtw (p1x, p1y, p2x, p2y) {
-    return Math.atan2(p2x - p1x, p2y - p1y)
+    return Math.atan2(p2y - p1y, p2x - p1x)
   }
 
   // ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ . _ . ~ * ~ .
@@ -3358,27 +4680,59 @@ class Maths {
   }
 
   static random (val, val2) {
-    if (val instanceof Array) {
+    const err = msg => console.error(`( ◕ ◞ ◕ ) nn: ${msg}`)
+    const warn = msg => console.warn(`( ◕ ◞ ◕ ) nn: ${msg}`)
+    // no args → random float in [0, 1)
+    if (typeof val === 'undefined' && typeof val2 === 'undefined') {
+      return this.randomFloat(0, 1)
+    }
+    // array → random item
+    if (Array.isArray(val)) {
+      if (val.length === 0) {
+        err('the first argument to .random() was an empty array, add at least one item.')
+        return undefined
+      }
       return val[Math.floor(Math.random() * val.length)]
-    } else if (typeof val === 'string') {
+    }
+    // string → random word; if single word, random char
+    if (typeof val === 'string') {
+      if (!/\S/u.test(val)) {
+        err('the first argument to .random() was an empty/whitespace-only string, add some letters or words.')
+        return undefined
+      }
       const words = val.match(/\S+/gu) || []
-      if (words.length === 0) return undefined
       if (words.length === 1) {
         const chars = Array.from(words[0])
         return chars[Math.floor(Math.random() * chars.length)]
       }
       return words[Math.floor(Math.random() * words.length)]
-    } else {
-      let min, max
-      if (typeof val !== 'undefined' && typeof val2 === 'undefined') {
-        min = 0; max = val
-      } else if (typeof val !== 'undefined' && typeof val2 !== 'undefined') {
-        min = val; max = val2
-      } else {
-        min = 0; max = 1
-      }
-      return this.randomFloat(min, max)
     }
+    // number(s) → random float in range
+    if (typeof val === 'number') {
+      if (!Number.isFinite(val)) {
+        err('the first argument to .random() must be a finite number.')
+        return undefined
+      }
+      if (typeof val2 === 'undefined') {
+        return this.randomFloat(0, val)
+      }
+      if (typeof val2 !== 'number' || !Number.isFinite(val2)) {
+        err('when the first argument in .random() is a number, the second argument (max) must also be a finite number.')
+        return undefined
+      }
+      if (val === val2) {
+        warn('you passed identical min and max to the .random() method, returning that exact value.')
+        return val
+      }
+      if (val > val2) {
+        warn('you passed a min that was greater than max to the .random() method, so I swapped them for you.')
+        return this.randomFloat(val2, val)
+      }
+      return this.randomFloat(val, val2)
+    }
+    // anything else
+    err('the first argument to .random() should be an Array, String, Number, or nothing.')
+    return undefined
   }
 
   static perlin () { // via: https://github.com/joeiddon/perlin
@@ -3407,9 +4761,9 @@ class Maths {
       seed: function () {
         this.gradients = {}
       },
+      gradients: {},
       memory: {},
-      get: function (x, y) {
-        y = y || 0
+      get: function (x, y = 0) {
         const hasIt = Object.prototype.hasOwnProperty.call(this.memory, [x, y])
         if (hasIt) return this.memory[[x, y]]
         const xf = Math.floor(x)
@@ -3589,8 +4943,28 @@ class Maths {
 
 if (typeof module !== 'undefined') module.exports = Maths
 
-},{}],9:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 class Media {
+  static popup (url, xOrObj, y, w, h) {
+    if (typeof url !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn.popup: first argument must be a URL string')
+      return null
+    }
+    let px = 0; let py = 0; let pw = 400; let ph = 300
+    if (typeof xOrObj === 'object' && xOrObj !== null) {
+      if (xOrObj.left !== undefined) px = xOrObj.left
+      if (xOrObj.top !== undefined) py = xOrObj.top
+      if (xOrObj.width !== undefined) pw = xOrObj.width
+      if (xOrObj.height !== undefined) ph = xOrObj.height
+    } else {
+      if (typeof xOrObj === 'number') px = xOrObj
+      if (typeof y === 'number') py = y
+      if (typeof w === 'number') pw = w
+      if (typeof h === 'number') ph = h
+    }
+    return window.open(url, '_blank', `width=${pw},height=${ph},left=${px},top=${py}`)
+  }
+
   static loadImage (url) {
     return new Promise((resolve, reject) => {
       // const img = new window.Image()
@@ -3601,33 +4975,50 @@ class Media {
     })
   }
 
-  static async modifyPixels (image, algorithm) {
-    // validation
-    if (typeof image === 'string') {
-      if (image.indexOf('data:image') !== 0) {
-        console.error('( ◕ ◞ ◕ ) nn.modifyPixels: string data passed into the first argument must be a base64 encoded image')
-      }
-    } else if (!(image instanceof window.Image)) {
-      console.error('( ◕ ◞ ◕ ) nn.modifyPixels: the first argument must either be a base64 encoded image or an HTML image element')
-    }
-
+  static async filterImage (image, algorithm, opts = {}) {
     if (typeof algorithm !== 'function') {
-      console.error('( ◕ ◞ ◕ ) nn.modifyPixels: the second argument must be a function, the algorithm you want to use to process the image')
+      console.error('( ◕ ◞ ◕ ) nn.filterImage: the second argument must be a function')
+      return
     }
-    // ..........
+
+    const isImg = image instanceof window.HTMLImageElement
+    const isString = typeof image === 'string'
+
+    if (!isImg && !isString) {
+      console.error('( ◕ ◞ ◕ ) nn.filterImage: first argument must be an <img> element or a base64 data URL string')
+      return
+    }
+    if (isString && image.indexOf('data:image') !== 0) {
+      console.error('( ◕ ◞ ◕ ) nn.filterImage: string data must be a base64 encoded data URL')
+      return
+    }
+
+    // load base64 string into an image element first
+    if (isString) image = await window.nn.loadImage(image)
+
     const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-
-    if (!(image instanceof window.Image)) {
-      image = await window.nn.loadImage(image)
-    }
-
     canvas.width = image.width
     canvas.height = image.height
+
+    const ctx = canvas.getContext('2d')
     ctx.drawImage(image, 0, 0)
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-    const imgdata = imageData.data
-    algorithm(imgdata)
+    const d = imageData.data
+
+    if (opts.raw) {
+      algorithm(d)
+    } else {
+      const pixels = []
+      for (let i = 0; i < d.length; i += 4) {
+        pixels.push({ r: d[i], g: d[i + 1], b: d[i + 2], a: d[i + 3] })
+      }
+      algorithm(pixels)
+      for (let i = 0; i < d.length; i += 4) {
+        const px = pixels[i / 4]
+        d[i] = px.r; d[i + 1] = px.g; d[i + 2] = px.b; d[i + 3] = px.a
+      }
+    }
+
     ctx.putImageData(imageData, 0, 0)
     const data = canvas.toDataURL()
     image.src = data
@@ -3635,42 +5026,169 @@ class Media {
     return { image, canvas, data }
   }
 
-  static async askFor (opts) {
-    // just an alias for "askForStream" for now
-    return await this.askForStream(opts)
+  static filterVideo (video, algorithm, opts = {}) {
+    if (!(video instanceof window.HTMLVideoElement)) {
+      console.error('( ◕ ◞ ◕ ) nn.filterVideo: first argument must be a <video> element')
+      return null
+    }
+    if (algorithm !== null && typeof algorithm !== 'function') {
+      console.error('( ◕ ◞ ◕ ) nn.filterVideo: second argument must be a function or null')
+      return null
+    }
+
+    const canvas = this.create('canvas')
+    const ctx = canvas.getContext('2d')
+    let rafId = null
+    let currentAlgorithm = algorithm
+    let currentRaw = !!opts.raw
+    let explicitSize = false // set to true once .size() is called externally
+
+    function tick () {
+      rafId = requestAnimationFrame(tick)
+      const vw = video.videoWidth || video.width
+      const vh = video.videoHeight || video.height
+      if (vw === 0 || vh === 0) return // video not ready yet
+      // auto-sync to native dimensions each frame unless the caller has
+      // explicitly resized the canvas via .size() — in that case, respect it
+      // and scale the video content to fit instead
+      if (!explicitSize) {
+        if (canvas.width !== vw) canvas.width = vw
+        if (canvas.height !== vh) canvas.height = vh
+      }
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+      if (currentAlgorithm) {
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+        const d = imageData.data
+        if (currentRaw) {
+          currentAlgorithm(d)
+        } else {
+          const pixels = []
+          for (let i = 0; i < d.length; i += 4) {
+            pixels.push({ r: d[i], g: d[i + 1], b: d[i + 2], a: d[i + 3] })
+          }
+          currentAlgorithm(pixels)
+          for (let i = 0; i < d.length; i += 4) {
+            const px = pixels[i / 4]
+            d[i] = px.r; d[i + 1] = px.g; d[i + 2] = px.b; d[i + 3] = px.a
+          }
+        }
+        ctx.putImageData(imageData, 0, 0)
+      }
+    }
+
+    rafId = requestAnimationFrame(tick)
+
+    canvas.update = function (fn, updateOpts = {}) {
+      if (fn !== null && typeof fn !== 'function') {
+        console.error('( ◕ ◞ ◕ ) nn.filterVideo: update() expects a function or null')
+        return
+      }
+      currentAlgorithm = fn
+      if (updateOpts.raw !== undefined) currentRaw = !!updateOpts.raw
+    }
+    canvas.stop = function () { cancelAnimationFrame(rafId) }
+
+    // wrap .size() and .resize() so calling either opts out of auto-sync
+    const _size = canvas.size.bind(canvas)
+    canvas.size = canvas.resize = function (w, h) {
+      explicitSize = true
+      return _size(w, h)
+    }
+
+    return canvas
+  }
+
+  // unified entry point — dispatches to the appropriate dedicated method.
+  // an optional callback can be passed as the second argument to avoid async/await.
+  static async askFor (type, callback) {
+    if (typeof type !== 'string') {
+      console.error('( ◕ ◞ ◕ ) nn.askFor: first argument must be a string, e.g. nn.askFor(\'video\') or nn.askFor(\'gps\')')
+      return null
+    }
+    let result
+    if (type === 'video') result = await this.askForStream({ video: true })
+    else if (type === 'audio') result = await this.askForStream({ audio: true })
+    else if (type === 'capture') result = await this.askForCapture()
+    else if (type === 'gps') return await this.askForGPS(callback) // handles callback internally
+    else if (type === 'notifications') result = await this.askForNotifications()
+    else if (type === 'clipboard') result = await this.askForClipboard()
+    else if (type === 'bluetooth') result = await this.askForBluetooth()
+    else if (type === 'usb') result = await this.askForUSB()
+    else if (type === 'serial') result = await this.askForSerial()
+    else if (type === 'motion') result = await this.askForMotion()
+    else if (type === 'orientation') result = await this.askForOrientation()
+    else {
+      console.error('( ◕ ◞ ◕ ) nn.askFor: unrecognised type \'' + type + '\' — valid values are: video, audio, capture, gps, notifications, clipboard, bluetooth, usb, serial, motion, orientation')
+      return null
+    }
+    if (typeof callback === 'function') callback(result)
+    return result
   }
 
   static async askForStream (constraints) {
     if (typeof constraints !== 'object' || constraints === null) {
-      console.error('( ◕ ◞ ◕ ) nn.askFor: you forgot to pass an argument, should be something like { video: true }')
+      console.error('( ◕ ◞ ◕ ) nn.askForStream: pass a constraints object, e.g. { video: true } or { audio: true, video: true }')
+      return null
     }
-
     const { audio, video } = constraints
-
     if (audio === undefined && video === undefined) {
-      console.error('( ◕ ◞ ◕ ) nn.askFor: the object you passed must have at least an audio or video property.')
+      console.error('( ◕ ◞ ◕ ) nn.askForStream: the constraints object must have at least an audio or video property')
+      return null
     }
-
-    const validateMediaConstraints = (media, mediaName) => {
-      if (typeof media === 'boolean') {
-        return null
-      } else if (typeof media === 'object' && media !== null) {
-        return null
-      } else {
-        return `${mediaName} property should be either true, false or an object with media parameters`
+    const validate = (v, name) => {
+      if (typeof v !== 'boolean' && (typeof v !== 'object' || v === null)) {
+        console.error(`( ◕ ◞ ◕ ) nn.askForStream: ${name} must be true, false, or a constraints object`)
       }
     }
+    if (audio !== undefined) validate(audio, 'audio')
+    if (video !== undefined) validate(video, 'video')
+    return await navigator.mediaDevices.getUserMedia(constraints)
+  }
 
-    if (audio) {
-      const err = validateMediaConstraints(audio, 'audio')
-      if (err) console.error(`( ◕ ◞ ◕ ) nn.askFor: ${err}`)
-    } else if (video) {
-      const err = validateMediaConstraints(video, 'video')
-      if (err) console.error(`( ◕ ◞ ◕ ) nn.askFor: ${err}`)
+  static async askForCapture (constraints) {
+    const opts = (typeof constraints === 'object' && constraints !== null) ? constraints : {}
+    return await navigator.mediaDevices.getDisplayMedia(opts)
+  }
+
+  static async askForNotifications () {
+    return await window.Notification.requestPermission()
+  }
+
+  static async askForClipboard () {
+    return await navigator.clipboard.readText()
+  }
+
+  static async askForBluetooth (filters) {
+    const params = (typeof filters === 'object' && filters !== null)
+      ? filters
+      : { acceptAllDevices: true }
+    return await navigator.bluetooth.requestDevice(params)
+  }
+
+  static async askForUSB (filters) {
+    const f = (typeof filters === 'object' && filters !== null) ? [filters] : []
+    return await navigator.usb.requestDevice({ filters: f })
+  }
+
+  static async askForSerial (filters) {
+    const f = (typeof filters === 'object' && filters !== null) ? [filters] : []
+    return await navigator.serial.requestPort({ filters: f })
+  }
+
+  static async askForMotion () {
+    if (typeof window.DeviceMotionEvent !== 'undefined' &&
+        typeof window.DeviceMotionEvent.requestPermission === 'function') {
+      return await window.DeviceMotionEvent.requestPermission()
     }
+    return 'granted' // non-iOS devices don't require explicit permission
+  }
 
-    const stream = await navigator.mediaDevices.getUserMedia(constraints)
-    return stream
+  static async askForOrientation () {
+    if (typeof window.DeviceOrientationEvent !== 'undefined' &&
+        typeof window.DeviceOrientationEvent.requestPermission === 'function') {
+      return await window.DeviceOrientationEvent.requestPermission()
+    }
+    return 'granted' // non-iOS devices don't require explicit permission
   }
 
   static MIDI (func) {
@@ -3691,6 +5209,66 @@ class Media {
     navigator.requestMIDIAccess()
       .then(onMIDISuccess)
       .catch(err => console.error(`( ◕ ◞ ◕ ) nn.MIDI: ${err}`))
+  }
+
+  static hyper (media) {
+    if (!media || typeof media.currentTime === 'undefined') {
+      console.error('( ◕ ◞ ◕ ) nn.hyper: first argument must be an audio or video element')
+      return null
+    }
+
+    const cues = []
+    let lastTime = 0
+    let isSeeking = false
+
+    // while seeking, suppress timeupdate checks
+    media.addEventListener('seeking', () => { isSeeking = true })
+    // once the seek lands, update lastTime so cues between old and new
+    // positions are not retroactively fired
+    media.addEventListener('seeked', () => {
+      isSeeking = false
+      lastTime = media.currentTime
+    })
+    // on each tick, fire any cues the playhead has naturally passed over
+    media.addEventListener('timeupdate', () => {
+      if (isSeeking) return
+      const current = media.currentTime
+      cues.forEach(cue => {
+        if (cue.time > lastTime && cue.time <= current) cue.fn()
+      })
+      lastTime = current
+    })
+
+    const watcher = {
+      at (time, fn) {
+        if (typeof time !== 'number') {
+          console.error('( ◕ ◞ ◕ ) nn.hyper().at: first argument must be a number (time in seconds)')
+          return this
+        }
+        if (typeof fn !== 'function') {
+          console.error('( ◕ ◞ ◕ ) nn.hyper().at: second argument must be a function')
+          return this
+        }
+        cues.push({ time, fn })
+        return this
+      },
+      off (time, fn) {
+        if (typeof time !== 'number') {
+          console.error('( ◕ ◞ ◕ ) nn.hyper().off: first argument must be a number (time in seconds)')
+          return this
+        }
+        if (typeof fn !== 'function') {
+          console.error('( ◕ ◞ ◕ ) nn.hyper().off: second argument must be a function')
+          return this
+        }
+        // remove the first cue that matches both time and fn reference
+        const idx = cues.findIndex(c => c.time === time && c.fn === fn)
+        if (idx !== -1) cues.splice(idx, 1)
+        return this
+      }
+    }
+
+    return watcher
   }
 
   static askForGPS (callbackOrOptions, maybeOptions) {
@@ -3750,7 +5328,7 @@ class Media {
 if (typeof module !== 'undefined') module.exports = Media
 else window.Media = Media
 
-},{}],10:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 class Music {
   static noteToMidi (note) {
     const noteRegex = /^([A-G])(b|#)?(\d+)$/
@@ -4042,1790 +5620,67 @@ Music.MODES = {
 if (typeof module !== 'undefined') module.exports = Music
 else window.Music = Music
 
-},{}],11:[function(require,module,exports){
-const Maths = require('./Maths/Maths.js')
-const Averigua = require('./Averigua/Averigua.js')
-const Color = require('./Color/Color.js')
-const Music = require('./Music/nn-music.js')
-const Media = require('./Media/nn-media.js')
-const DOM = require('./DOM/nn-dom.js')
-const Data = require('./Data/nn-data.js')
-const Bind = require('./Bind/data-bind.js')
-
-window.nn = {
-  _mouseX: 0,
-  _mouseY: 0,
-  _mouseDown: false,
-  _trackingMouse: false,
-  _trackMouse: function () {
-    window.addEventListener('mousemove', (e) => {
-      this._mouseX = e.clientX
-      this._mouseY = e.clientY
-    })
-    window.addEventListener('mousedown', (e) => {
-      this._mouseDown = true
-    })
-    window.addEventListener('mouseup', (e) => {
-      this._mouseDown = false
-    })
-    this._trackingMouse = true
-  },
-  /**
-  * This property (or internal `nn` variable) is used to check the mouse's current "x" (horizontal) position, or the number of pixels from the left of the browser window to the mouse.
-  *
-  * @name mouseX
-  */
-  get mouseX () {
-    if (!this._trackingMouse) this._trackMouse()
-    return this._mouseX
-  },
-  set mouseX (v) {
-    return console.error('( ◕ ◞ ◕ ) nn: mouseX is a read-only property')
-  },
-  /**
-  * This property (or internal `nn` variable) is used to check the mouse's current "y" (vertical) position, or the number of pixels from the top of the browser window to the mouse.
-  *
-  * @name mouseY
-  */
-  get mouseY () {
-    if (!this._trackingMouse) this._trackMouse()
-    return this._mouseY
-  },
-  set mouseY (v) {
-    return console.error('( ◕ ◞ ◕ ) nn: mouseY is a read-only property')
-  },
-  /**
-  * This property (or internal `nn` variable) is used to check the mouse is currently pressed down or not.
-  *
-  * @name mouseDown
-  */
-  get mouseDown () {
-    if (!this._trackingMouse) this._trackMouse()
-    return this._mouseDown
-  },
-  set mouseDown (v) {
-    return console.error('( ◕ ◞ ◕ ) nn: mouseDown is a read-only property')
-  },
-  /**
-  * This property (or internal `nn` variable) is used to check the browser window's current width
-  *
-  * @name width
-  */
-  get width () { return window.innerWidth },
-  set width (v) {
-    return console.error('( ◕ ◞ ◕ ) nn: width is a read-only property')
-  },
-  /**
-  * This property (or internal `nn` variable) is used to check the browser window's current height
-  *
-  * @name height
-  */
-  get height () { return window.innerHeight },
-  set height (v) {
-    return console.error('( ◕ ◞ ◕ ) nn: height is a read-only property')
-  },
-
-  /**
-  * This method is an alias for `window.addEventListener()`
-  *
-  * @method on
-  * @return {undefined} returns undefined
-  * @example
-  * nn.on('load', () => console.log('the page has loaded!'))
-  */
-  on: DOM.on,
-
-  /**
-  * This method is an alias for `window.removeEventListener()` and is the companion to `nn.on()`.
-  * Pass the same function reference you used with `nn.on()` to remove it.
-  *
-  * @method off
-  * @return {undefined} returns undefined
-  * @example
-  * const onResize = () => console.log('resized')
-  * nn.on('resize', onResize)
-  * // later...
-  * nn.off('resize', onResize)
-  */
-  off: DOM.off,
-
-  /**
-  * This function acts as an alias for the [document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement) method, except that it returns an "overloaded" HTMLElement with a few additional methods, `.content()` a method for adding content to the element (text or other HTML elements), `.set()` for applying an object of HTML attributes to the element, `.css()` for applying an object similar to a CSS rule to the element, `.addTo()` a method for appending the element to another (it will also remove it from it's current parent if necessary) and `.on()`, an alias for [.addEventListener()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
-  *
-  * @method create
-  * @return {Object} an overloaded instance of an HTMLElement
-  * @example
-  * // this creates a div with red "hello world" text and adds it to the body of our page
-  * // essentially: <div style="color: red">hello world</div>
-  * nn.create('div').content('hello world').css({ color: 'red' }).addTo('body')
-  */
-
-  create: DOM.create,
-
-  /**
-  * This function acts as an alias for the [document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
-  *
-  * @method get
-  * @return {Object} an overloaded instance of an HTMLElement
-  * @example
-  * // assuming the page has some <h1> in it
-  * nn.get('h1').on('click', () => console.log('the h1 was clicked!'))
-  */
-  get: DOM.get,
-
-  /**
-  * This function acts as an alias for the [document.querySelectorAll()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) method, except that it returns an "overloaded" HTMLElement, see the `create` method above for more info.
-  *
-  * @method getAll
-  * @return {Object} an array of overloaded instances of an HTMLElements
-  * @example
-  * // assuming the page has a few <a> elements
-  * // this changes the content of the third link
-  * nn.getAll('a')[2].content('new text!')
-  */
-  getAll: DOM.getAll,
-
-  /**
-  * This function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
-  *
-  * @method loadImage
-  * @return {Object} A Promise that resolves to an image element
-  * @example
-  * async function main () {
-  *   const img = await nn.loadImage(imageDataURL)
-  *   document.body.appendChild(img)
-  * }
-  *
-  * nn.on('load', main)
-  */
-  loadImage: Media.loadImage,
-
-  /**
-  * This function takes an image/data url and returns a promise with an image element containing the loaded image. It's essentially a promise-based alternative to the standard image load event.
-  *
-  * @method modifyPixels
-  * @return {Object} A Promise that results to an object with three variations of the algorithmically processed image: data (base64 image data), image (HTML image element) and canvas (HTML5 canvas element)
-  * @example
-  * new nn.FileUploader({
-  *   click: 'button', // a button element in the HTML document
-  *   ready: async (file) => {
-  *     const obj = await nn.modifyPixels(file.data, (pixels) => {
-  *       // this algorithm inverts the image
-  *       for (let i = 0; i < pixels.length; i += 4) {
-  *         pixels[i] = 255 - pixels[i] // red
-  *         pixels[i + 1] = 255 - pixels[i + 1] // green
-  *         pixels[i + 2] = 255 - pixels[i + 2] // blue
-  *       }
-  *     })
-  *     console.log(obj)
-  *     document.body.appendChild(obj.image)
-  *   }
-  * })
-  */
-  modifyPixels: Media.modifyPixels,
-
-  /**
-  * This function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation. This is an alias for `nn.askForStream()`
-  *
-  * @method askFor
-  * @return {Object} A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)
-  * @example
-  * async function main () {
-  *   const stream = await nn.askFor({ video: true })
-  *   // assuming "video" is an instance of a video element
-  *   video.srcObject = stream
-  * }
-  *
-  * nn.on('load', main)
-  */
-  askFor: Media.askFor,
-
-  /**
-  * This function is an alias for the Web's [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) with some additional beginner friendly argument validation.
-  *
-  * @method askForStream
-  * @return {Object} A Promise that resolves to a stream object (exactly like the Web's getUserMedia API)
-  * @example
-  * async function main () {
-  *   const stream = await nn.askForStream({ video: true })
-  *   // assuming "video" is an instance of a video element
-  *   video.srcObject = stream
-  * }
-  *
-  * nn.on('load', main)
-  */
-  askForStream: Media.askForStream,
-
-  /**
-  * This function abstracts the Web's [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition). It will only work on a GPS enabled device and web browser.
-  *
-  * @method askForGPS
-  * @return {Object} an object contaning `lat` and `lng` properties, as well as a `timestampe` and a `coords` property which contains [GeolocationCoordinates](https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates) object.
-  * @example
-  *
-  * nn.askForGPS((data) => {
-  *   console.log(data.lat, data.lng)
-  * })
-  *
-  * // or like this....
-  * async function getData () {
-  *   const data = await nn.askForGPS()
-  *   console.log(data.lat, data.lng)
-  * }
-  *
-  * nn.on('load', main)
-  */
-  askForGPS: Media.askForGPS,
-
-  /**
-  * This function abstracts the Web's [MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API). It will only work on a MIDI enabled web browser.
-  *
-  * @method MIDI
-  * @return {undefined} doesn't return anything
-  * @example
-  *   if (nn.hasMIDI() === true) {
-  *     nn.MIDI(msg => {
-  *       console.log(`device: ${msg.dev}, channel: ${msg.chl}, value: ${msg.val}`)
-  *     })
-  *   }
-  */
-  MIDI: Media.MIDI,
-
-  /**
-   * Array of note names for each chromatic semitone index (0 = C … 11 = B)
-   *
-   * @property notes
-   * @type {string[]}
-   * @example
-   * nn.notes
-   * // → ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
-   */
-  notes: Music.SEMITONE_TO_NOTE,
-
-  /**
-   * Map of mode names to their interval patterns (in semitones)
-   *
-   * @property modes
-   * @type {Object.<string, number[]>}
-   * @example
-   * nn.modes.major
-   * // → [2,2,1,2,2,2,1]
-   */
-  modes: Music.MODES,
-
-  /**
-   * Predefined chord shapes by name, expressed as scale degrees
-   *
-   * @property chords
-   * @type {Object.<string, number[]>}
-   * @example
-   * nn.chords.triad
-   * // → [1,3,5]
-   */
-  chords: Music.CHORDS,
-
-  /**
-   * Convert a note (e.g. 'C4', 'G#3', 'Bb5') to its MIDI note number
-   *
-   * @method noteToMidi
-   * @param {string} note A note in scientific pitch notation
-   * @return {number|null} MIDI note number (0–127) or null if invalid
-   * @example
-   * nn.noteToMidi('A4')
-   * // → 69
-   */
-  noteToMidi: Music.noteToMidi,
-
-  /**
-   * Convert a note (e.g. 'C4', 'F#2') to its frequency in hertz
-   *
-   * @method noteToFrequency
-   * @param {string} note A note in scientific pitch notation
-   * @return {number|null} Frequency in Hz or null if invalid
-   * @example
-   * nn.noteToFrequency('A4')
-   * // → 440
-   */
-  noteToFrequency: Music.noteToFrequency,
-
-  /**
-   * Convert a MIDI note number to its note name in scientific pitch notation
-   *
-   * @method midiToNote
-   * @param {number} midi MIDI note number
-   * @return {string|null} Note like 'C4', or null if invalid
-   * @example
-   * nn.midiToNote(60)
-   * // → 'C4'
-   */
-  midiToNote: Music.midiToNote,
-
-  /**
-   * Convert a MIDI note number to its frequency in hertz
-   *
-   * @method midiToFrequency
-   * @param {number} midi MIDI note number
-   * @return {number|null} Frequency in Hz or null if invalid
-   * @example
-   * nn.midiToFrequency(69)
-   * // → 440
-   */
-  midiToFrequency: Music.midiToFrequency,
-
-  /**
-   * Convert a frequency in hertz to the nearest MIDI note number
-   *
-   * @method frequencyToMidi
-   * @param {number} frequency Frequency in Hz
-   * @return {number|null} MIDI note number or null if invalid
-   * @example
-   * nn.frequencyToMidi(440)
-   * // → 69
-   */
-  frequencyToMidi: Music.frequencyToMidi,
-
-  /**
-   * Convert a frequency in hertz to the nearest note in scientific pitch notation
-   *
-   * @method frequencyToNote
-   * @param {number} frequency Frequency in Hz
-   * @return {string|null} Note like 'A4' or null if invalid
-   * @example
-   * nn.frequencyToNote(261.63)
-   * // → 'C4'
-   */
-  frequencyToNote: Music.frequencyToNote,
-
-  /**
-   * Generate a random seven-step mode that spans exactly one octave (12 semitones)
-   *
-   * @method randomMode
-   * @return {number[]} Array of 7 intervals summing to 12
-   * @example
-   * nn.randomMode()
-   * // → [2,1,2,2,2,1,2]
-   */
-  randomMode: Music.randomMode,
-
-  /**
-   * Build a scale from a root pitch or pitch-class and a mode name or array of intervals.
-   * By default returns one octave worth of degrees (no terminal octave). Pass `true` as the third
-   * argument to include the terminal octave at the end.
-   *
-   * @method createScale
-   * @param {string} root Root like 'C', 'F#3', 'Bb4'
-   * @param {string|number[]} mode Mode name (e.g. 'ionian', 'minor', 'random') or custom steps array
-   * @param {boolean} [includeEndOctave=false] If true, include the top octave note at the end
-   * @return {string[]|null} Array of notes (with octave if provided) or null if invalid
-   * @example
-   * // Default (no terminal octave)
-   * nn.createScale('C4', 'major')
-   * // → ['C4','D4','E4','F4','G4','A4','B4']
-   * nn.createScale('D', 'dorian')
-   * // → ['D','E','F','G','A','B','C']
-   *
-   * // Include terminal octave
-   * nn.createScale('C4', 'major', true)
-   * // → ['C4','D4','E4','F4','G4','A4','B4','C5']
-   */
-  createScale: Music.createScale,
-
-  /**
-   * Create an array of notes in a chord by selecting from a scale
-   *
-   * @method createChord
-   * @param {string[]} scale Array of notes forming a scale
-   * @param {string|number[]} ch Name of a chord shape (e.g. 'triad') or array of degree values
-   * @return {string[]} Array of chord notes
-   * @example
-   * const cMajorScale = nn.createScale('C4', 'major')
-   * const cMajorTriad = nn.createChord(cMajorScale, 'triad')
-   * console.log(cMajorTriad)
-   * // → ['C4','E4','G4']
-   */
-  createChord: Music.createChord,
-
-  /**
-   * Voice a chord upward into strictly ascending notes.
-   * Accepts note names (with or without octave) or MIDI numbers.
-   * - If a note includes an octave (e.g., 'E3'), it is used as-is and lifted by octaves only if needed
-   *   to keep the sequence strictly ascending.
-   * - If a note is a pitch-class only (e.g., 'G', 'Bb'), `oct` seeds the starting octave and is advanced
-   *   as needed to maintain ascending order.
-   * - If a note is a number, it is treated as MIDI and returned as MIDI; numbers are lifted by 12 as needed.
-   *
-   * @method voiceChord
-   * @param {Array<string|number>} ch Array of chord tones (e.g., ['C','E','G'] or [60,64,67])
-   * @param {number} [oct=4] Starting octave for pitch-classes (ignored for MIDI or notes with octave)
-   * @return {Array<string|number>} Ascending chord tones (note names with octave, or MIDI numbers)
-   * @example
-   * // Pitch-classes (no octaves)
-   * nn.voiceChord(['C','E','G'])
-   * // → ['C4','E4','G4']
-   *
-   * // Out-of-order input is lifted to ascend
-   * nn.voiceChord(['C','G','E'])
-   * // → ['C4','G4','E5']
-   *
-   * // MIDI in → MIDI out
-   * nn.voiceChord([60, 55, 64])
-   * // → [60, 67, 76]
-   */
-  voiceChord: Music.voiceChord,
-
-  /**
-   * Rotate a scale so a chosen degree becomes the first element (non-destructive).
-   * Useful for viewing a parent scale from another degree (e.g., modes).
-   *
-   * @method rotateScale
-   * @param {string[]|number[]} scale Array of notes (with or without octave), or MIDI numbers
-   * @param {number} k Zero-based index to rotate by (e.g., 0 = no change, 1 = start at degree 2)
-   * @return {string[]|number[]} New array with the same elements, re-ordered
-   * @example
-   * // Pitch-classes (no octaves)
-   * nn.rotateScale(['C','D','E','F','G','A','B'], 2)
-   * // → ['E','F','G','A','B','C','D']
-   *
-   * // With octaves
-   * nn.rotateScale(['C4','D4','E4','F4','G4','A4','B4','C5'], 1)
-   * // → ['D4','E4','F4','G4','A4','B4','C5','C4']
-   *
-   * // MIDI numbers
-   * nn.rotateScale([60, 62, 64, 65, 67, 69, 71], 3)
-   * // → [65, 67, 69, 71, 60, 62, 64]
-   */
-  rotateScale: Music.rotateScale,
-
-  /**
-   * Transpose every element of a scale by a fixed number of semitones (non-destructive).
-   * Works with note names (with or without octave) and MIDI numbers.
-   * - If an element has an octave (e.g., 'C4'), it is transposed via MIDI and returned with octave.
-   * - If an element is a pitch-class only (e.g., 'C', 'F#'), it wraps within 12 semitones.
-   * - If an element is a number, it is treated as a MIDI value and shifted numerically.
-   *
-   * @method transposeScale
-   * @param {Array<string|number>} scale Notes (e.g., ['C4','D4',...], or ['C','D#',...], or [60,62,...])
-   * @param {number} semitones Number of semitones to shift (positive or negative)
-   * @return {Array<string|number>} New array with each element transposed
-   * @example
-   * // With octaves (note names preserved with octave)
-   * nn.transposeScale(['C4','D4','E4','F4','G4','A4','B4'], 2)
-   * // → ['D4','E4','F#4','G4','A4','B4','C#5']
-   *
-   * // Pitch-classes only (wraps mod 12)
-   * nn.transposeScale(['C','D#','F'], 1)
-   * // → ['C#','E','F#']
-   *
-   * // MIDI numbers
-   * nn.transposeScale([60, 62, 64], -12)
-   * // → [48, 50, 52]
-   */
-  transposeScale: Music.transposeScale,
-
-  /**
-   * Remove octave numbers from a note or an array of notes.
-   * Accepts note names with or without octave (e.g., 'B4', 'C#4') and returns pitch-classes only.
-   * Non-note tokens and numbers are returned unchanged.
-   *
-   * @method stripOctave
-   * @param {string|Array<string|number>} x A single note or an array of notes
-   * @return {string|Array<string|number>} Pitch-class or array of pitch-classes
-   * @example
-   * nn.stripOctave('B4')
-   * // → 'B'
-   * nn.stripOctave(['C#4', 'D4'])
-   * // → ['C#', 'D']
-   */
-  stripOctave: Music.stripOctave,
-
-  /**
-  * This functions works exactly like the Web's [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) except that where the Fetch API will occasionally throw a CORS errors (which can generally only be resolved by making the request server side, and thus necessitates creating a custom server) our fetch function runs through netnet's proxy to get around this issue. **NOTE:** This function only works in netnet.studio sketches and is meant for experimental/educational use.
-  *
-  * @method fetch
-  * @return {Object} A Promise that resolves to a Response object (exactly like the Web's Fetch API)
-  * @example
-  * async function main () {
-  *   const req = await nn.fetch('https://dog.ceo/api/breeds/image/random')
-  *   const json = await req.json()
-  *   document.body.innerHTML = `<img src="${json.message}" alt="a random dog">`
-  * }
-  *
-  * nn.on('load', main)
-  */
-  fetch: (url, opts) => {
-    url = `/api/nn-proxy?url=${url}`
-    return window.fetch(url, opts)
-  },
-
-  /**
-  * Languages like python, Bash and PHP have "sleep" functions built-in, unfortunately JavaScript does not, hence why we've included it in this library. A "sleep" function pauses execution for a specified amount of time. This function is useful in asynchronous workflows when you want to intentionally delay something (like animations, polling, retries, or just slowing things down for dramatic effect).
-  *
-  * @method sleep
-  * @param {Number} ms - The number of milliseconds to pause for.
-  * @return {Promise} A Promise that resolves after the given duration.
-  * @example
-  * async function blink () {
-  *   while (true) {
-  *     const on = nn.get('body').style.background === 'white'
-  *     if (on) nn.get('body').css('background', 'black')
-  *     else nn.get('body').css('background', 'white')
-  *     await nn.sleep(500)
-  *   }
-  * }
-  *
-  * nn.on('load', blink)
-  */
-  sleep: (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  },
-
-  /**
-  * Call a function a number of times, passing the current index each time.
-  * Returns an array of results from the callback.
-  *
-  * @method times
-  * @param {number} n How many times to call `fn` (floats are floored, negatives become 0)
-  * @param {function(number): any} fn Function called with the current index (0 → n-1)
-  * @return {any[]} Array of results returned by `fn`
-  * @example
-  * // create 5 divs
-  * nn.times(5, (i) => nn.create('div').content(`item ${i}`).addTo('body'))
-  */
-  times: (n, fn) => {
-    if (typeof n !== 'number' || !isFinite(n)) {
-      console.error('( ◕ ◞ ◕ ) nn.times: first argument should be a finite number')
-      return []
-    }
-    if (typeof fn !== 'function') {
-      console.error('( ◕ ◞ ◕ ) nn.times: second argument should be a function')
-      return []
-    }
-    const count = Math.max(0, Math.floor(n))
-    const out = []
-    for (let i = 0; i < count; i++) out.push(fn(i))
-    return out
-  },
-
-  /**
-  * Create a numeric range as an array, with optional mapping.
-  * `range(end[, map])` → [0, 1, ..., end-1]
-  * `range(start, end[, step][, map])` → values from start toward end (end-exclusive) using `step`.
-  * If `map` is provided, returns values mapped with `(value, index) => any`.
-  *
-  * @method range
-  * @param {number} startOrEnd If one arg, the exclusive end. If two+, the start value.
-  * @param {number} [end] Exclusive end (not included). If omitted, start at 0 to `startOrEnd`.
-  * @param {number|function} [stepOrMap] Step between values (defaults to 1 or -1), or a mapping function.
-  * @param {function} [map] Optional mapping function `(value, index) => any`.
-  * @return {any[]} Array of numbers (or mapped values if `map` provided).
-  * @example
-  * nn.range(4)           // [0,1,2,3]
-  * nn.range(2, 6)        // [2,3,4,5]
-  * nn.range(10, 4, -2)   // [10,8,6]
-  * nn.range(2, 5, (v) => v * v) // [4,9,16]
-  * nn.range(10, 4, -3, (v,i) => `${i}:${v}`) // ['0:10','1:7','2:4']
-  */
-  range: (startOrEnd, end, stepOrMap, maybeMap) => {
-    if (typeof startOrEnd !== 'number' || !isFinite(startOrEnd)) {
-      console.error('( ◕ ◞ ◕ ) nn.range: expects numbers. Usage: range(end) or range(start, end, step[, map])')
-      return []
-    }
-    // Extract optional mapper
-    let map
-    if (typeof maybeMap === 'function') map = maybeMap
-    else if (typeof stepOrMap === 'function') map = stepOrMap
-
-    let start
-    if (typeof end === 'undefined') {
-      start = 0
-      end = startOrEnd
-    } else {
-      start = startOrEnd
-    }
-    if (typeof end !== 'number' || !isFinite(end)) {
-      console.error('( ◕ ◞ ◕ ) nn.range: end must be a finite number')
-      return []
-    }
-    // Determine step
-    let step
-    if (typeof stepOrMap === 'number') step = stepOrMap
-    if (typeof step === 'undefined' || step === null) {
-      step = end > start ? 1 : -1
-    }
-    if (typeof step !== 'number' || !isFinite(step) || step === 0) {
-      console.error('( ◕ ◞ ◕ ) nn.range: step must be a non-zero finite number')
-      return []
-    }
-    const out = []
-    // end-exclusive progression
-    if (step > 0) {
-      for (let i = 0, v = start; v < end; v += step, i++) out.push(map ? map(v, i) : v)
-    } else {
-      for (let i = 0, v = start; v > end; v += step, i++) out.push(map ? map(v, i) : v)
-    }
-    return out
-  },
-
-  /**
-   * Running this function will bind together any HTML elements with `data-bind-var` and `data-bind-click` attributes to CSS variables, enabling dynamic and interactive styling based on user input and actions. For example, an input element with `data-bind-var="--main-color"` will update the CSS variable `--main-color` if it's value changes, and any element with `data-bind-click="--main-font: add(2px)"` will add two pixels to the current value of CSS variable `--main-font` once clicked. Other operations include `sub(val)`, `toggle(valA, valB)`, and `cycle(val1, val2, etc...)`.
-   *
-   * @method bindCSS
-   * @return {void}
-   * @example
-   * // HTML
-   * <input type="range" data-bind-var="--main-width" min="0" max="100">
-   * <button data-bind-click="--primary-color:toggle(#FF0000, #00FF00)">Toggle Color</button>
-   *
-   * // CSS
-   * :root {
-   *   --main-width: 50px
-   *   --primary-color: #FF0000
-   * }
-   *
-   * .element {
-   *   width: var(--main-width);
-   *   background-color: var(--primary-color);
-   * }
-   *
-   * // JavaScript
-   * nn.bindCSS()
-   *
-   * // Behavior:
-   * // - Adjusting the range input updates the width of elements with class "element".
-   * // - Clicking the button toggles the primary color between red and green.
-   */
-  bindCSS: Bind.bindCSS,
-
-  /**
-   * This function parses a CSV (Comma-Separated Values) string into an array of JavaScript objects.
-   *
-   * @method parseCSV
-   * @param {String} csvText - The CSV string to parse.
-   * @return {Array<Object>} An array of objects representing the parsed CSV data.
-   * @example
-   * const csvData = "name,age,city\nJohn,30,New York\nJane,40,Miami"
-   * const jsonData = nn.parseCSV(csvData)
-   * console.log(jsonData)
-   * // Output:
-   * // [
-   * //   { name: "John", age: "30", city: "New York" },
-   * //   { name: "Jane", age: "40", city: "Miami" }
-   * // ]
-   */
-  parseCSV: Data.parseCSV,
-  /**
-   * This function parses a JSON (JavaScript Object Notation) string into a JavaScript object.
-   *
-   * @method parseJSON
-   * @param {String} jsonText - The JSON string to parse.
-   * @return {Object|Array} The JavaScript object or array resulting from parsing the JSON string.
-   * @example
-   * const jsonString = '{"name":"John","age":30,"city":"New York"}'
-   * const jsonObject = nn.parseJSON(jsonString)
-   * console.log(jsonObject)
-   * // Output:
-   * // { name: "John", age: 30, city: "New York" }
-   */
-  parseJSON: Data.parseJSON,
-  /**
-   * This function converts an array of JavaScript objects into a CSV (Comma-Separated Values) string.
-   *
-   * @method stringifyCSV
-   * @param {Array<Object>} arrayOfObjects - The array of objects to convert into CSV.
-   * @return {String} A CSV string representing the provided data.
-   * @example
-   * const arr = [
-   *   { name: "John", age: "30", city: "New York" },
-   *   { name: "Jane", age: "40", city: "Miami" }
-   * ]
-   * const csvString = nn.stringifyCSV(arr)
-   * console.log(csvString)
-   * // Output:
-   * // "name,age,city\n"John","30","New York"\n"Jane","40","Miami""
-   */
-  stringifyCSV: Data.stringifyCSV,
-  /**
-   * This function takes data (either object or an array) to converts into a JSON (JavaScript Object Notation) string.
-   *
-   * @method stringifyJSON
-   * @param {Object|Array} data - The data to convert into a JSON string.
-   * @param {Number} [space=2] - The number of spaces to use for indentation in the resulting JSON string (for readability).
-   * @return {String} A JSON string representing the provided data.
-   * @example
-   * const obj = { name: "John", age: 30, city: "New York" }
-   * const jsonString = nn.stringifyJSON(obj)
-   * console.log(jsonString)
-   * // Output:
-   * // "{\n  "name": "John",\n  "age": 30,\n  "city": "New York"\n}"
-   */
-  stringifyJSON: Data.stringifyJSON,
-  /**
-  * This function takes either a JSON object to turn into a JSON string, or an array of objects with matching keys to turn into a CSV string. It can be used to convert JavaScript data structures into string data that can be saved to a file or elsewhere.
-  *
-  * @method stringifyData
-  * @return {String}
-  * @example
-  * const arr = [
-  *   { name: "John", age: "30", city: "New York" },
-  *   { name: "Jane", age: "40", city: "Miami" }
-  * ]
-  * const str = nn.stringifyData(arr)
-  *
-  */
-  stringifyData: Data.stringifyData,
-  /**
-  * This function takes either a JSON string or a CSV string and parses into a JavaScript data structure, either an object or an array of objects.
-  *
-  * @method parseData
-  * @return {Object}
-  * @example
-  * const str = `name,age,city
-  *   "John","30","New York"
-  *   "Jane","40","Miami"`
-  * const arr = nn.parseData(str)
-  *
-  */
-  parseData: Data.parseData,
-  /**
-  * This function takes a path to a file containing some data (ex: .json, .csv, .txt) loads the file (using  the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)) and parses into a JavaScript data structure, either an object or an array of objects.
-  *
-  * @method loadData
-  * @return {Object}
-  * @example
-  * async function setup () {
-  *   const data = await nn.loadData('countries-gps.csv')
-  *   console.log(data)
-  * }
-  *
-  */
-  loadData: Data.loadData,
-
-  /**
-  * This function is used to check if the page's visitor is on a mobile device
-  *
-  * @method isMobile
-  * @return {Boolean} returns true if the visitor is on a mobile device
-  */
-  isBrowser: Averigua.isBrowser,
-  isMobile: Averigua.isMobile,
-
-  /**
-  * This function is used to check if the visitors device supports WebGL
-  *
-  * @method hasWebGL
-  * @return {Boolean} returns true if the visitors device supports WebGL
-  */
-  hasWebGL: Averigua.hasWebGL,
-  /**
-  * This function is used to check if the visitors device supports WebVR
-  *
-  * @method hasWebVR
-  * @return {Boolean} returns true if the visitors device supports WebVR
-  */
-  hasWebVR: Averigua.hasWebVR,
-  /**
-  * This function is used to check if the visitors device supports MIDI
-  *
-  * @method hasMIDI
-  * @return {Boolean} returns true if the visitors device supports MIDI
-  */
-  hasMIDI: Averigua.hasMIDI,
-  /**
-  * This function is used to check if the visitors device has a touch screen
-  *
-  * @method hasTouch
-  * @return {Boolean} returns true if the visitors device has a touch screen
-  */
-  hasTouch: Averigua.hasTouch,
-  /**
-  * This function is used to check the visitor's device orientation on mobile
-  *
-  * @method orientation
-  * @return {String} returns either 'landscape', 'portrait' or 'no-support'
-  */
-  orientation: Averigua.orientation,
-  /**
-  * This function is used to check the visitor's device screen info
-  *
-  * @method screen
-  * @return {Object} returns screen object
-  * @example
-  * nn.screen()
-  * // could return { orientation: "no-support", colorDepth: 24, width: 1732, height: 787 }
-  */
-  screen: Averigua.screen,
-  /**
-  * This function is used to check the visitor's device GPU info
-  *
-  * @method gpuInfo
-  * @return {Object} returns gpu info object
-  * @example
-  * nn.gpuInfo()
-  * // could return { vendor: "Intel", renderer: "Intel(R) HD Graphics 400" }
-  */
-  gpuInfo: Averigua.gpuInfo,
-  /**
-  * This function is used to check the visitor's browser info
-  *
-  * @method browserInfo
-  * @return {Object} returns browser info object
-  * @example
-  * nn.browserInfo()
-  * // could return  { name: "Firefox", version: "106" }
-  */
-  browserInfo: Averigua.browserInfo,
-  /**
-  * This function is used to check the visitor's platform info, this includes whether they're on a mible device, their browserInfo as well as their Operating System, platform and how many CPUs they have
-  *
-  * @method platformInfo
-  * @return {Object} returns platform info object
-  */
-  platformInfo: Averigua.platformInfo,
-  /**
-  * This function is used to check the visitor's device's audio support, returns an object with the probability that their device supports specific audio formats
-  *
-  * @method audioSupport
-  * @return {Object} returns audio support info object
-  * @example
-  * nn.audioSupport()
-  * // could return something like
-  * // { mp3: "maybe", vorbis: "probably", wav: "probably", aac: "probably" }
-  */
-  audioSupport: Averigua.audioSupport,
-  /**
-  * This function is used to check the visitor's device's video support, returns an object with the probability that their device supports specific video formats and features
-  *
-  * @method videoSupport
-  * @return {Object} returns video support info object
-  * @example
-  * nn.videoSupport()
-  * // could return something like
-  * // { captions: "probably", poster: "probably", webm: "probably", h264: "probably", theora: "probably" }
-  */
-  videoSupport: Averigua.videoSupport,
-
-  /**
-  * Often times it's helpful to work with "normalized" values, or values between 0 - 1. This method will return a normalized a number from another range into a value between `0` and `1`.
-  *
-  * @method norm
-  * @param {Number} value the number to normalize
-  * @param {Number} min the smallest value in the input range
-  * @param {Number} max the largest value in the input range
-  * @return {Number} the normalized value
-  * @example
-  * nn.norm(50, 0, 255) // returns 0.19607843137254902
-  */
-  norm: Maths.norm,
-  /**
-  * This function is used to constrain a value inside a specified range.
-  *
-  * @method clamp
-  * @param {Number} value the number to clamp
-  * @param {Number} min the smallest value in the input range
-  * @param {Number} max the largest value in the input range
-  * @return {Number} the clamped value
-  * @example
-  * nn.clamp(50, 100, 200) // returns 100
-  */
-  clamp: Maths.clamp,
-  /**
-  * Linear interpolation, or “lerp” for short, is a technique commonly used when programming things like games or GUIs. In principle, a lerp function “eases” the transition between two values `a` and `b` over time. The `t` argument is the amount to interpolate between the two values where 0.0 is equal to the first point, 0.5 is half-way in between, and 1.0 is equal to the second point.
-  *
-  * @method lerp
-  * @param {Number} valueA the first value/point
-  * @param {Number} valueB the second value/point
-  * @param {Number} t the amount to interpolate
-  * @return {Number} the normalized value
-  * @example
-  * nn.lerp(0, 255, 0.5)
-  */
-  lerp: Maths.lerp,
-  _lerp: Maths._lerp,
-  /**
-  * This function will map a value from a given range (inputMin and inputMax) to another range (outputMin and outputMax)
-  *
-  * @method map
-  * @param {Number} value the value to re-map
-  * @param {Number} inputMin the smallest value in the input range
-  * @param {Number} inputMax the largest value in the input range
-  * @param {Number} outputMin the smallest value in the output range
-  * @param {Number} outputMax the largest value in the output range
-  * @return {Number} the mapped value
-  * @example
-  * nn.map(50, 0, 100, 20, 40) // returns 30
-  */
-  map: Maths.map,
-
-  /**
-  * This function calculates the distance between two points
-  *
-  * @method dist
-  * @param {Number} x1 the x position of the first point
-  * @param {Number} y1 the y position of the first point
-  * @param {Number} x2 the x position of the second point
-  * @param {Number} y2 the y position of the second point
-  * @return {Number} the distance between the two points
-  * @example
-  * nn.dist(20,50, 100, 250) // returns 215.40659228538016
-  */
-  dist: Maths.dist,
-  /**
-  * This function calculates the angle between two points in radians
-  *
-  * @method angleBtw
-  * @param {Number} x1 the x position of the first point
-  * @param {Number} y1 the y position of the first point
-  * @param {Number} x2 the x position of the second point
-  * @param {Number} y2 the y position of the second point
-  * @return {Number} the angle between the two points in radians
-  * @example
-  * nn.angleBtw(20,50, 100, 250) // returns 0.3805063771123649
-  */
-  angleBtw: Maths.angleBtw,
-
-  /**
-  * This function converts a angle value in radians to degrees
-  *
-  * @method radToDeg
-  * @param {Number} radians an angle in radians
-  * @return {Number} the angle in degrees
-  * @example
-  * nn.radToDeg(3.145) // returns 180.1952265686439
-  */
-  radToDeg: Maths.radToDeg,
-  /**
-  * This function converts a angle degrees to radians
-  *
-  * @method degToRad
-  * @param {Number} degrees an angle in degrees
-  * @return {Number} the angle in radians
-  * @example
-  * nn.degToRad(180) // returns 3.141592653589793
-  */
-  degToRad: Maths.degToRad,
-  /**
-  * This function converts a point described in the cartesian coordinate system (x, y) to that same point described in a polar coordinate system (distance, angle).
-  *
-  * @method cartesianToPolar
-  * @param {Number} x1 the x position of the point
-  * @param {Number} y1 the y position of the point
-  * @return {Object} the poloar coordinate { distance, radians, degrees }
-  * @example
-  * nn.cartesianToPolar(100, 100)
-  * // returns { distance: 141.4213562373095, radians: 0.7853981633974483, degrees: 45 }
-  */
-  cartesianToPolar: Maths.cartesianToPolar,
-  /**
-  * This function converts a point described in a polar coordinate system (distance, angle) to that same point described in the cartesian coordinate system.
-  *
-  * @method polarToCartesian
-  * @param {Number} dist the distance value
-  * @param {Number} angle the angle in radians
-  * @return {Object} the cartesian coordinate { x, y }
-  * @example
-  * nn.polarToCartesian(141.4213562373095, 0.7853981633974483)
-  * // returns { x: 100, y: 100 }
-  */
-  polarToCartesian: Maths.polarToCartesian,
-
-  /**
-  * This function shuffles the items in an array
-  *
-  * @method shuffle
-  * @param {Array} arr the array to shuffle
-  * @param {Array} the suffled array
-  * @return {Object} the cartesian coordinate { x, y }
-  * @example
-  * nn.shuffle([1,2,3,4,5]) // could return [ 4, 3, 5, 2, 1 ]
-  */
-  shuffle: Maths.shuffle,
-  /**
-  * returns a random integer given a max value or a min/max range
-  *
-  * @method randomInt
-  * @param {Number} a when no `b` value is passed, this is the max value, otherwise it is the minimum value
-  * @param {Number} b the max value
-  * @return {Number} a random integer within the specified range
-  * @example
-  * nn.randomInt(10, 50) // could return 34
-  * nn.randomInt(10) // could return 6
-  */
-  randomInt: Maths.randomInt,
-  /**
-  * This function returns a random float (decimal) given a max value or a min/max range
-  *
-  * @method randomFloat
-  * @param {Number} a when no `b` value is passed, this is the max value, otherwise it is the minimum value
-  * @param {Number} b the max value
-  * @return {Number} a random float within the specified range
-  * @example
-  * nn.randomFloat(10, 50) // could return 34.823298753
-  * nn.randomFloat(10) // could return 6.213897459
-  */
-  randomFloat: Maths.randomFloat,
-  /**
-  * This random function can be used just like the standard `Math.random()` fucnciton in JavaScript, but it can also take a few different types of optional arguments. When passed an array, it will return a random item from that array. When passed a string it will return a random letter or word from that string. When passed number values it behaves the same as `nn.randomFloat` returning a random decimal value within a given range.
-  *
-  * @method random
-  * @method random
-  * @param {Number|Array} a either an array to select a random item from, or a string to select a random letter or word from, or a number. When it's a number and no `b` value is passed, this is the max value, otherwise it is the minimum value
-  * @param {Number} b the max value
-  * @return {Number} a random item from the passed array, or a random float within the specified range
-  * @example
-  * nn.random(['straw', 'wood', 'brick']) // could return "brick"
-  * nn.random('world wide web') // could return 'web'
-  * nn.random('worldwideweb') // could return 'w'
-  * nn.random(10, 50) // could return 34.823298753
-  * nn.random(10) // could return 6.213897459
-  * nn.random() // could return 0.103984723014
-  */
-  random: (v1, v2) => {
-    const err = msg => console.error(`( ◕ ◞ ◕ ) nn: ${msg}`)
-    const warn = msg => console.warn(`( ◕ ◞ ◕ ) nn: ${msg}`)
-    // no args → passthrough to base random()
-    if (typeof v1 === 'undefined' && typeof v2 === 'undefined') {
-      return Maths.random()
-    }
-    // array → random item
-    if (Array.isArray(v1)) {
-      if (v1.length === 0) {
-        err('the first argument to .random() was an empty array, add at least one item.')
-        return undefined
-      }
-      return Maths.random(v1)
-    }
-    // string → random word; if single word, random char
-    if (typeof v1 === 'string') {
-      // must include at least one non-whitespace character
-      if (!/\S/u.test(v1)) {
-        err('the first argument to .random() was an empty/whitespace-only string, add some letters or words.')
-        return undefined
-      }
-      return Maths.random(v1)
-    }
-    // number(s) → random float in range
-    if (typeof v1 === 'number') {
-      if (!Number.isFinite(v1)) {
-        err('the first argument to .random() must be a finite number.')
-        return undefined
-      }
-      // single number → [0, v1)
-      if (typeof v2 === 'undefined') {
-        return Maths.random(v1)
-      }
-      // two numbers → [min, max)
-      if (typeof v2 !== 'number' || !Number.isFinite(v2)) {
-        err('when the first argument in .random() is a number, the second argument (max) must also be a finite number.')
-        return undefined
-      }
-      if (v1 === v2) {
-        warn('you passed identical min and max to the .random() method, returning that exact value.')
-        return v1
-      }
-      if (v1 > v2) {
-        warn('you passed a min that was greater than max to the .random() method, so I swapped them for you.')
-        return Maths.random(v2, v1)
-      }
-      return Maths.random(v1, v2)
-    }
-    // anything else
-    err('the first argument to .random() should be an Array, String, Number, or nothing.')
-    return undefined
-  },
-  /**
-  * The perlin method returns a perlinNoise object, which first needs to be seeded && then can be used to return 1 or 2 dimensional noise from -1 to 1
-  *
-  * @method perlin
-  * @param {Number|Array} a either an array to select a random item from, or a number. When it's a number and no `b` value is passed, this is the max value, otherwise it is the minimum value
-  * @param {Number} b the max value
-  * @return {Number} a random item from the passed array, or a random float within the specified range
-  * @example
-  * // assuming we've got a canvas && ctx...
-  * const perlin = Maths.perlin()
-  * perlin.seed()
-  * for (let x = 0; x < canvas.width; x++) {
-  *   let y = perlin.get(x * 0.1)
-  *   y = Maths.map(y, -1, 1, 0, canvas.height)
-  *   ctx.lineTo(x, y)
-  * }
-  * ctx.stroke()
-  */
-  perlin: Maths.perlin,
-
-  /**
-  * There are loads of great (and much more complex) "easing" and "tweening" libraries out there. This is a fairly rudementary easing function which simply contains the easing equations for a variety of common easing types, specifically: InQuad, OutQuad, InOutQuad, InCubic, OutCubic, InOutCubic, InQuart, OutQuart, InOutQuart, InQuint, OutQuint, InOutQuint, InSine, OutSine, InOutSine, InCirc, OutCirc, InOutCirc, InElastic, OutElastic, InOutElastic, InExpo, OutExpo, InOutExpo, InBack, OutBack, InOutBack, InBounce and OutBounce
-  *
-  * @method ease
-  * @param {String} type the kind of easing (see list above)
-  * @param {Number} t the changing/delta value
-  * @return {Number} the eased output value
-  * @example
-  * // example of using one of the easing functions to get a tweened scrolling * effect
-  * function tween (from, to, i = 0) {
-  *   if (this.tweenTimer) clearTimeout(this.tweenTimer)
-  *   const dur = 2 // duration in seconds
-  *   const fps = 1000 / 30 // 30 frames per second
-  *   const inc = 1 / dur / fps
-  *   i += inc
-  *   if (i >= 1) return
-  *   const pos = nn.ease('InOutQuart', i)
-  *   const Y = nn.map(pos, 0, 1, from, to)
-  *   window.scrollTo(0, Y)
-  *   this.tweenTimer = setTimeout(() => tween(from, to, i), fps)
-  * }
-
-  * tween(0, 100) // scroll from 0 to 1000 w/an easeInOutQuart
-  */
-  ease: (type, t) => Maths[`ease${type}`](t),
-
-  /**
-  * This function generates random color strings. It accepts two optional arguments, type and alpha. The type can be: 'hex', 'rgb', 'rgba', 'hsl' or 'hsla' and the alpha can be a float value (0.0 - 1.0) or a boolean
-  *
-  * @method randomColor
-  * @param {String} [type] can be 'hex', 'rgb', 'rgba', 'hsl' or 'hsla'
-  * @param {Number|Boolean} [alpha] can be a float value (0.0 - 1.0) or a boolean
-  * @return {String} color string
-  * @example
-  * nn.randomColor() // returns a random hex color string, for ex: "#5cfba6"
-  * nn.randomColor('hex', 0.5) // could return for ex: "#5cfba67f"
-  * nn.randomColor('rgb') // ex: "rgb(136, 44, 204)"
-  * nn.randomColor('rgba') // ex: "rgba(85, 177, 23, 1)"
-  * nn.randomColor('rgb', true) // ex: "rgba(122, 46, 239, 0.53)"
-  * nn.randomColor('rgb', 0.5) // ex: "rgba(107, 110, 7, 0.5)"
-  */
-  randomColor: Color.random,
-
-  /**
-  * Generate a color scheme (array of hex strings) from a base color and a harmony type.
-  * Supports common harmony types such as 'analogous' and 'monochromatic', and exposes
-  * options for saturation, lightness, angles, count, and basic WCAG contrast handling.
-  *
-  * @method colorScheme
-  * @param {Object} options Configuration
-  * @param {String} options.harmony Harmony type (e.g. 'analogous', 'monochromatic', 'complementary', 'triadic', etc.)
-  * @param {String|Object|Number} options.base The base color (hex/rgb/hsl string or {h,s,l}/{r,g,b} or hue number)
-  * @param {Number} [options.saturation] Override saturation (0–100)
-  * @param {Number} [options.lightness] Override lightness (0–100)
-  * @param {Number} [options.count] How many colors to return
-  * @param {Boolean} [options.includeBase=true] Whether to include the base color
-  * @param {Number} [options.angle=30] Angle step in degrees (used by analogous)
-  * @param {Number} [options.offset=30] Offset angle in degrees (used by split/compound)
-  * @param {Number|String} [options.contrast] Min contrast ratio (e.g. 4.5, 7 or 'AA'/'AAA')
-  * @param {String|Object|Number} [options.against] Color to compare contrast against
-  * @param {String} [options.strategy='adjust'] 'adjust' to tweak lightness, or 'filter' to skip non-compliant colors
-  * @param {Number} [options.steps=1] Steps to search when adjusting for contrast (higher = finer)
-  * @return {String[]} Array of hex color strings
-  * @example
-  * nn.colorScheme({ harmony: 'analogous', base: '#ff0066', count: 5 })
-  */
-  colorScheme: Color.scheme,
-
-  /**
-  * Normalize a color into an RGB object `{ r, g, b }` with 0–255 channels.
-  * Accepts hex/rgb/hsl strings, `{h,s,l}`/`{r,g,b}` objects, or a hue number.
-  *
-  * @method toRGB
-  * @param {String|Object|Number} value The input color (hex/rgb/hsl string, object, or hue number)
-  * @param {Object} [defaults] Optional defaults used when converting from hue (e.g., `{ saturation: 100, lightness: 50 }`)
-  * @return {{r:number,g:number,b:number}} RGB channels in 0–255
-  * @example
-  * nn.toRGB('#ff0000') // { r:255, g:0, b:0 }
-  * nn.toRGB({ h: 200, s: 60, l: 50 }) // → { r:..., g:..., b:... }
-  */
-  toRGB: Color.toRGB,
-
-  /**
-  * Build a CSS rgb/rgba color string from channel values.
-  * If `a` is provided, returns an rgba string with alpha 0.0–1.0.
-  *
-  * @method rgb
-  * @param {Number} r red 0–255
-  * @param {Number} g green 0–255
-  * @param {Number} b blue 0–255
-  * @param {Number} [a] alpha 0.0–1.0
-  * @return {String} CSS color string like 'rgb(255, 0, 0)' or 'rgba(255, 0, 0, 0.5)'
-  * @example
-  * nn.rgb(255, 0, 0)      // 'rgb(255, 0, 0)'
-  * nn.rgb(255, 0, 0, 0.5) // 'rgba(255, 0, 0, 0.5)'
-  */
-  rgb: (r, g, b, a) => {
-    const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
-    const rc = Math.round(clamp(Number(r), 0, 255))
-    const gc = Math.round(clamp(Number(g), 0, 255))
-    const bc = Math.round(clamp(Number(b), 0, 255))
-    if (typeof a === 'number') {
-      const ac = clamp(a, 0, 1)
-      return `rgba(${rc}, ${gc}, ${bc}, ${ac})`
-    }
-    return `rgb(${rc}, ${gc}, ${bc})`
-  },
-
-  /**
-  * Normalize a color into an HSL object `{ h, s, l }` where h is 0–360 and s/l are 0–100.
-  * Accepts hex/rgb/hsl strings, `{h,s,l}`/`{r,g,b}`/`{h,s,v}` objects, or a hue number.
-  *
-  * @method toHSL
-  * @param {String|Object|Number} value The input color (hex/rgb/hsl string, object, or hue number)
-  * @param {Object} [defaults] Optional defaults used when converting from hue (e.g., `{ saturation: 100, lightness: 50 }`)
-  * @return {{h:number,s:number,l:number}} HSL channels (0–360, 0–100, 0–100)
-  * @example
-  * nn.toHSL('#ff0000') // { h:0, s:100, l:50 }
-  * nn.toHSL({ r: 255, g: 0, b: 0 }) // → { h:0, s:100, l:50 }
-  */
-  toHSL: Color.toHSL,
-
-  /**
-  * Build a CSS hsl/hsla color string from channel values.
-  * If `a` is provided, returns an hsla string with alpha 0.0–1.0.
-  *
-  * @method hsl
-  * @param {Number} h hue 0–360
-  * @param {Number} s saturation 0–100
-  * @param {Number} l lightness 0–100
-  * @param {Number} [a] alpha 0.0–1.0
-  * @return {String} CSS color string like 'hsl(0, 100%, 50%)' or 'hsla(0, 100%, 50%, 0.5)'
-  * @example
-  * nn.hsl(0, 100, 50)      // 'hsl(0, 100%, 50%)'
-  * nn.hsl(0, 100, 50, 0.5) // 'hsla(0, 100%, 50%, 0.5)'
-  */
-  hsl: (h, s, l, a) => {
-    const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
-    const hc = Math.round(clamp(Number(h), 0, 360))
-    const sc = Math.round(clamp(Number(s), 0, 100))
-    const lc = Math.round(clamp(Number(l), 0, 100))
-    if (typeof a === 'number') {
-      const ac = clamp(a, 0, 1)
-      return `hsla(${hc}, ${sc}%, ${lc}%, ${ac})`
-    }
-    return `hsl(${hc}, ${sc}%, ${lc}%)`
-  },
-
-  /**
-  * It can often be useful to know if a color is "light" or "dark" when pairing other colors with it, for example to determine if a font color should be black or white so that it best stands out on a given background color. The `.isLight()` method takes a color string (either in hex or rgb) and will return `true` if it is a light color or `false` if it is a dark color.
-  *
-  * @method isLight
-  * @param {String} color hex or rgb string color value
-  * @return {Boolean} Returns true if the color passed is a "light" color
-  * @example
-  * nn.isLight('#ffffcc') // returns true
-  * nn.isLight('#001100') // returns false
-  */
-  isLight: Color.isLight,
-
-  /**
-  * Compute the WCAG contrast ratio between two colors.
-  * Returns a number greater than 1. Typical thresholds: 4.5 (AA), 7 (AAA).
-  * Accepts hex/rgb/hsl strings or channel objects.
-  *
-  * @method colorContrast
-  * @param {String|Object} colorA First color (hex/rgb/hsl string or object)
-  * @param {String|Object} colorB Second color (hex/rgb/hsl string or object)
-  * @return {Number} Contrast ratio (L1+0.05)/(L2+0.05)
-  * @example
-  * nn.colorContrast('#000', '#fff') // 21
-  * nn.colorContrast('rgb(0,0,0)', 'hsl(0,0%,100%)') // 21
-  */
-  colorContrast: Color.contrast,
-  contrast: Color.contrast, // alias (for internals)
-
-  /**
-  * This function takes a string and returns the first color string it finds in the form of a parsed array (if no color is found it returns null)
-  *
-  * @method colorMatch
-  * @param {String} string an arbitrary string of text
-  * @return {Array} an array of parsed color values found in the string
-  * @example
-  * nn.colorMatch('div { color: rgba(34, 56, 88, 0.5); font-size: 23px; }')
-  * // returns ["rgb", "rgba(34, 56, 88, 0.5)", "34", "56", "88", "0.5"]
-  */
-  colorMatch: Color.match,
-  match: Color.match, // alias (for internals)
-
-  /**
-  * This function takes an alpha value between `0.0` and `1.0` and returns its corresponding hex character string
-  *
-  * @method alpha2hex
-  * @param {Number} alpha alpha/opacity float value
-  * @return {String} a hex character string
-  * @example
-  * nn.alpha2hex(0.5) // returns "7f"
-  */
-  alpha2hex: Color.alpha2hex,
-  /**
-  * This function takes a hex character (byte) and converts it into an alpha value
-  *
-  * @method hex2alpha
-  * @param {String} hex a byte of hexcode
-  * @return {Number} an alpha value betwee `0` and `1`
-  * @example
-  * nn.hex2alpha('7F') // returns 0.5
-  */
-  hex2alpha: Color.hex2alpha,
-  /**
-  * This function takes a hex color string and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
-  *
-  * @method hex2rgb
-  * @param {String} hex a hex color string
-  * @return {Object} an object with `{r, g, b}` color number values
-  * @example
-  * nn.hex2rgb('#ff0000') // returns { r: 255, g: 0, b: 0 }
-  * nn._hex2rgb('#ff0000') // returns  { r: 1, g: 0, b: 0 }
-  */
-  hex2rgb: Color.hex2rgb,
-  _hex2rgb: Color._hex2rgb,
-  /**
-  * This function takes a hex color string and returns the corresponding hue (0-360), saturation (0-100) and lightness (0-100) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
-  *
-  * @method hex2hsl
-  * @param {String} hex a hex color string
-  * @return {Object} an object with `{h, s, l}` color number values
-  * @example
-  * nn.hex2hsl('#ff0000') // returns { h: 0, s: 100, l: 50 }
-  * nn._hex2hsl('#ff0000') // returns  { h: 0, s: 1, l: 0.5 }
-  */
-  hex2hsl: Color.hex2hsl,
-  _hex2hsl: Color._hex2hsl,
-  /**
-  * tThis function akes a hex color string and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will return normailzed float values.
-  *
-  * @method hex2hsv
-  * @param {String} hex a hex color string
-  * @return {Object} an object with `{h, s, v}` color number values
-  * @example
-  * nn.hex2hsv('#ff0000') // returns { h: 0, s: 100, v: 100 }
-  * nn._hex2hsv('#ff0000') // returns  { h: 0, s: 1, v: 1 }
-  */
-  hex2hsv: Color.hex2hsv,
-  _hex2hsv: Color._hex2hsv,
-
-  /**
-  * This function takes red, green and blue color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
-  *
-  * @method rgb2hex
-  * @param {Number} red value between 0-255
-  * @param {Number} green value between 0-255
-  * @param {Number} blue value between 0-255
-  * @return {String} a hex color string
-  * @example
-  * nn.rgb2hex(255, 0, 0) // returns '#ff0000'
-  * nn._rgb2hex(1, 0, 0) // returns '#ff0000'
-  */
-  rgb2hex: Color.rgb2hex,
-  _rgb2hex: Color._rgb2hex,
-  /**
-  * This function takes red, green and blue color values and returns the corresponding hue (0-360), saturation (0-100) and lightness (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
-  *
-  * @method rgb2hsl
-  * @param {Number} red value between 0-255
-  * @param {Number} green value between 0-255
-  * @param {Number} blue value between 0-255
-  * @return {Object} an object with `{h, s, l}` color number values
-  * @example
-  * nn.rgb2hsl(255, 0, 0) // returns { h: 0, s: 100, l: 50 }
-  * nn._rgb2hsl(1, 0, 0) // returns { h: 0, s: 1, l: 0.5 }
-  */
-  rgb2hsl: Color.rgb2hsl,
-  _rgb2hsl: Color._rgb2hsl,
-  /**
-  * This function takes red, green and blue color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
-  *
-  * @method rgb2hsv
-  * @param {Number} red value between 0-255
-  * @param {Number} green value between 0-255
-  * @param {Number} blue value between 0-255
-  * @return {Object} an object with `{h, s, v}` color number values
-  * @example
-  * nn.rgb2hsv(255, 0, 0) // return { h: 0, s: 100, v: 100 }
-  * nn._rgb2hsv(1, 0, 0) // return { h: 0, s: 1, v: 1 }
-  */
-  rgb2hsv: Color.rgb2hsv,
-  _rgb2hsv: Color._rgb2hsv,
-
-  /**
-  * This function takes hue, saturation, and lightness color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
-  *
-  * @method hsl2hex
-  * @param {Number} hue value between 0-360
-  * @param {Number} saturation value between 0-100
-  * @param {Number} lightness value between 0-100
-  * @return {String} a hex color string
-  * @example
-  * nn.hsl2hex(0, 100, 50) // returns '#ff0000'
-  * nn._hsl2hex(0, 1, 0.5) // returns '#ff0000'
-  */
-  hsl2hex: Color.hsl2hex,
-  _hsl2hex: Color._hsl2hex,
-  /**
-  * This function takes hue, saturation, and lightness color values and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
-  *
-  * @method hsl2rgb
-  * @param {Number} hue value between 0-360
-  * @param {Number} saturation value between 0-100
-  * @param {Number} lightness value between 0-100
-  * @return {Object} an object with `{r, g, b}` color number values
-  * @example
-  * nn.hsl2rgb(0, 100, 50) // return { r: 255, g: 0, b: 0 }
-  * nn._hsl2rgb(0, 1, 0.5) // return { r: 1, g: 0, b: 0 }
-  */
-  hsl2rgb: Color.hsl2rgb,
-  _hsl2rgb: Color._hsl2rgb,
-  /**
-  * This function takes hue, saturation, and lightness color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
-  *
-  * @method hsl2hsv
-  * @param {Number} hue value between 0-360
-  * @param {Number} saturation value between 0-100
-  * @param {Number} lightness value between 0-100
-  * @return {Object} an object with `{h, s, v}` color number values
-  * @example
-  * nn.hsl2hsv(0, 100, 50) // return { h: 0, s: 100, v: 100 }
-  * nn._hsl2hsv(0, 1, 0.5) // return { h: 0, s: 1, v: 1 }
-  */
-  hsl2hsv: Color.hsl2hsv,
-  _hsl2hsv: Color._hsl2hsv,
-
-  /**
-  * This function takes hue, saturation, and vlue color values and returns the corresponding hex string. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1`
-  *
-  * @method hsv2hex
-  * @param {Number} hue value between 0-360
-  * @param {Number} saturation value between 0-100
-  * @param {Number} value value between 0-100
-  * @return {String} a hex color string
-  * @example
-  * nn.hsv2hex(0, 100, 100) // returns '#ff0000'
-  * nn._hsv2hex(0, 1, 1) // returns '#ff0000'
-  */
-  hsv2hex: Color.hsv2hex,
-  _hsv2hex: Color._hsv2hex,
-  /**
-  * This function takes hue, saturation, and vlue color values and returns the corresponding red (0-255), green (0-255) and blue (0-255) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
-  *
-  * @method hsv2rgb
-  * @param {Number} hue value between 0-360
-  * @param {Number} saturation value between 0-100
-  * @param {Number} value value between 0-100
-  * @return {Object} an object with `{r, g, b}` color number values
-  * @example
-  * nn.hsv2rgb(0, 100, 100) // return { r: 255, g: 0, b: 0 }
-  * nn._hsv2rgb(0, 1, 1) // return { r: 1, g: 0, b: 0 }
-  */
-  hsv2rgb: Color.hsv2rgb,
-  _hsv2rgb: Color._hsv2rgb,
-  /**
-  * This function takes hue, saturation, and vlue color values and returns the corresponding hue (0-360), saturation (0-100) and value (0-100) color object. If you add an `_` (underscore) before the method name it will expect normalized float values between `0-1` and return normalized values between `0-1`
-  *
-  * @method hsv2hsl
-  * @param {Number} hue value between 0-360
-  * @param {Number} saturation value between 0-100
-  * @param {Number} value value between 0-100
-  * @return {Object} an object with `{h, s, v}` color number values
-  * @example
-  * nn.hsv2hsl(0, 100, 100) // returns { h: 0, s: 100, l: 50 }
-  * nn._hsv2hsl(0, 1, 1) // returns { h: 0, s: 1, l: 0.5 }
-  */
-  hsv2hsl: Color.hsv2hsl,
-  _hsv2hsl: Color._hsv2hsl,
-
-  /**
-  * This function abstracts the `<input type="file">` by providing a class for quickly handling file uploads via clicking on elements or drag and dropping onto elements.
-  *
-  * @class FileUploader
-  * @param {Object} config the options object
-  * @param {number} config.maxSize limit max file size in kb
-  * @param {Array} config.types limit allowed file mime types, for ex ['image/jpeg','audio/mpeg3']
-  * @param {Function} config.filter an alternative to "types", where you can provide your own filtering logic for accepted files types
-  * @param {String} config.click selector for clickable element, ex '#button'
-  * @param {String}config.drop selector for drag&drop element, ex '#background'
-  * @param {Function} config.dropping for ex callback, runs when file is dragged over
-  * @param {Function} config.dropped runs when file has been dropped
-  * @param {Function} config.ready runs when data is ready
-  * @param {Function} config.error runs when there's an error
-  * @example
-  * // assuming HTML like this:
-  * // <button id="my-btn">click to upload</button>
-  * const fu = new nn.FileUploader({
-  *   maxSize: 1000,
-  *   types: ['image/jpeg', 'image/png'],
-  *   click: '#my-btn',
-  *   ready: (file) => {
-  *     console.log(`the data for the ${file.type} file called ${file.name} is ready`)
-  *     console.log(file.data)
-  *   },
-  *   error: (err) => {
-  *     console.error(err)
-  *   }
-  *})
-  *
-  * // or assuming HTML like this:
-  * // <button id="my-btn">click to upload</button>
-  * // <section id="main">
-  * //   <!-- some other HTML stuff here -->
-  * // </section>
-  * const fu = new nn.FileUploader({
-  *   click: '#my-btn',
-  *   drop: '#main',
-  *   filter: (type) => {
-  *     let audio = [
-  *       'audio/wav', 'audio/mpeg3', 'audio/mp4', 'audio/aac',
-  *       'audio/aacp', 'audio/ogg', 'audio/webm', 'audio/ogg',
-  *       'audio/webm', 'audio/mpeg']
-  *     let types = [ ...audio, 'text/plain' ]
-  *     if (type.indexOf('image') > -1) return true
-  *     else if (types.indexOf(type) > -1) return true
-  *     else return false
-  *   },
-  *   dropping: (e) => { e.style.opacity = 0.5 },
-  *   dropped: (e) => { e.style.opacity = 1 },
-  *   ready: (file) => {
-  *     console.log(`the data for the ${file.type} file called ${file.name} is ready`)
-  *     console.log(file.data)
-  *   },
-  *   error: (err) => {
-  *     console.error(err)
-  *   }
-  * })
-  */
-  FileUploader: require('./FileUploader/FileUploader.js')
-  //,
-  // GIF: require('./GIF/nn-gif.js')
+},{}],15:[function(require,module,exports){
+const sleep = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-},{"./Averigua/Averigua.js":1,"./Bind/data-bind.js":2,"./Color/Color.js":3,"./DOM/nn-dom.js":5,"./Data/nn-data.js":6,"./FileUploader/FileUploader.js":7,"./Maths/Maths.js":8,"./Media/nn-media.js":9,"./Music/nn-music.js":10}],12:[function(require,module,exports){
-exports.endianness = function () { return 'LE' };
-
-exports.hostname = function () {
-    if (typeof location !== 'undefined') {
-        return location.hostname
-    }
-    else return '';
-};
-
-exports.loadavg = function () { return [] };
-
-exports.uptime = function () { return 0 };
-
-exports.freemem = function () {
-    return Number.MAX_VALUE;
-};
-
-exports.totalmem = function () {
-    return Number.MAX_VALUE;
-};
-
-exports.cpus = function () { return [] };
-
-exports.type = function () { return 'Browser' };
-
-exports.release = function () {
-    if (typeof navigator !== 'undefined') {
-        return navigator.appVersion;
-    }
-    return '';
-};
-
-exports.networkInterfaces
-= exports.getNetworkInterfaces
-= function () { return {} };
-
-exports.arch = function () { return 'javascript' };
-
-exports.platform = function () { return 'browser' };
-
-exports.tmpdir = exports.tmpDir = function () {
-    return '/tmp';
-};
-
-exports.EOL = '\n';
-
-exports.homedir = function () {
-	return '/'
-};
-
-},{}],13:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
+const times = (n, fn) => {
+  if (typeof n !== 'number' || !isFinite(n)) {
+    console.error('( ◕ ◞ ◕ ) nn.times: first argument should be a finite number')
+    return []
+  }
+  if (typeof fn !== 'function') {
+    console.error('( ◕ ◞ ◕ ) nn.times: second argument should be a function')
+    return []
+  }
+  const count = Math.max(0, Math.floor(n))
+  const out = []
+  for (let i = 0; i < count; i++) out.push(fn(i))
+  return out
 }
 
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
+const range = (startOrEnd, end, stepOrMap, maybeMap) => {
+  if (typeof startOrEnd !== 'number' || !isFinite(startOrEnd)) {
+    console.error('( ◕ ◞ ◕ ) nn.range: expects numbers. Usage: range(end) or range(start, end, step[, map])')
+    return []
+  }
+  // Extract optional mapper
+  let map
+  if (typeof maybeMap === 'function') map = maybeMap
+  else if (typeof stepOrMap === 'function') map = stepOrMap
 
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
+  let start
+  if (typeof end === 'undefined') {
+    start = 0
+    end = startOrEnd
+  } else {
+    start = startOrEnd
+  }
+  if (typeof end !== 'number' || !isFinite(end)) {
+    console.error('( ◕ ◞ ◕ ) nn.range: end must be a finite number')
+    return []
+  }
+  // Determine step
+  let step
+  if (typeof stepOrMap === 'number') step = stepOrMap
+  if (typeof step === 'undefined' || step === null) {
+    step = end > start ? 1 : -1
+  }
+  if (typeof step !== 'number' || !isFinite(step) || step === 0) {
+    console.error('( ◕ ◞ ◕ ) nn.range: step must be a non-zero finite number')
+    return []
+  }
+  const out = []
+  // end-exclusive progression
+  if (step > 0) {
+    for (let i = 0, v = start; v < end; v += step, i++) out.push(map ? map(v, i) : v)
+  } else {
+    for (let i = 0, v = start; v > end; v += step, i++) out.push(map ? map(v, i) : v)
+  }
+  return out
 }
 
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
+if (typeof module !== 'undefined') module.exports = { sleep, times, range }
 
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}]},{},[11]);
+},{}]},{},[1]);

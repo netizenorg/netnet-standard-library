@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>nn ( ◕ ◞ ◕ ) demo</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+
+    <section>
+      <div id="editor"></div>
+      <div id="nfo"></div>
+      <div id="output"></div>
+    </section>
+
+    <script src="netitor.min.js"></script>
+    <script src="helper-functions.js"></script>
+    <script src="demos.js"></script>
+    <script src="../build/nn.min.js"></script>
+    <script src="../src/Averigua/docs.js"></script>
+    <script src="../src/Maths/docs.js"></script>
+    <script src="../src/Color/docs.js"></script>
+    <script src="../src/DOM/svg-docs.js"></script>
+    <script src="../src/DOM/canvas-docs.js"></script>
+    <script src="../src/Music/docs.js"></script>
+    <script src="../src/Utils/docs.js"></script>
+    <script src="../src/Media/docs.js"></script>
+    <script src="../src/Data/docs.js"></script>
+    <script src="../src/DOM/docs.js"></script>
+    <script>
+
+      const params = new URLSearchParams(location.search)
+
+      const catParam = params.get('cat')
+      const funcParam = params.get('func')
+
+      let neTemplate
+      const ne = new Netitor({
+        ele: '#editor',
+        render: '#output',
+        renderWithErrors: true,
+        wrap: true,
+        language: 'javascript',
+        theme: params.get('theme') || 'dark',
+        code: '// example code will display here...'
+      })
+
+      const loadDemo = async (obj) => {
+        neTemplate = '<body><\/body>\n<script src="../build/nn.min.js"><\/script>\n'
+        let code = ''
+
+        if (catParam === 'demo') {
+          const res = await window.fetch(`demos/${obj.filename}`)
+          const txt = await res.text()
+          code = txt
+        } else if (obj) {
+          code = obj.example
+        }
+
+        neTemplate += window.appendLibs(code)
+
+        neTemplate += '<script>{{code}}<\/script>'
+        ne.update(neTemplate)
+        ne.code = code
+      }
+
+      if (catParam && funcParam) {
+        const docsKey = catParam.toUpperCase() + '_DOCS'
+        const obj = window[docsKey] && window[docsKey].find(o => o.name === funcParam)
+        loadDemo(obj)
+      }
+
+
+      // •.¸¸¸.•*•.¸¸¸.•*•.¸¸¸.•*•.¸¸¸.•*•.¸¸¸.•*•.¸¸¸.•*•.¸¸¸.•*•.¸¸¸.•
+      // •.¸¸¸.•*•.¸¸¸.•*•.¸¸¸.•*•.¸¸¸.•* handling Netitor's events
+
+      reset()
+
+      ne.on('lint-error', (eve) => {
+        // console.log('lint-error', eve)
+        markErrors(eve)
+      })
+
+      ne.on('edu-info', (eve) => {
+        // console.log('edu-info', eve)
+        // just one example for how u might make use of our built in edu info
+        if (eve.nfo) {
+          ne.spotlight(eve.line)
+          document.querySelector('#nfo').className = ''
+          showJSNFO(eve)
+        }
+      })
+
+      ne.on('code-update', () => {
+        toggleNfo()
+      })
+
+      ne.on('cursor-activity', (eve) => {
+        // console.log('cursor-activity', eve)
+        // in this example we're not using the cursor info returned by this
+        // event, instead we're just using the notice of such an event to
+        // reset the #nfo element of any prior info or error messages
+        reset()
+      })
+
+      ne.on('hint-select', (eve) => {
+        // console.log('hint-select', eve)
+      })
+
+      nn.on('message', (e) => {
+        if (e.data && e.data.type === 'rerun') ne.update()
+      })
+
+    </script>
+  </body>
+</html>

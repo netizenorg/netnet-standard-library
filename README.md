@@ -1,187 +1,365 @@
-# netnet-standard-library
+# `nn` ( ◕ ◞ ◕ ) netnet-standard-library
 
-`nn` (netnet-standard-library.js) is a browser based JavaScript library designed to aid creative coders (artists, designers, etc), it's a core *utility* library used within [netnet.studio](https://netnet.studio); both in the sense that it can be used to create sketches in netnet, but also that it's used to create netet.studio itself. It can also be used outside of netnet.studio as you would any other typical JavaScript library (with some exceptions, see note below).
+`nn` (netnet-standard-library.js) is a browser-based JavaScript library designed to aid creative coders working on internet art and web design projects. It serves as the core utility library for [netnet.studio](https://netnet.studio), functioning both as a tool-kit for creating interactive and generative work within the platform and as a tool for building netnet.studio itself. The library is intentionally approachable for beginners, featuring helpful error messages and [friendly documentation](https://netizenorg.github.io/netnet-standard-library/docs/), yet expressive enough to support complex creative work.
 
-There are loads of amazing creative coding libraries out there ([p5.js](https://p5js.org/), [three.js](https://threejs.org/), [tone.js](https://tonejs.github.io/), [A-Frame](https://aframe.io/), [hydra.js](https://hydra.ojack.xyz/?sketch_id=example_11), [D3.js](https://d3js.org/), [Paper.js](http://paperjs.org/), [GSAP](https://gsap.com/), etc) which extend the capabilities of the Web's creative APIs and often provide a framework for expressing higher level concepts (the way A-Frame's Entity-Component-System adds game design principles to the WebGL and WebXR APIs or the way Tone.js adds music theory to the WebAudio API). Unlike these libraries, `nn` doesn't extend or abstract the Web's more creative APIs, instead it has a much more modest goal of expanding on JavaScript's standard library (like it's `Math` object) as well as some of the Web's core APIs (like `window` and `navigator`), in this way that might be useful for artists. It's more of a *utility* library than it is a creative *framework*.
+| | | |
+|:---:|:---:|:---:|
+| **[introduction page](https://netizenorg.github.io/netnet-standard-library/)** | **[documentation page](https://netizenorg.github.io/netnet-standard-library/docs/)** | **[demo gallery](https://netizenorg.github.io/netnet-standard-library/examples/demos/)** |
 
-This repo consists of a number of git "sub-modules", namely [Averigua.js](https://github.com/nbriz/Averigua),  [Maths.js](https://github.com/nbriz/Maths), [Color.js](https://github.com/nbriz/Color) and [FileUploader.js](https://github.com/nbriz/FileUploader), all of which can be used independently. This repo simply packages them up in one place, provides thorough documentation and adds a few more properties and methods specifically for aiding beginners embarking on their creative coding journey on [netnet.studio](https://netnet.studio).
+# getting started
 
-# using the library
-
-### CDN
-
-You can use the library by importing it with a `<script>` linking to a CDN like this:
+Add a single `<script>` tag to your HTML, there's no build step, no package manager, no dependencies. The global `nn` object is then available everywhere on the page. If you want to use the latest (though possibly buggy) version of the library you can add this tag to your project:
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
 ```
 
-### download locally
-
-If you prefer to download a copy locally, you can [download the just minified library here](https://raw.githubusercontent.com/netizenorg/netnet-standard-library/main/build/nn.min.js) and include it in your local project.
-
-Or use npm:
-```
-npm install git+https://github.com/netizenorg/netnet-standard-library.git
-```
-NPM will of course download much more than you need (the entire project).
-
-You can also use this library directly on netnet.studio by simply including a script tag in your sketch. Check out [this example](https://netnet.studio/?layout=dock-left#code/eJyFkc1ugzAQhO88xTQXICrwAoRDeuhzGNs1bswuso0qVPXdy09FSXro0bsz38zK9VNRwPYD+4jYaTjbeuEnFEWT1EF6O0QELy8norK3VL6HU1NX22JXNAlQnWEct8KBCOcqWUYVBN5GktEy4aOzssMYdDgGpQFekOL+hR37LN9svY4dK0SG7AQZvToGYfQsb4W8Gc8jKcjFMzv2jE19fV1hyHJ8zlvMjUqjY5a2rKY0L0OcnC4PnMuieKzx9XPCocFj9HyTpr0bHAsVkjWOKUuXZ/p83ym/Y/7DswHSWXnT6he6Dv5S9y/5Blp1mE4=) on netnet.studio. NOTE: that will only work in a "sketch", if you are working on a "project" on netnet, make sure to either include a copy of the library in your repo or use the link to the CDN above.
-
-### setup
+That URL will always return the latest version, which means it could change (even if you don't change your code), so if you want a stable version that won't change you'll need to specify the version number in the URL, for example:
 
 ```html
-<!-- import the library -->
+<!-- 1.0.0 (most recent stable version) -->
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.0/build/nn.min.js"></script>
+
+<!-- 0.9.0 (the original pre-release version) -->
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@0.9.0/build/nn.min.js"></script>
+```
+
+Here's a "hello world" GIF-drawing tool, you can also [remix this on netnet.studio](https://netnet.studio/?layout=dock-left#code/eJxlUbFOwzAQ3fMV1y52pDbeUWFCYmRhgDG1L+lBco58TkNB/Dt2QtoByZJP53vP7947iA00RJBg77enGAe5M8Y6rt7FYUfnUDFG055MuugL2Yc2l+nsJdbs6uD2HR1DHS7mOFLnDHPVU8ZvHw5mYX8oDmsB0IxsI3kGF+rpiRoBXcJ3egAwBqiB3o+CQALsI+hNCUNAEXTg/MSAnxSvHDMqQfQm/5pxj2mmhIBxDLxy+njCMJHgDmzAOiLUwDhBS808krBLXyvqW1XOTYBKMGqVjFE7UKs1y+6VxNGRT0ZVieSGGLxQ1vUcqCXWyiJHDP/f9Sr3dQdr+XadsiJaDZ4ydo/nxCFZAnvGG1Xt3IvX6ujdZW7+FMW8rO3IfkBKJvvb/plZ2+BFIPkAKQhEXmajn0NYzYC0PWCHff6xmH1JUtVM0fszJhFrZmVxzfYXc4a6Tg==).
+```html
 <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
 <script>
-  /* global nn */
-
-  // a function which uses the library's randomColor()
-  // method to change the page's background color
-  function changeBGColor () {
-    nn.get('body')
-      .css({
-        background: nn.randomColor()
-      })
+  function drawGifs () {
+    // if mouse is not (!) pressed down exit function
+    if (!nn.mouseDown) return
+    // otherwise, create a new gif
+    nn.create('img')
+      .set('src', 'https://netnet.studio/cd.gif')
+      .positionOrigin('center')
+      .position(nn.mouseX, nn.mouseY)
+      .css('pointer-events', 'none')
+      .addTo('body')
   }
 
-  // change the background color when the page loads
-  nn.on('load', changeBGColor)
-  // change background color when the page is clicked
-  nn.on('click', changeBGColor)
+  // click and drag mouse across the screen
+  // to draw new gif img elements
+  nn.on('mousemove', drawGifs)
 </script>
 ```
 
-# examples
-
-For more examples demonstrating how this library can be used checkout the [examples doc](docs/examples.md)
-
-<!-- ![docs/randomColor.gif](docs/randomColor.gif) -->
-
-# API / documentation
-
-## properties (internal variables)
-
-- [nn.width](docs/API.md#width) `// browser's current width`
-- [nn.height](docs/API.md#height) `// browser's current height`
-- [nn.mouseX](docs/API.md#mouseX) `// mouse's current x position`
-- [nn.mouseY](docs/API.md#mouseY) `// mouse's current y position`
-- [nn.mouseDown](docs/API.md#mouseDown) `// is mouse pressed or not`
-
-## methods (internal functions)
-
-- [nn.on()](docs/API.md#on) `// register an event listener on the window`  
-- [nn.create()](docs/API.md#create) `// creates an "overloaded" HTMLElement`
-- [nn.get()](docs/API.md#get) `// selects an element on the page and returns an "overloaded" one`
-- [nn.getAll()](docs/API.md#getAll) `// selects all matching elements and returns"overloaded" ones`
-- [nn.loadImage()](docs/API.md#loadImage) `// a Promised based approach for loading images`
-- [nn.modifyPixels()](docs/API.md#modifyPixels) `// method for processing/filtering images`
-- [nn.askForStream()](docs/API.md#askForStream) `// ask user permission to use their mic/camera`  
-- [nn.askForGPS()](docs/API.md#askForGPS) `// ask user permission for location data`
-- [nn.MIDI()](docs/API.md#askFor) `// access any plugged in MIDI devices`  
-- [nn.sleep()](docs/API.md#sleep) `// pauses code for a specified time`
-- [nn.times()](docs/API.md#times) `// loops a function a set number of times`
-- [nn.range()](docs/API.md#range) `// loops a function over a given range`
-- [nn.fetch()](docs/API.md#fetch) `// a version of fetch() which gets around CORS issues`
-
-Function for binding CSS variables to interactions with HTML elements (input, buttons, etc)
-
-- [nn.bindCSS()](docs/API.md#bindCSS) `// binds elements to CSS variables`
-
-Functions for working with data, specifically designed for JSON or CSV data:
-
-- [nn.loadData()](docs/API.md#loadData) `// load data from a URL`
-- [nn.parseData()](docs/API.md#parseData) `// parse a JSON or CSV string`
-- [nn.stringifyData()](docs/API.md#stringifyData) `// stringify an JSON object or CSV array`
-- [nn.parseCSV()](docs/API.md#parseCSV) `// parse CSV string`
-- [nn.parseJSON()](docs/API.md#parseJSON) `// parse JSON string`
-- [nn.stringifyCSV()](docs/API.md#stringifyCSV) `// array to CSV string`
-- [nn.stringifyJSON()](docs/API.md#stringifyJSON) `// array/object to JSON string`
-
-Functions for detecting useful information about your visitor's device. These come from the [Averigua.js](https://github.com/nbriz/Averigua) sub-module.
-
-- [nn.isMobile()](docs/API.md#isMobile) `// is the visitor on a mobile device`
-- [nn.hasWebGL()](docs/API.md#hasWebGL) `// does their device support 3D graphics`
-- [nn.hasWebVR()](docs/API.md#hasWebVR) `// does their device support Virtual Reality`
-- [nn.hasMIDI()](docs/API.md#hasMIDI) `// does their device support MIDI`
-- [nn.hasTouch()](docs/API.md#hasTouch) `// does their device have a touch screen`
-- [nn.orientation()](docs/API.md#orientation) `// what is the device's orientation`
-- [nn.screen()](docs/API.md#screen) `// info about their screen`
-- [nn.gpuInfo()](docs/API.md#gpuInfo) `// info about their graphics card`
-- [nn.browserInfo()](docs/API.md#browserInfo) `// what type of browser are they on`
-- [nn.platformInfo()](docs/API.md#platformInfo) `// info about their computer`
-- [nn.audioSupport()](docs/API.md#audioSupport) `// info about their browser's audio support`
-- [nn.videoSupport()](docs/API.md#videoSupport) `// info about their browser's video support`
-
-Other useful **math** functions often used in creative coding projects which are not included in JavaScript's built in `Math` object. These come from the [Maths.js](https://github.com/nbriz/Maths) sub-module.
-
-- [nn.norm()](docs/API.md#norm) `// normalize a value`
-- [nn.clamp()](docs/API.md#clamp) `// clamp a value to given range`
-- [nn.lerp()](docs/API.md#lerp) `// linear interpolation`
-- [nn.map()](docs/API.md#map) `// map a value from one range to another`
-- [nn.dist()](docs/API.md#dist) `// the distance between two points`
-- [nn.angleBtw()](docs/API.md#angleBtw) `// the angle between two points`
-- [nn.radToDeg()](docs/API.md#radToDeg) `// convert an angle in radians to degrees`
-- [nn.degToRad()](docs/API.md#degToRad) `// convert an angle in degrees to radians`
-- [nn.cartesianToPolar()](docs/API.md#cartesianToPolar) `// convert cartesian coordinates to polar`
-- [nn.polarToCartesian()](docs/API.md#polarToCartesian) `// convert polar coordinates to cartesian`
-- [nn.shuffle()](docs/API.md#shuffle) `// randomize the items in an array`
-- [nn.randomInt()](docs/API.md#randomInt) `// generate a random integer (whole number)`
-- [nn.randomFloat()](docs/API.md#randomFloat) `// generate a random float (decimal number)`
-- [nn.random()](docs/API.md#random) `// generate a random number, or select a random item from an array`
-- [nn.perlin()](docs/API.md#perlin) `// generate random "perlin" noise`
-- [nn.ease()](docs/API.md#ease) `// a collection of easing/tweening functions`
-
-Functions for doing various **color** maths. These come from the [Color.js](https://github.com/nbriz/Color) sub-module.
-
-- [nn.rgb()](docs/API.md#rgb) `// generate an rgb color string`
-- [nn.hsl()](docs/API.md#hsl) `// generate an hsl color string`
-- [nn.randomColor()](docs/API.md#randomColor) `// generate a random color string`
-- [nn.colorScheme()](docs/API.md#colorScheme) `// generate a color scheme array`
-- [nn.isLight()](docs/API.md#isLight) `// checks if a color is light or dark`
-- [nn.colorContrast()](docs/API.md#colorContrast) `// compares to colors, returns WCAG ratio`
-- [nn.colorMatch()](docs/API.md#colorMatch) `// finds color strings in larger strings`
-- [nn.toRGB()](docs/API.md#toRGB) `// converts color string or object to RGB`
-- [nn.toHSL()](docs/API.md#toHSL) `// converts color string or object to HSL`
-- [nn.alpha2hex()](docs/API.md#alpha2hex) `// converts alpha float value to hex byte string`
-- [nn.hex2alpha()](docs/API.md#hex2alpha) `// converts a hex byte string to alpha float value`
-- [nn.hex2rgb()](docs/API.md#hex2rgb) `// converts a hex color string to an rgb object`
-- [nn.hex2hsl()](docs/API.md#hex2hsl) `// converts a hex color string to an hsl object`
-- [nn.hex2hsv()](docs/API.md#hex2hsv) `// converts a hex color string to an hsv object`
-- [nn.rgb2hex()](docs/API.md#rgb2hex) `// converts r, g, b values to a hex color string`
-- [nn.rgb2hsl()](docs/API.md#rgb2hsl) `// converts r, g, b values to an hsl object`
-- [nn.rgb2hsv()](docs/API.md#rgb2hsv) `// converts r, g, b values to an hsv object`
-- [nn.hsl2hex()](docs/API.md#hsl2hex) `// converts h, s, l values to a hex color string`
-- [nn.hsl2rgb()](docs/API.md#hsl2rgb) `// converts h, s, l values to an rgb object`
-- [nn.hsl2hsv()](docs/API.md#hsl2hsv) `// converts h, s, l values to an hsv object`
-- [nn.hsv2hex()](docs/API.md#hsv2hex) `// converts h, s, v values to a hex color string`
-- [nn.hsv2rgb()](docs/API.md#hsv2rgb) `// converts h, s, v values to an rgb object`
-- [nn.hsv2hsl()](docs/API.md#hsv2hsl) `// converts h, s, v values to an hsl object`
-
-Functions for doing **music** theory, like working with pitches, scales, and chords along side the Web Audio API.
-
-- [nn.notes](docs/API.md#notes) `// array of note names for each semitone index`
-- [nn.modes](docs/API.md#modes) `// map of mode names to their interval patterns`
-- [nn.chords](docs/API.md#chords) `// predefined chord shapes as scale‐degree arrays`
-- [nn.noteToMidi()](docs/API.md#notetomidi) `// convert a note like 'C4' to its MIDI note number`
-- [nn.noteToFrequency()](docs/API.md#notetofrequency) `// convert a note like 'A4' to its frequency in Hz`
-- [nn.midiToNote()](docs/API.md#miditonote) `// convert a MIDI number to a note like 'C4'`
-- [nn.midiToFrequency()](docs/API.md#miditofrequency) `// convert a MIDI number to its frequency in Hz`
-- [nn.frequencyToMidi()](docs/API.md#frequencytomidi) `// convert a frequency in Hz to the nearest MIDI number`
-- [nn.frequencyToNote()](docs/API.md#frequencytonote) `// convert a frequency in Hz to the nearest note like 'A4'`
-- [nn.randomMode()](docs/API.md#randommode) `// generate a random seven-step mode`
-- [nn.createScale()](docs/API.md#createscale) `// a scale from a root note and a mode name/array`
-- [nn.createChord()](docs/API.md#createchord) `// a chord from a scale and chord name/array`
-- [nn.voiceChord()](docs/API.md#voicechord) `// voice a chord upward into strictly ascending notes`
-- [nn.rotateScale()](docs/API.md#rotatescale) `// rotate a scale to a new first degree`
-- [nn.transposeScale()](docs/API.md#transposescale) `// transponse all the notes in a scale`
-- [nn.stripOctave()](docs/API.md#stripoctave) `// remove octave numbers from notes (returns pitch-classes)`
+To learn more visit our introduction page, there you'll find intros to the library's core concepts/patterns including:
+- [How to render HTML elements dynamically](http://localhost/#dom-elements)
+- [How to use callback functions](http://localhost/#callbacks)
+- [How to setup event listeners for interaction](http://localhost/#events)
+- [How to work with async/await functions](http://localhost/#async)
+- [How to render vector graphics with `<svg>` and raster graphics with `<canvas>`](http://localhost/#rendering)
+- [How to setup a generative animation loop](http://localhost/#animate)
 
 
-## classes
+There are many amazing creative coding libraries that extend the capabilities of the Web's creative APIs, often providing frameworks for expressing higher-level concepts, like how A-Frame's Entity-Component-System adds game design principles to WebGL and WebXR, or how Tone.js brings music synthesis and DAW (Digital Audio Workstation) concepts to the Web Audio API. While the `nn` library can be used on its own, it's really designed to work alongside these other frameworks. For example, you could use D3.js to generate data visualizations, then apply nn's color theory methods to ensure the chart colors follow harmonious color schemes and meet WCAG AA accessibility standards. Similarly, you could use nn's music theory utilities to generate scales and chords, then pass them to Tone.js for playback. You can see this in action in our [demos gallery](https://netizenorg.github.io/netnet-standard-library/examples/demos).
 
-- [nn.FileUploader](docs/API.md#FileUploader) *This comes from the [FileUploader.js](https://github.com/nbriz/FileUploader) sub-module.*
+
 
 # contributions
 
-If you'd like to contribute to this repository, our [contributors doc](docs/contribute.md) include steps you should take to setup a local project as well as contribute any bug fixes, additions or other changes.
+If you'd like to contribute to this repository, below are the steps you should take to setup a local project as well as contribute any bug fixes, additions or other changes.
+
+### setup
+0. start by [fork our repo](https://github.com/netizenorg/netnet-standard-library/fork) this repo
+1. then clone your fork `git clone https://github.com/[YOUR_USER_NAME]/netnet.studio.git`
+2. then install the dev dependencies `npm install`
+3. lastly, setup a remote "upstream" to our repo: `git remote add upstream https://github.com/netizenorg/netnet-standard-library.git`
+
+### development
+
+0. before starting on a new feature it's always a good idea to run `git pull upstream main` to pull updates from our repo.
+1. create a "feature" branch `git checkout -b [FEATURE-NAME]` for your contribution.
+
+2. All the source code can be found in `/src`, there you'll find sub-folders for the different categories, within those sub-folders you'll find the source code files and their accompanying documentation files.
+  - If you edit or add a new function/method, make sure to add/edit it's documentation entry as well.
+  - If your contribution also requires updating the API Index (in this README below) make sure to do that as well
+
+3. as you work locally you can
+  - use the `npm run build` command to create new builds of the library
+  - serve the repo locally to use the `/examples` page to write examples and test your changes
+  - use the `npm run lint` command to ensure you're conforming to our [coding style](https://standardjs.com/) before making any commits.
+  - use the `npm run docs` to make sure the `source` property of your doc entry has the right start/end lines
+
+4. when you're ready, create a [PR](https://github.com/netizenorg/netnet-standard-library/pulls) *from* your `feature` branch and *into* our `main` branch.
+
+5. Once your PR has been merged, clean things up before starting on another feature
+```
+git checkout main
+git pull upstream main
+git push origin --delete [FEATURE-NAME]
+git branch --delete [FEATURE-NAME]
+```
+
+
+# API Index
+
+Below is an index of all of `nn` internal methods with hyperlinks to their documentation. You can also find the
+full documentation page here: [https://netizenorg.github.io/netnet-standard-library/docs/](https://netizenorg.github.io/netnet-standard-library/docs/)
+
+## properties
+
+- [nn.width](https://netizenorg.github.io/netnet-standard-library/docs/#dom/width) `// browser's current width`
+- [nn.height](https://netizenorg.github.io/netnet-standard-library/docs/#dom/height) `// browser's current height`
+- [nn.mouseX](https://netizenorg.github.io/netnet-standard-library/docs/#dom/mouseX) `// mouse's current x position`
+- [nn.mouseY](https://netizenorg.github.io/netnet-standard-library/docs/#dom/mouseY) `// mouse's current y position`
+- [nn.mouseDown](https://netizenorg.github.io/netnet-standard-library/docs/#dom/mouseDown) `// is mouse currently pressed`
+- [nn.pointer](https://netizenorg.github.io/netnet-standard-library/docs/#dom/pointer) `// first active pointer contact { x, y, id, type } or null`
+- [nn.pointers](https://netizenorg.github.io/netnet-standard-library/docs/#dom/pointers) `// array of all active pointer contacts`
+
+## core utilities
+
+- [nn.sleep(ms)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/sleep) `// pause code for a specified time`
+- [nn.times(n, fn)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/times) `// call a function n times`
+- [nn.range(start, end, step)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/range) `// generate a range of numbers`
+- [nn.on(evt, fn)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/on) `// register an event listener on the window`
+- [nn.off(evt, fn)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/off) `// remove an event listener from the window`
+
+## rendering (html)
+
+- [nn.get(selector)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/get) `// select an element and return it "overloaded"` *(same chainable methods as `create`)*
+- [nn.getAll(selector)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/getAll) `// select all matching elements "overloaded"` *(same chainable methods as `create`)*
+- [nn.create(tag)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/create) `// create an "overloaded" HTMLElement`
+  - [.on(evt, fn)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/on) `// attach an event listener`
+  - [.off(evt, fn)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/off) `// remove an event listener`
+  - [.content(str)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/content) `// set the element's innerHTML`
+  - [.set(attr, val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/set) `// set an attribute or object of attributes; also .set('.class') or .set('#id')`
+  - [.get(selector)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/get) `// select a child element`
+  - [.getAll(selector)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/getAll) `// select all matching child elements`
+  - [.css(prop, val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/css) `// set a CSS property or object of properties`
+  - [.transition(prop, ms)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/transition) `// set a CSS transition`
+  - [.addTo(parent)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/addTo) `// append element to a parent`
+  - [.size(w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/size) `// set width (and optionally height); omit h for a square`
+  - [.position(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/position) `// position element absolutely`
+  - [.positionOrigin(type)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/positionOrigin) `// 'center' makes x/y refer to element's center`
+  - [.rotate(deg)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/rotate) `// rotate element in degrees`
+  - [.scale(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/scale) `// scale element`
+  - [.skew(xDeg, yDeg)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/skew) `// skew element`
+  - [.blur(px)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/blur) `// apply CSS blur filter`
+  - [.brightness(val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/brightness) `// apply CSS brightness filter`
+  - [.contrast(val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/contrast) `// apply CSS contrast filter`
+  - [.dropShadow(x, y, blur, color)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/dropShadow) `// apply CSS drop shadow`
+  - [.grayscale(val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/grayscale) `// apply CSS grayscale filter`
+  - [.hueRotate(deg)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/hueRotate) `// apply CSS hue rotation`
+  - [.invert(val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/invert) `// apply CSS invert filter`
+  - [.opacity(val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/opacity) `// apply CSS opacity filter`
+  - [.saturate(val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/saturate) `// apply CSS saturation filter`
+  - [.sepia(val)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/sepia) `// apply CSS sepia filter`
+  - [.data](https://netizenorg.github.io/netnet-standard-library/docs/#dom/data) `// proxy for reading/writing data-* attributes`
+  - [.value](https://netizenorg.github.io/netnet-standard-library/docs/#dom/value) `// auto-coerced to number for number/range inputs`
+
+
+# media utilities
+
+- [nn.loadImage(src)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/loadImage) `// Promise-based image loading`
+- [nn.filterImage(image, fn, opts?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/filterImage) `// filter image pixels; fn receives { r,g,b,a } (default), or raw array`
+- [nn.filterVideo(video, fn, opts?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/filterVideo) `// live filter video pixels; fn receives { r,g,b,a } (default), or raw array`
+- [nn.popup(url, x, y, w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/popup) `// open a new browser window`
+- [nn.hyper(media)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/hyper) `// attach time-based cues to audio/video with .at(seconds, fn)`
+
+# user permissions
+- [nn.askFor(type)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askFor) `// request camera, mic, gps, etc. ('video','audio','capture','gps','notifications','clipboard','bluetooth','usb','serial','motion','orientation')`
+- [nn.askForStream(constraints)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForStream) `// full getUserMedia with constraints object`
+- [nn.askForCapture()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForCapture) `// screen/window/tab capture`
+- [nn.askForNotifications()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForNotifications) `// request notification permission`
+- [nn.askForClipboard()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForClipboard) `// read the clipboard`
+- [nn.askForBluetooth(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForBluetooth) `// show Bluetooth device picker`
+- [nn.askForUSB(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForUSB) `// show USB device picker`
+- [nn.askForSerial(filters?)](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForSerial) `// show serial port picker`
+- [nn.askForMotion()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForMotion) `// request device motion permission (iOS 13+)`
+- [nn.askForOrientation()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForOrientation) `// request device orientation permission (iOS 13+)`
+- [nn.askForGPS()](https://netizenorg.github.io/netnet-standard-library/docs/#dom/askForGPS) `// request geolocation`
+- [nn.MIDI](https://netizenorg.github.io/netnet-standard-library/docs/#dom/MIDI) `// access plugged-in MIDI devices`
+
+## data
+
+- [nn.parse(str)](https://netizenorg.github.io/netnet-standard-library/docs/#data/parse) `// parse a JSON or CSV string; auto-detects format`
+- [nn.serialize(data, format?)](https://netizenorg.github.io/netnet-standard-library/docs/#data/serialize) `// convert data to a JSON or CSV string`
+- [nn.download(data, filename?)](https://netizenorg.github.io/netnet-standard-library/docs/#data/download) `// trigger a browser file download; auto-detects type`
+- [nn.upload(options?)](https://netizenorg.github.io/netnet-standard-library/docs/#data/upload) `// open file picker; returns Promise with { name, size, type, data }`
+
+## feature detection
+
+- [nn.isBrowser()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/isBrowser) `// is the code running in a browser`
+- [nn.isMobile()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/isMobile) `// is the visitor on a mobile device`
+- [nn.browserInfo()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/browserInfo) `// browser name and version`
+- [nn.platformInfo()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/platformInfo) `// OS and platform info`
+- [nn.gpuInfo()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/gpuInfo) `// graphics card info`
+- [nn.screen()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/screen) `// screen dimensions and properties`
+- [nn.orientation()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/orientation) `// device orientation`
+- [nn.language()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/language) `// user's language preference`
+- [nn.timeZone()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/timeZone) `// user's time zone`
+- [nn.audioSupport()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/audioSupport) `// browser audio format support`
+- [nn.videoSupport()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/videoSupport) `// browser video format support`
+- [nn.storageSupport()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/storageSupport) `// localStorage / sessionStorage support`
+- [nn.fontSupport()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/fontSupport) `// font feature support`
+- [nn.hasTouch()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasTouch) `// touch screen support`
+- [nn.hasWebGL()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasWebGL) `// WebGL / 3D graphics support`
+- [nn.hasWebVR()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasWebVR) `// WebVR support`
+- [nn.hasWebXR()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasWebXR) `// WebXR (VR/AR) support`
+- [nn.hasWebAudio()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasWebAudio) `// Web Audio API support`
+- [nn.hasMIDI()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasMIDI) `// Web MIDI API support`
+- [nn.hasMediaDevices()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasMediaDevices) `// getUserMedia support`
+- [nn.hasDeviceMotion()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasDeviceMotion) `// device motion events support`
+- [nn.hasDeviceOrientation()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasDeviceOrientation) `// device orientation events support`
+- [nn.hasPointerLock()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasPointerLock) `// Pointer Lock API support`
+- [nn.hasGamepad()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasGamepad) `// Gamepad API support`
+- [nn.hasWebSerial()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasWebSerial) `// Web Serial API support`
+- [nn.hasWebUSB()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasWebUSB) `// WebUSB API support`
+- [nn.hasBluetooth()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasBluetooth) `// Web Bluetooth API support`
+- [nn.hasSpeechRecognition()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasSpeechRecognition) `// Speech Recognition API support`
+- [nn.hasSpeechSynthesis()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasSpeechSynthesis) `// Speech Synthesis API support`
+- [nn.hasWebAssembly()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasWebAssembly) `// WebAssembly support`
+- [nn.hasFullscreen()](https://netizenorg.github.io/netnet-standard-library/docs/#averigua/hasFullscreen) `// Fullscreen API support`
+
+## Maths
+
+- [nn.norm(val, min, max)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/norm) `// normalize a value to 0–1`
+- [nn.clamp(val, min, max)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/clamp) `// constrain a value to a range`
+- [nn.lerp(a, b, t)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/lerp) `// linear interpolation`
+- [nn.map(val, inMin, inMax, outMin, outMax)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/map) `// map a value from one range to another`
+- [nn.dist(x1, y1, x2, y2)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/dist) `// distance between two points`
+- [nn.angleBtw(x1, y1, x2, y2)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/angleBtw) `// angle between two points`
+- [nn.radToDeg(rad)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/radToDeg) `// radians to degrees`
+- [nn.degToRad(deg)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/degToRad) `// degrees to radians`
+- [nn.cartesianToPolar(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/cartesianToPolar) `// cartesian to polar coordinates`
+- [nn.polarToCartesian(dist, angle)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/polarToCartesian) `// polar to cartesian coordinates`
+- [nn.shuffle(arr)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/shuffle) `// randomize the items in an array`
+- [nn.randomInt(min, max)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/randomInt) `// random integer`
+- [nn.randomFloat(min, max)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/randomFloat) `// random float`
+- [nn.random(min, max)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/random) `// random number, or random item from an array`
+- [nn.perlin(x, y, z)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/perlin) `// Perlin noise`
+- [nn.ease(type, t)](https://netizenorg.github.io/netnet-standard-library/docs/#maths/ease) `// easing / tweening functions`
+
+## Color Theory
+
+- [nn.randomColor()](https://netizenorg.github.io/netnet-standard-library/docs/#color/randomColor) `// generate a random color string`
+- [nn.colorGradient(colors, steps)](https://netizenorg.github.io/netnet-standard-library/docs/#color/colorGradient) `// multi-stop gradient as a color array or CSS string`
+- [nn.colorScheme(color, type)](https://netizenorg.github.io/netnet-standard-library/docs/#color/colorScheme) `// generate a color scheme array`
+- [nn.lerpColor(a, b, t)](https://netizenorg.github.io/netnet-standard-library/docs/#color/lerpColor) `// interpolate between two colors`
+- [nn.closestColor(color, palette)](https://netizenorg.github.io/netnet-standard-library/docs/#color/closestColor) `// find the nearest color in a palette`
+- [nn.rgb(r, g, b, a)](https://netizenorg.github.io/netnet-standard-library/docs/#color/rgb) `// build an rgb/rgba CSS color string`
+- [nn.hsl(h, s, l, a)](https://netizenorg.github.io/netnet-standard-library/docs/#color/hsl) `// build an hsl/hsla CSS color string`
+- [nn.toRGB(color)](https://netizenorg.github.io/netnet-standard-library/docs/#color/toRGB) `// normalize any color to { r, g, b }`
+- [nn.toHSL(color)](https://netizenorg.github.io/netnet-standard-library/docs/#color/toHSL) `// normalize any color to { h, s, l }`
+- [nn.toHex(color)](https://netizenorg.github.io/netnet-standard-library/docs/#color/toHex) `// normalize any color to a hex string`
+- [nn.isLight(color)](https://netizenorg.github.io/netnet-standard-library/docs/#color/isLight) `// check if a color is light or dark`
+- [nn.colorContrast(a, b)](https://netizenorg.github.io/netnet-standard-library/docs/#color/colorContrast) `// WCAG contrast ratio between two colors`
+- [nn.colorMatch(a, b)](https://netizenorg.github.io/netnet-standard-library/docs/#color/colorMatch) `// find color strings within larger strings`
+- [nn.alpha2hex(alpha)](https://netizenorg.github.io/netnet-standard-library/docs/#color/alpha2hex) `// alpha float to hex byte string`
+- [nn.hex2alpha(hex)](https://netizenorg.github.io/netnet-standard-library/docs/#color/hex2alpha) `// hex byte string to alpha float`
+
+## Music Theory
+
+- [nn.notes](https://netizenorg.github.io/netnet-standard-library/docs/#music/notes) `// array of note names for each semitone index`
+- [nn.modes](https://netizenorg.github.io/netnet-standard-library/docs/#music/modes) `// map of mode names to their interval patterns`
+- [nn.chords](https://netizenorg.github.io/netnet-standard-library/docs/#music/chords) `// predefined chord shapes as scale-degree arrays`
+- [nn.noteToMidi(note)](https://netizenorg.github.io/netnet-standard-library/docs/#music/noteToMidi) `// note name like 'C4' → MIDI number`
+- [nn.midiToNote(midi)](https://netizenorg.github.io/netnet-standard-library/docs/#music/midiToNote) `// MIDI number → note name like 'C4'`
+- [nn.noteToFrequency(note)](https://netizenorg.github.io/netnet-standard-library/docs/#music/noteToFrequency) `// note name like 'A4' → frequency in Hz`
+- [nn.frequencyToNote(freq)](https://netizenorg.github.io/netnet-standard-library/docs/#music/frequencyToNote) `// frequency in Hz → nearest note name`
+- [nn.midiToFrequency(midi)](https://netizenorg.github.io/netnet-standard-library/docs/#music/midiToFrequency) `// MIDI number → frequency in Hz`
+- [nn.frequencyToMidi(freq)](https://netizenorg.github.io/netnet-standard-library/docs/#music/frequencyToMidi) `// frequency in Hz → nearest MIDI number`
+- [nn.stripOctave(note)](https://netizenorg.github.io/netnet-standard-library/docs/#music/stripOctave) `// remove octave number from a note name`
+- [nn.randomMode()](https://netizenorg.github.io/netnet-standard-library/docs/#music/randomMode) `// generate a random set of scale step intervals`
+- [nn.createScale(root, mode)](https://netizenorg.github.io/netnet-standard-library/docs/#music/createScale) `// build a scale from a root note and mode`
+- [nn.rotateScale(scale, k)](https://netizenorg.github.io/netnet-standard-library/docs/#music/rotateScale) `// rotate a scale to start from a different degree`
+- [nn.transposeScale(scale, semitones)](https://netizenorg.github.io/netnet-standard-library/docs/#music/transposeScale) `// transpose all notes in a scale`
+- [nn.createChord(scale, type)](https://netizenorg.github.io/netnet-standard-library/docs/#music/createChord) `// extract a chord from a scale`
+- [nn.voiceChord(chord, oct)](https://netizenorg.github.io/netnet-standard-library/docs/#music/voiceChord) `// add octave numbers for strictly ascending pitches`
+
+## rendering (canvas)
+
+`nn.create('canvas')` returns a canvas element with additional drawing methods:
+
+### style properties
+- [.fillColor](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/fillColor) `// get/set fill color`
+- [.strokeColor](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/strokeColor) `// get/set stroke color`
+- [.lineWidth](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/lineWidth) `// get/set stroke width`
+- [.lineCap](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/lineCap) `// get/set line cap style ('butt', 'round', 'square')`
+- [.lineJoin](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/lineJoin) `// get/set line join style ('miter', 'round', 'bevel')`
+- [.font](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/font) `// get/set font string`
+- [.textAlign](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/textAlign) `// get/set text alignment`
+- [.textBaseline](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/textBaseline) `// get/set text baseline`
+- [.globalAlpha](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/globalAlpha) `// get/set global opacity`
+- [.blendMode](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/blendMode) `// get/set blend mode`
+- [.shadowBlur](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/shadowBlur) `// get/set shadow blur radius`
+- [.shadowColor](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/shadowColor) `// get/set shadow color`
+- [.shadowOffsetX](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/shadowOffsetX) `// get/set shadow X offset`
+- [.shadowOffsetY](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/shadowOffsetY) `// get/set shadow Y offset`
+
+### drawing
+- [.circle(x, y, r)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/circle) `// draw a filled/stroked circle`
+- [.ellipse(x, y, rx, ry, rotation)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/ellipse) `// draw a filled/stroked ellipse`
+- [.rect(x, y, w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/rect) `// draw a filled/stroked rectangle`
+- [.line(x1, y1, x2, y2)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/line) `// draw a stroked line`
+- [.triangle(x1, y1, x2, y2, x3, y3)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/triangle) `// draw a filled/stroked triangle`
+- [.text(str, x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/text) `// draw a text string`
+- [.drawImage(src, x, y, w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/drawImage) `// draw an image or video`
+
+### custom paths
+- [.beginPath()](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/beginPath) `// start a new path`
+- [.moveTo(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/beginPath) `// move pen to a point`
+- [.lineTo(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/beginPath) `// draw a line to a point`
+- [.arc(x, y, r, start, end)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/arc) `// add an arc to the path`
+- [.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/bezierCurveTo) `// add a cubic Bézier curve`
+- [.closePath()](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/beginPath) `// close the current path`
+- [.fill()](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/beginPath) `// fill the current path`
+- [.stroke()](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/beginPath) `// stroke the current path`
+
+### transforms
+- [.save()](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/save) `// push drawing state onto the stack`
+- [.restore()](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/save) `// pop drawing state from the stack`
+- [.translate(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/translate) `// shift the coordinate origin`
+- [.rotate(radians)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/rotate) `// rotate the coordinate system`
+- [.scale(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/scale) `// scale the coordinate system`
+
+### utilities
+- [.clear()](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/clear) `// erase the entire canvas`
+- [.resize(w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/resize) `// resize the canvas drawing buffer`
+- [.getPixels(opts?)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/getPixels) `// get pixel data as { r,g,b,a } objects (default) or raw array`
+- [.setPixels(arr)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/setPixels) `// write pixel data back; accepts { r,g,b,a } objects or a flat Uint8ClampedArray`
+- [.createLinearGradient(x0, y0, x1, y1)](https://netizenorg.github.io/netnet-standard-library/docs/#canvas/createLinearGradient) `// create a linear gradient`
+
+## rendering (svg)
+
+`nn.create('svg')` returns an SVG element with shape factory methods. Shapes returned by those factories are themselves chainable.
+
+### shape factory methods
+- [.circle(cx, cy, r)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/circle) `// create and append a circle`
+- [.ellipse(cx, cy, rx, ry)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/ellipse) `// create and append an ellipse`
+- [.rect(x, y, w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/rect) `// create and append a rectangle`
+- [.line(x1, y1, x2, y2)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/line) `// create and append a line`
+- [.path(d)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/path) `// create and append a path`
+- [.polygon(points)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/polygon) `// create and append a polygon`
+- [.polyline(points)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/polyline) `// create and append a polyline`
+- [.text(str, x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/text) `// create and append a text element`
+- [.group()](https://netizenorg.github.io/netnet-standard-library/docs/#svg/group) `// create and append a group element`
+- [.image(href, x, y, w, h)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/image) `// create and append an image element`
+
+### layout (chainable on any SVG shape)
+- [.position(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/position) `// move element; meaning depends on type (cx/cy, x/y, or translate)`
+- [.positionOrigin(type)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/positionOrigin) `// 'center' makes .position() center rects and text on the given point`
+- [.size(...)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/size) `// resize: circle→r, ellipse→rx,ry, rect/svg→width,height`
+
+### styling (chainable on any SVG element)
+- [.fill(color)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/fill) `// set fill color`
+- [.stroke(color)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/stroke) `// set stroke color`
+- [.strokeWidth(n)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/strokeWidth) `// set stroke width`
+- [.strokeDash(val)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/strokeDash) `// set stroke dash pattern`
+- [.strokeOffset(n)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/strokeOffset) `// set stroke-dashoffset; animate to draw lines`
+- [.opacity(n)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/opacity) `// set opacity`
+- [.textAlign(val)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/textAlign) `// set text alignment (text/tspan only)`
+- [.textBaseline(val)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/textBaseline) `// set text baseline (text/tspan only)`
+- [.borderRadius(rx, ry?)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/rect) `// set rounded corners (rect only)`
+
+### transforms (chainable on any SVG element)
+- [.translate(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/translate) `// translate via SVG transform`
+- [.rotate(deg, cx, cy)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/rotate) `// rotate via SVG transform`
+- [.scale(x, y)](https://netizenorg.github.io/netnet-standard-library/docs/#svg/scale) `// scale via SVG transform`
+
+
+`( ◕ ◞ ◕ )`

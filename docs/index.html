@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>nn ◕ ◞ ◕ docs</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+
+    <nn-nav base="../" page="docs"></nn-nav>
+
+    <div id="friendly-bubble" hidden>
+      <p id="friendly-text"></p>
+    </div>
+
+    <div id="layout">
+      <aside id="sidebar">
+        <div id="search-wrap">
+          <input id="search-input" type="text" placeholder="search…" autocomplete="off" spellcheck="false">
+        </div>
+        <div id="menu"></div>
+        <div id="search-results" hidden></div>
+      </aside>
+
+      <main id="content">
+        <div id="metadata">
+          <p>⭠ Search or select a category and method from the menu to view its docs here.</p>
+        </div>
+        <div id="preview-wrap">
+          <span class="pane-label label-example">example code</span>
+          <span class="pane-label label-output">rendered code</span>
+          <iframe id="preview" src="../examples/index.html"></iframe>
+        </div>
+      </main>
+    </div>
+
+    <script src="../examples/netitor.min.js"></script>
+    <script src="nn-nav.js"></script>
+    <script src="../build/nn.min.js"></script>
+    <script src="menu-data.js"></script>
+    <script>
+      /* global nn, Netitor, MENU_DATA */
+
+      const menuEl = nn.get('#menu')
+      const metadataEl = nn.get('#metadata')
+      const previewEl = nn.get('#preview')
+      const bubbleEl = nn.get('#friendly-bubble')
+      const bubbleTextEl = nn.get('#friendly-text')
+      const searchInput = nn.get('#search-input')
+      const searchResultsEl = nn.get('#search-results')
+
+      // ------------------------ theme stuff
+
+      let currentTheme = localStorage.getItem('nn-docs-theme') || 'dark'
+      let currentCat = null
+      let currentFunc = null
+
+      document.addEventListener('nn-theme-change', (e) => {
+        currentTheme = e.detail.theme
+        updatePreview()
+      })
+
+      updatePreview()
+
+      // ------------------------- friendly bubble
+
+      const face = nn.get('.face')
+
+      // dismiss the speech bubble on any click outside it
+      document.addEventListener('click', () => {
+        bubbleEl.setAttribute('hidden', '')
+      })
+      bubbleEl.addEventListener('click', (e) => e.stopPropagation())
+
+      // ------------------------- menu selection stuff
+
+      function updatePreview () {
+        const base = `../examples/index.html?theme=${currentTheme}`
+        previewEl.src = (currentCat && currentFunc)
+          ? base + `&cat=${currentCat}&func=${currentFunc}`
+          : base
+      }
+
+      function highlightSig (sig) {
+        return sig.replace(/\(([^)]*)\)/, (_, inner) => {
+          if (!inner.trim()) return '()'
+          const highlighted = inner.split(',').map(p => {
+            const trimmed = p.trim()
+            return p.replace(trimmed, `<span style="color:var(--netizen-string)">${trimmed}</span>`)
+          }).join(',')
+          return '(' + highlighted + ')'
+        })
+      }
+
+      function catSlug (catKey) {
+        return MENU_DATA[catKey].data.global.replace('_DOCS', '').toLowerCase()
+      }
+
+      function md (str) {
+        return str
+          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>')
+      }
+
+      function renderMetadata (catKey, methodName) {
+        const cat = MENU_DATA[catKey]
+        const docs = window[cat.data.global]
+        const entry = docs && docs.find(o => o.name === methodName)
+        if (!entry) return
+
+        const ghBase = 'https://github.com/netizenorg/netnet-standard-library/blob/main/'
+        const friendlyLink = entry.friendly
+          ? ' <a class="friendly-link" href="#">What does this mean?</a>'
+          : ''
+        const sourceLink = entry.source
+          ? ` <a href="${ghBase}${entry.source.filepath}#L${entry.source.start}-L${entry.source.end}" target="_blank">View source on GitHub.</a>`
+          : ''
+
+        const paramsRows = (entry.params && entry.params.length)
+          ? entry.params.map(p => `
+              <tr>
+                <td class="param-name">
+                  <code>${p.name}</code>
+                  ${p.optional ? '<span class="optional">optional</span>' : ''}
+                </td>
+                <td class="param-desc">${md(p.description)}</td>
+              </tr>`).join('')
+          : '<tr><td colspan="2" class="param-none">none</td></tr>'
+
+        metadataEl.content(`
+          <div class="metadata-grid">
+            <div class="meta-left">
+              <h1 class="method-name">${entry.name}</h1>
+              <pre class="signature"><code>${highlightSig(entry.signature)}</code></pre>
+              <p class="description">${md(entry.description)}${friendlyLink}${sourceLink}</p>
+            </div>
+            <div class="meta-right">
+              <span class="pane-label">documentation</span>
+              <p class="section-heading">Parameters</p>
+              <table class="params-table">
+                <tbody>${paramsRows}</tbody>
+              </table>
+              <p class="section-heading">Returns</p>
+              <p class="returns-desc">${md(entry.returns)}</p>
+            </div>
+          </div>
+        `)
+
+        // wire up "what does this mean?" link
+        if (entry.friendly) {
+          const friendlyBtn = metadataEl.get('.friendly-link')
+          if (friendlyBtn) {
+            friendlyBtn.on('click', (e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              bubbleTextEl.innerHTML = `<code>${entry.name}</code> → ${entry.friendly}`
+              // align the arrow tip under the center of the face
+              const faceRect = face.getBoundingClientRect()
+              const arrowLeft = Math.round(faceRect.left + faceRect.width / 2 - 10 - 9)
+              bubbleEl.style.setProperty('--arrow-left', arrowLeft + 'px')
+              bubbleEl.removeAttribute('hidden')
+            })
+          }
+        }
+
+        currentCat = cat.data.global.replace('_DOCS', '').toLowerCase()
+        currentFunc = entry.name
+        updatePreview()
+      }
+
+      function buildSidebar () {
+        Object.keys(MENU_DATA).forEach((catKey, i) => {
+          const cat = MENU_DATA[catKey]
+
+          const catEl = nn.create('div').set('class', 'category')
+          catEl.data.catkey = catKey
+
+          nn.create('button')
+            .set('class', 'category-header')
+            .content(`<span>${catKey}</span><span class="arrow">▶</span>`)
+            .on('click', () => catEl.classList.toggle('expanded'))
+            .addTo(catEl)
+
+          const body = nn.create('div').set('class', 'category-body')
+
+          cat.menu.forEach(section => {
+            const secEl = nn.create('div').set('class', 'section')
+
+            if (section.section) {
+              nn.create('span')
+                .set('class', 'section-label')
+                .content(section.section)
+                .addTo(secEl)
+            }
+
+            section.methods.forEach(methodName => {
+              const btn = nn.create('button')
+                .set('class', 'method-btn')
+                .content(methodName)
+                .on('click', () => {
+                  nn.getAll('.method-btn').forEach(b => b.classList.remove('active'))
+                  btn.classList.add('active')
+                  renderMetadata(catKey, methodName)
+                  location.hash = catSlug(catKey) + '/' + methodName
+                })
+              btn.data.catkey = catKey
+              btn.data.method = methodName
+              const [hashSlug, hashMethod] = location.hash.slice(1).split('/')
+              if (hashMethod === methodName && hashSlug === catSlug(catKey)) {
+                catEl.classList.add('expanded')
+                btn.classList.add('active')
+                requestAnimationFrame(() => renderMetadata(catKey, methodName))
+              }
+              btn.addTo(secEl)
+            })
+
+            secEl.addTo(body)
+          })
+
+          body.addTo(catEl)
+          catEl.addTo(menuEl)
+        })
+      }
+
+      // ------------------------- search
+
+      let searchIndex = []
+
+      function buildSearchIndex () {
+        searchIndex = []
+        Object.keys(MENU_DATA).forEach(catKey => {
+          const cat = MENU_DATA[catKey]
+          const docs = window[cat.data.global]
+          if (!docs) return
+          cat.menu.forEach(section => {
+            section.methods.forEach(methodName => {
+              const entry = docs.find(o => o.name === methodName)
+              searchIndex.push({ catKey, methodName, entry })
+            })
+          })
+        })
+      }
+
+      function fuzzyScore (query, text, weight) {
+        if (!text) return 0
+        const q = query.toLowerCase()
+        const t = text.toLowerCase()
+        // substring match — strongest signal; earlier position scores higher
+        if (t.includes(q)) {
+          const pos = t.indexOf(q)
+          const posBonus = Math.max(0, 30 - pos)
+          const boundaryBonus = (pos === 0 || /[\s.(]/.test(t[pos - 1])) ? 20 : 0
+          return weight * (100 + posBonus + boundaryBonus)
+        }
+        // fuzzy: all query chars must appear in order; score by longest consecutive run
+        let qi = 0; let run = 0; let best = 0
+        for (let i = 0; i < t.length && qi < q.length; i++) {
+          if (t[i] === q[qi]) { qi++; best = Math.max(best, ++run) } else { run = 0 }
+        }
+        if (qi < q.length) return 0
+        return weight * best * 5
+      }
+
+      function scoreEntry (query, entry) {
+        if (!entry) return 0
+        return fuzzyScore(query, entry.name, 3) +
+               fuzzyScore(query, entry.description, 1) +
+               fuzzyScore(query, entry.friendly || '', 1)
+      }
+
+      function selectAndSnap (catKey, methodName) {
+        searchInput.value = ''
+        searchResultsEl.setAttribute('hidden', '')
+        menuEl.removeAttribute('hidden')
+        nn.getAll('.method-btn').forEach(b => b.classList.remove('active'))
+        const catDiv = menuEl.get(`.category[data-catkey="${catKey}"]`)
+        if (catDiv) catDiv.classList.add('expanded')
+        const btn = menuEl.get(`.method-btn[data-catkey="${catKey}"][data-method="${methodName}"]`)
+        if (btn) {
+          btn.classList.add('active')
+          requestAnimationFrame(() => btn.scrollIntoView({ block: 'nearest' }))
+        }
+        renderMetadata(catKey, methodName)
+        location.hash = catSlug(catKey) + '/' + methodName
+      }
+
+      function showSearchResults (query) {
+        const results = searchIndex
+          .map(item => ({ ...item, score: scoreEntry(query, item.entry) }))
+          .filter(item => item.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 25)
+
+        searchResultsEl.content('')
+        if (results.length === 0) {
+          nn.create('p').set('class', 'search-no-results').content('no results').addTo(searchResultsEl)
+        } else {
+          results.forEach(({ catKey, methodName }) => {
+            nn.create('button')
+              .set('class', 'method-btn')
+              .content(`${methodName}<span class="result-cat">${catKey}</span>`)
+              .on('click', () => selectAndSnap(catKey, methodName))
+              .addTo(searchResultsEl)
+          })
+        }
+
+        menuEl.setAttribute('hidden', '')
+        searchResultsEl.removeAttribute('hidden')
+      }
+
+      searchInput.on('input', () => {
+        const query = searchInput.value.trim()
+        if (query.length < 2) {
+          searchResultsEl.setAttribute('hidden', '')
+          menuEl.removeAttribute('hidden')
+        } else {
+          showSearchResults(query)
+        }
+      })
+
+      searchInput.on('keydown', (e) => {
+        if (e.key === 'Escape') {
+          searchInput.value = ''
+          searchResultsEl.setAttribute('hidden', '')
+          menuEl.removeAttribute('hidden')
+        }
+      })
+
+      // ------------------------- init
+
+      function loadScript (src) {
+        return new Promise((resolve, reject) => {
+          const s = nn.create('script')
+          s.onload = resolve
+          s.onerror = reject
+          s.set('src', src).addTo('head')
+        })
+      }
+
+      async function init () {
+        await Promise.all(
+          Object.values(MENU_DATA).map(cat => loadScript('../' + cat.data.path))
+        )
+        buildSidebar()
+        buildSearchIndex()
+      }
+
+      init()
+    </script>
+  </body>
+</html>
