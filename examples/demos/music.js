@@ -80,7 +80,11 @@ function createUI () {
   // piano visualization
   piano = viz.createPianoUI({
     labels: true,
-    octaves: [2, 6]
+    octaves: [2, 6],
+    on: {
+      mousedown: (n) => lead.triggerAttack(n),
+      mouseup: (n) => lead.triggerRelease(n)
+    }
   })
   // line divider
   nn.create('hr').css('margin', 10).addTo('body')
