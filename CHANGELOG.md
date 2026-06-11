@@ -23,6 +23,7 @@ These are changes that may require updates to existing sketches:
 - **Data helpers renamed and consolidated:**
   - `nn.parseData()` / `nn.parseCSV()` / `nn.parseJSON()` → `nn.parse()`
   - `nn.stringifyData()` / `nn.stringifyCSV()` / `nn.stringifyJSON()` → `nn.serialize()`
+- **`canvas.fitToParent()` removed** — call `canvas.size(parent.clientWidth, parent.clientHeight)` manually instead. Note that DPR scaling is no longer handled automatically.
 - **Low-level color converters removed** — `nn.hex2rgb()`, `nn.hex2hsl()`, `nn.hex2hsv()`, `nn.rgb2hex()`, `nn.rgb2hsl()`, `nn.rgb2hsv()`, `nn.hsl2hex()`, `nn.hsl2rgb()`, `nn.hsl2hsv()`, `nn.hsv2hex()`, `nn.hsv2rgb()`, `nn.hsv2hsl()` are all gone. Use `nn.toRGB()`, `nn.toHSL()`, and `nn.toHex()` instead — they each accept any color format as input.
 
 ---
@@ -104,6 +105,7 @@ These are changes that may require updates to existing sketches:
 
 | Removed | Use instead |
 |---|---|
+| `canvas.fitToParent()` | `canvas.size(parent.clientWidth, parent.clientHeight)` manually (DPR scaling no longer handled automatically) |
 | `nn.modifyPixels()` | `nn.filterImage(image, fn)` |
 | `nn.FileUploader` class | `nn.upload(options?)` |
 | `nn.loadData()` | native `fetch()` + `nn.parse()` |
