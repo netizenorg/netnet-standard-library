@@ -1,6 +1,6 @@
 {
   "name": "netnet-standard-library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A browser based JavaScript library designed to aid creative coders (artists, designers, etc), it's a core utility library used within [netnet.studio](https://netnet.studio)",
   "main": "main.js",
   "scripts": {

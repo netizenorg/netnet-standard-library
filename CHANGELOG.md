@@ -6,6 +6,12 @@ a **major** bump means there are breaking changes, a **minor** bump adds new thi
 
 ---
 
+## [1.0.1] — 2026-06-11
+
+No code changes. Re-tagged to fix a jsDelivr CDN caching issue — the `@1.0.0` CDN URL was permanently cached with pre-release content before the stable build was published. Use `@1.0.1` in your CDN URL to get the correct build.
+
+---
+
 ## [1.0.0] — 2026-06-06
 
 ### ⚠️ Breaking changes
@@ -80,7 +86,7 @@ These are changes that may require updates to existing sketches:
 **Versioning**
 - The library now uses semantic versioning with git tags. You can pin your project to a specific version in the CDN URL to prevent your code from changing unexpectedly when the library updates:
   ```html
-  <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.0/build/nn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.1/build/nn.min.js"></script>
   ```
 
 ---

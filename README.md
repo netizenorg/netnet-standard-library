@@ -8,17 +8,11 @@
 
 # getting started
 
-Add a single `<script>` tag to your HTML, there's no build step, no package manager, no dependencies. The global `nn` object is then available everywhere on the page. If you want to use the latest (though possibly buggy) version of the library you can add this tag to your project:
+Add a single `<script>` tag to your HTML, there's no build step, no package manager, no dependencies. The global `nn` object is then available everywhere on the page. Pin to a specific version so your project won't change unexpectedly if the library updates:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
-```
-
-That URL will always return the latest version, which means it could change (even if you don't change your code), so if you want a stable version that won't change you'll need to specify the version number in the URL, for example:
-
-```html
-<!-- 1.0.0 (most recent stable version) -->
-<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.0/build/nn.min.js"></script>
+<!-- 1.0.1 (most recent stable version) -->
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.1/build/nn.min.js"></script>
 
 <!-- 0.9.0 (the original pre-release version) -->
 <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@0.9.0/build/nn.min.js"></script>

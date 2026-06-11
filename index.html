@@ -37,15 +37,14 @@
           on the page.
         </p>
         <div id="snippet-tabs">
-          <button class="version-tab" data-version="latest">beta</button>
-          <button class="version-tab active" data-version="1.0.0">1.0.0</button>
+          <button class="version-tab active" data-version="1.0.1">1.0.1</button>
           <button class="version-tab" data-version="0.9.0">0.9.0</button>
         </div>
         <div class="snippet-wrap">
-          <code id="cdn-snippet">&lt;script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.0/build/nn.min.js"&gt;&lt;/script&gt;</code>
+          <code id="cdn-snippet">&lt;script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.1/build/nn.min.js"&gt;&lt;/script&gt;</code>
           <button id="copy-btn">copy</button>
         </div>
-        <p id="snippet-warning" hidden>⚠ <strong>NOTE:</strong> This URL always loads the newest version of the library. That means if the library gets updated (even if <em>you</em> haven't changed your code) your project might start looking/behaving differently. If you want access to the latest (often experimental) features use this URL. For projects you want to keep stable, it's safer to pin to a specific version like <strong>1.0.0</strong>.</p>
+        <p id="snippet-warning" hidden>⚠ <strong>NOTE:</strong> This is the original pre-stable version of the library. Its API is a <a href="https://github.com/netizenorg/netnet-standard-library/blob/main/CHANGELOG.md#100--2026-06-06" target="_blank"> little bit different</a> from what's documented here, if you're starting a new project, use <strong>1.0.1</strong> instead. This URL is provided for anyone with existing sketches built on the older version.</p>
         <br>
         <p>
           Here's a <a href="https://netnet.studio/?layout=dock-left#code/eJxlUbFOwzAQ3fMV1y52pDbeUWFCYmRhgDG1L+lBco58TkNB/Dt2QtoByZJP53vP7947iA00RJBg77enGAe5M8Y6rt7FYUfnUDFG055MuugL2Yc2l+nsJdbs6uD2HR1DHS7mOFLnDHPVU8ZvHw5mYX8oDmsB0IxsI3kGF+rpiRoBXcJ3egAwBqiB3o+CQALsI+hNCUNAEXTg/MSAnxSvHDMqQfQm/5pxj2mmhIBxDLxy+njCMJHgDmzAOiLUwDhBS808krBLXyvqW1XOTYBKMGqVjFE7UKs1y+6VxNGRT0ZVieSGGLxQ1vUcqCXWyiJHDP/f9Sr3dQdr+XadsiJaDZ4ydo/nxCFZAnvGG1Xt3IvX6ujdZW7+FMW8rO3IfkBKJvvb/plZ2+BFIPkAKQhEXmajn0NYzYC0PWCHff6xmH1JUtVM0fszJhFrZmVxzfYXc4a6Tg==" target="_blank">basic example</a> on netnet.studio.
@@ -135,23 +134,23 @@
 
       // ── version snippet tabs ─────────────────────────────────────────────
       const SNIPPETS = {
-        latest: 'https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js',
-        '1.0.0': 'https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.0/build/nn.min.js',
+        '1.0.1': 'https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@1.0.1/build/nn.min.js',
         '0.9.0': 'https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@0.9.0/build/nn.min.js'
       }
 
-      let activeVersion = '1.0.0'
+      let activeVersion = '1.0.1'
       const snippetEl = nn.get('#cdn-snippet')
       const warningEl = nn.get('#snippet-warning')
 
       function selectVersion (version) {
+        console.log(version);
         activeVersion = version
         const url = SNIPPETS[version]
         snippetEl.textContent = `<script src="${url}"><\/script>`
         nn.getAll('.version-tab').forEach(b => {
           b.classList.toggle('active', b.data.version === version)
         })
-        if (version === 'latest') {
+        if (version === '0.9.0') {
           warningEl.removeAttribute('hidden')
         } else {
           warningEl.setAttribute('hidden', '')
