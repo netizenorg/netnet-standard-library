@@ -51,10 +51,7 @@ To learn more visit our introduction page, there you'll find intros to the libra
 - [How to render vector graphics with `<svg>` and raster graphics with `<canvas>`](https://netizenorg.github.io/netnet-standard-library/#rendering)
 - [How to setup a generative animation loop](https://netizenorg.github.io/netnet-standard-library/#animate)
 
-
-There are many amazing creative coding libraries that extend the capabilities of the Web's creative APIs, often providing frameworks for expressing higher-level concepts, like how A-Frame's Entity-Component-System adds game design principles to WebGL and WebXR, or how Tone.js brings music synthesis and DAW (Digital Audio Workstation) concepts to the Web Audio API. While the `nn` library can be used on its own, it's really designed to work alongside these other frameworks. For example, you could use D3.js to generate data visualizations, then apply nn's color theory methods to ensure the chart colors follow harmonious color schemes and meet WCAG AA accessibility standards. Similarly, you could use nn's music theory utilities to generate scales and chords, then pass them to Tone.js for playback. You can see this in action in our [demos gallery](https://netizenorg.github.io/netnet-standard-library/examples/demos).
-
-
+------
 
 # contributions
 
