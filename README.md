@@ -1,10 +1,13 @@
 # `nn` ( ◕ ◞ ◕ ) netnet-standard-library
 
-`nn` (netnet-standard-library.js) is a browser-based JavaScript library designed to aid creative coders working on internet art and web design projects. It serves as the core utility library for [netnet.studio](https://netnet.studio), functioning both as a tool-kit for creating interactive and generative work within the platform and as a tool for building netnet.studio itself. The library is intentionally approachable for beginners, featuring helpful error messages and [friendly documentation](https://netizenorg.github.io/netnet-standard-library/docs/), yet expressive enough to support complex creative work.
-
 | | | |
 |:---:|:---:|:---:|
 | **[introduction page](https://netizenorg.github.io/netnet-standard-library/)** | **[documentation page](https://netizenorg.github.io/netnet-standard-library/docs/)** | **[demo gallery](https://netizenorg.github.io/netnet-standard-library/examples/demos/)** |
+
+`nn` (netnet-standard-library.js) is a browser-based JavaScript library designed to aid creative coders working on internet art and web design projects. It serves as the core utility library for [netnet.studio](https://netnet.studio), functioning both as a tool-kit for creating interactive and generative work within the platform and as a tool for building netnet.studio itself. The library is intentionally approachable for beginners, featuring helpful error messages and [friendly documentation](https://netizenorg.github.io/netnet-standard-library/docs/), yet expressive enough to support complex creative work.
+
+While the `nn` library can be used on its own, it's really designed to work alongside other creative coding libraries (Matter.js, hydra.js, TensorFlow.js, Three.js, Tone.js, etc), and can even act as a glue to bridge them together. For example, you could use D3.js to generate data visualizations, then apply nn's color theory methods to ensure the chart colors follow harmonious color schemes and meet WCAG AA accessibility standards. Similarly, you could use nn's music theory utilities to generate scales and chords, then pass them to Tone.js for playback. You can see this in action in our [demos gallery](https://netizenorg.github.io/netnet-standard-library/examples/demos/).
+
 
 # getting started
 
@@ -18,7 +21,7 @@ Add a single `<script>` tag to your HTML, there's no build step, no package mana
 <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library@0.9.0/build/nn.min.js"></script>
 ```
 
-Here's a "hello world" GIF-drawing tool, you can also [remix this on netnet.studio](https://netnet.studio/?layout=dock-left#code/eJxlUbFOwzAQ3fMV1y52pDbeUWFCYmRhgDG1L+lBco58TkNB/Dt2QtoByZJP53vP7947iA00RJBg77enGAe5M8Y6rt7FYUfnUDFG055MuugL2Yc2l+nsJdbs6uD2HR1DHS7mOFLnDHPVU8ZvHw5mYX8oDmsB0IxsI3kGF+rpiRoBXcJ3egAwBqiB3o+CQALsI+hNCUNAEXTg/MSAnxSvHDMqQfQm/5pxj2mmhIBxDLxy+njCMJHgDmzAOiLUwDhBS808krBLXyvqW1XOTYBKMGqVjFE7UKs1y+6VxNGRT0ZVieSGGLxQ1vUcqCXWyiJHDP/f9Sr3dQdr+XadsiJaDZ4ydo/nxCFZAnvGG1Xt3IvX6ujdZW7+FMW8rO3IfkBKJvvb/plZ2+BFIPkAKQhEXmajn0NYzYC0PWCHff6xmH1JUtVM0fszJhFrZmVxzfYXc4a6Tg==).
+Here's a "hello world" GIF-drawing tool, you can learn from and also [remix on netnet.studio](https://netnet.studio/?demo=1760397365973).
 ```html
 <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
 <script>
